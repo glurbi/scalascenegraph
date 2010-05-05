@@ -1,5 +1,6 @@
 package scalascenegraph.core.direct3d
 
-class Direct3DRenderer extends Renderer {
+// abstract to avoid the hassle of empty implementations... 
+abstract class Direct3DRenderer extends Renderer {
 
 }

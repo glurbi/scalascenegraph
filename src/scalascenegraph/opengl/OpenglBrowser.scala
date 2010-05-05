@@ -6,12 +6,17 @@ import java.awt.event.WindowEvent
 import javax.media.opengl.awt.GLCanvas
 import javax.media.opengl.awt.GLCanvas
 import javax.media.opengl.GLAutoDrawable
-import javax.media.opengl.GL
+import javax.media.opengl.GL2
+
+import javax.media.opengl.GLAutoDrawable
+import javax.media.opengl.GLEventListener
 
 import scalascenegraph.ui.browser.Browser
 import scalascenegraph.ui.browser.BrowserMouseListener
+import scalascenegraph.core.World
+import scalascenegraph.core.Camera
 
-class OpenglBrowser extends Browser {
+class OpenglBrowser(val world: World, val camera: Camera) extends Browser with GLEventListener {
 
     val frame = new Frame
     frame.addWindowListener(new WindowAdapter {
@@ -20,9 +25,8 @@ class OpenglBrowser extends Browser {
         }
     })
     val canvas = new GLCanvas
-    val eventListener = new DefaultEventListener
     val mouseListener = new BrowserMouseListener
-    canvas.addGLEventListener(eventListener);
+    canvas.addGLEventListener(this);
     canvas.addMouseListener(mouseListener);
     canvas.addMouseWheelListener(mouseListener);
     canvas.addMouseMotionListener(mouseListener);
@@ -32,5 +36,24 @@ class OpenglBrowser extends Browser {
     def show = {
         frame.setVisible(true)
     }
+    
+    def init(drawable: GLAutoDrawable) {
+        val gl2 = drawable.getGL.asInstanceOf[GL2]
+        val renderer = new OpenglRenderer(gl2)
+        renderer.clearColor(world.background);
+    }
+
+    def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {}
+
+    def display(drawable: GLAutoDrawable) {
+        val gl2 = drawable.getGL.asInstanceOf[GL2]
+        val renderer = new OpenglRenderer(gl2)
+        camera.render(renderer)
+        world.render(renderer)
+    }
+
+    def displayChanged(drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean) {}
+
+    def dispose(drawable: GLAutoDrawable) {}
     
 }
