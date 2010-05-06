@@ -1,9 +1,14 @@
 package scalascenegraph.core
 
-class Transformation extends Node {
+class Transformation extends Group {
+  
+}
 
-      def render(renderer: Renderer) {
-        
+class Translation(var x: Float, var y: Float, var z: Float) extends Transformation {
+  
+      override def render(renderer: Renderer) {
+          renderer.translate(x, y, z)
+          super.render(renderer)
       }
       
 }

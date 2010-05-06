@@ -6,6 +6,8 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc
 
 import scalascenegraph.core.Color
 import scalascenegraph.core.Renderer
+import scalascenegraph.core.Vertex
+
 
 class OpenglRenderer(gl2: GL2) extends Renderer {
 
@@ -29,6 +31,27 @@ class OpenglRenderer(gl2: GL2) extends Renderer {
         gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION)
         gl2.glLoadIdentity
         gl2.glFrustum(left, right, bottom, top, near, far)
+    }
+ 
+    def triangle(v1: Vertex, v2: Vertex, v3: Vertex) {
+        gl2.glBegin(GL.GL_TRIANGLES)
+        gl2.glVertex3f(v1.x, v1.y, v1.z)
+        gl2.glVertex3f(v2.x, v2.y, v2.z)
+        gl2.glVertex3f(v3.x, v3.y, v3.z)
+        gl2.glEnd
+    }
+    
+    def quad(v1: Vertex, v2: Vertex, v3: Vertex, v4: Vertex) {
+        gl2.glBegin(GL2.GL_QUADS)
+        gl2.glVertex3f(v1.x, v1.y, v1.z)
+        gl2.glVertex3f(v2.x, v2.y, v2.z)
+        gl2.glVertex3f(v3.x, v3.y, v3.z)
+        gl2.glVertex3f(v4.x, v4.y, v4.z)
+        gl2.glEnd
+    }
+    
+    def translate(x: Float, y: Float, z: Float) {
+        gl2.glTranslatef(x, y, z)
     }
     
 }
