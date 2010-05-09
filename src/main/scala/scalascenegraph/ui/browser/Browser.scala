@@ -1,11 +1,9 @@
 package scalascenegraph.ui.browser
 
-import scalascenegraph.core.World
+import scalascenegraph.core._
 
-trait Browser {
+abstract class Browser(var world: World, var camera: Camera) {
 
-    def world: World
-  
     def show
     
 }

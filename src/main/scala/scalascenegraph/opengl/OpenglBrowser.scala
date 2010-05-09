@@ -1,37 +1,34 @@
 package scalascenegraph.opengl
 
-import java.awt.Frame
-import java.awt.event.WindowAdapter
-import java.awt.event.WindowEvent
-import javax.media.opengl.awt.GLCanvas
-import javax.media.opengl.awt.GLCanvas
-import javax.media.opengl.GLAutoDrawable
-import javax.media.opengl.GL2
+import java.awt._
+import java.awt.event._
+import javax.media.opengl._
+import javax.media.opengl.awt._
+import scalascenegraph.core._
+import scalascenegraph.ui.browser._
 
-import javax.media.opengl.GLAutoDrawable
-import javax.media.opengl.GLEventListener
+class OpenglBrowser(world: World, camera: Camera)
+extends Browser(world, camera)
+with GLEventListener
+{
 
-import scalascenegraph.ui.browser.Browser
-import scalascenegraph.ui.browser.BrowserMouseListener
-import scalascenegraph.core.World
-import scalascenegraph.core.Camera
-
-class OpenglBrowser(val world: World, val camera: Camera) extends Browser with GLEventListener {
-
-    val frame = new Frame
-    frame.addWindowListener(new WindowAdapter {
-        override def windowClosing(e: WindowEvent) {
-            System.exit(0)
-        }
-    })
-    val canvas = new GLCanvas
-    val mouseListener = new BrowserMouseListener
-    canvas.addGLEventListener(this);
-    canvas.addMouseListener(mouseListener);
-    canvas.addMouseWheelListener(mouseListener);
-    canvas.addMouseMotionListener(mouseListener);
-    frame.add(canvas);
-    frame.setSize(300, 300);
+    val frame = {
+        val f = new Frame
+        f.addWindowListener(new WindowAdapter {
+    	    override def windowClosing(e: WindowEvent) {
+    	        System.exit(0)
+    	    }
+    	})
+    	val canvas = new GLCanvas
+    	val mouseListener = new BrowserMouseListener
+    	canvas.addGLEventListener(this);
+    	canvas.addMouseListener(mouseListener);
+    	canvas.addMouseWheelListener(mouseListener);
+    	canvas.addMouseMotionListener(mouseListener);
+    	f.add(canvas);
+    	f.setSize(300, 300);
+    	f
+    }
     
     def show = {
         frame.setVisible(true)
