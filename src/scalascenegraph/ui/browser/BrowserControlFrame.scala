@@ -37,19 +37,26 @@ class BrowserControlFrame(val browser: Browser) extends JFrame {
         val clippingVolumePanelLayout = new GroupLayout(clippingVolumePanel)
         val leftLabel = new JLabel("left:")
         val rightLabel = new JLabel("right:")
+        val leftSpinner = new JSpinner(new SpinnerNumberModel(-5.0, -100.0, 100.0, 0.1))
+        val rightSpinner = new JSpinner(new SpinnerNumberModel(5.0, -100.0, 100.0, 0.1))
         clippingVolumePanelLayout.setAutoCreateGaps(true)
         clippingVolumePanelLayout.setAutoCreateContainerGaps(true)
         clippingVolumePanelLayout.setHorizontalGroup(
             clippingVolumePanelLayout.createSequentialGroup.
                 addGroup(clippingVolumePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING).
                     addComponent(leftLabel).
-                    addComponent(rightLabel)))
+                    addComponent(rightLabel)).
+                addGroup(clippingVolumePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING).
+                    addComponent(leftSpinner).
+                    addComponent(rightSpinner)))
         clippingVolumePanelLayout.setVerticalGroup(
             clippingVolumePanelLayout.createSequentialGroup.
                 addGroup(clippingVolumePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).
-                    addComponent(leftLabel)).
+                    addComponent(leftLabel).
+                    addComponent(leftSpinner)).
                 addGroup(clippingVolumePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).
-                    addComponent(rightLabel)))
+                    addComponent(rightLabel).
+                    addComponent(rightSpinner)))
         clippingVolumePanel.setLayout(clippingVolumePanelLayout)
         clippingVolumePanel.setBorder(BorderFactory.createTitledBorder("Clipping Volume"))
         

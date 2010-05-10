@@ -3,7 +3,7 @@ package scalascenegraph.core
 trait Renderer {
 
     def clearColor(color: Color)
-    def clear()
+    def clear
     
     def flush
     
