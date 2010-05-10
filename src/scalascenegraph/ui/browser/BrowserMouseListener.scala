@@ -1,9 +1,6 @@
 package scalascenegraph.ui.browser
 
-import java.awt.event.MouseAdapter
-import java.awt.event.MouseWheelEvent
-import java.awt.event.MouseEvent
-import java.awt.event.InputEvent
+import java.awt.event._
 
 class BrowserMouseListener extends MouseAdapter {
 

@@ -1,13 +1,9 @@
 package scalascenegraph.opengl
 
-import javax.media.opengl.GL
-import javax.media.opengl.GL2
-import javax.media.opengl.fixedfunc.GLMatrixFunc
+import javax.media.opengl._
+import javax.media.opengl.fixedfunc._
 
-import scalascenegraph.core.Color
-import scalascenegraph.core.Renderer
-import scalascenegraph.core.Vertex
-
+import scalascenegraph.core._
 
 class OpenglRenderer(gl2: GL2) extends Renderer {
 
@@ -27,12 +23,14 @@ class OpenglRenderer(gl2: GL2) extends Renderer {
         gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION)
         gl2.glLoadIdentity
         gl2.glOrtho(left, right, bottom, top, near, far)
+        gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW)
     }
     
     def perspective(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
         gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION)
         gl2.glLoadIdentity
         gl2.glFrustum(left, right, bottom, top, near, far)
+        gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW)
     }
  
     def triangle(v1: Vertex, v2: Vertex, v3: Vertex) {
