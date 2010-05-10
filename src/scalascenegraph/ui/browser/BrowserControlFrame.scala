@@ -1,6 +1,9 @@
 package scalascenegraph.ui.browser
 
+import java.awt.event._
 import javax.swing._
+
+import scalascenegraph.core._
 
 class BrowserControlFrame(val browser: Browser) extends JFrame {
     
@@ -14,6 +17,7 @@ class BrowserControlFrame(val browser: Browser) extends JFrame {
         val projectionButtonGroup = new ButtonGroup
         val perspectiveButton = new JRadioButton("Perspective")
         val parallelButton = new JRadioButton("Parallel")
+        perspectiveButton.setSelected(true)
         projectionButtonGroup.add(perspectiveButton)
         projectionButtonGroup.add(parallelButton)
         projectionPanelLayout.setAutoCreateGaps(true)
@@ -64,6 +68,30 @@ class BrowserControlFrame(val browser: Browser) extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
         setResizable(false)
         pack
+        
+        perspectiveButton.addActionListener(new ActionListener {
+            def actionPerformed(e: ActionEvent) {
+                perspectiveButtonActionPerformed(e)
+            }
+        })
+        
+        parallelButton.addActionListener(new ActionListener {
+            def actionPerformed(e: ActionEvent) {
+                parallelButtonActionPerformed(e)
+            }
+        })
+    }
+    
+    private def perspectiveButtonActionPerformed(e: ActionEvent) {
+        val oldCamera = browser.camera
+        val newCamera = new PerspectiveCamera(oldCamera.clippingVolume)
+        browser.camera = newCamera
+    }
+    
+    private def parallelButtonActionPerformed(e: ActionEvent) {
+        val oldCamera = browser.camera
+        val newCamera = new ParallelCamera(oldCamera.clippingVolume)
+        browser.camera = newCamera
     }
     
     init
