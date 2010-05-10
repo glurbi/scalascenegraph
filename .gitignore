@@ -3,3 +3,4 @@ bin
 .project
 .manager
 lib
+.scala_dependencies

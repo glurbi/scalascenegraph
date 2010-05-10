@@ -10,18 +10,21 @@ object Main {
   
     def main(args: Array[String]) {
       
-        val camera = new PerspectiveCamera(-0.5f, 0.5f, -0.5, 0.5f, 1.0f, 100.0f);
         val world = new World(Color.grey);
         val translation = new Translation(0.0f, 0.0f, -5.0f)
         val triangle = new Triangle(Vertex(-1.0f, 0.0f, 0.0f), Vertex(0.0f, 2.0f, 0.0f), Vertex(1.0f, 0.0f, 0.0f))
+        val triangle2 = new Triangle(Vertex(-3.0f, 0.0f, 0.0f), Vertex(-3.0f, 2.0f, -1.0f), Vertex(-2.5f, 0.0f, -2.0f))
         val quad = new Quad(Vertex(2.0f, 0.0f, 0.0f), Vertex(2.0f, 2.0f, 0.0f), Vertex(3.0f, 2.0f, 0.0f), Vertex(3.0f, 0.0f, 0.0f))
         world.add(translation)
         translation.add(triangle)
+        translation.add(triangle2)
         translation.add(quad)
       
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
-        val browser = new OpenglBrowser(world, camera)
-       	val controlFrame = new BrowserControlFrame
+        val browser = new OpenglBrowser(world)
+       	val controlFrame = new BrowserControlFrame(browser)
+        val clipping = new ClippingVolume(-5.0f, 5.0f, -5.0f, 5.0f, 1.0f, 100.0f);
+        browser.camera = new PerspectiveCamera(clipping)
         browser.show
         controlFrame.setLocation(500, 0)
         controlFrame.setVisible(true)

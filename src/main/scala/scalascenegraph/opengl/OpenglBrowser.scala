@@ -7,8 +7,8 @@ import javax.media.opengl.awt._
 import scalascenegraph.core._
 import scalascenegraph.ui.browser._
 
-class OpenglBrowser(world: World, camera: Camera)
-extends Browser(world, camera)
+class OpenglBrowser(world: World)
+extends Browser(world)
 with GLEventListener
 {
 

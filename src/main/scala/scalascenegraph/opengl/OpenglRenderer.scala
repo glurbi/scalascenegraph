@@ -24,7 +24,9 @@ class OpenglRenderer(gl2: GL2) extends Renderer {
     }
     
     def ortho(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
-      
+        gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION)
+        gl2.glLoadIdentity
+        gl2.glOrtho(left, right, bottom, top, near, far)
     }
     
     def perspective(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
