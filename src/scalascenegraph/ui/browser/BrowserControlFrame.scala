@@ -83,15 +83,15 @@ class BrowserControlFrame(val browser: Browser) extends JFrame {
     }
     
     private def perspectiveButtonActionPerformed(e: ActionEvent) {
-        val oldCamera = browser.camera
+        val oldCamera = browser.getCamera
         val newCamera = new PerspectiveCamera(oldCamera.clippingVolume)
-        browser.camera = newCamera
+        browser.setCamera(newCamera)
     }
     
     private def parallelButtonActionPerformed(e: ActionEvent) {
-        val oldCamera = browser.camera
+        val oldCamera = browser.getCamera
         val newCamera = new ParallelCamera(oldCamera.clippingVolume)
-        browser.camera = newCamera
+        browser.setCamera(newCamera)
     }
     
     init

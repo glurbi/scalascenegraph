@@ -24,7 +24,7 @@ object Main {
         val browser = new OpenglBrowser(world)
        	val controlFrame = new BrowserControlFrame(browser)
         val clipping = new ClippingVolume(-5.0f, 5.0f, -5.0f, 5.0f, 1.0f, 100.0f);
-        browser.camera = new PerspectiveCamera(clipping)
+        browser.setCamera(new PerspectiveCamera(clipping))
         browser.show
         controlFrame.setLocation(500, 0)
         controlFrame.setVisible(true)

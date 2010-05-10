@@ -11,7 +11,8 @@ class OpenglBrowser(world: World)
 extends Browser(world)
 with GLEventListener
 {
-
+    val canvas = new GLCanvas
+    
     val frame = {
         val f = new Frame
         f.addWindowListener(new WindowAdapter {
@@ -19,7 +20,6 @@ with GLEventListener
     	        System.exit(0)
     	    }
     	})
-    	val canvas = new GLCanvas
     	val mouseListener = new BrowserMouseListener
     	canvas.addGLEventListener(this);
     	canvas.addMouseListener(mouseListener);
@@ -30,8 +30,12 @@ with GLEventListener
     	f
     }
     
-    def show = {
+    def show {
         frame.setVisible(true)
+    }
+    
+    def repaint {
+        canvas.display
     }
     
     def init(drawable: GLAutoDrawable) {
