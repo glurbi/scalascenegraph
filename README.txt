@@ -18,5 +18,14 @@ For jogl-2.0-linux-i586:
     libjogl_es1.so
     libnativewindow_jvm.so
     
-    
+For jogl-2.0-windows-i586:
+    gluegen-rt.dll
+    jogl_cg.dll
+    jogl_es1.dll
+    jogl_es2.dll
+    jogl_gl2.dll
+    jogl_gl2es12.dll
+    nativewindow_awt.dll
+    nativewindow_jvm.dll
+    newt.dll    
     
