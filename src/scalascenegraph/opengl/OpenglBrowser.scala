@@ -26,12 +26,12 @@ with GLEventListener
     	    }
     	})
     	val mouseListener = new BrowserMouseListener
-    	canvas.addGLEventListener(this);
-    	canvas.addMouseListener(mouseListener);
-    	canvas.addMouseWheelListener(mouseListener);
-    	canvas.addMouseMotionListener(mouseListener);
+    	canvas.addGLEventListener(this)
+    	canvas.addMouseListener(mouseListener)
+    	canvas.addMouseWheelListener(mouseListener)
+    	canvas.addMouseMotionListener(mouseListener)
     	f.add(canvas);
-    	f.setSize(300, 300);
+    	f.setSize(800, 800);
     	f
     }
     
@@ -47,7 +47,7 @@ with GLEventListener
     	println("init")
         val gl2 = drawable.getGL.asInstanceOf[GL2]
         val renderer = new OpenglRenderer(gl2)
-        renderer.clearColor(world.background);
+        
     }
 
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {

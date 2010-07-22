@@ -8,8 +8,4 @@ object Color {
     
 }
 
-class Color(val red: Float, val green: Float, val blue: Float, val alpha: Float) {
-
-    def this(red: Float, green: Float, blue: Float) = this(red, green, blue, 1.0f)
-    
-}
+case class Color(val red: Float, val green: Float, val blue: Float, val alpha: Float = 1.0f)
