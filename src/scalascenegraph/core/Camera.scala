@@ -1,5 +1,33 @@
 package scalascenegraph.core
 
+import java.io._
+import java.util._
+
+object Camera {
+	
+	def get(is: InputStream): Camera = {
+		try {
+			val props = new Properties
+			props.load(is)
+			val left = props.getProperty("camera.clipping.volume.left").toDouble
+			val right = props.getProperty("camera.clipping.volume.right").toDouble
+			val bottom = props.getProperty("camera.clipping.volume.bottom").toDouble
+			val top = props.getProperty("camera.clipping.volume.top").toDouble
+			val near = props.getProperty("camera.clipping.volume.near").toDouble
+			val far = props.getProperty("camera.clipping.volume.far").toDouble
+			val clippingVolume = new ClippingVolume(left, right, bottom, top, near, far)
+			props.get("camera.projection.type") match {
+			    case "perspective" => new PerspectiveCamera(clippingVolume)
+			    case "parallel" => new ParallelCamera(clippingVolume)
+			    case _ => throw new RuntimeException("Missing or invalid property camera.projection.type")
+			}
+		} finally {
+			is.close
+		}
+	}
+	
+}
+
 abstract class Camera(val clippingVolume: ClippingVolume) extends Node
 
 class ClippingVolume(

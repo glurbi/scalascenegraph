@@ -21,8 +21,8 @@ object Main {
         translation.add(quad)
       
         val browser = new OpenglBrowser(world)
-        val clipping = new ClippingVolume(-5.0f, 5.0f, -5.0f, 5.0f, 1.0f, 10.0f);
-        browser.setCamera(new PerspectiveCamera(clipping))
+        val config = getClass.getResourceAsStream("/camera.properties")
+        browser.setCamera(Camera.get(config))
         browser.show
     }
 
