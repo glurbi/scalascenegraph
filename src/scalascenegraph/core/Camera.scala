@@ -5,10 +5,10 @@ import java.util._
 
 object Camera {
 	
-	def get(is: InputStream): Camera = {
+	def get(config: InputStream): Camera = {
 		try {
 			val props = new Properties
-			props.load(is)
+			props.load(config)
 			val left = props.getProperty("camera.clipping.volume.left").toDouble
 			val right = props.getProperty("camera.clipping.volume.right").toDouble
 			val bottom = props.getProperty("camera.clipping.volume.bottom").toDouble
@@ -22,7 +22,7 @@ object Camera {
 			    case _ => throw new RuntimeException("Missing or invalid property camera.projection.type")
 			}
 		} finally {
-			is.close
+			config.close
 		}
 	}
 	

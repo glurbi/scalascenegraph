@@ -1,5 +1,7 @@
 package scalascenegraph.opengl
 
+import java.util._
+import java.io._
 import java.awt._
 import java.awt.event._
 import javax.media.opengl._
@@ -7,7 +9,25 @@ import javax.media.opengl.awt._
 import scalascenegraph.core._
 import scalascenegraph.ui.browser._
 
-class OpenglBrowser(world: World)
+
+object OpenglBrowser {
+
+	def get(world: World, config: InputStream): OpenglBrowser = {
+		try {
+			val props = new Properties
+			props.load(config)
+			val width = props.getProperty("browser.width").toInt
+			val height = props.getProperty("browser.width").toInt
+			new OpenglBrowser(world, width, height)
+		} finally {
+			config.close
+		}
+	}
+	
+}
+
+
+class OpenglBrowser(world: World, width: Int, height: Int)
 extends Browser(world)
 with GLEventListener
 {
@@ -31,7 +51,7 @@ with GLEventListener
     	canvas.addMouseWheelListener(mouseListener)
     	canvas.addMouseMotionListener(mouseListener)
     	f.add(canvas);
-    	f.setSize(800, 800);
+    	f.setSize(width, height);
     	f
     }
     

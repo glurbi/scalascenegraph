@@ -16,22 +16,23 @@ object Main {
         		                           Color(0.0f, 1.0f, 0.0f),
         		                           Vertex(1.0f, 0.0f, 0.0f),
         		                           Color(0.0f, 0.0f, 1.0f))
-        val triangle2 = new Triangle(Vertex(-3.0f, 0.0f, 0.0f),
-        		                     Vertex(-3.0f, 2.0f, -1.0f),
-        		                     Vertex(-2.5f, 0.0f, -2.0f))
+        val triangle2 = new Triangle(Vertex(-4.0f, 2.0f, 0.0f),
+        		                     Vertex(-3.0f, 0.0f, 0.0f),
+        		                     Vertex(-2.0f, 2.0f, 0.0f))
         val quad = new UnicoloredQuad(Vertex(2.0f, 0.0f, 0.0f),
                                       Vertex(2.0f, 2.0f, 0.0f),
-                                      Vertex(3.0f, 2.0f, 0.0f),
-                                      Vertex(3.0f, 0.0f, 0.0f),
+                                      Vertex(4.0f, 2.0f, 0.0f),
+                                      Vertex(4.0f, 0.0f, 0.0f),
                                       Color(1.0f, 1.0f, 0.0f))
         world.add(translation)
         translation.add(triangle)
         translation.add(triangle2)
         translation.add(quad)
       
-        val browser = new OpenglBrowser(world)
-        val config = getClass.getResourceAsStream("/camera.properties")
-        browser.setCamera(Camera.get(config))
+        val browserConfig = getClass.getResourceAsStream("/browser.properties")
+        val browser = OpenglBrowser.get(world, browserConfig)
+        val cameraConfig = getClass.getResourceAsStream("/camera.properties")
+        browser.setCamera(Camera.get(cameraConfig))
         browser.show
     }
 
