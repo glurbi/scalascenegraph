@@ -11,7 +11,12 @@ class OpenglBrowser(world: World)
 extends Browser(world)
 with GLEventListener
 {
-    val canvas = new GLCanvas
+    val canvas = {
+    	val profile = GLProfile.getDefault
+        val capabilities = new GLCapabilities(profile)
+        capabilities.setDoubleBuffered(true)
+    	new GLCanvas(capabilities)
+    }
     
     val frame = {
         val f = new Frame
@@ -39,22 +44,30 @@ with GLEventListener
     }
     
     def init(drawable: GLAutoDrawable) {
+    	println("init")
         val gl2 = drawable.getGL.asInstanceOf[GL2]
         val renderer = new OpenglRenderer(gl2)
         renderer.clearColor(world.background);
     }
 
-    def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {}
+    def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
+    	println("reshape")
+    }
 
     def display(drawable: GLAutoDrawable) {
+    	println("display")
         val gl2 = drawable.getGL.asInstanceOf[GL2]
         val renderer = new OpenglRenderer(gl2)
         camera.render(renderer)
         world.render(renderer)
     }
 
-    def displayChanged(drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean) {}
+    def displayChanged(drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean) {
+    	println("displayChanged")
+    }
 
-    def dispose(drawable: GLAutoDrawable) {}
+    def dispose(drawable: GLAutoDrawable) {
+    	println("dispose")
+    }
     
 }

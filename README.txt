@@ -29,3 +29,5 @@ For jogl-2.0-windows-i586:
     nativewindow_jvm.dll
     newt.dll    
     
+NB:
+An issue that occasionally arises on Windows is flickering during live resizing of a GLCanvas. This is caused by the AWT's repainting the background of the Canvas and can not be overridden on a per-Canvas basis, for example when subclassing Canvas into GLCanvas. The repainting of the background of Canvases on Windows can be disabled by specifying the system property -Dsun.awt.noerasebackground=true.

@@ -20,14 +20,10 @@ object Main {
         translation.add(triangle2)
         translation.add(quad)
       
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
         val browser = new OpenglBrowser(world)
-       	val controlFrame = new BrowserControlFrame(browser)
         val clipping = new ClippingVolume(-5.0f, 5.0f, -5.0f, 5.0f, 1.0f, 10.0f);
         browser.setCamera(new PerspectiveCamera(clipping))
         browser.show
-        controlFrame.setLocation(500, 0)
-        controlFrame.setVisible(true)
     }
 
 }
