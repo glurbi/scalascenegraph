@@ -14,16 +14,16 @@ object Example1 {
 		world {
     		translation(0.0f, 0.0f, -5.0f) {
     			
-    			coloredTriangle(
-   					Array(-1.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f),
-   					Array(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f))
+    			triangle(
+   					vertices = Array(-1.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 0.0f),
+   					colors = Array(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f))
     					        
 				triangle(
-					Array(-4.0f, 2.0f, 0.0f, -3.0f, 0.0f, 0.0f, -2.0f, 2.0f, 0.0f))
+					vertices = Array(-4.0f, 2.0f, 0.0f, -3.0f, 0.0f, 0.0f, -2.0f, 2.0f, 0.0f))
     					 
     			quad(
-    				Array(2.0f, 0.0f, 0.0f, 2.0f, 2.0f, 0.0f, 4.0f, 2.0f, 0.0f, 4.0f, 0.0f, 0.0f),
-    				Color(1.0f, 1.0f, 0.0f))
+    				vertices = Array(2.0f, 0.0f, 0.0f, 2.0f, 2.0f, 0.0f, 4.0f, 2.0f, 0.0f, 4.0f, 0.0f, 0.0f),
+    				color = Color(1.0f, 1.0f, 0.0f))
    		    }
 	    }
 	

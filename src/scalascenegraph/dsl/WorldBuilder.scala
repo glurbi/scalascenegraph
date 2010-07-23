@@ -22,12 +22,12 @@ class WorldBuilder {
 		stack.pop.asInstanceOf[Translation]
 	}
 	
-	def coloredTriangle(vertices: Array[Float], colors: Array[Float]) {
-		stack.top.asInstanceOf[Group].add(new ColoredTriangle(vertices, colors))
-	}
-	
 	def triangle(vertices: Array[Float]) {
 		stack.top.asInstanceOf[Group].add(new Triangle(vertices))
+	}
+	
+	def triangle(vertices: Array[Float], colors: Array[Float]) {
+		stack.top.asInstanceOf[Group].add(new ColoredTriangle(vertices, colors))
 	}
 	
 	def quad(vertices: Array[Float], color: Color) {
