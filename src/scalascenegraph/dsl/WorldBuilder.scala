@@ -22,15 +22,19 @@ class WorldBuilder {
 		stack.pop.asInstanceOf[Translation]
 	}
 	
-	def coloredTriangle(v1: Vertex, c1: Color, v2: Vertex, c2: Color, v3: Vertex, c3: Color) {
-		stack.top.asInstanceOf[Group].add(new ColoredTriangle(v1, c1, v2, c2, v3, c3))
+	def coloredTriangle(vertices: Array[Float], colors: Array[Float]) {
+		stack.top.asInstanceOf[Group].add(new ColoredTriangle(vertices, colors))
 	}
 	
-	def triangle(v1: Vertex, v2: Vertex, v3: Vertex) {
-		stack.top.asInstanceOf[Group].add(new Triangle(v1, v2, v3))
+	def triangle(vertices: Array[Float]) {
+		stack.top.asInstanceOf[Group].add(new Triangle(vertices))
 	}
 	
-	def unicoloredQuad(v1: Vertex, v2: Vertex, v3: Vertex, v4: Vertex, color: Color) {
-		stack.top.asInstanceOf[Group].add(new UnicoloredQuad(v1, v2, v3, v4, color))
+	def quad(vertices: Array[Float], color: Color) {
+		val c = color
+		val colors = Array(c.red, c.green, c.blue, c.red, c.green, c.blue,
+				c.red, c.green, c.blue, c.red, c.green, c.blue)
+		stack.top.asInstanceOf[Group].add(new ColoredQuad(vertices, colors))
 	}
+	
 }

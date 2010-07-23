@@ -37,42 +37,53 @@ class OpenglRenderer(gl2: GL2) extends Renderer {
         gl2.glFrustum(left, right, bottom, top, near, far)
     }
  
-    def triangle(v1: Vertex, v2: Vertex, v3: Vertex) {
+    def triangle(v: Array[Float]) {
         gl2.glBegin(GL.GL_TRIANGLES)
-        gl2.glVertex3f(v1.x, v1.y, v1.z)
-        gl2.glVertex3f(v2.x, v2.y, v2.z)
-        gl2.glVertex3f(v3.x, v3.y, v3.z)
+        gl2.glVertex3f(v(0), v(1), v(2))
+        gl2.glVertex3f(v(3), v(4), v(5))
+        gl2.glVertex3f(v(6), v(7), v(8))
         gl2.glEnd
     }
     
-    def triangle(v1: Vertex, c1: Color, v2: Vertex, c2: Color, v3: Vertex, c3: Color) {
+    def triangle(v: Array[Float], c: Array[Float]) {
     	val color = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
         gl2.glBegin(GL.GL_TRIANGLES)
-        gl2.glColor3f(c1.red, c1.green , c1.blue)
-        gl2.glVertex3f(v1.x, v1.y, v1.z)
-        gl2.glColor3f(c2.red, c2.green , c2.blue)
-        gl2.glVertex3f(v2.x, v2.y, v2.z)
-        gl2.glColor3f(c3.red, c3.green , c3.blue)
-        gl2.glVertex3f(v3.x, v3.y, v3.z)
+        gl2.glColor3f(c(0), c(1), c(2))
+        gl2.glVertex3f(v(0), v(1), v(2))
+        gl2.glColor3f(c(3), c(4), c(5))
+        gl2.glVertex3f(v(3), v(4), v(5))
+        gl2.glColor3f(c(6), c(7), c(8))
+        gl2.glVertex3f(v(6), v(7), v(8))
         gl2.glEnd
         gl2.glColor4f(color(0), color(1), color(2), color(3))
     }
     
-    def quad(v1: Vertex, v2: Vertex, v3: Vertex, v4: Vertex) {
+    def quad(vertices: Array[Float]) {
+    	val v = vertices
         gl2.glBegin(GL2.GL_QUADS)
-        gl2.glVertex3f(v1.x, v1.y, v1.z)
-        gl2.glVertex3f(v2.x, v2.y, v2.z)
-        gl2.glVertex3f(v3.x, v3.y, v3.z)
-        gl2.glVertex3f(v4.x, v4.y, v4.z)
+        gl2.glVertex3f(v(0), v(1), v(2))
+        gl2.glVertex3f(v(3), v(4), v(5))
+        gl2.glVertex3f(v(6), v(7), v(8))
+        gl2.glVertex3f(v(9), v(10), v(11))
         gl2.glEnd
     }
     
-    def quad(v1: Vertex, v2: Vertex, v3: Vertex, v4: Vertex, color: Color) {
+    def quad(vertices: Array[Float], colors: Array[Float]) {
+    	val v = vertices
+    	val c = colors
     	val save = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
-        gl2.glColor3f(color.red, color.green , color.blue)
-    	quad(v1, v2, v3, v4)
+        gl2.glBegin(GL2.GL_QUADS)
+        gl2.glColor3f(c(0), c(1), c(2))
+        gl2.glVertex3f(v(0), v(1), v(2))
+        gl2.glColor3f(c(3), c(4), c(5))
+        gl2.glVertex3f(v(3), v(4), v(5))
+        gl2.glColor3f(c(6), c(7), c(8))
+        gl2.glVertex3f(v(6), v(7), v(8))
+        gl2.glColor3f(c(9), c(10), c(11))
+        gl2.glVertex3f(v(9), v(10), v(11))
+        gl2.glEnd
         gl2.glColor4f(save(0), save(1), save(2), save(3))
     }
     
