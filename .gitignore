@@ -4,3 +4,5 @@ bin
 .manager
 lib
 .scala_dependencies
+build
+.gradle

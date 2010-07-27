@@ -7,7 +7,7 @@ class Group extends Node {
     private val children = new ArrayBuffer[Node]
   
     def add(child: Node) {
-        children + child
+        children += child
     }
   
     def render(renderer: Renderer) {
