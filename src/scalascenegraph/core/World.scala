@@ -8,6 +8,7 @@ extends Group {
         renderer.clear
         renderer.clearColor(background);
         renderer.color(foreground)
+        renderer.enableDepthTest
         super.render(renderer)
         renderer.flush
     }

@@ -1,7 +1,9 @@
 package scalascenegraph.opengl
 
+import java.nio._
 import javax.media.opengl._
 import javax.media.opengl.fixedfunc._
+import com.sun.opengl.util._
 
 import scalascenegraph.core._
 
@@ -15,7 +17,15 @@ class OpenglRenderer(gl2: GL2) extends Renderer {
         gl2.glClearColor(color.red, color.green, color.blue, color.alpha)
     }
  
-    def clear() {
+	def enableDepthTest {
+		gl2.glEnable(GL.GL_DEPTH_TEST)
+	}
+
+	def enableCullFace {
+		gl2.glEnable(GL.GL_CULL_FACE)
+	}
+	
+    def clear {
         gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW)
         gl2.glLoadIdentity
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
@@ -23,6 +33,14 @@ class OpenglRenderer(gl2: GL2) extends Renderer {
     
     def flush {
         gl2.glFlush
+    }
+    
+    def pushMatrix {
+    	gl2.glPushMatrix
+    }
+    
+    def popMatrix {
+    	gl2.glPopMatrix
     }
     
     def ortho(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
@@ -87,8 +105,32 @@ class OpenglRenderer(gl2: GL2) extends Renderer {
         gl2.glColor4f(save(0), save(1), save(2), save(3))
     }
     
+    def quads(vertices: Array[Float]) {
+        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, BufferUtil.newFloatBuffer(vertices));
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.length);
+        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+    }
+    
+    def quads(vertices: Array[Float], colors: Array[Float]) {
+    	val save = new Array[Float](4)
+    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
+        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+        gl2.glEnableClientState(GLPointerFunc.GL_COLOR_ARRAY);
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, BufferUtil.newFloatBuffer(vertices));
+        gl2.glColorPointer(3, GL.GL_FLOAT, 0, BufferUtil.newFloatBuffer(colors));
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.length);
+        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+        gl2.glDisableClientState(GLPointerFunc.GL_COLOR_ARRAY);
+        gl2.glColor4f(save(0), save(1), save(2), save(3))
+    }
+    
     def translate(x: Float, y: Float, z: Float) {
         gl2.glTranslatef(x, y, z)
     }
+
+	def rotate(angle: Float, x: Float, y: Float, z: Float) {
+		gl2.glRotated(angle, x, y, z)
+	}
     
 }
