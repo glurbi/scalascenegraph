@@ -4,7 +4,7 @@ import scala.collection.mutable._
 
 import scalascenegraph.core._
 
-class WorldBuilder {
+trait WorldBuilder {
 
 	private val stack = new Stack[Node]
 	

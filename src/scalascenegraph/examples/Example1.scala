@@ -5,11 +5,8 @@ import scalascenegraph.dsl._
 import scalascenegraph.opengl._
 import scalascenegraph.ui.browser._
 
-object Example1 {
+object Example1 extends WorldBuilder {
 	
-	val builder = new WorldBuilder
-	import builder._
-
 	def example1 =
 		world {
     		translation(0.0f, 0.0f, -5.0f) {
@@ -28,12 +25,7 @@ object Example1 {
 	    }
 	
     def main(args: Array[String]) {
-        val browserConfig = this.getClass.getResourceAsStream("/browser.properties")
-        val cameraConfig = this.getClass.getResourceAsStream("/camera.properties")
-        val camera = Camera.get(cameraConfig)
-        val browser = OpenglBrowser.get(example1, browserConfig)
-        browser.setCamera(camera)
-        browser.show
+        OpenglBrowser.getDefault(example1).show
     }
 
 }

@@ -12,6 +12,15 @@ import scalascenegraph.ui.browser._
 
 object OpenglBrowser {
 
+	def getDefault(world: World): OpenglBrowser = {
+        val browserConfig = this.getClass.getResourceAsStream("/browser.properties")
+        val cameraConfig = this.getClass.getResourceAsStream("/camera.properties")
+        val camera = Camera.get(cameraConfig)
+        val browser = get(world, browserConfig)
+        browser.setCamera(camera)
+        browser
+	}
+	
 	def get(world: World, config: InputStream): OpenglBrowser = {
 		try {
 			val props = new Properties
