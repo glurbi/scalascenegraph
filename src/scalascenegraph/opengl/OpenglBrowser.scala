@@ -80,18 +80,12 @@ with GLEventListener
     }
     
     def init(drawable: GLAutoDrawable) {
-    	println("init")
-        val gl2 = drawable.getGL.asInstanceOf[GL2]
-        val renderer = new OpenglRenderer(gl2)
-        
     }
 
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
-    	println("reshape")
     }
 
     def display(drawable: GLAutoDrawable) {
-    	println("display")
         val gl2 = drawable.getGL.asInstanceOf[GL2]
         val renderer = new OpenglRenderer(gl2)
         camera.render(renderer)
@@ -99,11 +93,9 @@ with GLEventListener
     }
 
     def displayChanged(drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean) {
-    	println("displayChanged")
     }
 
     def dispose(drawable: GLAutoDrawable) {
-    	println("dispose")
     }
     
 }
