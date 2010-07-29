@@ -9,9 +9,9 @@ abstract class Browser(val world: World) {
     def getCamera = camera
     def setCamera(camera: Camera) {
         this.camera = camera
-        repaint
+        paint
     }
     
     def show
-    def repaint
+    def paint
 }

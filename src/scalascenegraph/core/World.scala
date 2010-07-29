@@ -9,6 +9,7 @@ extends Group {
         renderer.clearColor(background);
         renderer.color(foreground)
         renderer.enableDepthTest
+        renderer.enableCullFace
         super.render(renderer)
         renderer.flush
     }

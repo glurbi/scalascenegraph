@@ -3,6 +3,7 @@ package scalascenegraph.dsl
 import scala.collection.mutable._
 
 import scalascenegraph.core._
+import scalascenegraph.core.Predefs._
 
 trait WorldBuilder {
 
@@ -28,6 +29,14 @@ trait WorldBuilder {
 		stack.push(rot)
 		body
 		stack.pop.asInstanceOf[Rotation]
+	}
+
+	def polygonMode(face: Face, mode: DrawingMode)(body: => Unit): PolygonMode = {
+		val polygonMode = new PolygonMode(face, mode)
+		stack.top.asInstanceOf[Group].add(polygonMode)
+		stack.push(polygonMode)
+		body
+		stack.pop.asInstanceOf[PolygonMode]
 	}
 	
 	def triangle(vertices: Array[Float]) {

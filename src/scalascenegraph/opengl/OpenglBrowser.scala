@@ -6,28 +6,30 @@ import java.awt._
 import java.awt.event._
 import javax.media.opengl._
 import javax.media.opengl.awt._
+import com.sun.opengl.util._ 
+
 import scalascenegraph.core._
 import scalascenegraph.ui.browser._
 
 
 object OpenglBrowser {
 
-	def getDefault(world: World): OpenglBrowser = {
+	def getDefault(world: World, animated: Boolean = false): OpenglBrowser = {
         val browserConfig = this.getClass.getResourceAsStream("/browser.properties")
         val cameraConfig = this.getClass.getResourceAsStream("/camera.properties")
         val camera = Camera.get(cameraConfig)
-        val browser = get(world, browserConfig)
+        val browser = get(world, browserConfig, animated)
         browser.setCamera(camera)
         browser
 	}
 	
-	def get(world: World, config: InputStream): OpenglBrowser = {
+	def get(world: World, config: InputStream, animated: Boolean): OpenglBrowser = {
 		try {
 			val props = new Properties
 			props.load(config)
 			val width = props.getProperty("browser.width").toInt
 			val height = props.getProperty("browser.width").toInt
-			new OpenglBrowser(world, width, height)
+			new OpenglBrowser(world, width, height, animated)
 		} finally {
 			config.close
 		}
@@ -36,7 +38,7 @@ object OpenglBrowser {
 }
 
 
-class OpenglBrowser(world: World, width: Int, height: Int)
+class OpenglBrowser(world: World, width: Int, height: Int, animated: Boolean)
 extends Browser(world)
 with GLEventListener
 {
@@ -64,11 +66,16 @@ with GLEventListener
     	f
     }
     
+    val animator = new Animator(canvas)
+    
     def show {
         frame.setVisible(true)
+        if (animated) {
+        	animator.start
+        }
     }
     
-    def repaint {
+    def paint {
         canvas.display
     }
     

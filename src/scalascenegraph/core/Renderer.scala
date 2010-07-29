@@ -1,5 +1,7 @@
 package scalascenegraph.core
 
+import scalascenegraph.core.Predefs._
+
 trait Renderer {
 
 	def color(color: Color)
@@ -9,6 +11,10 @@ trait Renderer {
     def clear
     def flush
 
+    def pushPolygonMode
+    def setPolygonMode(face: Face, mode: DrawingMode)
+    def popPolygonMode
+    
     def pushMatrix
     def popMatrix
     

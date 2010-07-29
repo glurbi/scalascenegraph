@@ -42,11 +42,11 @@ object Example2 extends WorldBuilder {
     		translation(0.0f, 2.0f, -5.0f) {
     			
     			triangle(
-   					vertices = Array(2.0f, 0.0f, 0.0f, 3.0f, 2.0f, 0.0f, 4.0f, 0.0f, 0.0f),
+   					vertices = Array(2.0f, 0.0f, 0.0f, 4.0f, 0.0f, 0.0f, 3.0f, 2.0f, 0.0f),
    					colors = Array(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f))
    					
    			    translation(-0.5f, -3.0f, 2.0f) {
-    				rotation(45.0f, 1.0f, 1.0f, 1.0f) {
+    				rotation(65.0f, 0.5f, 1.0f, 1.0f) {
     					cube(colors)
     				}
     			}

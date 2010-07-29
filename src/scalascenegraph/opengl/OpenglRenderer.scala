@@ -6,6 +6,7 @@ import javax.media.opengl.fixedfunc._
 import com.sun.opengl.util._
 
 import scalascenegraph.core._
+import scalascenegraph.core.Predefs._
 
 class OpenglRenderer(gl2: GL2) extends Renderer {
 
@@ -23,6 +24,28 @@ class OpenglRenderer(gl2: GL2) extends Renderer {
 
 	def enableCullFace {
 		gl2.glEnable(GL.GL_CULL_FACE)
+	}
+	
+    def pushPolygonMode {
+    	gl2.glPushAttrib(GL2.GL_POLYGON_BIT)
+    }
+    
+    def popPolygonMode {
+    	gl2.glPopAttrib
+    }
+	
+	def setPolygonMode(face: Face, mode: DrawingMode) {
+		def glFace(face: Face): Int = face match {
+			case Front => GL.GL_FRONT
+			case Back => GL.GL_BACK
+			case FrontAndBack => GL.GL_FRONT_AND_BACK
+		}
+		def glMode(mode: DrawingMode): Int = mode match {
+			case Point => GL2GL3.GL_POINT
+			case Line => GL2GL3.GL_LINE
+			case Fill => GL2GL3.GL_FILL
+		}
+		gl2.glPolygonMode(glFace(face), glMode(mode))
 	}
 	
     def clear {
