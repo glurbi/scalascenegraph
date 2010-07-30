@@ -7,10 +7,19 @@ trait Renderer {
 	def color(color: Color)
     def clearColor(color: Color)
 	def enableDepthTest
-	def enableCullFace
+	def disableDepthTest
     def clear
     def flush
+    
+    def pushCullFace
+    def enableCullFace
+    def disableCullFace
+    def popCullFace
 
+    def pushFrontFace
+    def setFrontFace(frontFace: FrontFace)
+	def popFrontFace
+	
     def pushPolygonMode
     def setPolygonMode(face: Face, mode: DrawingMode)
     def popPolygonMode

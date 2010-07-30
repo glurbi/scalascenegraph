@@ -17,3 +17,30 @@ class PolygonMode(var face: Face, var mode: DrawingMode) extends Mode {
     }
 	
 }
+
+class CullFaceMode(var cullFace: Boolean) extends Mode {
+	
+    override def doRender(context: Context) {
+    	val renderer = context.renderer
+    	renderer.pushCullFace
+    	cullFace match {
+    		case true => renderer.enableCullFace
+    		case false => renderer.disableCullFace
+    	}
+        super.doRender(context)
+        renderer.popCullFace
+    }
+	
+}
+
+class FrontFaceMode(var frontFace: FrontFace) extends Mode {
+	
+    override def doRender(context: Context) {
+    	val renderer = context.renderer
+    	renderer.pushFrontFace
+    	renderer.setFrontFace(frontFace)
+        super.doRender(context)
+        renderer.popFrontFace
+    }
+	
+}

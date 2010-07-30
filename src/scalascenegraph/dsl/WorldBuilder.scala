@@ -47,6 +47,22 @@ trait WorldBuilder {
 		stack.pop.asInstanceOf[PolygonMode]
 	}
 	
+	def frontFace(frontFace: FrontFace)(body: => Unit): FrontFaceMode = {
+		val frontFaceMode = new FrontFaceMode(frontFace)
+		stack.top.asInstanceOf[Group].add(frontFaceMode)
+		stack.push(frontFaceMode)
+		body
+		stack.pop.asInstanceOf[FrontFaceMode]
+	}
+	
+	def cullFace(b: Boolean)(body: => Unit): CullFaceMode = {
+		val cullFaceMode = new CullFaceMode(b)
+		stack.top.asInstanceOf[Group].add(cullFaceMode)
+		stack.push(cullFaceMode)
+		body
+		stack.pop.asInstanceOf[CullFaceMode]
+	}
+	
 	def triangle(vertices: Array[Float]) {
 		stack.top.asInstanceOf[Group].add(new Triangle(vertices))
 	}

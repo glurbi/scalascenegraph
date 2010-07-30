@@ -13,5 +13,9 @@ object Predefs {
 	case object Fill extends DrawingMode
 
 	type Hook = (Node, Context) => Unit
+
+	abstract class FrontFace
+	case object ClockWise extends FrontFace
+	case object CounterClockWise extends FrontFace
 	
 }

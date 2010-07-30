@@ -21,11 +21,43 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	def enableDepthTest {
 		gl2.glEnable(GL.GL_DEPTH_TEST)
 	}
+	
+	def disableDepthTest {
+		gl2.glDisable(GL.GL_DEPTH_TEST)
+	}
 
 	def enableCullFace {
 		gl2.glEnable(GL.GL_CULL_FACE)
 	}
 	
+    def pushCullFace {
+    	gl2.glPushAttrib(GL2.GL_ENABLE_BIT)
+    }
+    
+    def disableCullFace {
+		gl2.glDisable(GL.GL_CULL_FACE)
+    }
+    
+    def popCullFace {
+    	gl2.glPopAttrib
+    }
+
+    def pushFrontFace {
+    	gl2.glPushAttrib(GL2.GL_POLYGON_BIT)
+    }
+    
+    def setFrontFace(frontFace: FrontFace) {
+    	def glFrontFace(frontFace: FrontFace): Int = frontFace match {
+			case ClockWise => GL.GL_CW
+			case CounterClockWise => GL.GL_CCW
+		}
+    	gl2.glFrontFace(glFrontFace(frontFace))
+    }
+    
+	def popFrontFace {
+    	gl2.glPopAttrib
+	}
+    
     def pushPolygonMode {
     	gl2.glPushAttrib(GL2.GL_POLYGON_BIT)
     }
