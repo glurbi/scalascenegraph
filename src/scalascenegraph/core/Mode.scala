@@ -8,10 +8,11 @@ class Mode extends Group {
 
 class PolygonMode(var face: Face, var mode: DrawingMode) extends Mode {
 
-    override def doRender(renderer: Renderer, context: Context) {
+    override def doRender(context: Context) {
+    	val renderer = context.renderer
     	renderer.pushPolygonMode
     	renderer.setPolygonMode(face, mode)
-        super.doRender(renderer, context)
+        super.doRender(context)
         renderer.popPolygonMode
     }
 	

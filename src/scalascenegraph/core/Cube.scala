@@ -36,16 +36,16 @@ object Cube {
 
 class Cube() extends Node {
 	
-    def doRender(renderer: Renderer, context: Context) {
-        renderer.quads(Cube.vertices)
+    def doRender(context: Context) {
+        context.renderer.quads(Cube.vertices)
     }
 
 }
 
 class ColoredCube(colors: Array[Float]) extends Node {
 
-    def doRender(renderer: Renderer, context: Context) {
-        renderer.quads(Cube.vertices, colors)
+    def doRender(context: Context) {
+        context.renderer.quads(Cube.vertices, colors)
     }
     
 }

@@ -9,10 +9,9 @@ abstract class Node {
     private val preRenderHooks = new ArrayBuffer[Hook]
     private val postRenderHooks = new ArrayBuffer[Hook]
 
-    // TODO: put the renderer in the context
-	def render(renderer: Renderer, context: Context) {
+	def render(context: Context) {
 		preRender(context)
-		doRender(renderer, context)
+		doRender(context)
 		postRender(context)
 	}
 
@@ -31,5 +30,5 @@ abstract class Node {
 		postRenderHooks.foreach { hook => hook(this, context) }
 	}
     
-	def doRender(renderer: Renderer, context: Context)
+	def doRender(context: Context)
 }

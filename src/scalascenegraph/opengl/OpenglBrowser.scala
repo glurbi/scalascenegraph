@@ -42,7 +42,7 @@ class OpenglBrowser(world: World, width: Int, height: Int, animated: Boolean)
 extends Browser(world)
 with GLEventListener
 {
-	val context = new Context(System.currentTimeMillis) 
+	val context = new Context 
 	
     val canvas = {
     	val profile = GLProfile.getDefault
@@ -89,9 +89,10 @@ with GLEventListener
 
     def display(drawable: GLAutoDrawable) {
         val gl2 = drawable.getGL.asInstanceOf[GL2]
-        val renderer = new OpenglRenderer(gl2, context)
-        camera.render(renderer, context)
-        world.render(renderer, context)
+        val renderer = new OpenglRenderer(gl2)
+        context.renderer = renderer
+        camera.render(context)
+        world.render(context)
     }
 
     def displayChanged(drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean) {

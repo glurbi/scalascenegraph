@@ -6,10 +6,11 @@ class Transformation extends Group {
 
 class Translation(var x: Float, var y: Float, var z: Float) extends Transformation {
   
-      override def doRender(renderer: Renderer, context: Context) {
+      override def doRender(context: Context) {
+    	  val renderer = context.renderer
     	  renderer.pushMatrix
           renderer.translate(x, y, z)
-          super.doRender(renderer, context)
+          super.doRender(context)
           renderer.popMatrix
       }
       
@@ -17,10 +18,11 @@ class Translation(var x: Float, var y: Float, var z: Float) extends Transformati
 
 class Rotation(var angle: Float, var x: Float, var y: Float, var z: Float) extends Transformation {
   
-      override def doRender(renderer: Renderer, context: Context) {
+      override def doRender(context: Context) {
+    	  val renderer = context.renderer
     	  renderer.pushMatrix
           renderer.rotate(angle, x, y, z)
-          super.doRender(renderer, context)
+          super.doRender(context)
           renderer.popMatrix
       }
       

@@ -2,8 +2,8 @@ package scalascenegraph.core
 
 class Quad(vertices: Array[Float]) extends Node {
 
-    def doRender(renderer: Renderer, context: Context) {
-        renderer.quad(vertices)
+    def doRender(context: Context) {
+        context.renderer.quad(vertices)
     }
 
 }
@@ -11,8 +11,8 @@ class Quad(vertices: Array[Float]) extends Node {
 class ColoredQuad(vertices: Array[Float], colors: Array[Float])
 extends Node {
 
-    def doRender(renderer: Renderer, context: Context) {
-        renderer.quad(vertices, colors)
+    def doRender(context: Context) {
+        context.renderer.quad(vertices, colors)
     }
     
 }
