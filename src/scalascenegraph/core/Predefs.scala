@@ -11,5 +11,7 @@ object Predefs {
 	case object Point extends DrawingMode
 	case object Line extends DrawingMode
 	case object Fill extends DrawingMode
+
+	type Hook = (Node, Context) => Unit
 	
 }

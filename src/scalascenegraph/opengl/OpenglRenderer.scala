@@ -8,8 +8,11 @@ import com.sun.opengl.util._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class OpenglRenderer(gl2: GL2) extends Renderer {
-
+class OpenglRenderer(
+		val gl2: GL2,
+		val context: Context)
+extends Renderer { 
+	
     def color(color: Color) {
         gl2.glColor3f(color.red, color.green , color.blue)
     }	

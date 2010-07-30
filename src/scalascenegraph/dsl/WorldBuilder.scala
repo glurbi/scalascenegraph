@@ -9,6 +9,14 @@ trait WorldBuilder {
 
 	private val stack = new Stack[Node]
 	
+	def preRenderHook(hook: Hook) {
+		stack.top.addPreRenderHook(hook)
+	}
+	
+	def postRenderHook(hook: Hook) {
+		stack.top.addPostRenderHook(hook)
+	}
+	
 	def world(body: => Unit): World = {
 		stack.push(new World)
 		body

@@ -31,4 +31,6 @@ trait Renderer {
     
     def translate(x: Float, y: Float, z: Float)
 	def rotate(angle: Float, x: Float, y: Float, z: Float)
+	
+	def context: Context
 }

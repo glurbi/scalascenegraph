@@ -36,7 +36,7 @@ object Cube {
 
 class Cube() extends Node {
 	
-    def render(renderer: Renderer) {
+    def doRender(renderer: Renderer, context: Context) {
         renderer.quads(Cube.vertices)
     }
 
@@ -44,7 +44,7 @@ class Cube() extends Node {
 
 class ColoredCube(colors: Array[Float]) extends Node {
 
-    def render(renderer: Renderer) {
+    def doRender(renderer: Renderer, context: Context) {
         renderer.quads(Cube.vertices, colors)
     }
     

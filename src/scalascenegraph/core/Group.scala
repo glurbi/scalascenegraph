@@ -10,8 +10,8 @@ class Group extends Node {
         children += child
     }
   
-    def render(renderer: Renderer) {
-        children.foreach { child => child.render(renderer) }
+    def doRender(renderer: Renderer, context: Context) {
+        children.foreach { child => child.render(renderer, context) }
     }
     
 }
