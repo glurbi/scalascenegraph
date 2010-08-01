@@ -161,10 +161,21 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
     
     def quads(vertices: Array[Float]) {
+    	val v = vertices
+    	gl2.glBegin(GL2.GL_QUADS)
+    	for (i <- 0 to 5) {
+    		gl2.glVertex3f(v(i*12+0), v(i*12+1), v(i*12+2))
+    		gl2.glVertex3f(v(i*12+3), v(i*12+4), v(i*12+5))
+    		gl2.glVertex3f(v(i*12+6), v(i*12+7), v(i*12+8))
+    		gl2.glVertex3f(v(i*12+9), v(i*12+10), v(i*12+11))
+    	}
+    	gl2.glEnd
+    	/*
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glVertexPointer(3, GL.GL_FLOAT, 0, BufferUtil.newFloatBuffer(vertices));
         gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.length);
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+        */
     }
     
     def quads(vertices: Array[Float], colors: Array[Float]) {
