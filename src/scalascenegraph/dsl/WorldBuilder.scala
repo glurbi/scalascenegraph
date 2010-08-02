@@ -1,6 +1,8 @@
 package scalascenegraph.dsl
 
+import java.nio._
 import scala.collection.mutable._
+import com.sun.opengl.util._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
@@ -83,7 +85,7 @@ trait WorldBuilder {
 	}
 	
 	def cube(colors: Array[Float]) {
-		stack.top.asInstanceOf[Group].add(new ColoredCube(colors))
+		stack.top.asInstanceOf[Group].add(new ColoredCube(BufferUtil.newFloatBuffer(colors)))
 	}
 	
 }

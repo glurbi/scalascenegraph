@@ -1,5 +1,7 @@
 package scalascenegraph.core
 
+import java.nio._
+
 import scalascenegraph.core.Predefs._
 
 trait Renderer {
@@ -35,8 +37,8 @@ trait Renderer {
 
     def quad(vertices: Array[Float])
     def quad(vertices: Array[Float], colors: Array[Float])
-    def quads(vertices: Array[Float])
-    def quads(vertices: Array[Float], colors: Array[Float])
+    def quads(vertices: FloatBuffer)
+    def quads(vertices: FloatBuffer, colors: FloatBuffer)
     
     def translate(x: Float, y: Float, z: Float)
 	def rotate(angle: Float, x: Float, y: Float, z: Float)
