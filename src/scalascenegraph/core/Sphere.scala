@@ -3,8 +3,7 @@ package scalascenegraph.core
 import java.nio._
 import scala.Math._
 import scala.collection.mutable._
-
-import com.sun.opengl.util._
+import com.jogamp.common.nio._
 
 class Sphere(steps: Int) extends Node {
 
@@ -43,7 +42,7 @@ class Sphere(steps: Int) extends Node {
 			}
 			phi += stepAngle
 		}
-		BufferUtil.newFloatBuffer(ab.toArray)
+		Buffers.newDirectFloatBuffer(ab.toArray)
 	}
 	
     def doRender(context: Context) {

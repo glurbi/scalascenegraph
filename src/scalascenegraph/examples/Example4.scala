@@ -20,7 +20,7 @@ object Example4 extends WorldBuilder {
         		translation(0.0f, 0.0f, -3.0f) {
 	    			rotation(0.0f, 1.0f, 0.5f, 1.0f) {
 	    				preRenderHook(angleHook)
-	    				sphere(25, Color.blue)
+	    				sphere(60, Color.blue)
 	    			}
         		}
    		    }

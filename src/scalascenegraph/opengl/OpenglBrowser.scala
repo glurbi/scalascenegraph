@@ -6,7 +6,7 @@ import java.awt._
 import java.awt.event._
 import javax.media.opengl._
 import javax.media.opengl.awt._
-import com.sun.opengl.util._ 
+import com.jogamp.opengl.util._ 
 
 import scalascenegraph.core._
 import scalascenegraph.ui.browser._
@@ -82,7 +82,7 @@ with GLEventListener
     }
     
     def init(drawable: GLAutoDrawable) {
-    	drawable.setGL(new DebugGL2(drawable.getGL.asInstanceOf[GL2]))
+    	//drawable.setGL(new DebugGL2(drawable.getGL.asInstanceOf[GL2]))
     	val gl2 = drawable.getGL.asInstanceOf[GL2]
     	
     	// make sure we don't draw more often than the screen is refreshed

@@ -1,12 +1,11 @@
 package scalascenegraph.core
 
 import java.nio._
-
-import com.sun.opengl.util._
+import com.jogamp.common.nio._
 
 object Cube {
 	
-	val vertices = BufferUtil.newFloatBuffer(
+	val vertices = Buffers.newDirectFloatBuffer(
 			Array(0.0f, 0.0f, 0.0f,
 				  0.0f, 1.0f, 0.0f,
 				  1.0f, 1.0f, 0.0f,

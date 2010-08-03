@@ -3,7 +3,7 @@ package scalascenegraph.opengl
 import java.nio._
 import javax.media.opengl._
 import javax.media.opengl.fixedfunc._
-import com.sun.opengl.util._
+import com.jogamp.opengl.util._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
