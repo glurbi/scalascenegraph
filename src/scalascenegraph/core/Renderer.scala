@@ -38,6 +38,7 @@ trait Renderer {
     def quad(vertices: Array[Float])
     def quad(vertices: Array[Float], colors: Array[Float])
     def quads(vertices: FloatBuffer)
+    def quads(vertices: FloatBuffer, color: Color)
     def quads(vertices: FloatBuffer, colors: FloatBuffer)
     
     def translate(x: Float, y: Float, z: Float)

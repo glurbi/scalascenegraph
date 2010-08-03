@@ -80,12 +80,16 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(new ColoredQuad(vertices, colors))
 	}
 	
-	def cube() {
+	def cube {
 		stack.top.asInstanceOf[Group].add(new Cube)
 	}
 	
 	def cube(colors: Array[Float]) {
 		stack.top.asInstanceOf[Group].add(new ColoredCube(BufferUtil.newFloatBuffer(colors)))
+	}
+	
+	def sphere(steps: Int, color: Color) {
+		stack.top.asInstanceOf[Group].add(new UnicoloredSphere(steps, color))
 	}
 	
 }
