@@ -96,4 +96,12 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(new UnicoloredSphere(steps, color))
 	}
 	
+	def light(mode: OnOffMode)(body: => Unit): LightMode = {
+		val l = new LightMode(mode)
+		stack.top.asInstanceOf[Group].add(l)
+		stack.push(l)
+		body
+		stack.pop.asInstanceOf[LightMode]
+	}
+	
 }

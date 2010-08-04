@@ -44,3 +44,15 @@ class FrontFaceMode(var frontFace: FrontFace) extends Mode {
     }
 	
 }
+
+class LightMode(var mode: OnOffMode) extends Mode {
+
+    override def doRender(context: Context) {
+    	val renderer = context.renderer
+    	renderer.pushLightMode
+    	renderer.setLightMode(mode)
+        super.doRender(context)
+        renderer.popLightMode
+    }
+	
+}

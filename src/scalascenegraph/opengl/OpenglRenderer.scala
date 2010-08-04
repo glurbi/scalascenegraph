@@ -198,5 +198,20 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	def rotate(angle: Float, x: Float, y: Float, z: Float) {
 		gl2.glRotated(angle, x, y, z)
 	}
+
+    def pushLightMode {
+    	gl2.glPushAttrib(GL2.GL_LIGHTING_BIT)
+    }
     
+    def setLightMode(mode: OnOffMode) {
+    	mode match {
+    		case On => gl2.glEnable(GLLightingFunc.GL_LIGHTING)
+    		case Off => gl2.glDisable(GLLightingFunc.GL_LIGHTING)
+    	}
+    }
+    
+    def popLightMode {
+    	gl2.glPopAttrib
+    }
+	
 }
