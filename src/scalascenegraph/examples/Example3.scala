@@ -16,7 +16,7 @@ object Example3 extends WorldBuilder {
 	
 	def example3 =
 		world {
-    		translation(-2.0f, -0.5f, -4.0f) {
+    		translation(-2.0f, 0.0f, -4.0f) {
     			polygonMode(Front, Line) {
     				rotation(0.0f, 1.0f, 0.5f, 1.0f) {
     					preRenderHook(angleHook)
@@ -24,13 +24,13 @@ object Example3 extends WorldBuilder {
     				}
     			}
    		    }
-    		translation(1.0f, -0.5f, -4.0f) {
+    		translation(2.0f, 0.0f, -4.0f) {
     			rotation(0.0f, 1.0f, 0.5f, 1.0f) {
     				preRenderHook(angleHook)
     				cube
     			}
    		    }
-    		translation(0.0f, 1.5f, -4.0f) {
+    		translation(0.0f, 2.0f, -4.0f) {
     			cullFace(false) {
     				polygonMode(FrontAndBack, Line) {
     					rotation(0.0f, 0.0f, 1.0f, 0.0f) {
@@ -40,7 +40,7 @@ object Example3 extends WorldBuilder {
     				}
     			}
    		    }
-    		translation(0.0f, -2.5f, -4.0f) {
+    		translation(0.0f, -2.0f, -4.0f) {
     			polygonMode(Front, Line) {
     				frontFace(ClockWise) {
     					rotation(0.0f, 0.0f, 1.0f, 0.0f) {

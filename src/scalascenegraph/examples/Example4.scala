@@ -17,13 +17,31 @@ object Example4 extends WorldBuilder {
 	def example4 =
 		world {
 		    polygonMode(Front, Line) {
-        		translation(0.0f, 0.0f, -3.0f) {
+        		translation(-2.0f, 2.0f, -4.0f) {
 	    			rotation(0.0f, -1.0f, -0.5f, 1.0f) {
 	    				preRenderHook(angleHook)
 	    				sphere(30, Color.blue)
 	    			}
         		}
-   		    }
+        		translation(-2.0f, -2.0f, -4.0f) {
+	    			rotation(1.0f, -1.0f, -0.5f, 1.0f) {
+	    				preRenderHook(angleHook)
+	    				cube(Color.red)
+	    			}
+        		}
+		    }
+		    translation(2.0f, -2.0f, -4.0f) {
+		    	rotation(1.0f, -1.0f, -0.5f, 1.0f) {
+		    		preRenderHook(angleHook)
+		    		sphere(30, Color.blue)
+		    	}
+		    }
+		    translation(2.0f, 2.0f, -4.0f) {
+		    	rotation(1.0f, -1.0f, -0.5f, 1.0f) {
+		    		preRenderHook(angleHook)
+		    		cube(Color.red)
+		    	}
+		    }
 	    }
 	
     def main(args: Array[String]) {

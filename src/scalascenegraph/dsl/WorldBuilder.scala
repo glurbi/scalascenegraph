@@ -84,6 +84,10 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(new Cube)
 	}
 	
+	def cube(color: Color) {
+		stack.top.asInstanceOf[Group].add(new UnicoloredCube(color))
+	}
+	
 	def cube(colors: Array[Float]) {
 		stack.top.asInstanceOf[Group].add(new ColoredCube(Buffers.newDirectFloatBuffer(colors)))
 	}
