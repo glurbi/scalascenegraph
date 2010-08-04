@@ -2,7 +2,6 @@ bin
 .classpath
 .project
 .manager
-lib
 .scala_dependencies
 build
 .gradle
