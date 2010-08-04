@@ -18,9 +18,9 @@ object Example4 extends WorldBuilder {
 		world {
 		    polygonMode(Front, Line) {
         		translation(0.0f, 0.0f, -3.0f) {
-	    			rotation(0.0f, 1.0f, 0.5f, 1.0f) {
+	    			rotation(0.0f, -1.0f, -0.5f, 1.0f) {
 	    				preRenderHook(angleHook)
-	    				sphere(60, Color.blue)
+	    				sphere(30, Color.blue)
 	    			}
         		}
    		    }

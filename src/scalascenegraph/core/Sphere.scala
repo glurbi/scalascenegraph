@@ -19,7 +19,7 @@ class Sphere(steps: Int) extends Node {
 		var phi = 0.0
 		while (phi < 2.0 * Pi) {
 			
-			var teta = stepAngle
+			var teta = 0.0
 			while (teta < Pi - stepAngle) {
 				
 				ab += (sin(teta) * cos(phi)).asInstanceOf[Float]
