@@ -37,13 +37,47 @@ object Cube {
 				  -0.5f, 0.5f, 0.5f,
 				  0.5f, 0.5f, 0.5f,
 				  0.5f, 0.5f, -0.5f))
+				  
+	val normals = Buffers.newDirectFloatBuffer(
+			Array(0.0f, 0.0f, -1.0f,
+				  0.0f, 0.0f, -1.0f,
+				  0.0f, 0.0f, -1.0f,
+				  0.0f, 0.0f, -1.0f,
+
+				  -1.0f, 0.0f, 0.0f,
+				  -1.0f, 0.0f, 0.0f,
+				  -1.0f, 0.0f, 0.0f,
+				  -1.0f, 0.0f, 0.0f,
+
+				  0.0f, -1.0f, 0.0f,
+				  0.0f, -1.0f, 0.0f,
+				  0.0f, -1.0f, 0.0f,
+				  0.0f, -1.0f, 0.0f,
+
+				  0.0f, 0.0f, 1.0f,
+				  0.0f, 0.0f, 1.0f,
+				  0.0f, 0.0f, 1.0f,
+				  0.0f, 0.0f, 1.0f,
+
+				  1.0f, 0.0f, 0.0f,
+				  1.0f, 0.0f, 0.0f,
+				  1.0f, 0.0f, 0.0f,
+				  1.0f, 0.0f, 0.0f,
+
+				  0.0f, 1.0f, 0.0f,
+				  0.0f, 1.0f, 0.0f,
+				  0.0f, 1.0f, 0.0f,
+				  0.0f, 1.0f, 0.0f))
 	                     
 }
 
 class Cube extends Node {
 
+	val v = Vertices(Cube.vertices)
+	val n = Normals(Cube.normals)
+	
     def doRender(context: Context) {
-        context.renderer.quads(Cube.vertices)
+        context.renderer.quads(v, n)
     }
 
 }

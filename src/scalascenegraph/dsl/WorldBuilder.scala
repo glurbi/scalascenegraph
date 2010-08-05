@@ -107,6 +107,14 @@ trait WorldBuilder {
 		body
 		stack.pop.asInstanceOf[LightMode]
 	}
+	
+	def light(lightType: LightType, position: Position, color: Color)(body: => Unit): Light = {
+		val l = new Light(lightType, position, color)
+		stack.top.asInstanceOf[Group].add(l)
+		stack.push(l)
+		body
+		stack.pop.asInstanceOf[Light]
+	}
 
 	def ambient(intensity: Intensity)(body: => Unit): AmbientLightMode = {
 		val l = new AmbientLightMode(intensity)
