@@ -40,7 +40,7 @@ object Cube {
 	                     
 }
 
-class Cube() extends Node {
+class Cube extends Node {
 
     def doRender(context: Context) {
         context.renderer.quads(Cube.vertices)

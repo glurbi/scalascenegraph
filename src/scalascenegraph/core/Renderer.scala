@@ -46,6 +46,7 @@ trait Renderer {
     def quads(vertices: FloatBuffer)
     def quads(vertices: FloatBuffer, color: Color)
     def quads(vertices: FloatBuffer, colors: FloatBuffer)
+	def quads(vertices: Vertices, normals: Normals)
     
     def translate(x: Float, y: Float, z: Float)
 	def rotate(angle: Float, x: Float, y: Float, z: Float)

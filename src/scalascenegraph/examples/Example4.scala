@@ -33,6 +33,7 @@ object Example4 extends WorldBuilder {
 		    light(On) {
 		    	ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f)) {
 		    		material(Front, AmbientLight, Color.blue) {
+		    		material(Front, DiffuseLight, Color.blue) {
 		    			translation(2.0f, -2.0f, -4.0f) {
 		    				rotation(1.0f, -1.0f, -0.5f, 1.0f) {
 		    					preRenderHook(angleHook)
@@ -45,6 +46,7 @@ object Example4 extends WorldBuilder {
 		    					cube
 		    				}
 		    			}
+		    		}
 		    		}
 		    	}
 		    }

@@ -1,5 +1,7 @@
 package scalascenegraph.core
 
+import java.nio._
+
 object Predefs {
 
 	type Hook = (Node, Context) => Unit
@@ -28,6 +30,12 @@ object Predefs {
 	case object On extends OnOffMode
 	case object Off extends OnOffMode
 
+	class Vertices(val floatBuffer: FloatBuffer) {
+		def count: Int = floatBuffer.limit /3
+	}
+	class Colors(val floatBuffer: FloatBuffer)
+	class Normals(val floatBuffer: FloatBuffer)
+	
 	case class Intensity(r: Float, g: Float, b: Float, a: Float = 1.0f) {
 		def asFloatArray: Array[Float] = Array(r, g, b, a)
 	}

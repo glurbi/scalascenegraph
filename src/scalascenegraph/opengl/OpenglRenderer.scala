@@ -181,6 +181,16 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glColor4f(save(0), save(1), save(2), save(3))
     }
     
+	def quads(vertices: Vertices, normals: Normals) {
+        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+        gl2.glEnableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
+        gl2.glNormalPointer(GL.GL_FLOAT, 0, normals.floatBuffer)
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
+        gl2.glDisableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
+        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+	}
+    
     def translate(x: Float, y: Float, z: Float) {
         gl2.glTranslatef(x, y, z)
     }
