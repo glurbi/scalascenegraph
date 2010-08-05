@@ -20,27 +20,31 @@ object Example4 extends WorldBuilder {
         		translation(-2.0f, 2.0f, -4.0f) {
 	    			rotation(0.0f, -1.0f, -0.5f, 1.0f) {
 	    				preRenderHook(angleHook)
-	    				sphere(30, Color.blue)
+	    				sphere(30)
 	    			}
         		}
         		translation(-2.0f, -2.0f, -4.0f) {
 	    			rotation(1.0f, -1.0f, -0.5f, 1.0f) {
 	    				preRenderHook(angleHook)
-	    				cube(Color.red)
+	    				cube
 	    			}
         		}
 		    }
 		    light(On) {
-		    	translation(2.0f, -2.0f, -4.0f) {
-		    		rotation(1.0f, -1.0f, -0.5f, 1.0f) {
-		    			preRenderHook(angleHook)
-		    			sphere(30, Color.blue)
-		    		}
-		    	}
-		    	translation(2.0f, 2.0f, -4.0f) {
-		    		rotation(1.0f, -1.0f, -0.5f, 1.0f) {
-		    			preRenderHook(angleHook)
-		    			cube(Color.red)
+		    	ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f)) {
+		    		material(Front, AmbientLight, Color.blue) {
+		    			translation(2.0f, -2.0f, -4.0f) {
+		    				rotation(1.0f, -1.0f, -0.5f, 1.0f) {
+		    					preRenderHook(angleHook)
+		    					sphere(30)
+		    				}
+		    			}
+		    			translation(2.0f, 2.0f, -4.0f) {
+		    				rotation(1.0f, -1.0f, -0.5f, 1.0f) {
+		    					preRenderHook(angleHook)
+		    					cube
+		    				}
+		    			}
 		    		}
 		    	}
 		    }

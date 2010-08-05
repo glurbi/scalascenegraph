@@ -45,12 +45,36 @@ class FrontFaceMode(var frontFace: FrontFace) extends Mode {
 	
 }
 
-class LightMode(var mode: OnOffMode) extends Mode {
+class LightMode(var state: OnOffMode) extends Mode {
 
     override def doRender(context: Context) {
     	val renderer = context.renderer
     	renderer.pushLightMode
-    	renderer.setLightMode(mode)
+    	renderer.setLightMode(state)
+        super.doRender(context)
+        renderer.popLightMode
+    }
+	
+}
+
+class AmbientLightMode(intensity: Intensity) extends Mode {
+	
+    override def doRender(context: Context) {
+    	val renderer = context.renderer
+    	renderer.pushLightMode
+    	renderer.setAmbientLight(intensity.asFloatArray)
+        super.doRender(context)
+        renderer.popLightMode
+    }
+	
+}
+
+class MaterialMode(face: Face, lightType: LightType, color: Color)  extends Mode {
+	
+    override def doRender(context: Context) {
+    	val renderer = context.renderer
+    	renderer.pushLightMode
+    	renderer.setMaterial(face, lightType, color)
         super.doRender(context)
         renderer.popLightMode
     }

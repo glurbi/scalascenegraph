@@ -3,6 +3,8 @@ package scalascenegraph.core
 import java.nio._
 import com.jogamp.common.nio._
 
+import scalascenegraph.core.Predefs._
+
 object Cube {
 	
 	val vertices = Buffers.newDirectFloatBuffer(

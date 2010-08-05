@@ -92,6 +92,10 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(new ColoredCube(Buffers.newDirectFloatBuffer(colors)))
 	}
 	
+	def sphere(steps: Int) {
+		stack.top.asInstanceOf[Group].add(new Sphere(steps))
+	}
+	
 	def sphere(steps: Int, color: Color) {
 		stack.top.asInstanceOf[Group].add(new UnicoloredSphere(steps, color))
 	}
@@ -102,6 +106,22 @@ trait WorldBuilder {
 		stack.push(l)
 		body
 		stack.pop.asInstanceOf[LightMode]
+	}
+
+	def ambient(intensity: Intensity)(body: => Unit): AmbientLightMode = {
+		val l = new AmbientLightMode(intensity)
+		stack.top.asInstanceOf[Group].add(l)
+		stack.push(l)
+		body
+		stack.pop.asInstanceOf[AmbientLightMode]
+	}
+	
+	def material(face: Face, lightType: LightType, color: Color)(body: => Unit): MaterialMode = {
+		val m = new MaterialMode(face, lightType, color)
+		stack.top.asInstanceOf[Group].add(m)
+		stack.push(m)
+		body
+		stack.pop.asInstanceOf[MaterialMode]
 	}
 	
 }

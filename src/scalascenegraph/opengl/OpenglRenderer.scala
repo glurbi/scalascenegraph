@@ -67,16 +67,6 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
 	
 	def setPolygonMode(face: Face, mode: DrawingMode) {
-		def glFace(face: Face): Int = face match {
-			case Front => GL.GL_FRONT
-			case Back => GL.GL_BACK
-			case FrontAndBack => GL.GL_FRONT_AND_BACK
-		}
-		def glMode(mode: DrawingMode): Int = mode match {
-			case Point => GL2GL3.GL_POINT
-			case Line => GL2GL3.GL_LINE
-			case Fill => GL2GL3.GL_FILL
-		}
 		gl2.glPolygonMode(glFace(face), glMode(mode))
 	}
 	
@@ -163,7 +153,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     def quads(vertices: FloatBuffer) {
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit);
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit / 3);
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
     }
     
@@ -174,7 +164,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glEnableClientState(GLPointerFunc.GL_COLOR_ARRAY);
         gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices);
         gl2.glColorPointer(3, GL.GL_FLOAT, 0, colors);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit);
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit / 3);
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glDisableClientState(GLPointerFunc.GL_COLOR_ARRAY);
         gl2.glColor4f(save(0), save(1), save(2), save(3))
@@ -210,8 +200,35 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	}
     }
     
+	def setAmbientLight(intensity: Array[Float]) {
+		gl2.glLightModelfv(GL2ES1.GL_LIGHT_MODEL_AMBIENT, intensity, 0)
+	}
+
+	def setMaterial(face: Face, lightType: LightType, color: Color) {
+		gl2.glMaterialfv(glFace(face), glLightType(lightType), color.asFloatArray, 0)
+	}
+	
     def popLightMode {
     	gl2.glPopAttrib
     }
+	
+	private def glFace(face: Face): Int = face match {
+		case Front => GL.GL_FRONT
+		case Back => GL.GL_BACK
+		case FrontAndBack => GL.GL_FRONT_AND_BACK
+	}
+	
+	private def glMode(mode: DrawingMode): Int = mode match {
+		case Point => GL2GL3.GL_POINT
+		case Line => GL2GL3.GL_LINE
+		case Fill => GL2GL3.GL_FILL
+	}
+	
+	private def glLightType(lightType: LightType): Int = lightType match {
+		case AmbientLight => GLLightingFunc.GL_AMBIENT
+		case DiffuseLight => GLLightingFunc.GL_DIFFUSE
+		case SpecularLight => GLLightingFunc.GL_SPECULAR
+		case EmissionLight => GLLightingFunc.GL_EMISSION
+	}
 	
 }

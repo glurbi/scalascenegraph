@@ -5,6 +5,8 @@ import scala.math._
 import scala.collection.mutable._
 import com.jogamp.common.nio._
 
+import scalascenegraph.core.Predefs._
+
 class Sphere(steps: Int) extends Node {
 
 	protected val vertices = {

@@ -1,5 +1,7 @@
 package scalascenegraph.core
 
+import scalascenegraph.core.Predefs._
+
 class World(val foreground: Color = Color.white,
             val background: Color = Color.grey)
 extends Group {
