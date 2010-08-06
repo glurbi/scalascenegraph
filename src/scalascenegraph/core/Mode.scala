@@ -62,7 +62,7 @@ class AmbientLightMode(intensity: Intensity) extends Mode {
     override def doRender(context: Context) {
     	val renderer = context.renderer
     	renderer.pushLightMode
-    	renderer.setAmbientLight(intensity.asFloatArray)
+    	renderer.setAmbientLight(intensity)
         super.doRender(context)
         renderer.popLightMode
     }

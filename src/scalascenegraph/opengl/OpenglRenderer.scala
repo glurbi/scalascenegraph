@@ -211,8 +211,8 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	}
     }
     
-	def setAmbientLight(intensity: Array[Float]) {
-		gl2.glLightModelfv(GL2ES1.GL_LIGHT_MODEL_AMBIENT, intensity, 0)
+	def setAmbientLight(intensity: Intensity) {
+		gl2.glLightModelfv(GL2ES1.GL_LIGHT_MODEL_AMBIENT, intensity.asFloatArray, 0)
 	}
 
 	def setMaterial(face: Face, lightType: LightType, color: Color) {

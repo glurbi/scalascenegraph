@@ -28,7 +28,7 @@ trait Renderer {
     
     def pushLightMode
     def setLightMode(mode: OnOffMode)
-	def setAmbientLight(intensity: Array[Float])
+	def setAmbientLight(intensity: Intensity)
 	def setMaterial(face: Face, lightType: LightType, color: Color)
 	def enableLight(lightType: LightType, position: Position, color: Color)
     def popLightMode
