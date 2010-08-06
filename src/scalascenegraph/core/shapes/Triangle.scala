@@ -1,18 +1,21 @@
 package scalascenegraph.core
 
-class Triangle(vertices: Array[Float]) extends Node {
+import scalascenegraph.core.Predefs._
+
+class Triangle(v1: Vertice, v2: Vertice, v3: Vertice) extends Node {
 
     def doRender(context: Context) {
-        context.renderer.triangle(vertices)
+        context.renderer.triangle(v1, v2, v3)
     }
     
 }
 
-class ColoredTriangle(vertices: Array[Float], colors: Array[Float])
+class ColoredTriangle(v1: Vertice, v2: Vertice, v3: Vertice,
+    		          c1: Color, c2: Color, c3: Color)
 extends Node {
 
     def doRender(context: Context) {
-        context.renderer.triangle(vertices, colors)
+        context.renderer.triangle(v1, v2, v3, c1, c2, c3)
     }
 	
 }

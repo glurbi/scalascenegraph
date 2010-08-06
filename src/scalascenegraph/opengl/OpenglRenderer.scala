@@ -100,24 +100,26 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glFrustum(left, right, bottom, top, near, far)
     }
  
-    def triangle(v: Array[Float]) {
+    def triangle(v1: Vertice, v2: Vertice, v3: Vertice) {
         gl2.glBegin(GL.GL_TRIANGLES)
-        gl2.glVertex3f(v(0), v(1), v(2))
-        gl2.glVertex3f(v(3), v(4), v(5))
-        gl2.glVertex3f(v(6), v(7), v(8))
+        gl2.glVertex3f(v1.x, v1.y, v1.z)
+        gl2.glVertex3f(v2.x, v2.y, v2.z)
+        gl2.glVertex3f(v3.x, v3.y, v3.z)
         gl2.glEnd
     }
     
-    def triangle(v: Array[Float], c: Array[Float]) {
+    def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
+    		     c1: Color, c2: Color, c3: Color)
+    {
     	val color = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
         gl2.glBegin(GL.GL_TRIANGLES)
-        gl2.glColor3f(c(0), c(1), c(2))
-        gl2.glVertex3f(v(0), v(1), v(2))
-        gl2.glColor3f(c(3), c(4), c(5))
-        gl2.glVertex3f(v(3), v(4), v(5))
-        gl2.glColor3f(c(6), c(7), c(8))
-        gl2.glVertex3f(v(6), v(7), v(8))
+        gl2.glColor4f(c1.r, c1.g, c1.b, c1.a)
+        gl2.glVertex3f(v1.x, v1.y, v1.z)
+        gl2.glColor4f(c2.r, c2.g, c2.b, c2.a)
+        gl2.glVertex3f(v2.x, v2.y, v2.z)
+        gl2.glColor4f(c3.r, c3.g, c3.b, c3.a)
+        gl2.glVertex3f(v3.x, v3.y, v3.z)
         gl2.glEnd
         gl2.glColor4f(color(0), color(1), color(2), color(3))
     }
@@ -134,8 +136,8 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice,
     		 c1: Color, c2: Color, c3: Color, c4: Color)
     {
-    	val save = new Array[Float](4)
-    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
+    	val color = new Array[Float](4)
+    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
         gl2.glBegin(GL2.GL_QUADS)
         gl2.glColor4f(c1.r, c1.g, c1.b, c1.a)
         gl2.glVertex3f(v1.x, v1.y, v1.z)
@@ -146,7 +148,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glColor4f(c4.r, c4.g, c4.b, c4.a)
         gl2.glVertex3f(v4.x, v4.y, v4.z)
         gl2.glEnd
-        gl2.glColor4f(save(0), save(1), save(2), save(3))
+        gl2.glColor4f(color(0), color(1), color(2), color(3))
     }
     
     def quads(vertices: Vertices) {
@@ -157,8 +159,8 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
     
     def quads(vertices: Vertices, colors: Colors) {
-    	val save = new Array[Float](4)
-    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
+    	val color = new Array[Float](4)
+    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glEnableClientState(GLPointerFunc.GL_COLOR_ARRAY);
         gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
@@ -166,7 +168,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glDisableClientState(GLPointerFunc.GL_COLOR_ARRAY);
-        gl2.glColor4f(save(0), save(1), save(2), save(3))
+        gl2.glColor4f(color(0), color(1), color(2), color(3))
     }
 
     def quads(vertices: Vertices, color: Color) {

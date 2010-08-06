@@ -36,15 +36,22 @@ trait Renderer {
     def pushMatrix
     def popMatrix
     
-    def ortho(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double)
-    def perspective(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double)
+    def ortho(left: Double, right: Double,
+    		  bottom: Double, top: Double,
+    		  near: Double, far: Double)
+	
+    def perspective(left: Double, right: Double,
+    		        bottom: Double, top: Double,
+    		        near: Double, far: Double)
     
-    def triangle(vertices: Array[Float])
-    def triangle(vertices: Array[Float], colors: Array[Float])
+    def triangle(v1: Vertice, v2: Vertice, v3: Vertice)
+    def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
+    		     c1: Color, c2: Color, c3: Color)
 
     def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice)
     def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice,
     		 c1: Color, c2: Color, c3: Color, c4: Color)
+	
     def quads(vertices: Vertices)
     def quads(vertices: Vertices, color: Color)
     def quads(vertices: Vertices, colors: Colors)

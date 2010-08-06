@@ -66,12 +66,14 @@ trait WorldBuilder {
 		stack.pop.asInstanceOf[CullFaceMode]
 	}
 	
-	def triangle(vertices: Array[Float]) {
-		stack.top.asInstanceOf[Group].add(new Triangle(vertices))
+	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
+		stack.top.asInstanceOf[Group].add(new Triangle(v1, v2, v3))
 	}
 	
-	def triangle(vertices: Array[Float], colors: Array[Float]) {
-		stack.top.asInstanceOf[Group].add(new ColoredTriangle(vertices, colors))
+	def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
+    		     c1: Color, c2: Color, c3: Color)
+	{
+		stack.top.asInstanceOf[Group].add(new ColoredTriangle(v1, v2, v3, c1, c2, c3))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
