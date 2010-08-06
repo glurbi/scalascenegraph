@@ -89,7 +89,7 @@ trait WorldBuilder {
 	}
 	
 	def cube(colors: Array[Float]) {
-		stack.top.asInstanceOf[Group].add(new ColoredCube(Buffers.newDirectFloatBuffer(colors)))
+		stack.top.asInstanceOf[Group].add(new ColoredCube(Colors(Buffers.newDirectFloatBuffer(colors))))
 	}
 	
 	def sphere(steps: Int) {

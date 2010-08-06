@@ -150,33 +150,33 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glColor4f(save(0), save(1), save(2), save(3))
     }
     
-    def quads(vertices: FloatBuffer) {
+    def quads(vertices: Vertices) {
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit / 3);
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
     }
     
-    def quads(vertices: FloatBuffer, colors: FloatBuffer) {
+    def quads(vertices: Vertices, colors: Colors) {
     	val save = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glEnableClientState(GLPointerFunc.GL_COLOR_ARRAY);
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices);
-        gl2.glColorPointer(4, GL.GL_FLOAT, 0, colors);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit / 3);
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
+        gl2.glColorPointer(4, GL.GL_FLOAT, 0, colors.floatBuffer);
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glDisableClientState(GLPointerFunc.GL_COLOR_ARRAY);
         gl2.glColor4f(save(0), save(1), save(2), save(3))
     }
 
-    def quads(vertices: FloatBuffer, color: Color) {
+    def quads(vertices: Vertices, color: Color) {
     	val save = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
         gl2.glColor4f(color.r, color.g, color.b, color.a)
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit / 3);
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glColor4f(save(0), save(1), save(2), save(3))
     }
