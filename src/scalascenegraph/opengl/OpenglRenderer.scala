@@ -163,7 +163,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glEnableClientState(GLPointerFunc.GL_COLOR_ARRAY);
         gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices);
-        gl2.glColorPointer(3, GL.GL_FLOAT, 0, colors);
+        gl2.glColorPointer(4, GL.GL_FLOAT, 0, colors);
         gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit / 3);
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glDisableClientState(GLPointerFunc.GL_COLOR_ARRAY);

@@ -5,6 +5,7 @@ import scala.collection.mutable._
 import com.jogamp.common.nio._
 
 import scalascenegraph.core._
+import scalascenegraph.core.shapes._
 import scalascenegraph.core.Predefs._
 
 trait WorldBuilder {
