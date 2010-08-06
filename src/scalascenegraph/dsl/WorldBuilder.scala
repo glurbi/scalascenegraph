@@ -74,9 +74,8 @@ trait WorldBuilder {
 	}
 	
 	def quad(vertices: Array[Float], color: Color) {
-		val c = color
-		val colors = Array(c.red, c.green, c.blue, c.red, c.green, c.blue,
-				c.red, c.green, c.blue, c.red, c.green, c.blue)
+		import color._
+		val colors = Array(r, g, b, r, g, b, r, g, b, r, g, b)
 		stack.top.asInstanceOf[Group].add(new ColoredQuad(vertices, colors))
 	}
 	

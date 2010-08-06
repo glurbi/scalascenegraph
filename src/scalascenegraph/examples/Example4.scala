@@ -1,5 +1,6 @@
 package scalascenegraph.examples
 
+import java.awt.{Color => JColor }
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.dsl._
@@ -32,9 +33,9 @@ object Example4 extends WorldBuilder {
 		    }
 		    light(On) {
 		    	ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f)) {
-		    		material(Front, AmbientLight, Color.blue) {
-		    		material(Front, DiffuseLight, Color.blue) {
-		    			light(DiffuseLight, Position(0.0f, 10.0f, -4.0f), Color.white) {
+		    		material(Front, AmbientLight, JColor.blue) {
+		    		material(Front, DiffuseLight, JColor.blue) {
+		    			light(DiffuseLight, Position(0.0f, 10.0f, -4.0f), JColor.white) {
 		    				translation(2.0f, -2.0f, -4.0f) {
 		    					rotation(1.0f, -1.0f, -0.5f, 1.0f) {
 		    						preRenderHook(angleHook)

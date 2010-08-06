@@ -30,11 +30,11 @@ object Predefs {
 	case object On extends OnOffMode
 	case object Off extends OnOffMode
 
-	case class Vertices(val floatBuffer: FloatBuffer) {
+	case class Vertices(floatBuffer: FloatBuffer) {
 		def count: Int = floatBuffer.limit /3
 	}
-	case class Colors(val floatBuffer: FloatBuffer)
-	case class Normals(val floatBuffer: FloatBuffer)
+	case class Colors(floatBuffer: FloatBuffer)
+	case class Normals(floatBuffer: FloatBuffer)
 	
 	case class Position(x: Float, y: Float, z: Float) {
 		def asFloatArray: Array[Float] = Array(x, y, z)
@@ -43,16 +43,13 @@ object Predefs {
 	case class Intensity(r: Float, g: Float, b: Float, a: Float = 1.0f) {
 		def asFloatArray: Array[Float] = Array(r, g, b, a)
 	}
+
+	case class Color(r: Float, g: Float, b: Float, a: Float = 1.0f) {
+		val asFloatArray = Array(r, g, b, a)
+	}
 	
-	object Color {
-		val white = new Color(1.0f, 1.0f, 1.0f)
-		val grey = new Color(0.5f, 0.5f, 0.5f)
-		val blue = new Color(0.0f, 0.0f, 1.0f)
-		val red = new Color(1.0f, 0.0f, 0.0f)
+	implicit def toColor(c: java.awt.Color): Color = {
+		new Color(c.getRed/255.0f, c.getGreen/255.0f, c.getBlue/255.0f, c.getAlpha/255.0f)
 	}
-
-	case class Color(val red: Float, val green: Float, val blue: Float, val alpha: Float = 1.0f) {
-		val asFloatArray = Array(red, green, blue, alpha)
-	}
-
+	
 }

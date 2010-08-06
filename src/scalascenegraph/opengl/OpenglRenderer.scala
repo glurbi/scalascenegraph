@@ -11,11 +11,11 @@ import scalascenegraph.core.Predefs._
 class OpenglRenderer(val gl2: GL2) extends Renderer { 
 	
     def color(color: Color) {
-        gl2.glColor3f(color.red, color.green , color.blue)
+        gl2.glColor3f(color.r, color.g , color.b)
     }	
 	
     def clearColor(color: Color) {
-        gl2.glClearColor(color.red, color.green, color.blue, color.alpha)
+        gl2.glClearColor(color.r, color.g, color.b, color.a)
     }
  
 	def enableDepthTest {
@@ -173,7 +173,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     def quads(vertices: FloatBuffer, color: Color) {
     	val save = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
-        gl2.glColor4f(color.red, color.green, color.blue, color.alpha)
+        gl2.glColor4f(color.r, color.g, color.b, color.a)
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
         gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices);
         gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.limit / 3);

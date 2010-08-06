@@ -1,11 +1,13 @@
 package scalascenegraph.core
 
+import java.awt.{Color => JColor}
 import scalascenegraph.core.Predefs._
 
-class World(val foreground: Color = Color.white,
-            val background: Color = Color.grey)
-extends Group {
+class World extends Group {
 
+	var foreground: Color = JColor.white
+	var background: Color = JColor.lightGray
+	
     override def doRender(context: Context) {
     	val renderer = context.renderer
         renderer.clear
