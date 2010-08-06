@@ -74,10 +74,9 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(new ColoredTriangle(vertices, colors))
 	}
 	
-	def quad(vertices: Array[Float], color: Color) {
-		import color._
-		val colors = Array(r, g, b, r, g, b, r, g, b, r, g, b)
-		stack.top.asInstanceOf[Group].add(new ColoredQuad(vertices, colors))
+	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
+		val c = color
+		stack.top.asInstanceOf[Group].add(new ColoredQuad(v1, v2, v3, v4, c, c, c, c))
 	}
 	
 	def cube {

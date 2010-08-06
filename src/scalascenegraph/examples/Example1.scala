@@ -19,9 +19,11 @@ object Example1 extends WorldBuilder {
 				triangle(
 					vertices = Array(-4.0f, 2.0f, 0.0f, -3.0f, 0.0f, 0.0f, -2.0f, 2.0f, 0.0f))
 
-    			quad(
-    				vertices = Array(2.0f, 0.0f, 0.0f, 4.0f, 0.0f, 0.0f, 4.0f, 2.0f, 0.0f, 2.0f, 2.0f, 0.0f),
-    				color = Color(1.0f, 1.0f, 0.0f))
+    			quad(Vertice(2.0f, 0.0f, 0.0f),
+    				 Vertice(4.0f, 0.0f, 0.0f),
+    				 Vertice(4.0f, 2.0f, 0.0f),
+    				 Vertice(2.0f, 2.0f, 0.0f),
+    				 Color(1.0f, 1.0f, 0.0f))
    		    }
 	    }
 	

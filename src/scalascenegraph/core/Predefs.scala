@@ -30,6 +30,10 @@ object Predefs {
 	case object On extends OnOffMode
 	case object Off extends OnOffMode
 
+	case class Vertice(x: Float, y: Float, z: Float) {
+		val asFloatArray = Array(x, y, z) 
+	}
+	
 	case class Vertices(floatBuffer: FloatBuffer) {
 		def count: Int = floatBuffer.limit /3
 	}

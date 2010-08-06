@@ -42,8 +42,9 @@ trait Renderer {
     def triangle(vertices: Array[Float])
     def triangle(vertices: Array[Float], colors: Array[Float])
 
-    def quad(vertices: Array[Float])
-    def quad(vertices: Array[Float], colors: Array[Float])
+    def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice)
+    def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice,
+    		 c1: Color, c2: Color, c3: Color, c4: Color)
     def quads(vertices: Vertices)
     def quads(vertices: Vertices, color: Color)
     def quads(vertices: Vertices, colors: Colors)

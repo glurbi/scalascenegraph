@@ -1,18 +1,21 @@
 package scalascenegraph.core
 
-class Quad(vertices: Array[Float]) extends Node {
+import scalascenegraph.core.Predefs._
+
+class Quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) extends Node {
 
     def doRender(context: Context) {
-        context.renderer.quad(vertices)
+        context.renderer.quad(v1, v2, v3, v4)
     }
 
 }
 
-class ColoredQuad(vertices: Array[Float], colors: Array[Float])
+class ColoredQuad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice,
+    		      c1: Color, c2: Color, c3: Color, c4: Color)
 extends Node {
 
     def doRender(context: Context) {
-        context.renderer.quad(vertices, colors)
+        context.renderer.quad(v1, v2, v3, v4, c1, c2, c3, c4)
     }
     
 }
