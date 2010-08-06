@@ -47,8 +47,10 @@ class Sphere(steps: Int) extends Node {
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 	
+	protected val normals = Normals(vertices.floatBuffer)
+	
     def doRender(context: Context) {
-        context.renderer.quads(vertices)
+        context.renderer.quads(vertices, normals)
     }
 
 }

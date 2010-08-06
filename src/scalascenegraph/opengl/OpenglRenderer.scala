@@ -222,7 +222,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	def enableLight(lightType: LightType, position: Position, color: Color) {
 		val p = position.asFloatArray
 		gl2.glLightfv(0, glLightType(lightType), color.asFloatArray, 0)
-		gl2.glLightfv(0, GLLightingFunc.GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
+		gl2.glLightfv(GLLightingFunc.GL_LIGHT0, GLLightingFunc.GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
 		gl2.glEnable(GLLightingFunc.GL_LIGHT0)
 	}
 	
