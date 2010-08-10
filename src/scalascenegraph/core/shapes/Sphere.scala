@@ -13,16 +13,11 @@ class Sphere(steps: Int) extends Node {
 		val ab = new ArrayBuffer[Float]
 		val stepAngle = Pi / steps
 		
-		// ideally we should use a for loop with a NumericRange (instead of the while loop)
-		// however it uses BigDecimal under the hood, which can lead to
-		// java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result.
-		// Maybe there is a nice way to express the range, but I don't know it...
-		
-		var phi = 0.0
-		while (phi < 2.0 * Pi) {
-			
-			var teta = 0.0
-			while (teta < Pi - stepAngle) {
+		for (latStep <- 0 to steps) {
+			for (lonStep <- 0 to 2*steps) {
+				
+				val teta = latStep * stepAngle
+				val phi = lonStep * stepAngle
 				
 				ab += (sin(teta) * cos(phi)).asInstanceOf[Float]
 				ab += (sin(teta) * sin(phi)).asInstanceOf[Float]
@@ -40,9 +35,7 @@ class Sphere(steps: Int) extends Node {
 				ab += (sin(teta) * sin(phi+stepAngle)).asInstanceOf[Float]
 				ab += (cos(teta)).asInstanceOf[Float]
 				
-				teta += stepAngle
 			}
-			phi += stepAngle
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
