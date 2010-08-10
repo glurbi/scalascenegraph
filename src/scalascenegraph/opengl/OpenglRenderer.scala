@@ -234,6 +234,18 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	gl2.glPopAttrib
     }
 	
+    def pushLineMode {
+    	gl2.glPushAttrib(GL2.GL_LINE_BIT)
+    }
+    
+    def setLineWidth(width: Float) {
+    	gl2.glLineWidth(width)
+    }
+    
+    def popLineMode {
+    	gl2.glPopAttrib
+    }
+    
 	private def glFace(face: Face): Int = face match {
 		case Front => GL.GL_FRONT
 		case Back => GL.GL_BACK
@@ -251,6 +263,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		case DiffuseLight => GLLightingFunc.GL_DIFFUSE
 		case SpecularLight => GLLightingFunc.GL_SPECULAR
 		case EmissionLight => GLLightingFunc.GL_EMISSION
+		case AmbientAndDiffuseLight => GLLightingFunc.GL_AMBIENT_AND_DIFFUSE
 	}
 	
 }

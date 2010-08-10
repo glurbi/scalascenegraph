@@ -16,6 +16,7 @@ object Predefs {
 	case object DiffuseLight extends LightType
 	case object SpecularLight extends LightType
 	case object EmissionLight extends LightType
+	case object AmbientAndDiffuseLight extends LightType
 	
 	abstract class DrawingMode
 	case object Point extends DrawingMode

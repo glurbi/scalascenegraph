@@ -80,3 +80,15 @@ class MaterialMode(face: Face, lightType: LightType, color: Color)  extends Mode
     }
 	
 }
+
+class LineWidthMode(width: Float) extends Mode {
+	
+    override def doRender(context: Context) {
+    	val renderer = context.renderer
+    	renderer.pushLineMode
+    	renderer.setLineWidth(width)
+        super.doRender(context)
+        renderer.popLineMode
+    }
+    
+}

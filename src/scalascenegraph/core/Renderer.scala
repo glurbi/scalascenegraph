@@ -26,6 +26,10 @@ trait Renderer {
     def setPolygonMode(face: Face, mode: DrawingMode)
     def popPolygonMode
     
+    def pushLineMode
+    def setLineWidth(width: Float)
+    def popLineMode
+    
     def pushLightMode
     def setLightMode(mode: OnOffMode)
 	def setAmbientLight(intensity: Intensity)

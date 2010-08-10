@@ -133,4 +133,12 @@ trait WorldBuilder {
 		stack.pop.asInstanceOf[MaterialMode]
 	}
 	
+	def lineWidth(width: Float)(body: => Unit) {
+		val l = new LineWidthMode(width)
+		stack.top.asInstanceOf[Group].add(l)
+		stack.push(l)
+		body
+		stack.pop.asInstanceOf[LineWidthMode]
+	}
+	
 }
