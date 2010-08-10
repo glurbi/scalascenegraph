@@ -6,11 +6,8 @@ import scala.math._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.dsl._
-import scalascenegraph.opengl._
-import scalascenegraph.ui.browser._
 
-
-object Example4 extends WorldBuilder {
+class Example4 extends Example with WorldBuilder {
 	
 	val angleHook = (n: Node, c: Context) => {
 		val current = System.currentTimeMillis
@@ -77,7 +74,7 @@ object Example4 extends WorldBuilder {
 			}
 		}
     
-	def example4 =
+	def example =
 		world {
 		    light(On) {
 		    	ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f)) {
@@ -95,8 +92,4 @@ object Example4 extends WorldBuilder {
 		    }
 	    }
 	
-    def main(args: Array[String]) {
-        OpenglBrowser.getDefault(example4, true).show
-    }
-
 }
