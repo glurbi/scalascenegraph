@@ -10,9 +10,9 @@ abstract class Node {
     private val postRenderHooks = new ArrayBuffer[Hook]
 
 	def render(context: Context) {
-		preRender(context)
+		callPreRenderHooks(context)
 		doRender(context)
-		postRender(context)
+		callPostRenderHooks(context)
 	}
 
     def addPreRenderHook(hook: Hook) {
@@ -23,12 +23,17 @@ abstract class Node {
     	postRenderHooks += hook
     }
     
-	def preRender(context: Context) {
+	def callPreRenderHooks(context: Context) {
 		preRenderHooks.foreach { hook => hook(this, context) }
 	}
-	def postRender(context: Context) {
+	
+	def callPostRenderHooks(context: Context) {
 		postRenderHooks.foreach { hook => hook(this, context) }
 	}
     
 	def doRender(context: Context)
+	
+	def preRender(context: Context) {}
+	
+	def postRender(context: Context) {}
 }

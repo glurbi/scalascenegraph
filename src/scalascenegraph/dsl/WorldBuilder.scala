@@ -25,6 +25,12 @@ trait WorldBuilder {
 		body
 		stack.pop.asInstanceOf[World]
 	}
+	
+	def group(body: => Unit): Group = {
+		stack.push(new Group)
+		body
+		stack.pop.asInstanceOf[Group]
+	}
 
 	def translation(x: Float, y: Float, z: Float)(body: => Unit): Translation = {
 		val tr = new Translation(x, y, z)
@@ -58,12 +64,16 @@ trait WorldBuilder {
 		stack.pop.asInstanceOf[FrontFaceMode]
 	}
 	
-	def cullFace(b: Boolean)(body: => Unit): CullFaceMode = {
+	def cullFace(b: Boolean, body: => Unit): CullFaceMode = {
 		val cullFaceMode = new CullFaceMode(b)
 		stack.top.asInstanceOf[Group].add(cullFaceMode)
 		stack.push(cullFaceMode)
 		body
 		stack.pop.asInstanceOf[CullFaceMode]
+	}
+
+	def cullFace(b: Boolean) {
+		
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{

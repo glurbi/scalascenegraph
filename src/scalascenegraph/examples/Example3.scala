@@ -29,14 +29,14 @@ class Example3 extends Example with WorldBuilder {
     			}
    		    }
     		translation(0.0f, 2.0f, -4.0f) {
-    			cullFace(false) {
+    			cullFace(false, {
     				polygonMode(FrontAndBack, Line) {
     					rotation(0.0f, 0.0f, 1.0f, 0.0f) {
     						preRenderHook(angleHook)
     						cube
     					}
     				}
-    			}
+    			})
    		    }
     		translation(0.0f, -2.0f, -4.0f) {
     			polygonMode(Front, Line) {

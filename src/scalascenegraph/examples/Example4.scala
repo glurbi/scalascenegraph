@@ -79,12 +79,12 @@ class Example4 extends Example with WorldBuilder {
 		    light(On) {
 		    	ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f)) {
 	    			light(DiffuseLight, Position(2.0f, 2.0f, 0.0f), JColor.white) {
-						cullFace(false) {
+						cullFace(false, {
 		    				lineWidth(4.0f) {
 		    					wireSphere
 		    					wireCube
 		    				}
-						}
+						})
 	    				greenSphere
 	    				redCube
 	    			}
