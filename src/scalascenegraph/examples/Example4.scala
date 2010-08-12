@@ -9,17 +9,17 @@ import scalascenegraph.dsl._
 
 class Example4 extends Example with WorldBuilder {
 	
-	val angleHook = (s: State, c: Context) => {
+	val angleHook = (r: Rotation, c: Context) => {
 		val current = System.currentTimeMillis
 		val elapsed = current - c.creationTime
-		s.asInstanceOf[Rotation].angle = (elapsed / 10.0f) % 360.0f
+		r.angle = (elapsed / 10.0f) % 360.0f
 	}
 	
-	def translationHook(phase: Float) = (s: State, c: Context) => {
+	def translationHook(phase: Float) = (t: Translation, c: Context) => {
 		val current = System.currentTimeMillis
 		val elapsed = current - c.creationTime
-		s.asInstanceOf[Translation].x = 2 * cos(phase + elapsed / 1000.0f).asInstanceOf[Float]
-		s.asInstanceOf[Translation].y = 2 * sin(phase + elapsed / 1000.0f).asInstanceOf[Float]
+		t.x = 2 * cos(phase + elapsed / 1000.0f).asInstanceOf[Float]
+		t.y = 2 * sin(phase + elapsed / 1000.0f).asInstanceOf[Float]
 	}
 	
     def greenSphere =

@@ -6,11 +6,10 @@ import scalascenegraph.dsl._
 
 class Example3 extends Example with WorldBuilder {
 	
-	val angleHook = (s: State, c: Context) => {
+	val angleHook = (r: Rotation, c: Context) => {
 		val current = System.currentTimeMillis
 		val elapsed = current - c.creationTime
-		val rotation = s.asInstanceOf[Rotation]
-		rotation.angle = (elapsed / 20.0f) % 360.0f
+		r.angle = (elapsed / 20.0f) % 360.0f
 	}
 	
 	def example =

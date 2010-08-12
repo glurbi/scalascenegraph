@@ -38,11 +38,11 @@ trait WorldBuilder {
 		stack.top.addState(new Translation(x, y, z))
 	}
 
-	def translation(x: Float, y: Float, z: Float, hook: StateHook) {
+	def translation(x: Float, y: Float, z: Float, hook: StateHook[Translation]) {
 		stack.top.addState(new DynamicState(hook, new Translation(x, y, z)))
 	}
 	
-	def translation(hook: StateHook) {
+	def translation(hook: StateHook[Translation]) {
 		stack.top.addState(new DynamicState(hook, new Translation(0.0f, 0.0f, 0.0f)))
 	}
 	
@@ -50,11 +50,11 @@ trait WorldBuilder {
 		stack.top.addState(new Rotation(angle, x, y, z))
 	}
 
-	def rotation(angle: Float, x: Float, y: Float, z: Float, hook: StateHook) {
+	def rotation(angle: Float, x: Float, y: Float, z: Float, hook: StateHook[Rotation]) {
 		stack.top.addState(new DynamicState(hook, new Rotation(angle, x, y, z)))
 	}
 
-	def rotation(hook: StateHook) {
+	def rotation(hook: StateHook[Rotation]) {
 		stack.top.addState(new DynamicState(hook, new Rotation))
 	}
 	

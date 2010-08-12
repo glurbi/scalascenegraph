@@ -7,8 +7,7 @@ trait State {
 	def postRender(context: Context) {}
 }
 
-// TODO: parameterize
-class DynamicState(val hook: StateHook, val state: State) extends State {
+class DynamicState[T <: State](val hook: StateHook[T], val state: T) extends State {
 	override def preRender(context: Context) {
 		hook(state, context)
 		state.preRender(context)
