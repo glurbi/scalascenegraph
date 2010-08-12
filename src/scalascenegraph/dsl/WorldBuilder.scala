@@ -12,11 +12,11 @@ trait WorldBuilder {
 
 	private val stack = new Stack[Node]
 	
-	def preRenderHook(hook: Hook) {
+	def preRenderHook(hook: NodeHook) {
 		stack.top.addPreRenderHook(hook)
 	}
 	
-	def postRenderHook(hook: Hook) {
+	def postRenderHook(hook: NodeHook) {
 		stack.top.addPostRenderHook(hook)
 	}
 	

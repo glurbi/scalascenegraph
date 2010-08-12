@@ -7,8 +7,8 @@ import scalascenegraph.core.Predefs._
 
 abstract class Node {
 
-    private val preRenderHooks = new ArrayBuffer[Hook]
-    private val postRenderHooks = new ArrayBuffer[Hook]
+    private val preRenderHooks = new ArrayBuffer[NodeHook]
+    private val postRenderHooks = new ArrayBuffer[NodeHook]
     private val states = new ArrayBuffer[State]
 
 	def render(context: Context) {
@@ -19,11 +19,11 @@ abstract class Node {
 		callPostRenderHooks(context)
 	}
 
-    def addPreRenderHook(hook: Hook) {
+    def addPreRenderHook(hook: NodeHook) {
     	preRenderHooks += hook
     }
     
-    def addPostRenderHook(hook: Hook) {
+    def addPostRenderHook(hook: NodeHook) {
     	postRenderHooks += hook
     }
     

@@ -4,10 +4,10 @@ import java.nio._
 
 object Predefs {
 
-	// TODO: rename into NodeHook ++
-	type Hook = (Node, Context) => Unit
+	type Hook[T] = (T, Context) => Unit
 	
-	type StateHook[T <: State] = (T, Context) => Unit
+	type NodeHook = Hook[Node]
+	type StateHook[T <: State] = Hook[T]
 	
 	abstract class Face
 	case object Front extends Face
