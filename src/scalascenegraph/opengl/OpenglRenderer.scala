@@ -200,11 +200,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glRotated(angle, x, y, z)
 	}
 
-    def pushLightMode {
+    def pushLightState {
     	gl2.glPushAttrib(GL2.GL_LIGHTING_BIT)
     }
     
-    def setLightMode(mode: OnOffMode) {
+    def setLightState(mode: OnOffState) {
     	mode match {
     		case On => gl2.glEnable(GLLightingFunc.GL_LIGHTING)
     		case Off => gl2.glDisable(GLLightingFunc.GL_LIGHTING)
@@ -230,11 +230,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glDisable(GLLightingFunc.GL_LIGHT0)
 	}
 	
-    def popLightMode {
+    def popLightState {
     	gl2.glPopAttrib
     }
 	
-    def pushLineMode {
+    def pushLineState {
     	gl2.glPushAttrib(GL2.GL_LINE_BIT)
     }
     
@@ -242,7 +242,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	gl2.glLineWidth(width)
     }
     
-    def popLineMode {
+    def popLineState {
     	gl2.glPopAttrib
     }
     

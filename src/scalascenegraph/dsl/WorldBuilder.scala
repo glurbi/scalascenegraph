@@ -27,55 +27,49 @@ trait WorldBuilder {
 	}
 	
 	def group(body: => Unit): Group = {
-		stack.push(new Group)
+		val g = new Group
+		stack.top.asInstanceOf[Group].add(g)
+		stack.push(g)
 		body
 		stack.pop.asInstanceOf[Group]
 	}
 
-	def translation(x: Float, y: Float, z: Float)(body: => Unit): Translation = {
-		val tr = new Translation(x, y, z)
-		stack.top.asInstanceOf[Group].add(tr)
-		stack.push(tr)
-		body
-		stack.pop.asInstanceOf[Translation]
+	def translation(x: Float, y: Float, z: Float) {
+		stack.top.addState(new Translation(x, y, z))
 	}
 
-	def rotation(angle: Float, x: Float, y: Float, z: Float)(body: => Unit): Rotation = {
-		val rot = new Rotation(angle, x, y, z)
-		stack.top.asInstanceOf[Group].add(rot)
-		stack.push(rot)
-		body
-		stack.pop.asInstanceOf[Rotation]
-	}
-
-	def polygonMode(face: Face, mode: DrawingMode)(body: => Unit): PolygonMode = {
-		val polygonMode = new PolygonMode(face, mode)
-		stack.top.asInstanceOf[Group].add(polygonMode)
-		stack.push(polygonMode)
-		body
-		stack.pop.asInstanceOf[PolygonMode]
+	def translation(x: Float, y: Float, z: Float, hook: StateHook) {
+		stack.top.addState(new DynamicState(hook, new Translation(x, y, z)))
 	}
 	
-	def frontFace(frontFace: FrontFace)(body: => Unit): FrontFaceMode = {
-		val frontFaceMode = new FrontFaceMode(frontFace)
-		stack.top.asInstanceOf[Group].add(frontFaceMode)
-		stack.push(frontFaceMode)
-		body
-		stack.pop.asInstanceOf[FrontFaceMode]
+	def translation(hook: StateHook) {
+		stack.top.addState(new DynamicState(hook, new Translation(0.0f, 0.0f, 0.0f)))
 	}
 	
-	def cullFace(b: Boolean, body: => Unit): CullFaceMode = {
-		val cullFaceMode = new CullFaceMode(b)
-		stack.top.asInstanceOf[Group].add(cullFaceMode)
-		stack.push(cullFaceMode)
-		body
-		stack.pop.asInstanceOf[CullFaceMode]
+	def rotation(angle: Float, x: Float, y: Float, z: Float) {
+		stack.top.addState(new Rotation(angle, x, y, z))
 	}
 
+	def rotation(angle: Float, x: Float, y: Float, z: Float, hook: StateHook) {
+		stack.top.addState(new DynamicState(hook, new Rotation(angle, x, y, z)))
+	}
+
+	def rotation(hook: StateHook) {
+		stack.top.addState(new DynamicState(hook, new Rotation))
+	}
+	
+	def polygonMode(face: Face, mode: DrawingMode) {
+		stack.top.addState(new PolygonState(face, mode))
+	}
+	
+	def frontFace(frontFace: FrontFace) {
+		stack.top.addState(new FrontFaceState(frontFace))
+	}
+	
 	def cullFace(b: Boolean) {
-		
+		stack.top.addState(new CullFaceState(b))
 	}
-	
+
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
 		stack.top.asInstanceOf[Group].add(new Triangle(v1, v2, v3))
 	}
@@ -111,44 +105,24 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(new UnicoloredSphere(steps, color))
 	}
 	
-	def light(mode: OnOffMode)(body: => Unit): LightMode = {
-		val l = new LightMode(mode)
-		stack.top.asInstanceOf[Group].add(l)
-		stack.push(l)
-		body
-		stack.pop.asInstanceOf[LightMode]
+	def light(mode: OnOffState) {
+		stack.top.addState(new LightState(mode))
 	}
 	
-	def light(lightType: LightType, position: Position, color: Color)(body: => Unit): Light = {
-		val l = new Light(lightType, position, color)
-		stack.top.asInstanceOf[Group].add(l)
-		stack.push(l)
-		body
-		stack.pop.asInstanceOf[Light]
+	def light(lightType: LightType, position: Position, color: Color) {
+		stack.top.addState(new Light(lightType, position, color))
 	}
 
-	def ambient(intensity: Intensity)(body: => Unit): AmbientLightMode = {
-		val l = new AmbientLightMode(intensity)
-		stack.top.asInstanceOf[Group].add(l)
-		stack.push(l)
-		body
-		stack.pop.asInstanceOf[AmbientLightMode]
+	def ambient(intensity: Intensity) {
+		stack.top.addState(new AmbientLightState(intensity))
 	}
 	
-	def material(face: Face, lightType: LightType, color: Color)(body: => Unit): MaterialMode = {
-		val m = new MaterialMode(face, lightType, color)
-		stack.top.asInstanceOf[Group].add(m)
-		stack.push(m)
-		body
-		stack.pop.asInstanceOf[MaterialMode]
+	def material(face: Face, lightType: LightType, color: Color) {
+		stack.top.addState(new MaterialState(face, lightType, color))
 	}
 	
-	def lineWidth(width: Float)(body: => Unit) {
-		val l = new LineWidthMode(width)
-		stack.top.asInstanceOf[Group].add(l)
-		stack.push(l)
-		body
-		stack.pop.asInstanceOf[LineWidthMode]
+	def lineWidth(width: Float) {
+		stack.top.addState(new LineWidthState(width))
 	}
 	
 }

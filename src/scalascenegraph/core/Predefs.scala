@@ -6,6 +6,9 @@ object Predefs {
 
 	type Hook = (Node, Context) => Unit
 	
+	// TODO: parameterize
+	type StateHook = (State, Context) => Unit
+	
 	abstract class Face
 	case object Front extends Face
 	case object Back extends Face
@@ -27,9 +30,9 @@ object Predefs {
 	case object ClockWise extends FrontFace
 	case object CounterClockWise extends FrontFace
 	
-	abstract class OnOffMode
-	case object On extends OnOffMode
-	case object Off extends OnOffMode
+	abstract class OnOffState
+	case object On extends OnOffState
+	case object Off extends OnOffState
 
 	case class Vertice(x: Float, y: Float, z: Float) {
 		val asFloatArray = Array(x, y, z) 

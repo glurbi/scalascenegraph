@@ -37,28 +37,26 @@ class Example2 extends Example with WorldBuilder {
 
 	def example =
 		world {
-    		translation(0.0f, 2.0f, -5.0f) {
+    		translation(0.0f, 2.0f, -5.0f)
     			
-    			triangle(
-    				Vertice(2.0f, 0.0f, 0.0f),
-    				Vertice(4.0f, 0.0f, 0.0f),
-    				Vertice(3.0f, 2.0f, 0.0f),
-   					Color(1.0f, 0.0f, 0.0f),
-   					Color(0.0f, 1.0f, 0.0f),
-   					Color(0.0f, 0.0f, 1.0f))
-   					
-   			    translation(0.0f, -3.0f, 2.0f) {
-    				rotation(45.0f, 0.5f, 0.0f, 1.0f) {
-    					cube(colors)
-    				}
-    			}
+			triangle(
+				Vertice(2.0f, 0.0f, 0.0f),
+				Vertice(4.0f, 0.0f, 0.0f),
+				Vertice(3.0f, 2.0f, 0.0f),
+				Color(1.0f, 0.0f, 0.0f),
+				Color(0.0f, 1.0f, 0.0f),
+				Color(0.0f, 0.0f, 1.0f))
+
+			group {
+    			translation(0.0f, -3.0f, 2.0f)
+    			rotation(45.0f, 0.5f, 0.0f, 1.0f)
+    			cube(colors)
+    		}
     			
-				triangle(
-					Vertice(-4.0f, 2.0f, 0.0f),
-					Vertice(-3.0f, 0.0f, 0.0f),
-					Vertice(-2.0f, 2.0f, 0.0f))
-    			
-   		    }
-	    }
+			triangle(
+				Vertice(-4.0f, 2.0f, 0.0f),
+				Vertice(-3.0f, 0.0f, 0.0f),
+				Vertice(-2.0f, 2.0f, 0.0f))
+    	}
 	
 }
