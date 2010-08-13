@@ -34,8 +34,14 @@ object Predefs {
 	case object On extends OnOffState
 	case object Off extends OnOffState
 
-	case class Vertice(x: Float, y: Float, z: Float) {
-		val asFloatArray = Array(x, y, z) 
+	case class Vector(x: Float, y: Float, z: Float) {
+		val asFloatArray = Array(x, y, z)
+	}
+	case class Vertice(x: Float, y: Float, z: Float)  {
+		val asFloatArray = Array(x, y, z)
+	}
+	case class Normal(x: Float, y: Float, z: Float)  {
+		val asFloatArray = Array(x, y, z)
 	}
 	
 	case class Vertices(floatBuffer: FloatBuffer) {

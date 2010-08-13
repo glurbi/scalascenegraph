@@ -125,4 +125,8 @@ trait WorldBuilder {
 		stack.top.addState(new LineWidthState(width))
 	}
 	
+	def torus(n: Int, R: Float, r: Float) {
+		stack.top.asInstanceOf[Group].add(new Torus(n, R, r))
+	}
+	
 }
