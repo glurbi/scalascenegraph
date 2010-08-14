@@ -102,6 +102,16 @@ class LineWidthState(width: Float) extends State {
 	}
 }
 
+class ShadeModelState(shadeModel: ShadeModel) extends State {
+	override def preRender(context: Context) {
+		context.renderer.pushLightState
+		context.renderer.setShadeModel(shadeModel)
+	}
+	override def postRender(context: Context) {
+		context.renderer.popLightState
+	}
+}
+
 class Translation(var x: Float, var y: Float, var z: Float) extends Transformation {
 	override def preRender(context: Context) {
 		context.renderer.pushMatrix

@@ -246,6 +246,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	gl2.glPopAttrib
     }
     
+	def setShadeModel(shadeModel: ShadeModel) {
+		gl2.glShadeModel(glShadeModel(shadeModel))
+	}
+    
+    
 	private def glFace(face: Face): Int = face match {
 		case Front => GL.GL_FRONT
 		case Back => GL.GL_BACK
@@ -264,6 +269,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		case SpecularLight => GLLightingFunc.GL_SPECULAR
 		case EmissionLight => GLLightingFunc.GL_EMISSION
 		case AmbientAndDiffuseLight => GLLightingFunc.GL_AMBIENT_AND_DIFFUSE
+	}
+	
+	private def glShadeModel(shadeModel: ShadeModel): Int = shadeModel match {
+		case Flat => GLLightingFunc.GL_FLAT
+		case Smooth => GLLightingFunc.GL_SMOOTH
 	}
 	
 }

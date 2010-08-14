@@ -29,12 +29,13 @@ trait Renderer {
     def pushLineState
     def setLineWidth(width: Float)
     def popLineState
-    
+
     def pushLightState
     def setLightState(mode: OnOffState)
 	def setAmbientLight(intensity: Intensity)
 	def setMaterial(face: Face, lightType: LightType, color: Color)
 	def enableLight(lightType: LightType, position: Position, color: Color)
+	def setShadeModel(shadeModel: ShadeModel)
     def popLightState
     
     def pushMatrix

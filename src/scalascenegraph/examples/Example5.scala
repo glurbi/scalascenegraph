@@ -38,6 +38,15 @@ class Example5 extends Example with WorldBuilder {
 				rotation(0.0f, 1.0f, 0.0f, 0.0f, angleHook)
 				torus(30, 1.0f, 0.5f)
 			}
+			group {
+				light(On)
+				ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
+				light(DiffuseLight, Position(0.0f, 0.0f, 0.0f), JColor.white)
+				translation(-2.0f, -2.0f, -4.0f)
+				shadeModel(Flat)
+				rotation(0.0f, 1.0f, 0.0f, 0.0f, angleHook)
+				torus(30, 1.0f, 0.5f)
+			}
 		}
 	
 }

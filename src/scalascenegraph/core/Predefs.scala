@@ -9,6 +9,10 @@ object Predefs {
 	type NodeHook = Hook[Node]
 	type StateHook[T <: State] = Hook[T]
 	
+	abstract class ShadeModel
+	case object Flat extends ShadeModel
+	case object Smooth extends ShadeModel
+	
 	abstract class Face
 	case object Front extends Face
 	case object Back extends Face
