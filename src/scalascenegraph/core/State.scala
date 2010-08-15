@@ -19,6 +19,16 @@ class DynamicState[T <: State](val hook: StateHook[T], val state: T) extends Sta
 
 trait Transformation extends State {}
 
+class ColorState(var color: Color) extends State {
+	override def preRender(context: Context) {
+		context.renderer.pushColorState
+		context.renderer.setColor(color)
+	}
+	override def postRender(context: Context) {
+		context.renderer.popColorState
+	}
+}
+
 class PolygonState(var face: Face, var mode: DrawingMode) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushPolygonMode

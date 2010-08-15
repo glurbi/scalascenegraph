@@ -10,7 +10,15 @@ import scalascenegraph.core.Predefs._
 
 class OpenglRenderer(val gl2: GL2) extends Renderer { 
 	
-    def color(color: Color) {
+	def pushColorState {
+		gl2.glPushAttrib(GL2.GL_CURRENT_BIT)
+	}
+	
+	def popColorState {
+		gl2.glPopAttrib
+	}
+	
+    def setColor(color: Color) {
         gl2.glColor3f(color.r, color.g , color.b)
     }	
 	

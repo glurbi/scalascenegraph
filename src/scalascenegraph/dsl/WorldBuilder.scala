@@ -34,6 +34,10 @@ trait WorldBuilder {
 		stack.pop.asInstanceOf[Group]
 	}
 
+	def color(c: Color) {
+		stack.top.addState(new ColorState(c))
+	}
+	
 	def translation(x: Float, y: Float, z: Float) {
 		stack.top.addState(new Translation(x, y, z))
 	}
@@ -83,6 +87,10 @@ trait WorldBuilder {
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
 		val c = color
 		stack.top.asInstanceOf[Group].add(new ColoredQuad(v1, v2, v3, v4, c, c, c, c))
+	}
+	
+	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) {
+		stack.top.asInstanceOf[Group].add(new Quad(v1, v2, v3, v4))
 	}
 	
 	def cube {

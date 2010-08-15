@@ -65,7 +65,7 @@ class World extends Group {
     	val renderer = context.renderer
         renderer.clear
         renderer.clearColor(background);
-        renderer.color(foreground)
+        renderer.setColor(foreground)
         renderer.enableDepthTest
         renderer.enableCullFace
         super.doRender(context)

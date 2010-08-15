@@ -6,7 +6,9 @@ import scalascenegraph.core.Predefs._
 
 trait Renderer {
 
-	def color(color: Color)
+	def pushColorState
+	def popColorState
+	def setColor(color: Color)
     def clearColor(color: Color)
 	def enableDepthTest
 	def disableDepthTest
