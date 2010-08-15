@@ -12,7 +12,7 @@ class Example1 extends Example with WorldBuilder {
     		translation(0.0f, 0.0f, -5.0f)
     			
     		group {
-    			color(JColor.MAGENTA)
+    			color(JColor.magenta)
     			triangle(
     				Vertice(0.0f, 4.0f, 0.0f),
     				Vertice(-4.0f, 3.0f, 0.0f),
@@ -40,7 +40,7 @@ class Example1 extends Example with WorldBuilder {
 				Color(1.0f, 1.0f, 0.0f))
 				
 			group {
-				color(JColor.GREEN)
+				color(JColor.green)
 				quad(
 					Vertice(4.0f, -2.0f, 0.0f),
 					Vertice(-4.0f, -2.0f, 0.0f),
