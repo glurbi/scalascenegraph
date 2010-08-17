@@ -145,4 +145,8 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(new CheckerBoard(n, m, c1, c2))
 	}
 	
+	def fog(color: Color, start: Float, end: Float, mode: FogMode) {
+		stack.top.addState(new FogState(color, start, end, mode))
+	}
+	
 }

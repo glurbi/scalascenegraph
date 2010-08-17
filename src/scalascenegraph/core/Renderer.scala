@@ -40,6 +40,10 @@ trait Renderer {
 	def setShadeModel(shadeModel: ShadeModel)
     def popLightState
     
+    def pushFogState
+    def setFogState(color: Color, start: Float, end: Float, mode: FogMode)
+    def popFogState
+    
     def pushMatrix
     def popMatrix
     

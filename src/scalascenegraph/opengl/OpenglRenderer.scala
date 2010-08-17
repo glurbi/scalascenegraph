@@ -258,6 +258,21 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glShadeModel(glShadeModel(shadeModel))
 	}
     
+    def pushFogState {
+    	gl2.glPushAttrib(GL2.GL_FOG_BIT)
+    }
+    
+    def setFogState(color: Color, start: Float, end: Float, mode: FogMode) {
+    	gl2.glEnable(GL2ES1.GL_FOG)
+    	gl2.glFogfv(GL2ES1.GL_FOG_COLOR, color.asFloatArray, 0)
+    	gl2.glFogf(GL2ES1.GL_FOG_START, start)
+    	gl2.glFogf(GL2ES1.GL_FOG_END, end)
+    	gl2.glFogf(GL2ES1.GL_FOG_MODE, glFogMode(mode))
+    }
+    
+    def popFogState {
+    	gl2.glPopAttrib
+    }
     
 	private def glFace(face: Face): Int = face match {
 		case Front => GL.GL_FRONT
@@ -282,6 +297,12 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	private def glShadeModel(shadeModel: ShadeModel): Int = shadeModel match {
 		case Flat => GLLightingFunc.GL_FLAT
 		case Smooth => GLLightingFunc.GL_SMOOTH
+	}
+
+	private def glFogMode(mode: FogMode): Int = mode match {
+		case Linear => GL.GL_LINEAR
+		case Exp => GL2ES1.GL_EXP
+		case Exp2 => GL2ES1.GL_EXP2
 	}
 	
 }

@@ -142,3 +142,13 @@ class Rotation(var angle: Float, var x: Float, var y: Float, var z: Float) exten
 		context.renderer.popMatrix
 	}
 }
+
+class FogState(var color: Color, var start: Float, var end: Float, var mode: FogMode) extends State {
+	override def preRender(context: Context) {
+		context.renderer.pushFogState
+		context.renderer.setFogState(color, start, end, mode)
+	}
+	override def postRender(context: Context) {
+		context.renderer.popFogState
+	}
+}

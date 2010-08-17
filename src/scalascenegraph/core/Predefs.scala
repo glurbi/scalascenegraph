@@ -38,6 +38,11 @@ object Predefs {
 	case object On extends OnOffState
 	case object Off extends OnOffState
 
+	abstract class FogMode
+	case object Linear extends FogMode
+	case object Exp extends FogMode
+	case object Exp2 extends FogMode
+	
 	case class Vector(x: Float, y: Float, z: Float) {
 		val asFloatArray = Array(x, y, z)
 	}
