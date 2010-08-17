@@ -96,6 +96,7 @@ with GLEventListener
         val gl2 = drawable.getGL.asInstanceOf[GL2]
         val renderer = new OpenglRenderer(gl2)
         context.renderer = renderer
+        context.elapsed = System.currentTimeMillis - context.creationTime
         camera.render(context)
         world.render(context)
     }
