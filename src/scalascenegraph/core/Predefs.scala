@@ -51,9 +51,6 @@ object Predefs {
 	case class Vertices(floatBuffer: FloatBuffer) {
 		def count: Int = floatBuffer.limit /3
 	}
-	case class Colors(floatBuffer: FloatBuffer)
-	case class Normals(floatBuffer: FloatBuffer)
-	
 	case class Position(x: Float, y: Float, z: Float) {
 		def asFloatArray: Array[Float] = Array(x, y, z)
 	}
@@ -65,6 +62,9 @@ object Predefs {
 	case class Color(r: Float, g: Float, b: Float, a: Float = 1.0f) {
 		val asFloatArray = Array(r, g, b, a)
 	}
+	
+	case class Colors(floatBuffer: FloatBuffer)
+	case class Normals(floatBuffer: FloatBuffer)
 	
 	implicit def toColor(c: java.awt.Color): Color = {
 		new Color(c.getRed/255.0f, c.getGreen/255.0f, c.getBlue/255.0f, c.getAlpha/255.0f)

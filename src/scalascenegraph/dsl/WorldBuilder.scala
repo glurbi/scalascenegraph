@@ -140,5 +140,9 @@ trait WorldBuilder {
 	def shadeModel(shadeModel: ShadeModel) {
 		stack.top.addState(new ShadeModelState(shadeModel))
 	}
+
+	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
+		stack.top.asInstanceOf[Group].add(new CheckerBoard(n, m, c1, c2))
+	}
 	
 }
