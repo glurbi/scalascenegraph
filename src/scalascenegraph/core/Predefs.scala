@@ -43,7 +43,11 @@ object Predefs {
 	case class Exp(density: Float) extends FogMode
 	case class Exp2(density: Float) extends FogMode
 	
-	case class LightInstance(n: Int)
+	class LightInstance(val n: Int)
+	object LightInstance {
+		def apply(n: Int): LightInstance = new LightInstance(n)
+		def unapply(instance: LightInstance): Option[Int] = Some(instance.n)
+	}
 	case object Light0 extends LightInstance(0)
 	case object Light1 extends LightInstance(1)
 	case object Light2 extends LightInstance(2)
