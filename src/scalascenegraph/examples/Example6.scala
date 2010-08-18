@@ -15,37 +15,35 @@ class Example6 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+			fog(JColor.blue, Exp(0.1f))
+			quad(
+				Vertice(-10.0f, -10.0f, -9.9f),
+				Vertice(10.0f, -10.0f, -9.9f),
+				Vertice(10.0f, 10.0f, -9.9f),
+				Vertice(-10.0f, 10.0f, -9.9f))
 			group {
-				fog(JColor.blue, Exp(0.1f))
-				quad(
-					Vertice(-10.0f, -10.0f, -9.9f),
-					Vertice(10.0f, -10.0f, -9.9f),
-					Vertice(10.0f, 10.0f, -9.9f),
-					Vertice(-10.0f, 10.0f, -9.9f))
+				translation(0.0f, -1.0f, -5.0f)
+				rotation(-90.0f, 1.0f, 0.0f, 0.0f)
+				checkerBoard(20, 20, JColor.white, JColor.black)
+			}
+			group {
+				light(On)
+				light(DiffuseLight, Position(0.0f, 0.0f, 0.0f), JColor.white)
+				material(Front, DiffuseLight, JColor.orange)
 				group {
-					translation(0.0f, -1.0f, -5.0f)
-					rotation(-90.0f, 1.0f, 0.0f, 0.0f)
-					checkerBoard(20, 20, JColor.white, JColor.black)
+					translation(-1.5f, 0.5f, -3.5f)
+					rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+					torus(30, 1.0f, 0.5f)
 				}
 				group {
-					light(On)
-					light(DiffuseLight, Position(0.0f, 0.0f, 0.0f), JColor.white)
-					material(Front, DiffuseLight, JColor.orange)
-					group {
-						translation(-1.5f, 0.5f, -3.5f)
-						rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-						torus(30, 1.0f, 0.5f)
-					}
-					group {
-						translation(1.0f, 0.5f, -6.0f)
-						rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-						torus(30, 1.0f, 0.5f)
-					}
-					group {
-						translation(5.0f, 0.5f, -8.5f)
-						rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-						torus(30, 1.0f, 0.5f)
-					}
+					translation(1.0f, 0.5f, -6.0f)
+					rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+					torus(30, 1.0f, 0.5f)
+				}
+				group {
+					translation(5.0f, 0.5f, -8.5f)
+					rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+					torus(30, 1.0f, 0.5f)
 				}
 			}
 		}
