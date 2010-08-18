@@ -262,12 +262,24 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	gl2.glPushAttrib(GL2.GL_FOG_BIT)
     }
     
-    def setFogState(color: Color, start: Float, end: Float, mode: FogMode) {
+    def setFogState(color: Color, mode: FogMode) {
     	gl2.glEnable(GL2ES1.GL_FOG)
     	gl2.glFogfv(GL2ES1.GL_FOG_COLOR, color.asFloatArray, 0)
-    	gl2.glFogf(GL2ES1.GL_FOG_START, start)
-    	gl2.glFogf(GL2ES1.GL_FOG_END, end)
-    	gl2.glFogf(GL2ES1.GL_FOG_MODE, glFogMode(mode))
+    	mode match {
+    		case Linear(start, end) => {
+    			gl2.glFogf(GL2ES1.GL_FOG_START, start)
+    			gl2.glFogf(GL2ES1.GL_FOG_END, end)
+    			gl2.glFogf(GL2ES1.GL_FOG_MODE, GL.GL_LINEAR)
+    		}
+    		case Exp(density) => {
+    			gl2.glFogf(GL2ES1.GL_FOG_DENSITY, density)
+    			gl2.glFogf(GL2ES1.GL_FOG_MODE, GL2ES1.GL_EXP)
+    		}
+    		case Exp2(density) => {
+    			gl2.glFogf(GL2ES1.GL_FOG_DENSITY, density)
+    			gl2.glFogf(GL2ES1.GL_FOG_MODE, GL2ES1.GL_EXP2)
+    		}
+    	}
     }
     
     def popFogState {
@@ -299,10 +311,4 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		case Smooth => GLLightingFunc.GL_SMOOTH
 	}
 
-	private def glFogMode(mode: FogMode): Int = mode match {
-		case Linear => GL.GL_LINEAR
-		case Exp => GL2ES1.GL_EXP
-		case Exp2 => GL2ES1.GL_EXP2
-	}
-	
 }

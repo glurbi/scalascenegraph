@@ -41,7 +41,7 @@ trait Renderer {
     def popLightState
     
     def pushFogState
-    def setFogState(color: Color, start: Float, end: Float, mode: FogMode)
+    def setFogState(color: Color, mode: FogMode)
     def popFogState
     
     def pushMatrix
