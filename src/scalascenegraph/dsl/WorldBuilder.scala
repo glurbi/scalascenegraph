@@ -121,6 +121,10 @@ trait WorldBuilder {
 		stack.top.addState(new Light(lightType, position, color))
 	}
 
+	def shininess(face: Face, shininess: Int) {
+		stack.top.addState(new MaterialShininessState(face, shininess))
+	}
+	
 	def ambient(intensity: Intensity) {
 		stack.top.addState(new AmbientLightState(intensity))
 	}

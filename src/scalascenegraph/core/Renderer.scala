@@ -38,6 +38,7 @@ trait Renderer {
 	def setMaterial(face: Face, lightType: LightType, color: Color)
 	def enableLight(lightType: LightType, position: Position, color: Color)
 	def setShadeModel(shadeModel: ShadeModel)
+	def setShininess(face: Face, shininess: Int)
     def popLightState
     
     def pushFogState

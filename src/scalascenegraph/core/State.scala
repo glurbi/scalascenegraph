@@ -102,6 +102,16 @@ class MaterialState(face: Face, lightType: LightType, color: Color)  extends Sta
 	}
 }
 
+class MaterialShininessState(face: Face, shininess: Int) extends State {
+	override def preRender(context: Context) {
+		context.renderer.pushLightState
+		context.renderer.setShininess(face, shininess)
+	}
+	override def postRender(context: Context) {
+		context.renderer.popLightState
+	}
+}
+
 class LineWidthState(width: Float) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushLineState
