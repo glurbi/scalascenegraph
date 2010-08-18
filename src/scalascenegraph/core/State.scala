@@ -62,7 +62,7 @@ class FrontFaceState(var frontFace: FrontFace) extends State {
 	}
 }
 
-class LightState(var state: OnOffState) extends State {
+class GlobalLightState(var state: OnOffState) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushLightState
 		context.renderer.setLightState(state)
@@ -72,10 +72,30 @@ class LightState(var state: OnOffState) extends State {
 	}
 }
 
-class Light(lightType: LightType, position: Position, color: Color) extends State {
+class LightState(instance: LightInstance, var state: OnOffState) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushLightState
-		context.renderer.enableLight(lightType, position, color)
+		context.renderer.setLightState(instance, state)
+	}
+	override def postRender(context: Context) {
+		context.renderer.popLightState
+	}
+}
+
+class LightPositionState(instance: LightInstance, position: Position) extends State {
+	override def preRender(context: Context) {
+		context.renderer.pushLightState
+		context.renderer.lightPosition(instance, position)
+	}
+	override def postRender(context: Context) {
+		context.renderer.popLightState
+	}
+}
+
+class LightColorState(instance: LightInstance, lightType: LightType, color: Color) extends State {
+	override def preRender(context: Context) {
+		context.renderer.pushLightState
+		context.renderer.lightColor(instance, lightType, color)
 	}
 	override def postRender(context: Context) {
 		context.renderer.popLightState

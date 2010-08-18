@@ -212,8 +212,8 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	gl2.glPushAttrib(GL2.GL_LIGHTING_BIT)
     }
     
-    def setLightState(mode: OnOffState) {
-    	mode match {
+    def setLightState(state: OnOffState) {
+    	state match {
     		case On => gl2.glEnable(GLLightingFunc.GL_LIGHTING)
     		case Off => gl2.glDisable(GLLightingFunc.GL_LIGHTING)
     	}
@@ -227,19 +227,24 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glMaterialfv(glFace(face), glLightType(lightType), color.asFloatArray, 0)
 	}
 
-	def enableLight(lightType: LightType, position: Position, color: Color) {
+    def setLightState(instance: LightInstance, state: OnOffState) {
+    	state match {
+    		case On => gl2.glEnable(glLightInstance(instance))
+    		case Off => gl2.glDisable(glLightInstance(instance))
+    	}
+    }
+	
+	def lightColor(instance: LightInstance, lightType: LightType, color: Color) {
+		gl2.glLightfv(glLightInstance(instance), glLightType(lightType), color.asFloatArray, 0)
+	}
+	
+	def lightPosition(instance: LightInstance, position: Position) {
 		val p = position.asFloatArray
-		gl2.glLightfv(GLLightingFunc.GL_LIGHT0, glLightType(lightType), color.asFloatArray, 0)
-		gl2.glLightfv(GLLightingFunc.GL_LIGHT0, GLLightingFunc.GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
-		gl2.glEnable(GLLightingFunc.GL_LIGHT0)
+		gl2.glLightfv(glLightInstance(instance), GLLightingFunc.GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
 	}
 	
 	def setShininess(face: Face, shininess: Int) {
 		gl2.glMateriali(glFace(face), GLLightingFunc.GL_SHININESS, shininess)
-	}
-	
-	def disableLight() {
-		gl2.glDisable(GLLightingFunc.GL_LIGHT0)
 	}
 	
     def popLightState {
@@ -315,4 +320,15 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		case Smooth => GLLightingFunc.GL_SMOOTH
 	}
 
+	private def glLightInstance(instance: LightInstance): Int = instance match {
+		case LightInstance(0) => GLLightingFunc.GL_LIGHT0
+		case LightInstance(1) => GLLightingFunc.GL_LIGHT1
+		case LightInstance(2) => GLLightingFunc.GL_LIGHT2
+		case LightInstance(3) => GLLightingFunc.GL_LIGHT3
+		case LightInstance(4) => GLLightingFunc.GL_LIGHT4
+		case LightInstance(5) => GLLightingFunc.GL_LIGHT5
+		case LightInstance(6) => GLLightingFunc.GL_LIGHT6
+		case LightInstance(7) => GLLightingFunc.GL_LIGHT7
+	}
+	
 }

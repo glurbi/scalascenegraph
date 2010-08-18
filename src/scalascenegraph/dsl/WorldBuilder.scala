@@ -114,13 +114,21 @@ trait WorldBuilder {
 	}
 	
 	def light(mode: OnOffState) {
-		stack.top.addState(new LightState(mode))
-	}
-	
-	def light(lightType: LightType, position: Position, color: Color) {
-		stack.top.addState(new Light(lightType, position, color))
+		stack.top.addState(new GlobalLightState(mode))
 	}
 
+	def light(instance: LightInstance, mode: OnOffState) {
+		stack.top.addState(new LightState(instance, mode))
+	}
+	
+	def light(instance: LightInstance, lightType: LightType, color: Color) {
+		stack.top.addState(new LightColorState(instance, lightType, color))
+	}
+
+	def light(instance: LightInstance, position: Position) {
+		stack.top.addState(new LightPositionState(instance, position))
+	}
+	
 	def shininess(face: Face, shininess: Int) {
 		stack.top.addState(new MaterialShininessState(face, shininess))
 	}

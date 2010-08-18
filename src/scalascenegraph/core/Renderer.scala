@@ -33,10 +33,12 @@ trait Renderer {
     def popLineState
 
     def pushLightState
-    def setLightState(mode: OnOffState)
+    def setLightState(state: OnOffState)
+    def setLightState(instance: LightInstance, state: OnOffState)
 	def setAmbientLight(intensity: Intensity)
 	def setMaterial(face: Face, lightType: LightType, color: Color)
-	def enableLight(lightType: LightType, position: Position, color: Color)
+	def lightColor(instance: LightInstance, lightType: LightType, color: Color)
+	def lightPosition(instance: LightInstance, position: Position)
 	def setShadeModel(shadeModel: ShadeModel)
 	def setShininess(face: Face, shininess: Int)
     def popLightState
