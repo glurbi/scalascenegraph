@@ -107,4 +107,10 @@ object Predefs {
 	case object UniNormal extends NormalType
 	case object MultiNormal extends NormalType
 	
+	def node(fun: (Context) => Unit): Node = new Node {
+		def doRender(context: Context) {
+			fun(context)
+		}
+	}
+
 }

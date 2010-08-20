@@ -106,11 +106,11 @@ trait WorldBuilder {
 	}
 	
 	def sphere(n: Int, r: Float) {
-		stack.top.asInstanceOf[Group].add(Sphere.create(n, r))
+		stack.top.asInstanceOf[Group].add(Sphere(n, r))
 	}
 	
 	def sphere(n: Int, r: Float, color: Color) {
-		stack.top.asInstanceOf[Group].add(Sphere.create(n, r, color))
+		stack.top.asInstanceOf[Group].add(Sphere(n, r, color))
 	}
 	
 	def light(mode: OnOffState) {
@@ -146,7 +146,7 @@ trait WorldBuilder {
 	}
 	
 	def torus(n: Int, R: Float, r: Float) {
-		stack.top.asInstanceOf[Group].add(Torus.create(n, R, r))
+		stack.top.asInstanceOf[Group].add(Torus(n, R, r))
 	}
 
 	def shadeModel(shadeModel: ShadeModel) {

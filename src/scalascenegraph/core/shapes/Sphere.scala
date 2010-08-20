@@ -9,35 +9,23 @@ import scalascenegraph.core.Predefs._
 
 object Sphere {
 	
-	def create(n: Int, r: Float): Node = {
+	def apply(n: Int, r: Float): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
 		val normals = builder.createNormals
-		new Node {
-			def doRender(context: Context) {
-				context.renderer.quads(vertices, normals)
-			}
-		}
+		node(context => { context.renderer.quads(vertices, normals) })
 	}
 	
-	def create(n: Int, r: Float, color: Color): Node = {
+	def apply(n: Int, r: Float, color: Color): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
-		new Node {
-			def doRender(context: Context) {
-				context.renderer.quads(vertices, color)
-			}
-		}
+		node(context => { context.renderer.quads(vertices, color) })
 	}
 	
-	def create(n: Int, r: Float, colors: Colors): Node = {
+	def apply(n: Int, r: Float, colors: Colors): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
-		new Node {
-			def doRender(context: Context) {
-				context.renderer.quads(vertices, colors)
-			}
-		}
+		node(context => { context.renderer.quads(vertices, colors) })
 	}
 	
 }
