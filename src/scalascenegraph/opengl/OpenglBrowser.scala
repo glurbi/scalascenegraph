@@ -59,10 +59,12 @@ with GLEventListener
     	    }
     	})
     	val mouseListener = new BrowserMouseListener
+    	val keyListener = new BrowserKeyboardListener
     	canvas.addGLEventListener(this)
     	canvas.addMouseListener(mouseListener)
     	canvas.addMouseWheelListener(mouseListener)
     	canvas.addMouseMotionListener(mouseListener)
+    	canvas.addKeyListener(keyListener)
     	f.add(canvas);
     	f.setSize(width, height);
     	f
