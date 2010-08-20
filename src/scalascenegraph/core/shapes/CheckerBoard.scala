@@ -9,9 +9,20 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-class CheckerBoard(n: Int, m: Int, c1: Color, c2: Color) extends Node {
+object CheckerBoard {
+	
+	def apply(n: Int, m: Int, c1: Color, c2: Color): Node = {
+		val builder = new CheckerBoardBuilder(n, m, c1, c2)
+		val vertices = builder.createVertices
+		val colors = builder.createColors
+		node(context => context.renderer.quads(vertices, colors))
+	}
+	
+}
 
-	protected val vertices = {
+class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color) {
+
+	def createVertices: Vertices = {
 		val ab = new ArrayBuffer[Float]
 		val xOffset = -n / 2.0f
 		val yOffset = -m / 2.0f
@@ -26,20 +37,7 @@ class CheckerBoard(n: Int, m: Int, c1: Color, c2: Color) extends Node {
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 
-	protected val normals = {
-		val ab = new ArrayBuffer[Float]
-		for (i <- 0 until n) {
-			for (j <- 0 until m) {
-				ab ++= Vector(0.0f, 0.0f, 1.0f).asFloatArray
-				ab ++= Vector(0.0f, 0.0f, 1.0f).asFloatArray
-				ab ++= Vector(0.0f, 0.0f, 1.0f).asFloatArray
-				ab ++= Vector(0.0f, 0.0f, 1.0f).asFloatArray
-			}
-		}
-		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
-	}
-	
-	protected val colors = {
+	def createColors = {
 		val ab = new ArrayBuffer[Float]
 		for (i <- 0 until n) {
 			for (j <- 0 until m) {
@@ -56,8 +54,4 @@ class CheckerBoard(n: Int, m: Int, c1: Color, c2: Color) extends Node {
 		Colors(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 	
-    def doRender(context: Context) {
-        context.renderer.quads(vertices, colors)
-    }
-    
 }

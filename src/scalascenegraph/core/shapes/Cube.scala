@@ -8,7 +8,19 @@ import scalascenegraph.core.Predefs._
 
 object Cube {
 	
-	val vertices = Vertices(Buffers.newDirectFloatBuffer(
+	def apply(): Node = {
+		node(context => context.renderer.quads(Cube.vertices, Cube.normals))
+	}
+
+	def apply(colors: Colors): Node = {
+		node(context => context.renderer.quads(Cube.vertices, colors))
+	}
+
+	def apply(color: Color): Node = {
+		node(context => context.renderer.quads(Cube.vertices, color))
+	}
+	
+	private val vertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(-0.5f, -0.5f, -0.5f,
 				  -0.5f, 0.5f, -0.5f,
 				  0.5f, 0.5f, -0.5f,
@@ -39,7 +51,7 @@ object Cube {
 				  0.5f, 0.5f, 0.5f,
 				  0.5f, 0.5f, -0.5f)))
 				  
-	val normals = Normals(Buffers.newDirectFloatBuffer(
+	private val normals = Normals(Buffers.newDirectFloatBuffer(
 			Array(0.0f, 0.0f, -1.0f,
 				  0.0f, 0.0f, -1.0f,
 				  0.0f, 0.0f, -1.0f,
@@ -72,26 +84,3 @@ object Cube {
 	                     
 }
 
-class Cube extends Node {
-
-    def doRender(context: Context) {
-        context.renderer.quads(Cube.vertices, Cube.normals)
-    }
-
-}
-
-class ColoredCube(colors: Colors) extends Node {
-
-    def doRender(context: Context) {
-        context.renderer.quads(Cube.vertices, colors)
-    }
-    
-}
-
-class UnicoloredCube(color: Color) extends Node {
-
-    def doRender(context: Context) {
-        context.renderer.quads(Cube.vertices, color)
-    }
-    
-}

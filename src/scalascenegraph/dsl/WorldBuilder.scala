@@ -94,15 +94,15 @@ trait WorldBuilder {
 	}
 	
 	def cube {
-		stack.top.asInstanceOf[Group].add(new Cube)
+		stack.top.asInstanceOf[Group].add(Cube())
 	}
 	
 	def cube(color: Color) {
-		stack.top.asInstanceOf[Group].add(new UnicoloredCube(color))
+		stack.top.asInstanceOf[Group].add(Cube(color))
 	}
 	
 	def cube(colors: Array[Float]) {
-		stack.top.asInstanceOf[Group].add(new ColoredCube(Colors(Buffers.newDirectFloatBuffer(colors))))
+		stack.top.asInstanceOf[Group].add(Cube(Colors(Buffers.newDirectFloatBuffer(colors))))
 	}
 	
 	def sphere(n: Int, r: Float) {
@@ -154,7 +154,7 @@ trait WorldBuilder {
 	}
 
 	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
-		stack.top.asInstanceOf[Group].add(new CheckerBoard(n, m, c1, c2))
+		stack.top.asInstanceOf[Group].add(CheckerBoard(n, m, c1, c2))
 	}
 	
 	def fog(color: Color, mode: FogMode) {
