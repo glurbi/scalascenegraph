@@ -30,7 +30,7 @@ object Sphere {
 	
 }
 
-class SphereBuilder(n: Int, r: Float) {
+private class SphereBuilder(n: Int, r: Float) {
 
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
 	
