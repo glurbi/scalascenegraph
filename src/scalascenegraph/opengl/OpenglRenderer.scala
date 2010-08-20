@@ -79,8 +79,6 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	}
 	
     def clear {
-        gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW)
-        gl2.glLoadIdentity
         gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
     }
     
@@ -100,12 +98,16 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION)
         gl2.glLoadIdentity
         gl2.glOrtho(left, right, bottom, top, near, far)
+        gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW)
+        gl2.glLoadIdentity
     }
     
     def perspective(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
         gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION)
         gl2.glLoadIdentity
         gl2.glFrustum(left, right, bottom, top, near, far)
+        gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW)
+        gl2.glLoadIdentity
     }
  
     def triangle(v1: Vertice, v2: Vertice, v3: Vertice) {
