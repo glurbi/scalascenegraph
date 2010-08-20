@@ -105,12 +105,12 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(new ColoredCube(Colors(Buffers.newDirectFloatBuffer(colors))))
 	}
 	
-	def sphere(steps: Int) {
-		stack.top.asInstanceOf[Group].add(new Sphere(steps))
+	def sphere(n: Int, r: Float) {
+		stack.top.asInstanceOf[Group].add(Sphere.create(n, r))
 	}
 	
-	def sphere(steps: Int, color: Color) {
-		stack.top.asInstanceOf[Group].add(new UnicoloredSphere(steps, color))
+	def sphere(n: Int, r: Float, color: Color) {
+		stack.top.asInstanceOf[Group].add(Sphere.create(n, r, color))
 	}
 	
 	def light(mode: OnOffState) {

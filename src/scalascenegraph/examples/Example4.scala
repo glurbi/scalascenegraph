@@ -26,7 +26,7 @@ class Example4 extends Example with WorldBuilder {
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
     		material(Front, AmbientLight, JColor.green)
     		material(Front, DiffuseLight, JColor.green)
-    		sphere(30)
+    		sphere(30, 1.0f)
     	}
 
     def redCube =
@@ -54,7 +54,7 @@ class Example4 extends Example with WorldBuilder {
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
     		material(FrontAndBack, AmbientLight, JColor.blue)
     		material(FrontAndBack, DiffuseLight, JColor.blue)
-    		sphere(15)
+    		sphere(15, 1.0f)
     	}
     
 	def example =

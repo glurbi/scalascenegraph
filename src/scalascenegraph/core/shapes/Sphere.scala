@@ -7,60 +7,77 @@ import com.jogamp.common.nio._
 
 import scalascenegraph.core.Predefs._
 
-class Sphere(steps: Int) extends Node {
+object Sphere {
+	
+	def create(n: Int, r: Float): Node = {
+		val builder = new SphereBuilder(n, r)
+		val vertices = builder.createVertices
+		val normals = builder.createNormals
+		new Node {
+			def doRender(context: Context) {
+				context.renderer.quads(vertices, normals)
+			}
+		}
+	}
+	
+	def create(n: Int, r: Float, color: Color): Node = {
+		val builder = new SphereBuilder(n, r)
+		val vertices = builder.createVertices
+		new Node {
+			def doRender(context: Context) {
+				context.renderer.quads(vertices, color)
+			}
+		}
+	}
+	
+	def create(n: Int, r: Float, colors: Colors): Node = {
+		val builder = new SphereBuilder(n, r)
+		val vertices = builder.createVertices
+		new Node {
+			def doRender(context: Context) {
+				context.renderer.quads(vertices, colors)
+			}
+		}
+	}
+	
+}
 
-	protected val vertices = {
+class SphereBuilder(n: Int, r: Float) {
+
+	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
+	
+	def createVertices = {
 		val ab = new ArrayBuffer[Float]
-		val stepAngle = Pi / steps
+		val stepAngle = Pi / n
 		
-		for (latStep <- 0 to steps) {
-			for (lonStep <- 0 to 2*steps) {
+		for (latStep <- 0 to n) {
+			for (lonStep <- 0 to 2*n) {
 				
 				val teta = latStep * stepAngle
 				val phi = lonStep * stepAngle
 				
-				ab += (sin(teta) * cos(phi)).asInstanceOf[Float]
-				ab += (sin(teta) * sin(phi)).asInstanceOf[Float]
-				ab += (cos(teta)).asInstanceOf[Float]
+				ab += (sin(teta) * cos(phi))
+				ab += (sin(teta) * sin(phi))
+				ab += (cos(teta))
 				
-				ab += (sin(teta+stepAngle) * cos(phi)).asInstanceOf[Float]
-				ab += (sin(teta+stepAngle) * sin(phi)).asInstanceOf[Float]
-				ab += (cos(teta+stepAngle)).asInstanceOf[Float]
+				ab += (sin(teta+stepAngle) * cos(phi))
+				ab += (sin(teta+stepAngle) * sin(phi))
+				ab += (cos(teta+stepAngle))
 				
-				ab += (sin(teta+stepAngle) * cos(phi+stepAngle)).asInstanceOf[Float]
-				ab += (sin(teta+stepAngle) * sin(phi+stepAngle)).asInstanceOf[Float]
-				ab += (cos(teta+stepAngle)).asInstanceOf[Float]
+				ab += (sin(teta+stepAngle) * cos(phi+stepAngle))
+				ab += (sin(teta+stepAngle) * sin(phi+stepAngle))
+				ab += (cos(teta+stepAngle))
 				
-				ab += (sin(teta) * cos(phi+stepAngle)).asInstanceOf[Float]
-				ab += (sin(teta) * sin(phi+stepAngle)).asInstanceOf[Float]
-				ab += (cos(teta)).asInstanceOf[Float]
+				ab += (sin(teta) * cos(phi+stepAngle))
+				ab += (sin(teta) * sin(phi+stepAngle))
+				ab += (cos(teta))
 				
 			}
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 	
-	protected val normals = Normals(vertices.floatBuffer)
+	def createNormals = Normals(createVertices.floatBuffer)
 	
-    def doRender(context: Context) {
-        context.renderer.quads(vertices, normals)
-    }
-
 }
 
-class UnicoloredSphere(steps: Int, color: Color) extends Sphere(steps) {
-
-    override def doRender(context: Context) {
-        context.renderer.quads(vertices, color)
-    }
-    
-}
-
-
-class ColoredSphere(steps: Int, colors: Colors) extends Sphere(steps) {
-
-    override def doRender(context: Context) {
-        context.renderer.quads(vertices, colors)
-    }
-    
-}
