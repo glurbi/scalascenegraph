@@ -75,22 +75,22 @@ trait WorldBuilder {
 	}
 
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
-		stack.top.asInstanceOf[Group].add(new Triangle(v1, v2, v3))
+		stack.top.asInstanceOf[Group].add(Triangle(v1, v2, v3))
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
     		     c1: Color, c2: Color, c3: Color)
 	{
-		stack.top.asInstanceOf[Group].add(new ColoredTriangle(v1, v2, v3, c1, c2, c3))
+		stack.top.asInstanceOf[Group].add(Triangle(v1, v2, v3, c1, c2, c3))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
 		val c = color
-		stack.top.asInstanceOf[Group].add(new ColoredQuad(v1, v2, v3, v4, c, c, c, c))
+		stack.top.asInstanceOf[Group].add(Quad(v1, v2, v3, v4, c, c, c, c))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) {
-		stack.top.asInstanceOf[Group].add(new Quad(v1, v2, v3, v4))
+		stack.top.asInstanceOf[Group].add(Quad(v1, v2, v3, v4))
 	}
 	
 	def cube {

@@ -13,19 +13,19 @@ object Sphere {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
 		val normals = builder.createNormals
-		node(context => { context.renderer.quads(vertices, normals) })
+		node(context => context.renderer.quads(vertices, normals))
 	}
 	
 	def apply(n: Int, r: Float, color: Color): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
-		node(context => { context.renderer.quads(vertices, color) })
+		node(context => context.renderer.quads(vertices, color))
 	}
 	
 	def apply(n: Int, r: Float, colors: Colors): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
-		node(context => { context.renderer.quads(vertices, colors) })
+		node(context => context.renderer.quads(vertices, colors))
 	}
 	
 }

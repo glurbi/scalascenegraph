@@ -15,7 +15,7 @@ object Torus {
 		val builder = new TorusBuilder(n, R, r)
 		val vertices = builder.createVertices
 		val normals = builder.createNormals
-		node(context => { context.renderer.quads(vertices, normals) })
+		node(context => context.renderer.quads(vertices, normals))
 	}
 
 }
