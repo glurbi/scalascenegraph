@@ -9,8 +9,12 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-class Torus(n: Int, R: Float, r: Float) extends Node {
+class Torus(n: Int, R: Float, r: Float) extends Shape {
 
+	val geometryType = QuadArray
+	val colorType = UnspecifiedColor
+	val normalType = MultiNormal
+	
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
 
 	val stepAngle = 2.0 * Pi / n
@@ -27,7 +31,7 @@ class Torus(n: Int, R: Float, r: Float) extends Node {
 		Vertice(x, y, z)
 	}
 	
-	protected val vertices = {
+	override val vertices = {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {
@@ -48,7 +52,7 @@ class Torus(n: Int, R: Float, r: Float) extends Node {
 		normalize(crossProduct(vector(v2, v1), vector(v3, v4)))
 	}
 	
-	protected val normals = {
+	override val normals = {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {
@@ -61,8 +65,4 @@ class Torus(n: Int, R: Float, r: Float) extends Node {
 		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 	
-    def doRender(context: Context) {
-        context.renderer.quads(vertices, normals)
-    }
-    
 }

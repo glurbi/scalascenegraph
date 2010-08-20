@@ -88,5 +88,23 @@ object Predefs {
 	implicit def toColor(c: java.awt.Color): Color = {
 		new Color(c.getRed/255.0f, c.getGreen/255.0f, c.getBlue/255.0f, c.getAlpha/255.0f)
 	}
+
+	abstract class GeometryType
+	case object PointArray extends GeometryType
+	case object LineArray extends GeometryType
+	case object TriangleArray extends GeometryType
+	case object QuadArray extends GeometryType
+
+	abstract class ColorType
+	case object UnspecifiedColor extends ColorType
+	case object UniColorNoAlpha extends ColorType
+	case object UniColorAlpha extends ColorType
+	case object MultiColorNoAlpha extends ColorType
+	case object MultiColorAlpha extends ColorType
+	
+	abstract class NormalType
+	case object UnspecifiedNormal extends NormalType
+	case object UniNormal extends NormalType
+	case object MultiNormal extends NormalType
 	
 }

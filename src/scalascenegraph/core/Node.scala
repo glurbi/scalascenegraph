@@ -73,3 +73,23 @@ class World extends Group {
     }
   
 }
+
+abstract class Shape extends Node {
+	
+	def vertices: Vertices = null
+	def colors: Colors = null
+	def normals: Normals = null
+	def color: Color = null
+	def normal: Normal = null
+	
+	val geometryType: GeometryType
+	val colorType: ColorType
+	val normalType: NormalType
+	
+	def doRender(context: Context) {
+		(geometryType, colorType, normalType) match {
+			case (QuadArray, UnspecifiedColor, MultiNormal) => context.renderer.quads(vertices, normals)
+		}
+	}
+	
+}
