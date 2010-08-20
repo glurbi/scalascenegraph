@@ -146,7 +146,7 @@ trait WorldBuilder {
 	}
 	
 	def torus(n: Int, R: Float, r: Float) {
-		stack.top.asInstanceOf[Group].add(new Torus(n, R, r))
+		stack.top.asInstanceOf[Group].add(Torus.create(n, R, r))
 	}
 
 	def shadeModel(shadeModel: ShadeModel) {

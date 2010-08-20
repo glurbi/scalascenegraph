@@ -9,29 +9,45 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-class Torus(n: Int, R: Float, r: Float) extends Shape {
+object Torus {
+	
+	def create(n: Int, R: Float, r: Float): Node = {
+		val builder = new TorusBuilder(n, R, r)
+		val vertices = builder.createVertices
+		val normals = builder.createNormals
+		new Node {
+			def doRender(context: Context) {
+				context.renderer.quads(vertices, normals)
+			}
+		}
+	}
+	
+}
 
-	val geometryType = QuadArray
-	val colorType = UnspecifiedColor
-	val normalType = MultiNormal
+private class TorusBuilder(n: Int, R: Float, r: Float) {
 	
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
-
-	val stepAngle = 2.0 * Pi / n
-
-	def angle(step: Int) = step * stepAngle
 	
-	/**
-	 * cf http://en.wikipedia.org/wiki/Torus
-	 */
+	val stepAngle = 2.0 * Pi / n
+	def angle(step: Int) = step * stepAngle
+
 	private def torus(u: Float, v: Float): Vertice = {
+		// cf http://en.wikipedia.org/wiki/Torus
 		val x = (R + r * cos(v)) * cos(u)
 		val y = (R + r * cos(v)) * sin(u)
 		val z = r * sin(v)
 		Vertice(x, y, z)
 	}
 	
-	override val vertices = {
+	private def torusNormal(uStep: Int, vStep: Int): Vector = {
+		val v1 = torus(angle(uStep), angle(vStep-1))
+		val v2 = torus(angle(uStep), angle(vStep+1))
+		val v3 = torus(angle(uStep-1), angle(vStep))
+		val v4 = torus(angle(uStep+1), angle(vStep))
+		normalize(crossProduct(vector(v2, v1), vector(v3, v4)))
+	}
+	
+	def createVertices: Vertices = {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {
@@ -44,15 +60,7 @@ class Torus(n: Int, R: Float, r: Float) extends Shape {
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 
-	private def torusNormal(uStep: Int, vStep: Int): Vector = {
-		val v1 = torus(angle(uStep), angle(vStep-1))
-		val v2 = torus(angle(uStep), angle(vStep+1))
-		val v3 = torus(angle(uStep-1), angle(vStep))
-		val v4 = torus(angle(uStep+1), angle(vStep))
-		normalize(crossProduct(vector(v2, v1), vector(v3, v4)))
-	}
-	
-	override val normals = {
+	def createNormals: Normals = {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {
