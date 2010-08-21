@@ -28,7 +28,20 @@ object Camera {
 	
 }
 
-abstract class Camera(val clippingVolume: ClippingVolume) extends Node
+abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
+	
+	private var zInc: Int = 0
+	private var xInc: Int = 0
+	
+	protected def positionCamera(context: Context) {
+		if (context.upKeyPressed) { zInc += 1 }
+		if (context.downKeyPressed) { zInc -= 1 }
+		if (context.leftKeyPressed) { xInc += 1 }
+		if (context.rightKeyPressed) { xInc -= 1 }
+		context.renderer.translate(0.1f * xInc, 0.0f, 0.1f * zInc)
+	}
+	
+}
 
 class ClippingVolume(
     val left: Double,
@@ -44,6 +57,7 @@ extends Camera(clippingVolume)
     def doRender(context: Context) {
         import clippingVolume._
         context.renderer.perspective(left, right, bottom, top, near, far);
+        positionCamera(context)
     }
 }
 

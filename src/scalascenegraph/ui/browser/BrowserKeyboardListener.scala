@@ -13,4 +13,5 @@ class BrowserKeyboardListener extends KeyListener {
 	def keyReleased(e: KeyEvent) { pressedKeys.remove(e.getKeyCode) }
 	def keyTyped(e: KeyEvent) {}
 	
+	def isKeyPressed(keyCode: Int) = pressedKeys.contains(keyCode)
 }

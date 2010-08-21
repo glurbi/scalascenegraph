@@ -42,7 +42,9 @@ class OpenglBrowser(world: World, width: Int, height: Int, animated: Boolean)
 extends Browser(world)
 with GLEventListener
 {
-	val context = new Context 
+	private val context = new Context 
+	private val mouseListener = new BrowserMouseListener
+	private val keyListener = new BrowserKeyboardListener
 	
     val canvas = {
     	val profile = GLProfile.getDefault
@@ -58,8 +60,6 @@ with GLEventListener
     	        System.exit(0)
     	    }
     	})
-    	val mouseListener = new BrowserMouseListener
-    	val keyListener = new BrowserKeyboardListener
     	canvas.addGLEventListener(this)
     	canvas.addMouseListener(mouseListener)
     	canvas.addMouseWheelListener(mouseListener)
@@ -95,10 +95,7 @@ with GLEventListener
     }
 
     def display(drawable: GLAutoDrawable) {
-        val gl2 = drawable.getGL.asInstanceOf[GL2]
-        val renderer = new OpenglRenderer(gl2)
-        context.renderer = renderer
-        context.elapsed = System.currentTimeMillis - context.creationTime
+    	updateContext(drawable)
         camera.render(context)
         world.render(context)
     }
@@ -107,6 +104,17 @@ with GLEventListener
     }
 
     def dispose(drawable: GLAutoDrawable) {
+    }
+
+    private def updateContext(drawable: GLAutoDrawable) {
+        val gl2 = drawable.getGL.asInstanceOf[GL2]
+        val renderer = new OpenglRenderer(gl2)
+        context.renderer = renderer
+        context.elapsed = System.currentTimeMillis - context.creationTime
+        context.upKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_UP)
+        context.downKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_DOWN)
+        context.rightKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_RIGHT)
+        context.leftKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_LEFT)
     }
     
 }
