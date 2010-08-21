@@ -44,7 +44,7 @@ with GLEventListener
 {
 	private val context = new Context 
 	private val mouseListener = new BrowserMouseListener
-	private val keyListener = new BrowserKeyboardListener
+	private val keyListener = new BrowserKeyListener
 	
     val canvas = {
     	val profile = GLProfile.getDefault
@@ -61,10 +61,10 @@ with GLEventListener
     	    }
     	})
     	canvas.addGLEventListener(this)
-    	canvas.addMouseListener(mouseListener)
-    	canvas.addMouseWheelListener(mouseListener)
-    	canvas.addMouseMotionListener(mouseListener)
-    	canvas.addKeyListener(keyListener)
+    	f.addMouseListener(mouseListener)
+    	f.addMouseWheelListener(mouseListener)
+    	f.addMouseMotionListener(mouseListener)
+    	f.addKeyListener(keyListener)
     	f.add(canvas);
     	f.setSize(width, height);
     	f
@@ -115,6 +115,7 @@ with GLEventListener
         context.downKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_DOWN)
         context.rightKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_RIGHT)
         context.leftKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_LEFT)
+        context.controlKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_CONTROL)
     }
     
 }

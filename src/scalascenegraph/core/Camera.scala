@@ -30,15 +30,28 @@ object Camera {
 
 abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
 	
-	private var zInc: Int = 0
-	private var xInc: Int = 0
+	private var xT: Int = 0 // translation along x axis
+	private var zT: Int = 0 // translation along z axis
+	private var xR: Int = 0 // rotation around x axis
+	private var yR: Int = 0 // rotation around y axis
 	
 	protected def positionCamera(context: Context) {
-		if (context.upKeyPressed) { zInc += 1 }
-		if (context.downKeyPressed) { zInc -= 1 }
-		if (context.leftKeyPressed) { xInc += 1 }
-		if (context.rightKeyPressed) { xInc -= 1 }
-		context.renderer.translate(0.1f * xInc, 0.0f, 0.1f * zInc)
+		val tFac = 0.1f
+		val rFac = 1.0f
+		if (!context.controlKeyPressed) {
+			if (context.upKeyPressed) { zT += 1 }
+			if (context.downKeyPressed) { zT -= 1 }
+			if (context.leftKeyPressed) { xT += 1 }
+			if (context.rightKeyPressed) { xT -= 1 }
+		} else {
+			if (context.upKeyPressed) { xR += 1 }
+			if (context.downKeyPressed) { xR -= 1 }
+			if (context.leftKeyPressed) { yR += 1 }
+			if (context.rightKeyPressed) { yR -= 1 }
+		}
+		context.renderer.translate(xT * tFac, 0.0f, zT * tFac)
+		context.renderer.rotate(xR * rFac, 1.0f, 0.0f, 0.0f)
+		context.renderer.rotate(yR * rFac, 0.0f, 1.0f, 0.0f)
 	}
 	
 }
