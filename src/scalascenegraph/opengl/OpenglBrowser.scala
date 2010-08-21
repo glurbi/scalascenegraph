@@ -4,6 +4,7 @@ import java.util._
 import java.io._
 import java.awt._
 import java.awt.event._
+import javax.swing.SwingUtilities
 import javax.media.opengl._
 import javax.media.opengl.awt._
 import com.jogamp.opengl.util._ 
@@ -57,7 +58,7 @@ with GLEventListener
         val f = new Frame
         f.addWindowListener(new WindowAdapter {
     	    override def windowClosing(e: WindowEvent) {
-    	        System.exit(0)
+    	    	exit
     	    }
     	})
     	canvas.addGLEventListener(this)
@@ -96,6 +97,7 @@ with GLEventListener
 
     def display(drawable: GLAutoDrawable) {
     	updateContext(drawable)
+    	if (context.escapeKeyPressed) { exit }
         camera.render(context)
         world.render(context)
     }
@@ -116,6 +118,19 @@ with GLEventListener
         context.rightKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_RIGHT)
         context.leftKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_LEFT)
         context.controlKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_CONTROL)
+        context.shiftKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_SHIFT)
+        context.spaceKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_SPACE)
+        context.escapeKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_ESCAPE)
+    }
+    
+    private def exit {
+    	// if we invoke System.exit() on the opengl thread,
+    	// the application freezes and does not stop.
+    	SwingUtilities.invokeLater(new Runnable {
+    		def run {
+    			System.exit(0)
+    		}
+    	})
     }
     
 }

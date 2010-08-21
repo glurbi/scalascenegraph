@@ -9,4 +9,7 @@ class Context {
 	var rightKeyPressed: Boolean = _
 	var leftKeyPressed: Boolean = _
 	var controlKeyPressed: Boolean = _
+	var shiftKeyPressed: Boolean = _
+	var spaceKeyPressed: Boolean = _
+	var escapeKeyPressed: Boolean = _
 }
