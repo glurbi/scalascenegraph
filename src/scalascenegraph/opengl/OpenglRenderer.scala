@@ -1,6 +1,7 @@
 package scalascenegraph.opengl
 
 import java.nio._
+import java.awt.image._
 import javax.media.opengl._
 import javax.media.opengl.fixedfunc._
 import com.jogamp.opengl.util._
@@ -171,16 +172,31 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     def quads(vertices: Vertices, colors: Colors) {
     	val color = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
-        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
-        gl2.glEnableClientState(GLPointerFunc.GL_COLOR_ARRAY);
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
-        gl2.glColorPointer(4, GL.GL_FLOAT, 0, colors.floatBuffer);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
-        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
-        gl2.glDisableClientState(GLPointerFunc.GL_COLOR_ARRAY);
+        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
+        gl2.glEnableClientState(GLPointerFunc.GL_COLOR_ARRAY)
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer)
+        gl2.glColorPointer(4, GL.GL_FLOAT, 0, colors.floatBuffer)
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count)
+        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
+        gl2.glDisableClientState(GLPointerFunc.GL_COLOR_ARRAY)
         gl2.glColor4f(color(0), color(1), color(2), color(3))
     }
 
+    def quads(vertices: Vertices, textureCoordinates: TextureCoordinates, texture: Texture) {
+//		gl2.glEnable(GL.GL_TEXTURE_2D)
+		println(gl2.glIsEnabled(GL.GL_TEXTURE_2D))
+    	
+		gl2.glBindTexture(GL.GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
+        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
+        gl2.glEnableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer)
+        gl2.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureCoordinates.floatBuffer)
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count)
+        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
+        gl2.glDisableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
+//		gl2.glDisable(GL.GL_TEXTURE_2D)
+    }
+    
     def quads(vertices: Vertices, color: Color) {
     	val save = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
@@ -297,6 +313,43 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	gl2.glPopAttrib
     }
     
+	def newTexture(image: BufferedImage): TextureId = {
+		println(gl2.glIsEnabled(GL.GL_TEXTURE_2D))
+		gl2.glEnable(GL.GL_TEXTURE_2D)
+		println(gl2.glIsEnabled(GL.GL_TEXTURE_2D))
+		val buffer = image.getType match {
+			case BufferedImage.TYPE_3BYTE_BGR => makeBufferForTYPE_3BYTE_BGR(image)
+			case BufferedImage.TYPE_CUSTOM => makeBufferForTYPE_3BYTE_BGR(image) // Windows?
+		}
+		val textureIds = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder).asIntBuffer // TODO: hardcoded value...
+		gl2.glGenTextures(1, textureIds)
+		val textureId = textureIds.get(0)
+		gl2.glBindTexture(GL.GL_TEXTURE_2D, textureId)
+		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT);
+		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT);
+		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
+		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR); 
+		
+		gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGB, image.getWidth, image.getHeight, 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, buffer);
+//		gl2.glDisable(GL.GL_TEXTURE_2D)
+		TextureId(textureId)
+	}
+
+	private def makeBufferForTYPE_3BYTE_BGR(image: BufferedImage): ByteBuffer = {
+			val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
+			val buffer = ByteBuffer.allocateDirect(data.length)
+			buffer.order(ByteOrder.nativeOrder)
+			buffer.put(data, 0, data.length)
+			buffer.rewind
+			buffer
+	}
+	
+	def freeTexture(textureId: TextureId) {
+		val textureIds = ByteBuffer.allocateDirect(4).asIntBuffer // TODO: hardcoded value...
+		textureIds.put(0, textureId.id.asInstanceOf[Int])
+		gl2.glDeleteTextures(1, textureIds)
+	}
+	
 	private def glFace(face: Face): Int = face match {
 		case Front => GL.GL_FRONT
 		case Back => GL.GL_BACK

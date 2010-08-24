@@ -1,6 +1,7 @@
 package scalascenegraph.core
 
 import java.nio._
+import java.awt.image._
 
 import scalascenegraph.core.Predefs._
 
@@ -69,9 +70,13 @@ trait Renderer {
     def quads(vertices: Vertices)
     def quads(vertices: Vertices, color: Color)
     def quads(vertices: Vertices, colors: Colors)
+    def quads(vertices: Vertices, textureCoordinates: TextureCoordinates, texture: Texture)
 	def quads(vertices: Vertices, normals: Normals)
     
     def translate(x: Float, y: Float, z: Float)
 	def rotate(angle: Float, x: Float, y: Float, z: Float)
+
+	def newTexture(image: BufferedImage): TextureId
+	def freeTexture(textureId: TextureId)
 	
 }

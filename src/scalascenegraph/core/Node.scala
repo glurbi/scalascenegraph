@@ -1,6 +1,7 @@
 package scalascenegraph.core
 
 import java.awt.{Color => JColor}
+import javax.media.opengl._
 import scala.collection.mutable._
 
 import scalascenegraph.core.Predefs._
@@ -10,6 +11,7 @@ abstract class Node {
     private val preRenderHooks = new ArrayBuffer[NodeHook]
     private val postRenderHooks = new ArrayBuffer[NodeHook]
     private val states = new ArrayBuffer[State]
+   	private val textures = Map.empty[String, Texture]
 
 	def render(context: Context) {
 		callPreRenderHooks(context)
@@ -31,6 +33,14 @@ abstract class Node {
     	states += state
     }
     
+    def addTexture(name: String, texture: Texture) {
+    	textures += name -> texture
+    }
+    
+    def getTexture(name: String): Texture = {
+    	textures(name)
+    }
+    
 	def callPreRenderHooks(context: Context) {
 		preRenderHooks.foreach { hook => hook(this, context) }
 	}
@@ -39,7 +49,9 @@ abstract class Node {
 		postRenderHooks.foreach { hook => hook(this, context) }
 	}
     
-	def doRender(context: Context)
+	def doRender(context: Context) {}
+	def prepare(context: Context) {}
+	def dispose(context: Context) {}
 }
 
 class Group extends Node {
@@ -50,8 +62,16 @@ class Group extends Node {
         children += child
     }
   
-    def doRender(context: Context) {
+    override def doRender(context: Context) {
         children.foreach { child => child.render(context) }
+    }
+    
+    override def prepare(context: Context) {
+    	children.foreach { child => child.prepare(context) }
+    }
+
+    override def dispose(context: Context) {
+    	children.foreach { child => child.dispose(context) }
     }
     
 }

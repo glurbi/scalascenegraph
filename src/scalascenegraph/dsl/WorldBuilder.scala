@@ -1,5 +1,6 @@
 package scalascenegraph.dsl
 
+import java.io._
 import java.nio._
 import scala.collection.mutable._
 import com.jogamp.common.nio._
@@ -97,6 +98,12 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(Cube())
 	}
 	
+	// TODO: add type TextureName or something alike
+	def cube(textureName: String) {
+		val texture = stack.top.getTexture(textureName)
+		stack.top.asInstanceOf[Group].add(Cube(texture))
+	}
+	
 	def cube(color: Color) {
 		stack.top.asInstanceOf[Group].add(Cube(color))
 	}
@@ -159,6 +166,10 @@ trait WorldBuilder {
 	
 	def fog(color: Color, mode: FogMode) {
 		stack.top.addState(new FogState(color, mode))
+	}
+	
+	def texture(name: String, in: InputStream) {
+		stack.top.addTexture(name, new Texture(in))
 	}
 	
 }

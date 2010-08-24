@@ -20,6 +20,17 @@ object Cube {
 		node(context => context.renderer.quads(Cube.vertices, color))
 	}
 	
+	def apply(texture: Texture): Node = {
+		new Node {
+			override def doRender(context: Context) {
+				context.renderer.quads(Cube.vertices, textureCoordinates, texture)
+			}
+			override def prepare(context: Context) {
+				texture.prepare(context)
+			}
+		}
+	}
+	
 	private val vertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(-0.5f, -0.5f, -0.5f,
 				  -0.5f, 0.5f, -0.5f,
@@ -82,5 +93,35 @@ object Cube {
 				  0.0f, 1.0f, 0.0f,
 				  0.0f, 1.0f, 0.0f)))
 	                     
+	private val textureCoordinates = TextureCoordinates(Buffers.newDirectFloatBuffer(
+			Array(0.0f, 0.0f,
+				  1.0f, 0.0f,
+				  1.0f, 1.0f,
+				  0.0f, 1.0f,
+
+				  0.0f, 0.0f,
+				  1.0f, 0.0f,
+				  1.0f, 1.0f,
+				  0.0f, 1.0f,
+
+				  0.0f, 0.0f,
+				  1.0f, 0.0f,
+				  1.0f, 1.0f,
+				  0.0f, 1.0f,
+
+				  0.0f, 0.0f,
+				  1.0f, 0.0f,
+				  1.0f, 1.0f,
+				  0.0f, 1.0f,
+
+				  0.0f, 0.0f,
+				  1.0f, 0.0f,
+				  1.0f, 1.0f,
+				  0.0f, 1.0f,
+
+				  0.0f, 0.0f,
+				  1.0f, 0.0f,
+				  1.0f, 1.0f,
+				  0.0f, 1.0f)))
 }
 

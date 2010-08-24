@@ -89,11 +89,15 @@ with GLEventListener
     }
     
     def init(drawable: GLAutoDrawable) {
-    	//drawable.setGL(new DebugGL2(drawable.getGL.asInstanceOf[GL2]))
+    	drawable.setGL(new DebugGL2(drawable.getGL.asInstanceOf[GL2]))
     	val gl2 = drawable.getGL.asInstanceOf[GL2]
-    	
+    	val renderer = new OpenglRenderer(gl2)
+        context.renderer = renderer
+        camera.prepare(context)
+        world.prepare(context)
+        
     	// make sure we don't draw more often than the screen is refreshed
-    	//gl2.setSwapInterval(1);
+    	gl2.setSwapInterval(1);
     }
 
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {

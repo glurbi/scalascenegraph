@@ -84,6 +84,9 @@ object Predefs {
 	
 	case class Colors(floatBuffer: FloatBuffer)
 	case class Normals(floatBuffer: FloatBuffer)
+	case class TextureCoordinates(floatBuffer: FloatBuffer)
+	
+	case class TextureId(id: Any)
 	
 	implicit def toColor(c: java.awt.Color): Color = {
 		new Color(c.getRed/255.0f, c.getGreen/255.0f, c.getBlue/255.0f, c.getAlpha/255.0f)
@@ -108,7 +111,7 @@ object Predefs {
 	case object MultiNormal extends NormalType
 	
 	def node(fun: (Context) => Unit): Node = new Node {
-		def doRender(context: Context) {
+		override def doRender(context: Context) {
 			fun(context)
 		}
 	}
