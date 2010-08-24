@@ -45,7 +45,12 @@ with GLEventListener
 {
 	private val context = new Context 
 	private val mouseListener = new BrowserMouseListener
-	private val keyListener = new BrowserKeyListener
+	
+	private val keyEventDispatcher = {
+		val dispatcher = new BrowserKeyEventDispatcher
+		KeyboardFocusManager.getCurrentKeyboardFocusManager.addKeyEventDispatcher(dispatcher)
+		dispatcher
+	}
 	
     val canvas = {
     	val profile = GLProfile.getDefault
@@ -65,7 +70,6 @@ with GLEventListener
     	f.addMouseListener(mouseListener)
     	f.addMouseWheelListener(mouseListener)
     	f.addMouseMotionListener(mouseListener)
-    	f.addKeyListener(keyListener)
     	f.add(canvas);
     	f.setSize(width, height);
     	f
@@ -89,7 +93,7 @@ with GLEventListener
     	val gl2 = drawable.getGL.asInstanceOf[GL2]
     	
     	// make sure we don't draw more often than the screen is refreshed
-    	gl2.setSwapInterval(1);
+    	//gl2.setSwapInterval(1);
     }
 
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
@@ -112,15 +116,26 @@ with GLEventListener
         val gl2 = drawable.getGL.asInstanceOf[GL2]
         val renderer = new OpenglRenderer(gl2)
         context.renderer = renderer
-        context.elapsed = System.currentTimeMillis - context.creationTime
-        context.upKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_UP)
-        context.downKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_DOWN)
-        context.rightKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_RIGHT)
-        context.leftKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_LEFT)
-        context.controlKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_CONTROL)
-        context.shiftKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_SHIFT)
-        context.spaceKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_SPACE)
-        context.escapeKeyPressed = keyListener.isKeyPressed(KeyEvent.VK_ESCAPE)
+        
+        context.currentTime = System.currentTimeMillis
+        context.elapsed = context.currentTime - context.creationTime
+        context.totalFrameCount += 1
+        context.frameCountLastSecond += 1
+        val tmp = context.currentTime - context.frameCountLastSecondResetTime
+        if (tmp >= 1000) {
+        	context.frameRate = 1000 * context.frameCountLastSecond / tmp
+        	context.frameCountLastSecond = 0
+        	context.frameCountLastSecondResetTime = context.currentTime
+        }
+        
+        context.upKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_UP)
+        context.downKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_DOWN)
+        context.rightKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_RIGHT)
+        context.leftKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_LEFT)
+        context.controlKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_CONTROL)
+        context.shiftKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_SHIFT)
+        context.spaceKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_SPACE)
+        context.escapeKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_ESCAPE)
     }
     
     private def exit {

@@ -1,9 +1,17 @@
 package scalascenegraph.core
 
 class Context {
+	
 	val creationTime = System.currentTimeMillis
+	var currentTime = creationTime
+	var frameCountLastSecondResetTime = creationTime
 	var elapsed = 0L
+	var totalFrameCount = 0L
+	var frameRate = 0L
+	var frameCountLastSecond = 0L
+	
 	var renderer: Renderer = _
+	
 	var upKeyPressed: Boolean = _
 	var downKeyPressed: Boolean = _
 	var rightKeyPressed: Boolean = _
