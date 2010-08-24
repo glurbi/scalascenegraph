@@ -38,8 +38,8 @@ abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
 	private var zR: Int = 0 // rotation around z axis
 	
 	protected def positionCamera(context: Context) {
-		val tFac = 0.1f
-		val rFac = 1.0f
+		val tFac = 0.1f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
+		val rFac = 1.0f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
 		if (!context.controlKeyPressed && !context.shiftKeyPressed) {
 			if (context.upKeyPressed) { zT += 1 }
 			if (context.downKeyPressed) { zT -= 1 }
