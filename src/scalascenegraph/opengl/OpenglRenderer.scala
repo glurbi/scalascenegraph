@@ -183,9 +183,6 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
 
     def quads(vertices: Vertices, textureCoordinates: TextureCoordinates, texture: Texture) {
-//		gl2.glEnable(GL.GL_TEXTURE_2D)
-		println(gl2.glIsEnabled(GL.GL_TEXTURE_2D))
-    	
 		gl2.glBindTexture(GL.GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
         gl2.glEnableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
@@ -194,7 +191,6 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count)
         gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
         gl2.glDisableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
-//		gl2.glDisable(GL.GL_TEXTURE_2D)
     }
     
     def quads(vertices: Vertices, color: Color) {
@@ -314,9 +310,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
     
 	def newTexture(image: BufferedImage): TextureId = {
-		println(gl2.glIsEnabled(GL.GL_TEXTURE_2D))
 		gl2.glEnable(GL.GL_TEXTURE_2D)
-		println(gl2.glIsEnabled(GL.GL_TEXTURE_2D))
 		val buffer = image.getType match {
 			case BufferedImage.TYPE_3BYTE_BGR => makeBufferForTYPE_3BYTE_BGR(image)
 			case BufferedImage.TYPE_CUSTOM => makeBufferForTYPE_3BYTE_BGR(image) // Windows?
@@ -325,13 +319,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glGenTextures(1, textureIds)
 		val textureId = textureIds.get(0)
 		gl2.glBindTexture(GL.GL_TEXTURE_2D, textureId)
-		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT);
-		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT);
-		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
-		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR); 
-		
-		gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGB, image.getWidth, image.getHeight, 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, buffer);
-//		gl2.glDisable(GL.GL_TEXTURE_2D)
+		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT)
+		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT)
+		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR)
+		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR)
+		gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGB, image.getWidth, image.getHeight, 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, buffer)
 		TextureId(textureId)
 	}
 

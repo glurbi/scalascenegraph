@@ -53,7 +53,7 @@ with GLEventListener
 	}
 	
     val canvas = {
-    	val profile = GLProfile.getDefault
+    	val profile = GLProfile.get(GLProfile.GL2)
         val capabilities = new GLCapabilities(profile)
         capabilities.setDoubleBuffered(true)
     	new GLCanvas(capabilities)
@@ -89,8 +89,8 @@ with GLEventListener
     }
     
     def init(drawable: GLAutoDrawable) {
-    	drawable.setGL(new DebugGL2(drawable.getGL.asInstanceOf[GL2]))
-    	val gl2 = drawable.getGL.asInstanceOf[GL2]
+    	//drawable.setGL(new DebugGL2(drawable.getGL.getGL2))
+    	val gl2 = drawable.getGL.getGL2
     	val renderer = new OpenglRenderer(gl2)
         context.renderer = renderer
         camera.prepare(context)
@@ -117,7 +117,7 @@ with GLEventListener
     }
 
     private def updateContext(drawable: GLAutoDrawable) {
-        val gl2 = drawable.getGL.asInstanceOf[GL2]
+        val gl2 = drawable.getGL.getGL2
         val renderer = new OpenglRenderer(gl2)
         context.renderer = renderer
         
