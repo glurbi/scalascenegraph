@@ -97,7 +97,7 @@ with GLEventListener
         world.prepare(context)
         
     	// make sure we don't draw more often than the screen is refreshed
-    	gl2.setSwapInterval(1);
+    	//gl2.setSwapInterval(1);
     }
 
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
