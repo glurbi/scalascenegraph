@@ -28,6 +28,21 @@ object Sphere {
 		node(context => context.renderer.quads(vertices, colors))
 	}
 	
+	def apply(n: Int, r: Float, texture: Texture): Node = {
+		val builder = new SphereBuilder(n, r)
+		val vertices = builder.createVertices
+		val textureCoordinates = builder.createTextureCoordinates
+		new Node {
+			override def doRender(context: Context) {
+				context.renderer.quads(vertices, textureCoordinates, texture)
+			}
+			override def prepare(context: Context) {
+				// TODO: move where it should be!
+				texture.prepare(context)
+			}
+		}
+	}
+	
 }
 
 private class SphereBuilder(n: Int, r: Float) {
@@ -59,6 +74,19 @@ private class SphereBuilder(n: Int, r: Float) {
 	}
 	
 	def createNormals = Normals(createVertices.floatBuffer)
+	
+	def createTextureCoordinates = {
+		val ab = new ArrayBuffer[Float]
+		for (i <- 0 to n) {
+			for (j <- 0 to 2*n) {
+				ab ++= Array(1.0f * i / n, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / n, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / n, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * i / n, 1.0f * (j+1) / n)
+			}
+		}
+		TextureCoordinates(Buffers.newDirectFloatBuffer(ab.toArray))
+	}
 	
 }
 

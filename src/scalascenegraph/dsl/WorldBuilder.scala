@@ -120,6 +120,11 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(Sphere(n, r, color))
 	}
 	
+	def sphere(n: Int, r: Float, textureName: String) {
+		val texture = stack.top.getTexture(textureName)
+		stack.top.asInstanceOf[Group].add(Sphere(n, r, texture))
+	}
+	
 	def light(mode: OnOffState) {
 		stack.top.addState(new GlobalLightState(mode))
 	}

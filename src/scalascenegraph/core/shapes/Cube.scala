@@ -23,9 +23,10 @@ object Cube {
 	def apply(texture: Texture): Node = {
 		new Node {
 			override def doRender(context: Context) {
-				context.renderer.quads(Cube.vertices, textureCoordinates, texture)
+				context.renderer.quads(vertices, textureCoordinates, texture)
 			}
 			override def prepare(context: Context) {
+				// TODO: move where it should be!
 				texture.prepare(context)
 			}
 		}
