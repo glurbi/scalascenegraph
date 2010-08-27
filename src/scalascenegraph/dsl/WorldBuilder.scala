@@ -28,7 +28,7 @@ trait WorldBuilder {
 	}
 	
 	def group(body: => Unit): Group = {
-		val g = new Group
+		val g = new Group(stack.top)
 		stack.top.asInstanceOf[Group].add(g)
 		stack.push(g)
 		body
@@ -76,53 +76,53 @@ trait WorldBuilder {
 	}
 
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
-		stack.top.asInstanceOf[Group].add(Triangle(v1, v2, v3))
+		stack.top.asInstanceOf[Group].add(Triangle(stack.top, v1, v2, v3))
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
     		     c1: Color, c2: Color, c3: Color)
 	{
-		stack.top.asInstanceOf[Group].add(Triangle(v1, v2, v3, c1, c2, c3))
+		stack.top.asInstanceOf[Group].add(Triangle(stack.top, v1, v2, v3, c1, c2, c3))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
 		val c = color
-		stack.top.asInstanceOf[Group].add(Quad(v1, v2, v3, v4, c, c, c, c))
+		stack.top.asInstanceOf[Group].add(Quad(stack.top, v1, v2, v3, v4, c, c, c, c))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) {
-		stack.top.asInstanceOf[Group].add(Quad(v1, v2, v3, v4))
+		stack.top.asInstanceOf[Group].add(Quad(stack.top, v1, v2, v3, v4))
 	}
 	
 	def cube {
-		stack.top.asInstanceOf[Group].add(Cube())
+		stack.top.asInstanceOf[Group].add(Cube(stack.top))
 	}
 	
 	// TODO: add type TextureName or something alike
 	def cube(textureName: String) {
 		val texture = stack.top.getTexture(textureName)
-		stack.top.asInstanceOf[Group].add(Cube(texture))
+		stack.top.asInstanceOf[Group].add(Cube(stack.top, texture))
 	}
 	
 	def cube(color: Color) {
-		stack.top.asInstanceOf[Group].add(Cube(color))
+		stack.top.asInstanceOf[Group].add(Cube(stack.top, color))
 	}
 	
 	def cube(colors: Array[Float]) {
-		stack.top.asInstanceOf[Group].add(Cube(Colors(Buffers.newDirectFloatBuffer(colors))))
+		stack.top.asInstanceOf[Group].add(Cube(stack.top, Colors(Buffers.newDirectFloatBuffer(colors))))
 	}
 	
 	def sphere(n: Int, r: Float) {
-		stack.top.asInstanceOf[Group].add(Sphere(n, r))
+		stack.top.asInstanceOf[Group].add(Sphere(stack.top, n, r))
 	}
 	
 	def sphere(n: Int, r: Float, color: Color) {
-		stack.top.asInstanceOf[Group].add(Sphere(n, r, color))
+		stack.top.asInstanceOf[Group].add(Sphere(stack.top, n, r, color))
 	}
 	
 	def sphere(n: Int, r: Float, textureName: String) {
 		val texture = stack.top.getTexture(textureName)
-		stack.top.asInstanceOf[Group].add(Sphere(n, r, texture))
+		stack.top.asInstanceOf[Group].add(Sphere(stack.top, n, r, texture))
 	}
 	
 	def light(mode: OnOffState) {
@@ -158,7 +158,7 @@ trait WorldBuilder {
 	}
 	
 	def torus(n: Int, R: Float, r: Float) {
-		stack.top.asInstanceOf[Group].add(Torus(n, R, r))
+		stack.top.asInstanceOf[Group].add(Torus(stack.top, n, R, r))
 	}
 
 	def shadeModel(shadeModel: ShadeModel) {
@@ -166,7 +166,7 @@ trait WorldBuilder {
 	}
 
 	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
-		stack.top.asInstanceOf[Group].add(CheckerBoard(n, m, c1, c2))
+		stack.top.asInstanceOf[Group].add(CheckerBoard(stack.top, n, m, c1, c2))
 	}
 	
 	def fog(color: Color, mode: FogMode) {
@@ -174,7 +174,7 @@ trait WorldBuilder {
 	}
 	
 	def texture(name: String, in: InputStream) {
-		stack.top.addTexture(name, new Texture(in))
+		stack.top.addTexture(name, new Texture(stack.top, in))
 	}
 	
 }

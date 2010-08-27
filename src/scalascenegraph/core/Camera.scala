@@ -5,7 +5,7 @@ import java.util._
 
 object Camera {
 	
-	def get(config: InputStream): Camera = {
+	def get(parent: Node, config: InputStream): Camera = {
 		try {
 			val props = new Properties
 			props.load(config)
@@ -17,8 +17,8 @@ object Camera {
 			val far = props.getProperty("camera.clipping.volume.far").toDouble
 			val clippingVolume = new ClippingVolume(left, right, bottom, top, near, far)
 			props.get("camera.projection.type") match {
-			    case "perspective" => new PerspectiveCamera(clippingVolume)
-			    case "parallel" => new ParallelCamera(clippingVolume)
+			    case "perspective" => new PerspectiveCamera(parent, clippingVolume)
+			    case "parallel" => new ParallelCamera(parent, clippingVolume)
 			    case _ => throw new RuntimeException("Missing or invalid property camera.projection.type")
 			}
 		} finally {
@@ -28,7 +28,7 @@ object Camera {
 	
 }
 
-abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
+abstract class Camera(parent: Node, val clippingVolume: ClippingVolume) extends Node(parent) {
 	
 	private var xT: Float = 0 // translation along x axis
 	private var yT: Float = 0 // translation along y axis
@@ -75,8 +75,8 @@ class ClippingVolume(
     val near: Double,
     val far: Double)
 
-class PerspectiveCamera(clippingVolume: ClippingVolume)
-extends Camera(clippingVolume)
+class PerspectiveCamera(parent: Node, clippingVolume: ClippingVolume)
+extends Camera(parent, clippingVolume)
 {
     override def doRender(context: Context) {
         import clippingVolume._
@@ -85,8 +85,8 @@ extends Camera(clippingVolume)
     }
 }
 
-class ParallelCamera(clippingVolume: ClippingVolume)
-extends Camera(clippingVolume)
+class ParallelCamera(parent: Node, clippingVolume: ClippingVolume)
+extends Camera(parent, clippingVolume)
 {
     override def doRender(context: Context) {
         import clippingVolume._

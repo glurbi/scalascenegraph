@@ -8,7 +8,7 @@ import javax.media.opengl._
 
 import scalascenegraph.core.Predefs._
 
-class Texture(in: InputStream) extends Node {
+class Texture(parent: Node, in: InputStream) extends Node(parent) {
 
 	var textureId: TextureId = _
 	

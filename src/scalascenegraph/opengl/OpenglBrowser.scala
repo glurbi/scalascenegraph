@@ -18,7 +18,7 @@ object OpenglBrowser {
 	def getDefault(world: World, animated: Boolean = false): OpenglBrowser = {
         val browserConfig = this.getClass.getResourceAsStream("/browser.properties")
         val cameraConfig = this.getClass.getResourceAsStream("/camera.properties")
-        val camera = Camera.get(cameraConfig)
+        val camera = Camera.get(world, cameraConfig)
         val browser = get(world, browserConfig, animated)
         browser.setCamera(camera)
         browser

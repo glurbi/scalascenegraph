@@ -9,30 +9,30 @@ import scalascenegraph.core.Predefs._
 
 object Sphere {
 	
-	def apply(n: Int, r: Float): Node = {
+	def apply(parent: Node, n: Int, r: Float): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
 		val normals = builder.createNormals
-		node(context => context.renderer.quads(vertices, normals))
+		node(parent, context => context.renderer.quads(vertices, normals))
 	}
 	
-	def apply(n: Int, r: Float, color: Color): Node = {
+	def apply(parent: Node, n: Int, r: Float, color: Color): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
-		node(context => context.renderer.quads(vertices, color))
+		node(parent, context => context.renderer.quads(vertices, color))
 	}
 	
-	def apply(n: Int, r: Float, colors: Colors): Node = {
+	def apply(parent: Node, n: Int, r: Float, colors: Colors): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
-		node(context => context.renderer.quads(vertices, colors))
+		node(parent, context => context.renderer.quads(vertices, colors))
 	}
 	
-	def apply(n: Int, r: Float, texture: Texture): Node = {
+	def apply(parent: Node, n: Int, r: Float, texture: Texture): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
 		val textureCoordinates = builder.createTextureCoordinates
-		new Node {
+		new Node(parent) {
 			override def doRender(context: Context) {
 				context.renderer.quads(vertices, textureCoordinates, texture)
 			}

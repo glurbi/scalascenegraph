@@ -6,7 +6,7 @@ import scala.collection.mutable._
 
 import scalascenegraph.core.Predefs._
 
-abstract class Node {
+abstract class Node(val parent: Node) {
 
     private val preRenderHooks = new ArrayBuffer[NodeHook]
     private val postRenderHooks = new ArrayBuffer[NodeHook]
@@ -38,7 +38,10 @@ abstract class Node {
     }
     
     def getTexture(name: String): Texture = {
-    	textures(name)
+    	textures.get(name) match {
+    		case Some(texture) => texture
+    		case None => parent.getTexture(name)
+    	}
     }
     
 	def callPreRenderHooks(context: Context) {
@@ -54,7 +57,7 @@ abstract class Node {
 	def dispose(context: Context) {}
 }
 
-class Group extends Node {
+class Group(parent: Node) extends Node(parent) {
   
     private val children = new ArrayBuffer[Node]
   
@@ -76,7 +79,7 @@ class Group extends Node {
     
 }
 
-class World extends Group {
+class World extends Group(null) {
 
 	var foreground: Color = JColor.white
 	var background: Color = JColor.lightGray

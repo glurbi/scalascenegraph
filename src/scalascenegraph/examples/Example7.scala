@@ -18,16 +18,16 @@ class Example7 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+			texture("marble", marble)
+			texture("melon", melon)
 			group {
 				translation(1.5f, 0.0f, -3.0f)
 				rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-				texture("marble", marble)
 				cube("marble")
 			}
 			group {
 				translation(-1.5f, 0.0f, -3.0f)
 				rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-				texture("melon", melon)
 				sphere(30, 1.0f, "melon")
 			}
 		}
