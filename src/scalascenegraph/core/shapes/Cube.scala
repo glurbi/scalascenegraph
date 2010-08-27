@@ -25,10 +25,6 @@ object Cube {
 			override def doRender(context: Context) {
 				context.renderer.quads(vertices, textureCoordinates, texture)
 			}
-			override def prepare(context: Context) {
-				// TODO: move where it should be!
-				texture.prepare(context)
-			}
 		}
 	}
 	

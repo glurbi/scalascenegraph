@@ -174,7 +174,9 @@ trait WorldBuilder {
 	}
 	
 	def texture(name: String, in: InputStream) {
-		stack.top.addTexture(name, new Texture(stack.top, in))
+		val texture = new Texture(stack.top, in)
+		stack.top.addTexture(name, texture)
+		stack.top.asInstanceOf[Group].add(texture)
 	}
 	
 }
