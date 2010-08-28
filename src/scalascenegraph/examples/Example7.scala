@@ -35,6 +35,7 @@ class Example7 extends Example with WorldBuilder {
 				light(Light1, On)
 				light(Light1, Position(0.0f, 5.0f, -3.0f))
 				light(Light1, DiffuseLight, JColor.white)
+				ambient(Intensity(0.8f, 0.8f, 0.8f, 1.0f))
 				group {
 					translation(1.5f, -1.5f, -3.0f)
 					rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)

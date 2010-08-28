@@ -193,6 +193,20 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glDisableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
     }
     
+    def quads(vertices: Vertices, textureCoordinates: TextureCoordinates, texture: Texture, normals: Normals) {
+		gl2.glBindTexture(GL.GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
+        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
+        gl2.glEnableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
+        gl2.glEnableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
+        gl2.glNormalPointer(GL.GL_FLOAT, 0, normals.floatBuffer)
+        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer)
+        gl2.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureCoordinates.floatBuffer)
+        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count)
+        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
+        gl2.glDisableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
+        gl2.glDisableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
+    }
+    
     def quads(vertices: Vertices, color: Color) {
     	val save = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)

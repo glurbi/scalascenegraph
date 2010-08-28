@@ -27,14 +27,28 @@ object Sphere {
 		val vertices = builder.createVertices
 		node(parent, context => context.renderer.quads(vertices, colors))
 	}
-	
+
 	def apply(parent: Node, n: Int, r: Float, texture: Texture): Node = {
+		Sphere(parent, n, r, texture, Off)
+	}
+	
+	def apply(parent: Node, n: Int, r: Float, texture: Texture, light: OnOffState): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
 		val textureCoordinates = builder.createTextureCoordinates
-		new Node(parent) {
-			override def doRender(context: Context) {
-				context.renderer.quads(vertices, textureCoordinates, texture)
+		light match {
+			case Off => new Node(parent) {
+				override def doRender(context: Context) {
+					context.renderer.quads(vertices, textureCoordinates, texture)
+				}
+			}
+			case On => {
+				val normals = builder.createNormals
+				new Node(parent) {
+					override def doRender(context: Context) {
+						context.renderer.quads(vertices, textureCoordinates, texture, normals)
+					}
+				}
 			}
 		}
 	}

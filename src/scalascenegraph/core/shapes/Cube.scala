@@ -28,6 +28,18 @@ object Cube {
 		}
 	}
 	
+	def apply(parent: Node, texture: Texture, light: OnOffState): Node = {
+		light match {
+			case On => new Node(parent) {
+				override def doRender(context: Context) {
+					context.renderer.quads(vertices, textureCoordinates, texture, normals)
+				}
+			}
+			case Off => Cube(parent, texture)
+		}
+		
+	}
+	
 	private val vertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(-0.5f, -0.5f, -0.5f,
 				  -0.5f, 0.5f, -0.5f,

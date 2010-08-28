@@ -12,6 +12,7 @@ import scalascenegraph.core.Predefs._
 trait WorldBuilder {
 
 	private val stack = new Stack[Node]
+	private var light: OnOffState = Off
 	
 	def preRenderHook(hook: NodeHook) {
 		stack.top.addPreRenderHook(hook)
@@ -101,7 +102,7 @@ trait WorldBuilder {
 	// TODO: add type TextureName or something alike
 	def cube(textureName: String) {
 		val texture = stack.top.getTexture(textureName)
-		stack.top.asInstanceOf[Group].add(Cube(stack.top, texture))
+		stack.top.asInstanceOf[Group].add(Cube(stack.top, texture, light))
 	}
 	
 	def cube(color: Color) {
@@ -122,10 +123,12 @@ trait WorldBuilder {
 	
 	def sphere(n: Int, r: Float, textureName: String) {
 		val texture = stack.top.getTexture(textureName)
-		stack.top.asInstanceOf[Group].add(Sphere(stack.top, n, r, texture))
+		stack.top.asInstanceOf[Group].add(Sphere(stack.top, n, r, texture, light))
 	}
 	
 	def light(mode: OnOffState) {
+		// FIXME: set the light mode to previous value when exiting the group  
+		light = mode
 		stack.top.addState(new GlobalLightState(mode))
 	}
 
