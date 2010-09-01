@@ -355,6 +355,15 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 			buffer
 	}
 
+	private def makeBufferForTYPE_INT_ARGB(image: BufferedImage): ByteBuffer = {
+			val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferInt].getData
+			val buffer = ByteBuffer.allocateDirect(data.length * 4)
+			buffer.order(ByteOrder.nativeOrder)
+			buffer.asIntBuffer.put(data, 0, data.length)
+			buffer.rewind
+			buffer
+	}
+
 	private def makeBufferForTYPE_4BYTE_ABGR(image: BufferedImage): ByteBuffer = {
 			val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 			val buffer = ByteBuffer.allocateDirect(data.length)
@@ -377,6 +386,13 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		val textureIds = ByteBuffer.allocateDirect(4).asIntBuffer // TODO: hardcoded value...
 		textureIds.put(0, textureId.id.asInstanceOf[Int])
 		gl2.glDeleteTextures(1, textureIds)
+	}
+
+	def drawImage(x: Int, y: Int, image: BufferedImage) {
+		//gl2.glRasterPos2i(x, y)
+		gl2.glWindowPos2i(x,y)
+		gl2.glDrawPixels(image.getWidth, image.getHeight, GL2GL3.GL_BGRA, GL.GL_UNSIGNED_BYTE, makeBufferForTYPE_INT_ARGB(image))
+		//gl2.glDrawPixels(image.getWidth, image.getHeight, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, makeBufferForTYPE_4BYTE_ABGR(image))
 	}
 	
 	private def glFace(face: Face): Int = face match {

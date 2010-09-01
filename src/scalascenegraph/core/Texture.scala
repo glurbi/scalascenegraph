@@ -13,7 +13,7 @@ class Texture(parent: Node, in: InputStream) extends Node(parent) {
 	var textureId: TextureId = _
 	
 	override def prepare(context: Context) {
-		val image = ImageIO.read(in);
+		val image = ImageIO.read(in)
 		textureId = context.renderer.newTexture(image)
 	}
 	

@@ -80,4 +80,5 @@ trait Renderer {
 	def newTexture(image: BufferedImage): TextureId
 	def freeTexture(textureId: TextureId)
 	
+	def drawImage(x: Int, y: Int, image: BufferedImage)
 }

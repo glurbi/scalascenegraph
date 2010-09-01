@@ -20,4 +20,7 @@ class Context {
 	var shiftKeyPressed: Boolean = _
 	var spaceKeyPressed: Boolean = _
 	var escapeKeyPressed: Boolean = _
+	
+	var width = 0
+	var height = 0
 }

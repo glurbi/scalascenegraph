@@ -45,6 +45,7 @@ with GLEventListener
 {
 	private val context = new Context 
 	private val mouseListener = new BrowserMouseListener
+	private val overlay = new BrowserOverlay
 	
 	private val keyEventDispatcher = {
 		val dispatcher = new BrowserKeyEventDispatcher
@@ -101,6 +102,9 @@ with GLEventListener
     }
 
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
+    	context.width = width
+    	context.height = height
+    	overlay.setSize(width, height)
     }
 
     def display(drawable: GLAutoDrawable) {
@@ -108,6 +112,9 @@ with GLEventListener
     	if (context.escapeKeyPressed) { exit }
         camera.render(context)
         world.render(context)
+        if (overlay.getImage != null) {
+        	context.renderer.drawImage(0, 0, overlay.getImage)
+        }
     }
 
     def displayChanged(drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean) {
