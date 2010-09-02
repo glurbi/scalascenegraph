@@ -371,7 +371,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 			buffer.put(data, 0, data.length)
 			buffer.rewind
 			// ABGR -> RGBA
-			for (val pos <- 0 to buffer.limit-1; pos % 4 == 0) {
+			for (pos <- 0 to buffer.limit-1 if pos % 4 == 0) {
 				val tmp1 = buffer.get(pos)
 				buffer.put(pos, buffer.get(pos+3))
 				buffer.put(pos+3, tmp1)
