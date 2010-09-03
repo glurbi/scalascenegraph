@@ -39,6 +39,19 @@ class PolygonState(var face: Face, var mode: DrawingMode) extends State {
 	}
 }
 
+class BlendingState(var blending: OnOffState) extends State {
+	override def preRender(context: Context) {
+		context.renderer.pushColorState
+		blending match {
+			case On => context.renderer.enableBlending
+			case Off => context.renderer.disableBlending
+		}
+	}
+	override def postRender(context: Context) {
+		context.renderer.popColorState
+	}
+}
+
 class CullFaceState(var cullFace: Boolean) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushCullFace

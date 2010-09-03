@@ -179,6 +179,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
     
     def quads(vertices: Vertices, colors: Colors) {
+    	// FIXME: should not assume a color has alpha always
     	val color = new Array[Float](4)
     	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
         gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY)

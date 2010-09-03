@@ -31,8 +31,7 @@ class Example8 extends Example with WorldBuilder {
 		g2d.setColor(JColor.red)
 		g2d.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND))
 		g2d.drawRoundRect(0, 0, img.getWidth-1, img.getHeight-1, 40, 40)
-		// FIXME: not really centered?
-		val x = img.getWidth / 2 - metrics.stringWidth(text) / 2
+		val x = img.getWidth / 2 - metrics.stringWidth(text)
 		val y = img.getHeight / 2 + metrics.getHeight / 2
 		g2d.drawString(text, x, y)
 		g2d.dispose

@@ -8,31 +8,16 @@ import scalascenegraph.core.Predefs._
 
 abstract class Node(val parent: Node) {
 
-	// TODO: are those used actually?
-    private val preRenderHooks = new ArrayBuffer[NodeHook]
-	// TODO: are those used actually?
-    private val postRenderHooks = new ArrayBuffer[NodeHook]
-    
     private val states = new ArrayBuffer[State]
    	private val textures = Map.empty[String, Texture]
 
 	def render(context: Context) {
-		callPreRenderHooks(context)
 		states.foreach { state => state.preRender(context) }
 		preRender(context)
 		doRender(context)
 		postRender(context)
 		states.reverse.foreach { state => state.postRender(context) }
-		callPostRenderHooks(context)
 	}
-
-    def addPreRenderHook(hook: NodeHook) {
-    	preRenderHooks += hook
-    }
-    
-    def addPostRenderHook(hook: NodeHook) {
-    	postRenderHooks += hook
-    }
     
     def addState(state: State) {
     	states += state
@@ -48,14 +33,6 @@ abstract class Node(val parent: Node) {
     		case None => parent.getTexture(name)
     	}
     }
-    
-	def callPreRenderHooks(context: Context) {
-		preRenderHooks.foreach { hook => hook(this, context) }
-	}
-	
-	def callPostRenderHooks(context: Context) {
-		postRenderHooks.foreach { hook => hook(this, context) }
-	}
     
 	def doRender(context: Context) {}
 	def prepare(context: Context) {}

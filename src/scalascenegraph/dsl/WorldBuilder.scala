@@ -15,14 +15,6 @@ trait WorldBuilder {
 	private val stack = new Stack[Node]
 	private var light: OnOffState = Off
 	
-	def preRenderHook(hook: NodeHook) {
-		stack.top.addPreRenderHook(hook)
-	}
-	
-	def postRenderHook(hook: NodeHook) {
-		stack.top.addPostRenderHook(hook)
-	}
-	
 	def world(body: => Unit): World = {
 		stack.push(new World)
 		body
@@ -205,6 +197,10 @@ trait WorldBuilder {
 		buffer.rewind
 		val o = new DynamicOverlay(hook, new Overlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer))
 		stack.top.asInstanceOf[Group].add(o)
+	}
+
+	def blending(mode: OnOffState) {
+		stack.top.addState(new BlendingState(mode))
 	}
 	
 }

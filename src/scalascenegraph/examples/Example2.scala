@@ -48,6 +48,7 @@ class Example2 extends Example with WorldBuilder {
 				Color(0.0f, 0.0f, 1.0f))
 
 			group {
+    			blending(Off)
     			translation(0.0f, -3.0f, 2.0f)
     			rotation(45.0f, 0.5f, 0.0f, 1.0f)
     			cube(colors)
