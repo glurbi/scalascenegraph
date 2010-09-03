@@ -334,11 +334,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     
 	def newTexture(image: BufferedImage): TextureId = {
 		gl2.glEnable(GL.GL_TEXTURE_2D)
-		val buffer = image.getType match {
-			case BufferedImage.TYPE_3BYTE_BGR => makeBufferForTYPE_3BYTE_BGR(image)
-			case BufferedImage.TYPE_CUSTOM => makeBufferForTYPE_3BYTE_BGR(image) // Windows?
-			case BufferedImage.TYPE_4BYTE_ABGR => makeBufferForTYPE_4BYTE_ABGR(image)
-		}
+		val buffer = Utils.makeDirectByteBuffer(image)
 		val textureIds = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder).asIntBuffer // TODO: hardcoded value...
 		gl2.glGenTextures(1, textureIds)
 		val textureId = textureIds.get(0)
@@ -347,48 +343,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT)
 		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR)
 		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR)
-		image.getType match {
-			case BufferedImage.TYPE_3BYTE_BGR => gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, buffer)
-			case BufferedImage.TYPE_CUSTOM => gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, buffer) // Windows?
-			case BufferedImage.TYPE_4BYTE_ABGR => gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, 4, image.getWidth, image.getHeight, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buffer)
+		image.getColorModel.hasAlpha match {
+			case false => gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, buffer)
+			case true => gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, 4, image.getWidth, image.getHeight, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buffer)
 		}
 		TextureId(textureId)
-	}
-
-	private def makeBufferForTYPE_3BYTE_BGR(image: BufferedImage): ByteBuffer = {
-			val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
-			val buffer = ByteBuffer.allocateDirect(data.length)
-			buffer.order(ByteOrder.nativeOrder)
-			buffer.put(data, 0, data.length)
-			buffer.rewind
-			buffer
-	}
-
-	private def makeBufferForTYPE_INT_ARGB(image: BufferedImage): ByteBuffer = {
-			val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferInt].getData
-			val buffer = ByteBuffer.allocateDirect(data.length * 4)
-			buffer.order(ByteOrder.nativeOrder)
-			buffer.asIntBuffer.put(data, 0, data.length)
-			buffer.rewind
-			buffer
-	}
-
-	private def makeBufferForTYPE_4BYTE_ABGR(image: BufferedImage): ByteBuffer = {
-			val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
-			val buffer = ByteBuffer.allocateDirect(data.length)
-			buffer.order(ByteOrder.nativeOrder)
-			buffer.put(data, 0, data.length)
-			buffer.rewind
-			// ABGR -> RGBA
-			for (pos <- 0 to buffer.limit-1 if pos % 4 == 0) {
-				val tmp1 = buffer.get(pos)
-				buffer.put(pos, buffer.get(pos+3))
-				buffer.put(pos+3, tmp1)
-				val tmp2 = buffer.get(pos+1)
-				buffer.put(pos+1, buffer.get(pos+2))
-				buffer.put(pos+2, tmp2)
-			}
-			buffer
 	}
 	
 	def freeTexture(textureId: TextureId) {

@@ -4,6 +4,7 @@ import java.awt._
 import java.awt.geom._
 import java.awt.image._
 import java.awt.color._
+import java.nio._
 import scala.math._
 
 import scalascenegraph.core.Predefs._
@@ -53,4 +54,18 @@ object Utils {
 		target
 	}
 
+	/**
+	 * Creates a ByteBuffer object that contains the raw data of the original
+	 * image in an RGB or RGBA format, as appropriate.
+	 */
+	def makeDirectByteBuffer(image: BufferedImage): ByteBuffer = {
+		val converted = convertImage(image)
+		val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
+		val buffer = ByteBuffer.allocateDirect(data.length)
+		buffer.order(ByteOrder.nativeOrder)
+		buffer.put(data, 0, data.length)
+		buffer.rewind
+		buffer
+	}
+	
 }
