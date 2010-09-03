@@ -41,11 +41,15 @@ class Example8 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+			light(On)
+			light(Light0, On)
+			ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
+			light(Light0, Position(-2.0f, -2.0f, 0.0f))
+			light(Light0, DiffuseLight, JColor.white)
 			group {
-				cullFace(false)
 				translation(0.0f, 0.0f, -1.8f)
-				polygonMode(FrontAndBack, Line)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+				material(Front, AmbientAndDiffuseLight, JColor.cyan)
 				cube
 			}
 			overlay(0, 0, image, centerHook)
