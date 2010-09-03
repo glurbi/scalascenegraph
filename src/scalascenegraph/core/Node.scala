@@ -16,7 +16,9 @@ abstract class Node(val parent: Node) {
 	def render(context: Context) {
 		callPreRenderHooks(context)
 		states.foreach { state => state.preRender(context) }
+		preRender(context)
 		doRender(context)
+		postRender(context)
 		states.reverse.foreach { state => state.postRender(context) }
 		callPostRenderHooks(context)
 	}
@@ -55,7 +57,25 @@ abstract class Node(val parent: Node) {
 	def doRender(context: Context) {}
 	def prepare(context: Context) {}
 	def dispose(context: Context) {}
+	def preRender(context: Context) {}
+	def postRender(context: Context) {}
+	
 }
+
+class DynamicOverlay[T <: Overlay](val hook: OverlayHook[T], val overlay: T) extends Node(overlay.parent) {
+	override def preRender(context: Context) {
+		hook(overlay, context)
+		overlay.preRender(context)
+	}
+	override def doRender(context: Context) {
+		overlay.doRender(context)
+	}
+	override def postRender(context: Context) {
+		overlay.postRender(context)
+	}
+}
+
+
 
 class Group(parent: Node) extends Node(parent) {
   
@@ -91,6 +111,7 @@ class World extends Group(null) {
         renderer.setColor(foreground)
         renderer.enableDepthTest
         renderer.enableCullFace
+        renderer.enableBlending
         super.doRender(context)
         renderer.flush
     }

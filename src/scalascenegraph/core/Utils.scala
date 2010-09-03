@@ -1,5 +1,9 @@
 package scalascenegraph.core
 
+import java.awt._
+import java.awt.geom._
+import java.awt.image._
+import java.awt.color._
 import scala.math._
 
 import scalascenegraph.core.Predefs._
@@ -19,5 +23,33 @@ object Utils {
 		Vector(v.x / norm, v.y / norm, v.z / norm)
 	}
 	
-	
+	/**
+	 * Convert any BufferedImage object into a BufferedImage that complies with
+	 * scalascenegraph supported color models (RGB and RGBA) 
+	 */
+	def convertImage(source: BufferedImage): BufferedImage = {
+		val raster = Raster.createInterleavedRaster(
+				DataBuffer.TYPE_BYTE,
+				source.getWidth,
+				source.getHeight,
+				4,    // bands
+				null) // location
+		val colorModel = new ComponentColorModel(
+				ColorSpace.getInstance(ColorSpace.CS_sRGB),
+				Array(8, 8, 8, 8),
+				true,
+				false,
+				Transparency.TRANSLUCENT,
+				DataBuffer.TYPE_BYTE)
+		val target = new BufferedImage(colorModel, raster, false, null)
+		val g2d = target.createGraphics
+		val transform = new AffineTransform
+		transform.translate(0, source.getHeight)
+		transform.scale(1.0, -1.0)
+		g2d.transform(transform)
+		g2d.drawImage(source, null, 0, 0)
+		g2d.dispose
+		target
+	}
+
 }

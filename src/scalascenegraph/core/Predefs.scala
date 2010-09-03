@@ -8,6 +8,7 @@ object Predefs {
 	
 	type NodeHook = Hook[Node]
 	type StateHook[T <: State] = Hook[T]
+	type OverlayHook[T <: Overlay] = Hook[T]
 	
 	abstract class ShadeModel
 	case object Flat extends ShadeModel
@@ -109,6 +110,10 @@ object Predefs {
 	case object UnspecifiedNormal extends NormalType
 	case object UniNormal extends NormalType
 	case object MultiNormal extends NormalType
+	
+	abstract class ImageType
+	case object RGB extends ImageType
+	case object RGBA extends ImageType
 	
 	def node(parent: Node, fun: (Context) => Unit): Node = new Node(parent) {
 		override def doRender(context: Context) {

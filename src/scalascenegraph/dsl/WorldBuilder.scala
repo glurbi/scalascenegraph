@@ -2,6 +2,7 @@ package scalascenegraph.dsl
 
 import java.io._
 import java.nio._
+import java.awt.image._
 import scala.collection.mutable._
 import com.jogamp.common.nio._
 
@@ -180,6 +181,30 @@ trait WorldBuilder {
 		val texture = new Texture(stack.top, in)
 		stack.top.addTexture(name, texture)
 		stack.top.asInstanceOf[Group].add(texture)
+	}
+	
+	def overlay(x: Int, y: Int, image: BufferedImage) {
+		// TODO: refactor with method below
+		val converted = scalascenegraph.core.Utils.convertImage(image)
+		val data = converted.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
+		val buffer = ByteBuffer.allocateDirect(data.length)
+		buffer.order(ByteOrder.nativeOrder)
+		buffer.put(data, 0, data.length)
+		buffer.rewind
+		val o = new Overlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer)
+		stack.top.asInstanceOf[Group].add(o)
+	}
+
+	def overlay(x: Int, y: Int, image: BufferedImage, hook: OverlayHook[Overlay]) {
+		// TODO: refactor with method above
+		val converted = scalascenegraph.core.Utils.convertImage(image)
+		val data = converted.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
+		val buffer = ByteBuffer.allocateDirect(data.length)
+		buffer.order(ByteOrder.nativeOrder)
+		buffer.put(data, 0, data.length)
+		buffer.rewind
+		val o = new DynamicOverlay(hook, new Overlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer))
+		stack.top.asInstanceOf[Group].add(o)
 	}
 	
 }

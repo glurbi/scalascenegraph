@@ -27,6 +27,15 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glClearColor(color.r, color.g, color.b, color.a)
     }
  
+    def enableBlending {
+    	gl2.glEnable(GL.GL_BLEND)
+    	gl2.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA)
+    }
+    
+    def disableBlending {
+    	gl2.glDisable(GL.GL_BLEND)
+    }
+    
 	def enableDepthTest {
 		gl2.glEnable(GL.GL_DEPTH_TEST)
 	}
@@ -388,11 +397,9 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glDeleteTextures(1, textureIds)
 	}
 
-	def drawImage(x: Int, y: Int, image: BufferedImage) {
-		//gl2.glRasterPos2i(x, y)
-		gl2.glWindowPos2i(x,y)
-		gl2.glDrawPixels(image.getWidth, image.getHeight, GL2GL3.GL_BGRA, GL.GL_UNSIGNED_BYTE, makeBufferForTYPE_INT_ARGB(image))
-		//gl2.glDrawPixels(image.getWidth, image.getHeight, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, makeBufferForTYPE_4BYTE_ABGR(image))
+	def drawImage(x: Int, y: Int, width: Int, height: Int, imageType: ImageType, rawImage: ByteBuffer) {
+		gl2.glWindowPos2i(x, y)
+		gl2.glDrawPixels(width, height, glImageType(imageType), GL.GL_UNSIGNED_BYTE, rawImage)
 	}
 	
 	private def glFace(face: Face): Int = face match {
@@ -429,6 +436,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		case LightInstance(5) => GLLightingFunc.GL_LIGHT5
 		case LightInstance(6) => GLLightingFunc.GL_LIGHT6
 		case LightInstance(7) => GLLightingFunc.GL_LIGHT7
+	}
+
+	private def glImageType(imageType: ImageType): Int = imageType match {
+		case RGB => GL.GL_RGB
+		case RGBA => GL.GL_RGBA
 	}
 	
 }
