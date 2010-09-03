@@ -8,8 +8,11 @@ import scalascenegraph.core.Predefs._
 
 abstract class Node(val parent: Node) {
 
+	// TODO: are those used actually?
     private val preRenderHooks = new ArrayBuffer[NodeHook]
+	// TODO: are those used actually?
     private val postRenderHooks = new ArrayBuffer[NodeHook]
+    
     private val states = new ArrayBuffer[State]
    	private val textures = Map.empty[String, Texture]
 

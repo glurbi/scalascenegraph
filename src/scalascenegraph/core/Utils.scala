@@ -25,7 +25,8 @@ object Utils {
 	
 	/**
 	 * Convert any BufferedImage object into a BufferedImage that complies with
-	 * scalascenegraph supported color models (RGB and RGBA) 
+	 * scalascenegraph supported color models (RGB and RGBA) and transform the
+	 * image for an opengl like coordinate system (invert the y axis direction).
 	 */
 	def convertImage(source: BufferedImage): BufferedImage = {
 		val raster = Raster.createInterleavedRaster(
