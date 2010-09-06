@@ -2,6 +2,7 @@ package scalascenegraph.examples
 
 import java.awt._
 import java.awt.{Color => JColor}
+import java.awt.{Font => JFont}
 import java.awt.image._
 
 import scalascenegraph.core._
@@ -22,7 +23,7 @@ class Example8 extends Example with WorldBuilder {
 	val image = {
 		val img = new BufferedImage(400, 200, BufferedImage.TYPE_4BYTE_ABGR)
 		val g2d = img.createGraphics
-		val font = new Font(g2d.getFont.getFontName, Font.BOLD, 25)
+		val font = new JFont(g2d.getFont.getFontName, JFont.BOLD, 25)
 		val metrics = g2d.getFontMetrics
 		val text = "...Overlay..."
 		g2d.setFont(font)
