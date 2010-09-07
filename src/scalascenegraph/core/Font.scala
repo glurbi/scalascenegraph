@@ -12,6 +12,7 @@ import javax.imageio._
 import scala.collection.mutable._
 
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 
 object FontBuilder {
 	
@@ -38,33 +39,17 @@ object FontBuilder {
 			g2d.fillRect(0, 0, img.getWidth, img.getHeight)
 			g2d.setColor(JColor.white)
 			g2d.drawString(s, 0, img.getHeight-1-descent)
-			val character = makeCharacter(char.toChar, revert(img.getSubimage(xmin, ymin, width, height)))
+			val characterImage = img.getSubimage(xmin, ymin, width, height)
+			val invertedImage = inverseImage(characterImage)
+			val character = makeCharacter(char.toChar, invertedImage)
 			characters += char.toChar -> character
 		}
 		g2d.dispose
 		new Font(parent, characters)
 	}
 	
-	// TODO: move to the Utils class...
-	private def revert(source: BufferedImage): BufferedImage = {
-		val target = new BufferedImage(source.getWidth, source.getHeight, BufferedImage.TYPE_3BYTE_BGR)
-		val g2d = target.createGraphics
-		val transform = new AffineTransform
-		transform.translate(0, target.getHeight)
-		transform.scale(1.0, -1.0)
-		g2d.transform(transform)
-		g2d.drawImage(source, null, 0, 0)
-		g2d.dispose
-		target
-	}
-	
 	private def makeCharacter(char: Char, image: BufferedImage): Character = {
 		new Character(char, image.getWidth, image.getHeight, makeBitmap(image))
-	}
-	
-	private def clearBuffer(buffer: ByteBuffer) {
-		for (i <- 0 until buffer.capacity) { buffer.put(0.toByte) }
-		buffer.rewind
 	}
 	
 	private def makeBitmap(image: BufferedImage): ByteBuffer = {
@@ -75,7 +60,7 @@ object FontBuilder {
 			for (x <- 0 to image.getWidth-1) {
 				val index = byteWidth * 8 * y + x
 				// alpha value never at 0 so we need to apply a mask
-				Utils.setBit(if ((image.getRGB(x, y) & 0xFFFFFF) != 0) 1 else 0, index, buffer)
+				setBit(if ((image.getRGB(x, y) & 0xFFFFFF) != 0) 1 else 0, index, buffer)
 			}
 		}
 		buffer
@@ -85,14 +70,6 @@ object FontBuilder {
 	// each bitmap row start on a byte alignment
 	def calculateByteWidth(bitWidth: Int): Int = {
 		if (bitWidth % 8 == 0) bitWidth / 8 else bitWidth / 8 + 1
-	}
-	
-	def main(args: Array[String]) {
-		val font = FontBuilder.create(null, new JFont("Default", JFont.PLAIN, 20))
-		font.characters.get('M') match {
-    		case Some(c) => Utils.dumpBitmap(c.width, c.height, c.bitmap)
-    		case None => println("Damn it!")
-    	}
 	}
 	
 }

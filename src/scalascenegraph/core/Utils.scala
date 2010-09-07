@@ -64,6 +64,22 @@ object Utils {
 	}
 
 	/**
+	 * Creates a BufferedImage that is the inverse (y axis direction) of the
+	 * one given in parameter. 
+	 */
+	def inverseImage(source: BufferedImage): BufferedImage = {
+		val target = new BufferedImage(source.getWidth, source.getHeight, source.getType)
+		val g2d = target.createGraphics
+		val transform = new AffineTransform
+		transform.translate(0, target.getHeight)
+		transform.scale(1.0, -1.0)
+		g2d.transform(transform)
+		g2d.drawImage(source, null, 0, 0)
+		g2d.dispose
+		target
+	}
+	
+	/**
 	 * Creates a ByteBuffer object that contains the raw data of the original
 	 * image in an RGB or RGBA format, as appropriate.
 	 */
@@ -115,4 +131,12 @@ object Utils {
 		println
 	}
 
+	/**
+	 * Makes sure a buffer only contains zeroes (0)
+	 */
+	def clearBuffer(buffer: ByteBuffer) {
+		for (i <- 0 until buffer.capacity) { buffer.put(0.toByte) }
+		buffer.rewind
+	}
+	
 }
