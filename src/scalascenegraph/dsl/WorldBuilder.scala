@@ -217,7 +217,7 @@ trait WorldBuilder {
 	}
 	
 	def font(name: String, jfont: JFont) {
-		val font = Font(stack.top, jfont)
+		val font = FontBuilder.create(stack.top, jfont)
 		stack.top.addFont(name, font)
 	}
 	

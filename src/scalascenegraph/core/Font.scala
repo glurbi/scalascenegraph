@@ -13,12 +13,12 @@ import scala.collection.mutable._
 
 import scalascenegraph.core.Predefs._
 
-object Font {
+object FontBuilder {
 	
 	/**
 	 * Creates a Font object based on the AWT Font given in parameter.
 	 */
-	def apply(parent: Node, jfont: JFont): Font = {
+	def create(parent: Node, jfont: JFont): Font = {
 		val characters = Map.empty[Char, Character]
 		val img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR)
 		val g2d = img.createGraphics
@@ -71,8 +71,6 @@ object Font {
 		val byteWidth = calculateByteWidth(image.getWidth)
 		val buffer = ByteBuffer.allocateDirect(byteWidth * image.getHeight)
 		clearBuffer(buffer)
-		// TODO: do we care of the endianness when working with bytes?
-		buffer.order(ByteOrder.nativeOrder)
 		for (y <- 0 to image.getHeight-1) {
 			for (x <- 0 to image.getWidth-1) {
 				val index = byteWidth * 8 * y + x
@@ -90,30 +88,15 @@ object Font {
 	}
 	
 	def main(args: Array[String]) {
-		val font = Font(null, new JFont("Default", JFont.PLAIN, 20))
-		font.characters.get('!') match {
-    		case Some(character) => character.dump
+		val font = FontBuilder.create(null, new JFont("Default", JFont.PLAIN, 20))
+		font.characters.get('M') match {
+    		case Some(c) => Utils.dumpBitmap(c.width, c.height, c.bitmap)
     		case None => println("Damn it!")
     	}
 	}
 	
 }
 
-class Character(val char: Char, val width: Int, val height: Int, val bitmap: ByteBuffer) {
-	
-	// testing purpose
-	def dump {
-		val byteWidth = Font.calculateByteWidth(width)
-		println(char + " " + width + "," + height)
-		for (y <- 0 to height-1) {
-			for (x <- 0 to width-1) {
-				scala.Console.print(Utils.getBit(y * byteWidth * 8 + x, bitmap))
-			}
-			println
-		}
-		println
-	}
-	
-}
+class Character(val char: Char, val width: Int, val height: Int, val bitmap: ByteBuffer)
 
 class Font(parent: Node, val characters: Map[Char, Character]) extends Node(parent)

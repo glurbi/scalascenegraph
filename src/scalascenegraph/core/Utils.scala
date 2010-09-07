@@ -11,13 +11,22 @@ import scalascenegraph.core.Predefs._
 
 object Utils {
 
+	/**
+	 * @return a vector created from two points in space.
+	 */
 	def vector(v1: Vertice, v2: Vertice): Vector =
 		Vector(v2.x - v1.x, v2.y - v1.y, v2.z -v1.z)
 	
+	/**
+	 * @return the cross product of two vectors.
+	 */
 	def crossProduct(u: Vector, v: Vector): Vector = {
 		Vector(u.y*v.z - u.z*v.y, u.z*v.x - u.x*v.z, u.x*v.y - u.y*v.x)
 	}
 	
+	/**
+	 * @return a vector that is the normalized instance of the one given in parameter.
+	 */
 	def normalize(v: Vector): Vector = {
 		implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
 		val norm = sqrt(v.x*v.x + v.y*v.y + v.z*v.z)
@@ -69,7 +78,7 @@ object Utils {
 	}
 	
 	/**
-	 * Returns the bit value at the bit position in the ByteBuffer.
+	 * @return the bit value at the bit position in the ByteBuffer.
 	 */
 	def getBit(bitPos: Int, buf: ByteBuffer): Int = {
 		val bytePos = bitPos / 8
@@ -91,5 +100,19 @@ object Utils {
 		buf.put(bytePos, newb.asInstanceOf[Byte])
 	}
 	
+
+	/**
+	 * Print on the console the content of the bitmap, as zeroes and ones.
+	 */
+	def dumpBitmap(width: Int, height: Int, bitmap: ByteBuffer) {
+		val byteWidth = FontBuilder.calculateByteWidth(width)
+		for (y <- height-1 to 0 by -1) {
+			for (x <- 0 to width-1) {
+				scala.Console.print(Utils.getBit(y * byteWidth * 8 + x, bitmap))
+			}
+			println
+		}
+		println
+	}
 
 }
