@@ -11,7 +11,7 @@ import scalascenegraph.dsl._
 
 class Example8 extends Example with WorldBuilder {
 
-	val centerHook = (o: Overlay, c: Context) => {
+	val centerHook = (o: ImageOverlay, c: Context) => {
 		o.x = c.width / 2 - o.width / 2
 		o.y = c.height / 2 - o.height / 2
 	}
@@ -41,6 +41,7 @@ class Example8 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+			font("myfont", new JFont("Default", JFont.PLAIN, 20))
 			light(On)
 			light(Light0, On)
 			ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
@@ -53,6 +54,7 @@ class Example8 extends Example with WorldBuilder {
 				cube
 			}
 			overlay(0, 0, image, centerHook)
+			overlay(10, 10, "myfont", "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-+=")
 		}
 	
 }

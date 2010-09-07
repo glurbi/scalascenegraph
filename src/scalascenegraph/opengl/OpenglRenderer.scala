@@ -362,6 +362,16 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glDrawPixels(width, height, glImageType(imageType), GL.GL_UNSIGNED_BYTE, rawImage)
 	}
 	
+	def drawText(x: Int, y: Int, font: Font, text: String) {
+		// TODO: move to the 'init' part
+		gl2.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1)
+		gl2.glWindowPos2i(x, y)
+		text.foreach { c => {
+			val character = font.characters(c)
+			gl2.glBitmap(character.width, character.height, 0, 0, character.width, 0, character.bitmap)
+		}}
+	}
+	
 	private def glFace(face: Face): Int = face match {
 		case Front => GL.GL_FRONT
 		case Back => GL.GL_BACK

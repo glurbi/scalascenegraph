@@ -10,6 +10,7 @@ abstract class Node(val parent: Node) {
 
     private val states = new ArrayBuffer[State]
    	private val textures = Map.empty[String, Texture]
+    private val fonts = Map.empty[String, Font]
 
 	def render(context: Context) {
 		states.foreach { state => state.preRender(context) }
@@ -31,6 +32,17 @@ abstract class Node(val parent: Node) {
     	textures.get(name) match {
     		case Some(texture) => texture
     		case None => parent.getTexture(name)
+    	}
+    }
+    
+    def addFont(name: String, font: Font) {
+    	fonts += name -> font
+    }
+    
+    def getFont(name: String): Font = {
+    	fonts.get(name) match {
+    		case Some(font) => font
+    		case None => parent.getFont(name)
     	}
     }
     

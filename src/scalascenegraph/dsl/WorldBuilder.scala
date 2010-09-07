@@ -3,6 +3,7 @@ package scalascenegraph.dsl
 import java.io._
 import java.nio._
 import java.awt.image._
+import java.awt.{Font => JFont}
 import scala.collection.mutable._
 import com.jogamp.common.nio._
 
@@ -183,11 +184,11 @@ trait WorldBuilder {
 		buffer.order(ByteOrder.nativeOrder)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
-		val o = new Overlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer)
+		val o = new ImageOverlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer)
 		stack.top.asInstanceOf[Group].add(o)
 	}
 
-	def overlay(x: Int, y: Int, image: BufferedImage, hook: OverlayHook[Overlay]) {
+	def overlay(x: Int, y: Int, image: BufferedImage, hook: OverlayHook[ImageOverlay]) {
 		// TODO: refactor with method above
 		val converted = scalascenegraph.core.Utils.convertImage(image)
 		val data = converted.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
@@ -195,12 +196,23 @@ trait WorldBuilder {
 		buffer.order(ByteOrder.nativeOrder)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
-		val o = new DynamicOverlay(hook, new Overlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer))
+		val o = new DynamicOverlay(hook, new ImageOverlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer))
 		stack.top.asInstanceOf[Group].add(o)
 	}
 
+	def overlay(x: Int, y: Int, fontName: String, text: String) {
+		val font = stack.top.getFont(fontName)
+		val o = new TextOverlay(stack.top, x, y, font, text)
+		stack.top.asInstanceOf[Group].add(o)
+	}
+	
 	def blending(mode: OnOffState) {
 		stack.top.addState(new BlendingState(mode))
+	}
+	
+	def font(name: String, jfont: JFont) {
+		val font = Font(stack.top, jfont)
+		stack.top.addFont(name, font)
 	}
 	
 }

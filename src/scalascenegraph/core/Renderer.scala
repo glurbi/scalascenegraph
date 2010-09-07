@@ -83,5 +83,6 @@ trait Renderer {
 	def freeTexture(textureId: TextureId)
 	
 	def drawImage(x: Int, y: Int, width: Int, height: Int, imageType: ImageType, rawImage: ByteBuffer)
+	def drawText(x: Int, y: Int, font: Font, text: String)
 	
 }
