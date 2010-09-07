@@ -11,6 +11,12 @@ import scalascenegraph.dsl._
 
 class Example8 extends Example with WorldBuilder {
 
+	val fpsHook = (o: TextOverlay, c: Context) => {
+		o.x = 10
+		o.y = c.height - 30
+		o.text = "FPS: " + c.frameRate
+	}
+	
 	val centerHook = (o: ImageOverlay, c: Context) => {
 		o.x = c.width / 2 - o.width / 2
 		o.y = c.height / 2 - o.height / 2
@@ -54,7 +60,9 @@ class Example8 extends Example with WorldBuilder {
 				cube
 			}
 			overlay(0, 0, image, centerHook)
-			overlay(10, 10, "myfont", "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-+=")
+			overlay(10, 10, "myfont", "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-+")
+			overlay(10, 40, "myfont", "abcdefghijklmnopqrstuvwxyz~`|{}[]\"\\/?><,.=:;")
+			overlay(0, 0, "myfont", "", fpsHook)
 		}
 	
 }

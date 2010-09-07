@@ -205,6 +205,12 @@ trait WorldBuilder {
 		val o = new TextOverlay(stack.top, x, y, font, text)
 		stack.top.asInstanceOf[Group].add(o)
 	}
+
+	def overlay(x: Int, y: Int, fontName: String, text: String, hook: OverlayHook[TextOverlay]) {
+		val font = stack.top.getFont(fontName)
+		val o = new DynamicOverlay(hook, new TextOverlay(stack.top, x, y, font, text))
+		stack.top.asInstanceOf[Group].add(o)
+	}
 	
 	def blending(mode: OnOffState) {
 		stack.top.addState(new BlendingState(mode))

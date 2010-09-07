@@ -363,8 +363,10 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	}
 	
 	def drawText(x: Int, y: Int, font: Font, text: String) {
+		
 		// TODO: move to the 'init' part
 		gl2.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1)
+		
 		gl2.glWindowPos2i(x, y)
 		text.foreach { c => {
 			val character = font.characters(c)

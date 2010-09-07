@@ -3,6 +3,7 @@ package scalascenegraph.core
 import java.io._
 import java.util.concurrent._
 import java.awt._
+import java.awt.geom._
 import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
 import java.awt.image._
@@ -37,11 +38,24 @@ object Font {
 			g2d.fillRect(0, 0, img.getWidth, img.getHeight)
 			g2d.setColor(JColor.white)
 			g2d.drawString(s, 0, img.getHeight-1-descent)
-			val character = makeCharacter(char.toChar, img.getSubimage(xmin, ymin, width, height))
+			val character = makeCharacter(char.toChar, revert(img.getSubimage(xmin, ymin, width, height)))
 			characters += char.toChar -> character
 		}
 		g2d.dispose
 		new Font(parent, characters)
+	}
+	
+	// TODO: move to the Utils class...
+	private def revert(source: BufferedImage): BufferedImage = {
+		val target = new BufferedImage(source.getWidth, source.getHeight, BufferedImage.TYPE_3BYTE_BGR)
+		val g2d = target.createGraphics
+		val transform = new AffineTransform
+		transform.translate(0, target.getHeight)
+		transform.scale(1.0, -1.0)
+		g2d.transform(transform)
+		g2d.drawImage(source, null, 0, 0)
+		g2d.dispose
+		target
 	}
 	
 	private def makeCharacter(char: Char, image: BufferedImage): Character = {
