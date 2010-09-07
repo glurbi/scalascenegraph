@@ -68,4 +68,28 @@ object Utils {
 		buffer
 	}
 	
+	/**
+	 * Returns the bit value at the bit position in the ByteBuffer.
+	 */
+	def getBit(bitPos: Int, buf: ByteBuffer): Int = {
+		val bytePos = bitPos / 8
+		val byte = buf.get(bytePos)
+		val shift = 7 - bitPos % 8
+		val mask = 1 << shift
+		val bit = (byte & mask) >> shift
+		bit
+	}
+	
+	/**
+	 * Set the bit value at the bit position in the ByteBuffer.
+	 */
+	def setBit(value: Int, bitPos: Int, buf: ByteBuffer) {
+		val bytePos = bitPos / 8
+		val mask = value << (7 - bitPos % 8)
+		val oldb = buf.get(bytePos)
+		val newb = (oldb & ~mask) | mask
+		buf.put(bytePos, newb.asInstanceOf[Byte])
+	}
+	
+
 }

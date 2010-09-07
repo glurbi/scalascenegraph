@@ -73,25 +73,16 @@ object Font {
 		clearBuffer(buffer)
 		// TODO: do we care of the endianness when working with bytes?
 		buffer.order(ByteOrder.nativeOrder)
-		//for (y <- image.getHeight-1 to 0 by -1) {
 		for (y <- 0 to image.getHeight-1) {
 			for (x <- 0 to image.getWidth-1) {
 				val index = byteWidth * 8 * y + x
 				// alpha value never at 0 so we need to apply a mask
-				setBit(if ((image.getRGB(x, y) & 0xFFFFFF) != 0) 1 else 0, index, buffer)
+				Utils.setBit(if ((image.getRGB(x, y) & 0xFFFFFF) != 0) 1 else 0, index, buffer)
 			}
 		}
 		buffer
 	}
 
-	private def setBit(value: Int, bitPos: Int, buf: ByteBuffer) {
-		val bytePos = bitPos / 8
-		val mask = value << (7 - bitPos % 8)
-		val oldb = buf.get(bytePos)
-		val newb = (oldb & ~mask) | mask
-		buf.put(bytePos, newb.asInstanceOf[Byte])
-	}
-	
 	// the width in number of bytes
 	// each bitmap row start on a byte alignment
 	def calculateByteWidth(bitWidth: Int): Int = {
@@ -116,20 +107,11 @@ class Character(val char: Char, val width: Int, val height: Int, val bitmap: Byt
 		println(char + " " + width + "," + height)
 		for (y <- 0 to height-1) {
 			for (x <- 0 to width-1) {
-				System.out.print(getBit(y * byteWidth * 8 + x, bitmap))
+				scala.Console.print(Utils.getBit(y * byteWidth * 8 + x, bitmap))
 			}
 			println
 		}
 		println
-	}
-	
-	private def getBit(bitPos: Int, buf: ByteBuffer): Int = {
-		val bytePos = bitPos / 8
-		val byte = buf.get(bytePos)
-		val shift = 7 - bitPos % 8
-		val mask = 1 << shift
-		val bit = (byte & mask) >> shift
-		bit
 	}
 	
 }

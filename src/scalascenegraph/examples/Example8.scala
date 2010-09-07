@@ -47,7 +47,8 @@ class Example8 extends Example with WorldBuilder {
 	
 	def example =
 		world {
-			font("myfont", new JFont("Default", JFont.PLAIN, 20))
+			font("default", new JFont("Default", JFont.PLAIN, 20))
+			font("serif", new JFont("Serif", JFont.BOLD, 20))
 			light(On)
 			light(Light0, On)
 			ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
@@ -60,9 +61,9 @@ class Example8 extends Example with WorldBuilder {
 				cube
 			}
 			overlay(0, 0, image, centerHook)
-			overlay(10, 10, "myfont", "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-+")
-			overlay(10, 40, "myfont", "abcdefghijklmnopqrstuvwxyz~`|{}[]\"\\/?><,.=:;")
-			overlay(0, 0, "myfont", "", fpsHook)
+			overlay(10, 10, "default", "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-+")
+			overlay(10, 40, "default", "abcdefghijklmnopqrstuvwxyz~`|{}[]\"\\/?><,.=:;")
+			overlay(0, 0, "serif", "", fpsHook)
 		}
 	
 }
