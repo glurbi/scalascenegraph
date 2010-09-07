@@ -8,6 +8,7 @@ import java.nio._
 import scala.math._
 
 import scalascenegraph.core.Predefs._
+import scalascenegraph.builders._
 
 object Utils {
 
@@ -87,7 +88,6 @@ object Utils {
 		val converted = convertImage(image)
 		val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 		val buffer = ByteBuffer.allocateDirect(data.length)
-		buffer.order(ByteOrder.nativeOrder)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
 		buffer

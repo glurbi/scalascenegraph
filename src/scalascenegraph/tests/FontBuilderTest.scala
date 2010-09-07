@@ -3,6 +3,7 @@ package scalascenegraph.tests
 import java.awt.{Font => JFont}
 
 import scalascenegraph.core._
+import scalascenegraph.builders._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 

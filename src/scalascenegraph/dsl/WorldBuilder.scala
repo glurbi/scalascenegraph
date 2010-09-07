@@ -8,6 +8,7 @@ import scala.collection.mutable._
 import com.jogamp.common.nio._
 
 import scalascenegraph.core._
+import scalascenegraph.builders._
 import scalascenegraph.core.shapes._
 import scalascenegraph.core.Predefs._
 
@@ -181,7 +182,6 @@ trait WorldBuilder {
 		val converted = scalascenegraph.core.Utils.convertImage(image)
 		val data = converted.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 		val buffer = ByteBuffer.allocateDirect(data.length)
-		buffer.order(ByteOrder.nativeOrder)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
 		val o = new ImageOverlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer)
@@ -193,7 +193,6 @@ trait WorldBuilder {
 		val converted = scalascenegraph.core.Utils.convertImage(image)
 		val data = converted.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 		val buffer = ByteBuffer.allocateDirect(data.length)
-		buffer.order(ByteOrder.nativeOrder)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
 		val o = new DynamicOverlay(hook, new ImageOverlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer))
