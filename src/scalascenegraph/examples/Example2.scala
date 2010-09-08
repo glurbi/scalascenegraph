@@ -37,6 +37,8 @@ class Example2 extends Example with WorldBuilder {
 
 	def example =
 		world {
+    		depthTest(On)
+    	
     		translation(0.0f, 2.0f, -5.0f)
     			
 			triangle(

@@ -15,6 +15,7 @@ class Example5 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+    		depthTest(On)
 			cullFace(On)
 			light(On)
 		    light(Light1, On)

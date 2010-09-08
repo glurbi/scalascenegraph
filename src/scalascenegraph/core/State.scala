@@ -19,6 +19,19 @@ class DynamicState[T <: State](val hook: StateHook[T], val state: T) extends Sta
 
 trait Transformation extends State {}
 
+class DepthTestState(var depthTest: OnOffState) extends State {
+	override def preRender(context: Context) {
+		context.renderer.pushDepthTestState
+		depthTest match {
+			case On => context.renderer.enableDepthTest
+			case Off => context.renderer.disableDepthTest
+		}
+	}
+	override def postRender(context: Context) {
+		context.renderer.popDepthTestState
+	}
+}
+
 class ColorState(var color: Color) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushColorState
@@ -52,10 +65,10 @@ class BlendingState(var blending: OnOffState) extends State {
 	}
 }
 
-class CullFaceState(var state: OnOffState) extends State {
+class CullFaceState(var cullFace: OnOffState) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushCullFace
-		state match {
+		cullFace match {
 			case On => context.renderer.enableCullFace
 			case Off => context.renderer.disableCullFace
 		}

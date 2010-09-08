@@ -40,6 +40,10 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     	gl2.glDisable(GL.GL_BLEND)
     }
     
+    def pushDepthTestState {
+    	gl2.glPushAttrib(GL.GL_DEPTH_BUFFER_BIT)
+    }
+    
 	def enableDepthTest {
 		gl2.glEnable(GL.GL_DEPTH_TEST)
 	}
@@ -48,6 +52,10 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glDisable(GL.GL_DEPTH_TEST)
 	}
 
+    def popDepthTestState {
+    	gl2.glPopAttrib
+    }
+	
 	def enableCullFace {
 		gl2.glEnable(GL.GL_CULL_FACE)
 	}

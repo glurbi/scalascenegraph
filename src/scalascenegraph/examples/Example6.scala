@@ -15,6 +15,7 @@ class Example6 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+    		depthTest(On)
 			fog(JColor.blue, Exp(0.1f))
 			quad(
 				Vertice(-10.0f, -10.0f, -9.9f),

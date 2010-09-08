@@ -18,6 +18,7 @@ class Example7 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+    		depthTest(On)
 			texture("marble", marble)
 			texture("melon", melon)
 			group {

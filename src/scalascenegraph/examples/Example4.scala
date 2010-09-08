@@ -59,6 +59,7 @@ class Example4 extends Example with WorldBuilder {
     
 	def example =
 		world {
+			depthTest(On)
 			cullFace(On)
 		    light(On)
 		    ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))

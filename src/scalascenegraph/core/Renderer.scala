@@ -13,10 +13,13 @@ trait Renderer {
     def clearColor(color: Color)
 	def enableBlending
 	def disableBlending
-	def enableDepthTest
-	def disableDepthTest
     def clear
     def flush
+    
+    def pushDepthTestState
+    def enableDepthTest
+    def disableDepthTest
+    def popDepthTestState
     
     def pushCullFace
     def enableCullFace

@@ -130,11 +130,9 @@ class Group(parent: Node) extends Node(parent) {
 class World extends Group(null) {
 
     override def doRender(context: Context) {
-    	val renderer = context.renderer
-        renderer.clear
-        renderer.enableDepthTest
+        context.renderer.clear
         super.doRender(context)
-        renderer.flush
+        context.renderer.flush
     }
   
 }

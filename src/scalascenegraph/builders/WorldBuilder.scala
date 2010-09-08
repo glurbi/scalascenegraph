@@ -67,10 +67,14 @@ trait WorldBuilder {
 		stack.top.addState(new FrontFaceState(frontFace))
 	}
 	
-	def cullFace(state: OnOffState) {
-		stack.top.addState(new CullFaceState(state))
+	def cullFace(cullFace: OnOffState) {
+		stack.top.addState(new CullFaceState(cullFace))
 	}
 
+	def depthTest(depthTest: OnOffState) {
+		stack.top.addState(new DepthTestState(depthTest))
+	}
+	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
 		stack.top.asInstanceOf[Group].add(Triangle(stack.top, v1, v2, v3))
 	}
