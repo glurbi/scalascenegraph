@@ -23,6 +23,10 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
         gl2.glColor3f(color.r, color.g , color.b)
     }	
 	
+    def clear {
+        gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+    }
+    
     def clearColor(color: Color) {
         gl2.glClearColor(color.r, color.g, color.b, color.a)
     }
@@ -88,10 +92,6 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glPolygonMode(glFace(face), glMode(mode))
 	}
 	
-    def clear {
-        gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
-    }
-    
     def flush {
         gl2.glFlush
     }

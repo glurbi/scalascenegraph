@@ -6,12 +6,18 @@ import scala.collection.mutable._
 
 import scalascenegraph.core.Predefs._
 
+/**
+ * The base class for any scene graph node.
+ */
 abstract class Node(val parent: Node) {
 
     private val states = new ArrayBuffer[State]
    	private val textures = Map.empty[String, Texture]
     private val fonts = Map.empty[String, Font]
 
+    /**
+     * This method should not be overriden in subclasses.
+     */
 	def render(context: Context) {
 		states.foreach { state => state.preRender(context) }
 		preRender(context)
@@ -46,14 +52,40 @@ abstract class Node(val parent: Node) {
     	}
     }
     
+    /**
+     * The actual rendering of a node should be implemented here.
+     */
 	def doRender(context: Context) {}
+	
+	/**
+	 * Called once only, during scene graph initialisation.
+	 * Can be used to load resources (textures, bitmaps, ...)
+	 */
 	def prepare(context: Context) {}
+	
+	/**
+	 * Called once when the scene graph is not used any longer.
+	 * Resources should be freed here.
+	 */
 	def dispose(context: Context) {}
+
+	/**
+	 * Called before a node is actually rendered (doRender() method)
+	 */
 	def preRender(context: Context) {}
+	
+	/**
+	 * Called after a node is actually rendered (doRender() method)
+	 */
 	def postRender(context: Context) {}
 	
 }
 
+/**
+ * Wraps a node so that the specified hook can be called before the node is
+ * rendered, for each frame. The hook code allows the user to change some node
+ * attributes before rendering, thus making the wrapped node dynamic. 
+ */
 class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node(node.parent) {
 	override def preRender(context: Context) {
 		hook(node, context)
@@ -67,6 +99,9 @@ class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node(no
 	}
 }
 
+/**
+ * A node that is a simple container for other nodes.
+ */
 class Group(parent: Node) extends Node(parent) {
   
     private val children = new ArrayBuffer[Node]
@@ -89,16 +124,14 @@ class Group(parent: Node) extends Node(parent) {
     
 }
 
+/**
+ * The top node in a scene graph.
+ */
 class World extends Group(null) {
 
-	var foreground: Color = JColor.white
-	var background: Color = JColor.lightGray
-	
     override def doRender(context: Context) {
     	val renderer = context.renderer
         renderer.clear
-        renderer.clearColor(background);
-        renderer.setColor(foreground)
         renderer.enableDepthTest
         renderer.enableCullFace
         renderer.enableBlending
