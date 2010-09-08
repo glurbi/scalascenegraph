@@ -5,10 +5,8 @@ import java.nio._
 object Predefs {
 
 	type Hook[T] = (T, Context) => Unit
-	
-	type NodeHook = Hook[Node]
+	type NodeHook[T <: Node] = Hook[T]
 	type StateHook[T <: State] = Hook[T]
-	type OverlayHook[T <: Overlay] = Hook[T]
 	
 	abstract class ShadeModel
 	case object Flat extends ShadeModel

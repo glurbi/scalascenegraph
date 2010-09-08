@@ -54,20 +54,18 @@ abstract class Node(val parent: Node) {
 	
 }
 
-class DynamicOverlay[T <: Overlay](val hook: OverlayHook[T], val overlay: T) extends Node(overlay.parent) {
+class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node(node.parent) {
 	override def preRender(context: Context) {
-		hook(overlay, context)
-		overlay.preRender(context)
+		hook(node, context)
+		node.preRender(context)
 	}
 	override def doRender(context: Context) {
-		overlay.doRender(context)
+		node.doRender(context)
 	}
 	override def postRender(context: Context) {
-		overlay.postRender(context)
+		node.postRender(context)
 	}
 }
-
-
 
 class Group(parent: Node) extends Node(parent) {
   

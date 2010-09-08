@@ -188,14 +188,14 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(o)
 	}
 
-	def overlay(x: Int, y: Int, image: BufferedImage, hook: OverlayHook[ImageOverlay]) {
+	def overlay(x: Int, y: Int, image: BufferedImage, hook: NodeHook[ImageOverlay]) {
 		// TODO: refactor with method above
 		val converted = scalascenegraph.core.Utils.convertImage(image)
 		val data = converted.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
 		val buffer = ByteBuffer.allocateDirect(data.length)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
-		val o = new DynamicOverlay(hook, new ImageOverlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer))
+		val o = new DynamicNode(hook, new ImageOverlay(stack.top, x, y, image.getWidth, image.getHeight, RGBA, buffer))
 		stack.top.asInstanceOf[Group].add(o)
 	}
 
@@ -205,9 +205,9 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(o)
 	}
 
-	def overlay(x: Int, y: Int, fontName: String, text: String, hook: OverlayHook[TextOverlay]) {
+	def overlay(x: Int, y: Int, fontName: String, text: String, hook: NodeHook[TextOverlay]) {
 		val font = stack.top.getFont(fontName)
-		val o = new DynamicOverlay(hook, new TextOverlay(stack.top, x, y, font, text))
+		val o = new DynamicNode(hook, new TextOverlay(stack.top, x, y, font, text))
 		stack.top.asInstanceOf[Group].add(o)
 	}
 	
