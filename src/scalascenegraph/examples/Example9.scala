@@ -7,7 +7,7 @@ import java.awt.image._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
-import scalascenegraph.dsl._
+import scalascenegraph.builders._
 
 class Example9 extends Example with WorldBuilder {
 

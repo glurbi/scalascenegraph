@@ -3,7 +3,7 @@ package scalascenegraph.examples
 import java.awt.{Color => JColor }
 
 import scalascenegraph.core.Predefs._
-import scalascenegraph.dsl._
+import scalascenegraph.builders._
 
 class Example1 extends Example with WorldBuilder {
 	

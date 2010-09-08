@@ -1,4 +1,4 @@
-package scalascenegraph.dsl
+package scalascenegraph.builders
 
 import java.io._
 import java.nio._

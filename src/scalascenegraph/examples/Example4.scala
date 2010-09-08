@@ -5,7 +5,7 @@ import scala.math._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
-import scalascenegraph.dsl._
+import scalascenegraph.builders._
 
 class Example4 extends Example with WorldBuilder {
 	

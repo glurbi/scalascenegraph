@@ -1,7 +1,7 @@
 package scalascenegraph.examples
 
 import scalascenegraph.core.Predefs._
-import scalascenegraph.dsl._
+import scalascenegraph.builders._
 
 class Example2 extends Example with WorldBuilder {
 	
