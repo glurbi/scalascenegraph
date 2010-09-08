@@ -67,8 +67,8 @@ trait WorldBuilder {
 		stack.top.addState(new FrontFaceState(frontFace))
 	}
 	
-	def cullFace(b: Boolean) {
-		stack.top.addState(new CullFaceState(b))
+	def cullFace(state: OnOffState) {
+		stack.top.addState(new CullFaceState(state))
 	}
 
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{

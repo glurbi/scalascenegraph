@@ -52,12 +52,12 @@ class BlendingState(var blending: OnOffState) extends State {
 	}
 }
 
-class CullFaceState(var cullFace: Boolean) extends State {
+class CullFaceState(var state: OnOffState) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushCullFace
-		cullFace match {
-			case true => context.renderer.enableCullFace
-			case false => context.renderer.disableCullFace
+		state match {
+			case On => context.renderer.enableCullFace
+			case Off => context.renderer.disableCullFace
 		}
 	}
 	override def postRender(context: Context) {

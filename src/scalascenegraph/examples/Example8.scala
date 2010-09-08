@@ -49,6 +49,7 @@ class Example8 extends Example with WorldBuilder {
 		world {
 			font("default", new JFont("Default", JFont.PLAIN, 20))
 			font("serif", new JFont("Serif", JFont.BOLD, 20))
+			blending(On)
 			light(On)
 			light(Light0, On)
 			ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))

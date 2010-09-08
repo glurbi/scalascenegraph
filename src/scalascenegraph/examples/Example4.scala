@@ -59,13 +59,14 @@ class Example4 extends Example with WorldBuilder {
     
 	def example =
 		world {
+			cullFace(On)
 		    light(On)
 		    ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
 		    light(Light0, On)
 		    light(Light0, Position(2.0f, 2.0f, 0.0f))
 		    light(Light0, DiffuseLight, JColor.white)
 		    group {
-		    	cullFace(false)
+		    	cullFace(Off)
 		    	lineWidth(4.0f)
 		    	wireSphere
 		    	wireCube

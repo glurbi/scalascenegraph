@@ -15,6 +15,7 @@ class Example5 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+			cullFace(On)
 			light(On)
 		    light(Light1, On)
 		    light(Light1, Position(-3.0f, 0.0f, 0.0f))
@@ -24,7 +25,7 @@ class Example5 extends Example with WorldBuilder {
 				translation(-2.0f, 2.0f, -4.0f)
 				rotation(0.0f, 1.0f, 0.0f, 0.0f, angleHook)
 				polygonMode(FrontAndBack, Line)
-				cullFace(false)
+				cullFace(Off)
 				torus(30, 1.0f, 0.5f)
 			}
 			group {

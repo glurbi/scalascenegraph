@@ -133,8 +133,6 @@ class World extends Group(null) {
     	val renderer = context.renderer
         renderer.clear
         renderer.enableDepthTest
-        renderer.enableCullFace
-        renderer.enableBlending
         super.doRender(context)
         renderer.flush
     }
