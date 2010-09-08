@@ -224,4 +224,10 @@ trait WorldBuilder {
 		stack.top.addFont(name, font)
 	}
 	
+	def shader(name: String, shaderType: ShaderType, source: String) {
+		val shader = new Shader(stack.top, shaderType, source)
+		stack.top.addShader(name, shader)
+		stack.top.asInstanceOf[Group].add(shader)
+	}
+	
 }

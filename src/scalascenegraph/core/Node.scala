@@ -12,8 +12,13 @@ import scalascenegraph.core.Predefs._
 abstract class Node(val parent: Node) {
 
     private val states = new ArrayBuffer[State]
+    
+    //
+    // TODO: should be resources...
+    //
    	private val textures = Map.empty[String, Texture]
     private val fonts = Map.empty[String, Font]
+    private val shaders = Map.empty[String, Shader]
 
     /**
      * This method should not be overriden in subclasses.
@@ -34,6 +39,14 @@ abstract class Node(val parent: Node) {
     	textures += name -> texture
     }
     
+    def addFont(name: String, font: Font) {
+    	fonts += name -> font
+    }
+    
+    def addShader(name: String, shader: Shader) {
+    	shaders += name -> shader
+    }
+    
     def getTexture(name: String): Texture = {
     	textures.get(name) match {
     		case Some(texture) => texture
@@ -41,14 +54,17 @@ abstract class Node(val parent: Node) {
     	}
     }
     
-    def addFont(name: String, font: Font) {
-    	fonts += name -> font
-    }
-    
     def getFont(name: String): Font = {
     	fonts.get(name) match {
     		case Some(font) => font
     		case None => parent.getFont(name)
+    	}
+    }
+
+    def getShader(name: String): Shader = {
+    	shaders.get(name) match {
+    		case Some(shader) => shader
+    		case None => parent.getShader(name)
     	}
     }
     

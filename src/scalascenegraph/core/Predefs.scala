@@ -162,12 +162,24 @@ object Predefs {
 	case class TextureId(id: Any)
 
 	/**
+	 * A shader identifier.
+	 */
+	case class ShaderId(id: Any)
+	
+	/**
 	 * Implicit conversion of AWT colors to ScalaSceneGraph colors.
 	 */
 	implicit def toColor(c: java.awt.Color): Color = {
 		new Color(c.getRed/255.0f, c.getGreen/255.0f, c.getBlue/255.0f, c.getAlpha/255.0f)
 	}
 
+	/**
+	 * Defines a shader type.
+	 */
+	abstract class ShaderType
+	case object VertexShader extends ShaderType
+	case object FragmentShader extends ShaderType
+	
 	/**
 	 * Defines a geometry type.
 	 */

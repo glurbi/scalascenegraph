@@ -373,6 +373,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	def drawText(x: Int, y: Int, font: Font, text: String) {
 		
 		// TODO: move to the 'init' part
+		// TODO: should use opengl default
 		gl2.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1)
 		
 		gl2.glWindowPos2i(x, y)
@@ -380,6 +381,28 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 			val character = font.characters(c)
 			gl2.glBitmap(character.width, character.height, 0, 0, character.width, 0, character.bitmap)
 		}}
+	}
+	
+	def newShader(shaderType: ShaderType): ShaderId = {
+		ShaderId(gl2.glCreateShader(glShaderType(shaderType)))
+	}
+	
+	def freeShader(shaderId: ShaderId) {
+		gl2.glDeleteShader(shaderId.id.asInstanceOf[Int])
+	}
+	
+	def shaderSource(shaderId: ShaderId, source: String) {
+		val id = shaderId.id.asInstanceOf[Int]
+		gl2.glShaderSource(id, 1, Array(source), Array(source.size), 0)
+	}
+
+	def compileShader(shaderId: ShaderId): String = {
+		val log = new Array[Byte](8192)
+		val length = Array(0)
+		val id = shaderId.id.asInstanceOf[Int]
+		gl2.glCompileShader(id)
+		gl2.glGetShaderInfoLog(id, log.size, length, 0, log, 0)
+		new String(log, 0, length(0))
 	}
 	
 	private def glFace(face: Face): Int = face match {
@@ -421,6 +444,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	private def glImageType(imageType: ImageType): Int = imageType match {
 		case RGB => GL.GL_RGB
 		case RGBA => GL.GL_RGBA
+	}
+	
+	private def glShaderType(shaderType: ShaderType): Int = shaderType match {
+		case VertexShader => GL2ES2.GL_VERTEX_SHADER
+		case FragmentShader => GL2ES2.GL_FRAGMENT_SHADER
 	}
 	
 }

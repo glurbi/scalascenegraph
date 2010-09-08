@@ -11,8 +11,14 @@ import scalascenegraph.builders._
 
 class Example9 extends Example with WorldBuilder {
 
+	val myshadersource =
+	"""
+	this is not a shader (yet!)
+	"""
+	
 	def example =
 		world {
+			shader("myshader", FragmentShader, myshadersource)
 		}
 	
 }

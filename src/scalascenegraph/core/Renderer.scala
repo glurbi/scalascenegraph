@@ -88,4 +88,9 @@ trait Renderer {
 	def drawImage(x: Int, y: Int, width: Int, height: Int, imageType: ImageType, rawImage: ByteBuffer)
 	def drawText(x: Int, y: Int, font: Font, text: String)
 	
+	def newShader(shaderType: ShaderType): ShaderId
+	def freeShader(shaderId: ShaderId)
+	def shaderSource(shaderId: ShaderId, source: String)
+	def compileShader(shaderId: ShaderId): String
+	
 }
