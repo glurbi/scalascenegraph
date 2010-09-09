@@ -3,7 +3,15 @@ package scalascenegraph.opengl
 import java.nio._
 import java.awt.image._
 import javax.media.opengl._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
 import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import com.jogamp.opengl.util._
 
 import scalascenegraph.core._
@@ -12,7 +20,7 @@ import scalascenegraph.core.Predefs._
 class OpenglRenderer(val gl2: GL2) extends Renderer { 
 	
 	def pushColorState {
-		gl2.glPushAttrib(GL2.GL_CURRENT_BIT)
+		gl2.glPushAttrib(GL_CURRENT_BIT)
 	}
 	
 	def popColorState {
@@ -24,7 +32,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }	
 	
     def clear {
-        gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+        gl2.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     }
     
     def clearColor(color: Color) {
@@ -32,24 +40,24 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
  
     def enableBlending {
-    	gl2.glEnable(GL.GL_BLEND)
-    	gl2.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA)
+    	gl2.glEnable(GL_BLEND)
+    	gl2.glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     }
     
     def disableBlending {
-    	gl2.glDisable(GL.GL_BLEND)
+    	gl2.glDisable(GL_BLEND)
     }
     
     def pushDepthTestState {
-    	gl2.glPushAttrib(GL.GL_DEPTH_BUFFER_BIT)
+    	gl2.glPushAttrib(GL_DEPTH_BUFFER_BIT)
     }
     
 	def enableDepthTest {
-		gl2.glEnable(GL.GL_DEPTH_TEST)
+		gl2.glEnable(GL_DEPTH_TEST)
 	}
 	
 	def disableDepthTest {
-		gl2.glDisable(GL.GL_DEPTH_TEST)
+		gl2.glDisable(GL_DEPTH_TEST)
 	}
 
     def popDepthTestState {
@@ -57,15 +65,15 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
 	
 	def enableCullFace {
-		gl2.glEnable(GL.GL_CULL_FACE)
+		gl2.glEnable(GL_CULL_FACE)
 	}
 	
     def pushCullFace {
-    	gl2.glPushAttrib(GL2.GL_ENABLE_BIT)
+    	gl2.glPushAttrib(GL_ENABLE_BIT)
     }
     
     def disableCullFace {
-		gl2.glDisable(GL.GL_CULL_FACE)
+		gl2.glDisable(GL_CULL_FACE)
     }
     
     def popCullFace {
@@ -73,13 +81,13 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
 
     def pushFrontFace {
-    	gl2.glPushAttrib(GL2.GL_POLYGON_BIT)
+    	gl2.glPushAttrib(GL_POLYGON_BIT)
     }
     
     def setFrontFace(frontFace: FrontFace) {
     	def glFrontFace(frontFace: FrontFace): Int = frontFace match {
-			case ClockWise => GL.GL_CW
-			case CounterClockWise => GL.GL_CCW
+			case ClockWise => GL_CW
+			case CounterClockWise => GL_CCW
 		}
     	gl2.glFrontFace(glFrontFace(frontFace))
     }
@@ -89,7 +97,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	}
     
     def pushPolygonMode {
-    	gl2.glPushAttrib(GL2.GL_POLYGON_BIT)
+    	gl2.glPushAttrib(GL_POLYGON_BIT)
     }
     
     def popPolygonMode {
@@ -113,23 +121,23 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
     
     def ortho(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
-        gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION)
+        gl2.glMatrixMode(GL_PROJECTION)
         gl2.glLoadIdentity
         gl2.glOrtho(left, right, bottom, top, near, far)
-        gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW)
+        gl2.glMatrixMode(GL_MODELVIEW)
         gl2.glLoadIdentity
     }
     
     def perspective(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
-        gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION)
+        gl2.glMatrixMode(GL_PROJECTION)
         gl2.glLoadIdentity
         gl2.glFrustum(left, right, bottom, top, near, far)
-        gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW)
+        gl2.glMatrixMode(GL_MODELVIEW)
         gl2.glLoadIdentity
     }
  
     def triangle(v1: Vertice, v2: Vertice, v3: Vertice) {
-        gl2.glBegin(GL.GL_TRIANGLES)
+        gl2.glBegin(GL_TRIANGLES)
         gl2.glVertex3f(v1.x, v1.y, v1.z)
         gl2.glVertex3f(v2.x, v2.y, v2.z)
         gl2.glVertex3f(v3.x, v3.y, v3.z)
@@ -140,8 +148,8 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     		     c1: Color, c2: Color, c3: Color)
     {
     	val color = new Array[Float](4)
-    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
-        gl2.glBegin(GL.GL_TRIANGLES)
+    	gl2.glGetFloatv(GL_CURRENT_COLOR, color, 0)
+        gl2.glBegin(GL_TRIANGLES)
         gl2.glColor4f(c1.r, c1.g, c1.b, c1.a)
         gl2.glVertex3f(v1.x, v1.y, v1.z)
         gl2.glColor4f(c2.r, c2.g, c2.b, c2.a)
@@ -153,7 +161,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
     
     def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) {
-        gl2.glBegin(GL2.GL_QUADS)
+        gl2.glBegin(GL_QUADS)
         gl2.glVertex3f(v1.x, v1.y, v1.z)
         gl2.glVertex3f(v2.x, v2.y, v2.z)
         gl2.glVertex3f(v3.x, v3.y, v3.z)
@@ -165,8 +173,8 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     		 c1: Color, c2: Color, c3: Color, c4: Color)
     {
     	val color = new Array[Float](4)
-    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
-        gl2.glBegin(GL2.GL_QUADS)
+    	gl2.glGetFloatv(GL_CURRENT_COLOR, color, 0)
+        gl2.glBegin(GL_QUADS)
         gl2.glColor4f(c1.r, c1.g, c1.b, c1.a)
         gl2.glVertex3f(v1.x, v1.y, v1.z)
         gl2.glColor4f(c2.r, c2.g, c2.b, c2.a)
@@ -180,70 +188,70 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
     
     def quads(vertices: Vertices) {
-        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
-        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+        gl2.glEnableClientState(GL_VERTEX_ARRAY);
+        gl2.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer);
+        gl2.glDrawArrays(GL_QUADS, 0, vertices.count);
+        gl2.glDisableClientState(GL_VERTEX_ARRAY);
     }
     
     def quads(vertices: Vertices, colors: Colors) {
     	// FIXME: should not assume a color has alpha always
     	val color = new Array[Float](4)
-    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, color, 0)
-        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
-        gl2.glEnableClientState(GLPointerFunc.GL_COLOR_ARRAY)
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer)
-        gl2.glColorPointer(4, GL.GL_FLOAT, 0, colors.floatBuffer)
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count)
-        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
-        gl2.glDisableClientState(GLPointerFunc.GL_COLOR_ARRAY)
+    	gl2.glGetFloatv(GL_CURRENT_COLOR, color, 0)
+        gl2.glEnableClientState(GL_VERTEX_ARRAY)
+        gl2.glEnableClientState(GL_COLOR_ARRAY)
+        gl2.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer)
+        gl2.glColorPointer(4, GL_FLOAT, 0, colors.floatBuffer)
+        gl2.glDrawArrays(GL_QUADS, 0, vertices.count)
+        gl2.glDisableClientState(GL_VERTEX_ARRAY)
+        gl2.glDisableClientState(GL_COLOR_ARRAY)
         gl2.glColor4f(color(0), color(1), color(2), color(3))
     }
 
     def quads(vertices: Vertices, textureCoordinates: TextureCoordinates, texture: Texture) {
-		gl2.glBindTexture(GL.GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
-        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
-        gl2.glEnableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer)
-        gl2.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureCoordinates.floatBuffer)
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count)
-        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
-        gl2.glDisableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
+		gl2.glBindTexture(GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
+        gl2.glEnableClientState(GL_VERTEX_ARRAY)
+        gl2.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+        gl2.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer)
+        gl2.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
+        gl2.glDrawArrays(GL_QUADS, 0, vertices.count)
+        gl2.glDisableClientState(GL_VERTEX_ARRAY)
+        gl2.glDisableClientState(GL_TEXTURE_COORD_ARRAY)
     }
     
     def quads(vertices: Vertices, textureCoordinates: TextureCoordinates, texture: Texture, normals: Normals) {
-		gl2.glBindTexture(GL.GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
-        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
-        gl2.glEnableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
-        gl2.glEnableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
-        gl2.glNormalPointer(GL.GL_FLOAT, 0, normals.floatBuffer)
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer)
-        gl2.glTexCoordPointer(2, GL.GL_FLOAT, 0, textureCoordinates.floatBuffer)
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count)
-        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY)
-        gl2.glDisableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY)
-        gl2.glDisableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
+		gl2.glBindTexture(GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
+        gl2.glEnableClientState(GL_VERTEX_ARRAY)
+        gl2.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+        gl2.glEnableClientState(GL_NORMAL_ARRAY);
+        gl2.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
+        gl2.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer)
+        gl2.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
+        gl2.glDrawArrays(GL_QUADS, 0, vertices.count)
+        gl2.glDisableClientState(GL_VERTEX_ARRAY)
+        gl2.glDisableClientState(GL_TEXTURE_COORD_ARRAY)
+        gl2.glDisableClientState(GL_NORMAL_ARRAY);
     }
     
     def quads(vertices: Vertices, color: Color) {
     	val save = new Array[Float](4)
-    	gl2.glGetFloatv(GL2ES1.GL_CURRENT_COLOR, save, 0)
+    	gl2.glGetFloatv(GL_CURRENT_COLOR, save, 0)
         gl2.glColor4f(color.r, color.g, color.b, color.a)
-        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
-        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+        gl2.glEnableClientState(GL_VERTEX_ARRAY);
+        gl2.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer);
+        gl2.glDrawArrays(GL_QUADS, 0, vertices.count);
+        gl2.glDisableClientState(GL_VERTEX_ARRAY);
         gl2.glColor4f(save(0), save(1), save(2), save(3))
     }
     
 	def quads(vertices: Vertices, normals: Normals) {
-        gl2.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
-        gl2.glEnableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
-        gl2.glNormalPointer(GL.GL_FLOAT, 0, normals.floatBuffer)
-        gl2.glVertexPointer(3, GL.GL_FLOAT, 0, vertices.floatBuffer);
-        gl2.glDrawArrays(GL2.GL_QUADS, 0, vertices.count);
-        gl2.glDisableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
-        gl2.glDisableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
+        gl2.glEnableClientState(GL_VERTEX_ARRAY);
+        gl2.glEnableClientState(GL_NORMAL_ARRAY);
+        gl2.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
+        gl2.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer);
+        gl2.glDrawArrays(GL_QUADS, 0, vertices.count);
+        gl2.glDisableClientState(GL_NORMAL_ARRAY);
+        gl2.glDisableClientState(GL_VERTEX_ARRAY);
 	}
     
     def translate(x: Float, y: Float, z: Float) {
@@ -255,18 +263,18 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	}
 
     def pushLightState {
-    	gl2.glPushAttrib(GL2.GL_LIGHTING_BIT)
+    	gl2.glPushAttrib(GL_LIGHTING_BIT)
     }
     
     def setLightState(state: OnOffState) {
     	state match {
-    		case On => gl2.glEnable(GLLightingFunc.GL_LIGHTING)
-    		case Off => gl2.glDisable(GLLightingFunc.GL_LIGHTING)
+    		case On => gl2.glEnable(GL_LIGHTING)
+    		case Off => gl2.glDisable(GL_LIGHTING)
     	}
     }
     
 	def setAmbientLight(intensity: Intensity) {
-		gl2.glLightModelfv(GL2ES1.GL_LIGHT_MODEL_AMBIENT, intensity.asFloatArray, 0)
+		gl2.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, intensity.asFloatArray, 0)
 	}
 
 	def setMaterial(face: Face, lightType: LightType, color: Color) {
@@ -286,11 +294,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	
 	def lightPosition(instance: LightInstance, position: Position) {
 		val p = position.asFloatArray
-		gl2.glLightfv(glLightInstance(instance), GLLightingFunc.GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
+		gl2.glLightfv(glLightInstance(instance), GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
 	}
 	
 	def setShininess(face: Face, shininess: Int) {
-		gl2.glMateriali(glFace(face), GLLightingFunc.GL_SHININESS, shininess)
+		gl2.glMateriali(glFace(face), GL_SHININESS, shininess)
 	}
 	
     def popLightState {
@@ -298,7 +306,7 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
 	
     def pushLineState {
-    	gl2.glPushAttrib(GL2.GL_LINE_BIT)
+    	gl2.glPushAttrib(GL_LINE_BIT)
     }
     
     def setLineWidth(width: Float) {
@@ -314,25 +322,25 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	}
     
     def pushFogState {
-    	gl2.glPushAttrib(GL2.GL_FOG_BIT)
+    	gl2.glPushAttrib(GL_FOG_BIT)
     }
     
     def setFogState(color: Color, mode: FogMode) {
-    	gl2.glEnable(GL2ES1.GL_FOG)
-    	gl2.glFogfv(GL2ES1.GL_FOG_COLOR, color.asFloatArray, 0)
+    	gl2.glEnable(GL_FOG)
+    	gl2.glFogfv(GL_FOG_COLOR, color.asFloatArray, 0)
     	mode match {
     		case Linear(start, end) => {
-    			gl2.glFogf(GL2ES1.GL_FOG_START, start)
-    			gl2.glFogf(GL2ES1.GL_FOG_END, end)
-    			gl2.glFogf(GL2ES1.GL_FOG_MODE, GL.GL_LINEAR)
+    			gl2.glFogf(GL_FOG_START, start)
+    			gl2.glFogf(GL_FOG_END, end)
+    			gl2.glFogf(GL_FOG_MODE, GL_LINEAR)
     		}
     		case Exp(density) => {
-    			gl2.glFogf(GL2ES1.GL_FOG_DENSITY, density)
-    			gl2.glFogf(GL2ES1.GL_FOG_MODE, GL2ES1.GL_EXP)
+    			gl2.glFogf(GL_FOG_DENSITY, density)
+    			gl2.glFogf(GL_FOG_MODE, GL_EXP)
     		}
     		case Exp2(density) => {
-    			gl2.glFogf(GL2ES1.GL_FOG_DENSITY, density)
-    			gl2.glFogf(GL2ES1.GL_FOG_MODE, GL2ES1.GL_EXP2)
+    			gl2.glFogf(GL_FOG_DENSITY, density)
+    			gl2.glFogf(GL_FOG_MODE, GL_EXP2)
     		}
     	}
     }
@@ -342,19 +350,19 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
     }
     
 	def newTexture(image: BufferedImage): TextureId = {
-		gl2.glEnable(GL.GL_TEXTURE_2D)
+		gl2.glEnable(GL_TEXTURE_2D)
 		val buffer = Utils.makeDirectByteBuffer(image)
 		val textureIds = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder).asIntBuffer // TODO: hardcoded value...
 		gl2.glGenTextures(1, textureIds)
 		val textureId = textureIds.get(0)
-		gl2.glBindTexture(GL.GL_TEXTURE_2D, textureId)
-		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT)
-		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT)
-		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR)
-		gl2.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR)
+		gl2.glBindTexture(GL_TEXTURE_2D, textureId)
+		gl2.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+		gl2.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+		gl2.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+		gl2.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 		image.getColorModel.hasAlpha match {
-			case false => gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, buffer)
-			case true => gl2.glTexImage2D(GL.GL_TEXTURE_2D, 0, 4, image.getWidth, image.getHeight, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buffer)
+			case false => gl2.glTexImage2D(GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer)
+			case true => gl2.glTexImage2D(GL_TEXTURE_2D, 0, 4, image.getWidth, image.getHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer)
 		}
 		TextureId(textureId)
 	}
@@ -367,14 +375,14 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 
 	def drawImage(x: Int, y: Int, width: Int, height: Int, imageType: ImageType, rawImage: ByteBuffer) {
 		gl2.glWindowPos2i(x, y)
-		gl2.glDrawPixels(width, height, glImageType(imageType), GL.GL_UNSIGNED_BYTE, rawImage)
+		gl2.glDrawPixels(width, height, glImageType(imageType), GL_UNSIGNED_BYTE, rawImage)
 	}
 	
 	def drawText(x: Int, y: Int, font: Font, text: String) {
 		
 		// TODO: move to the 'init' part
 		// TODO: should use opengl default
-		gl2.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1)
+		gl2.glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
 		
 		gl2.glWindowPos2i(x, y)
 		text.foreach { c => {
@@ -406,49 +414,49 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 	}
 	
 	private def glFace(face: Face): Int = face match {
-		case Front => GL.GL_FRONT
-		case Back => GL.GL_BACK
-		case FrontAndBack => GL.GL_FRONT_AND_BACK
+		case Front => GL_FRONT
+		case Back => GL_BACK
+		case FrontAndBack => GL_FRONT_AND_BACK
 	}
 	
 	private def glMode(mode: DrawingMode): Int = mode match {
-		case Point => GL2GL3.GL_POINT
-		case Line => GL2GL3.GL_LINE
-		case Fill => GL2GL3.GL_FILL
+		case Point => GL_POINT
+		case Line => GL_LINE
+		case Fill => GL_FILL
 	}
 	
 	private def glLightType(lightType: LightType): Int = lightType match {
-		case AmbientLight => GLLightingFunc.GL_AMBIENT
-		case DiffuseLight => GLLightingFunc.GL_DIFFUSE
-		case SpecularLight => GLLightingFunc.GL_SPECULAR
-		case EmissionLight => GLLightingFunc.GL_EMISSION
-		case AmbientAndDiffuseLight => GLLightingFunc.GL_AMBIENT_AND_DIFFUSE
+		case AmbientLight => GL_AMBIENT
+		case DiffuseLight => GL_DIFFUSE
+		case SpecularLight => GL_SPECULAR
+		case EmissionLight => GL_EMISSION
+		case AmbientAndDiffuseLight => GL_AMBIENT_AND_DIFFUSE
 	}
 	
 	private def glShadeModel(shadeModel: ShadeModel): Int = shadeModel match {
-		case Flat => GLLightingFunc.GL_FLAT
-		case Smooth => GLLightingFunc.GL_SMOOTH
+		case Flat => GL_FLAT
+		case Smooth => GL_SMOOTH
 	}
 
 	private def glLightInstance(instance: LightInstance): Int = instance match {
-		case LightInstance(0) => GLLightingFunc.GL_LIGHT0
-		case LightInstance(1) => GLLightingFunc.GL_LIGHT1
-		case LightInstance(2) => GLLightingFunc.GL_LIGHT2
-		case LightInstance(3) => GLLightingFunc.GL_LIGHT3
-		case LightInstance(4) => GLLightingFunc.GL_LIGHT4
-		case LightInstance(5) => GLLightingFunc.GL_LIGHT5
-		case LightInstance(6) => GLLightingFunc.GL_LIGHT6
-		case LightInstance(7) => GLLightingFunc.GL_LIGHT7
+		case LightInstance(0) => GL_LIGHT0
+		case LightInstance(1) => GL_LIGHT1
+		case LightInstance(2) => GL_LIGHT2
+		case LightInstance(3) => GL_LIGHT3
+		case LightInstance(4) => GL_LIGHT4
+		case LightInstance(5) => GL_LIGHT5
+		case LightInstance(6) => GL_LIGHT6
+		case LightInstance(7) => GL_LIGHT7
 	}
 
 	private def glImageType(imageType: ImageType): Int = imageType match {
-		case RGB => GL.GL_RGB
-		case RGBA => GL.GL_RGBA
+		case RGB => GL_RGB
+		case RGBA => GL_RGBA
 	}
 	
 	private def glShaderType(shaderType: ShaderType): Int = shaderType match {
-		case VertexShader => GL2ES2.GL_VERTEX_SHADER
-		case FragmentShader => GL2ES2.GL_FRAGMENT_SHADER
+		case VertexShader => GL_VERTEX_SHADER
+		case FragmentShader => GL_FRAGMENT_SHADER
 	}
 	
 }
