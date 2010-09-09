@@ -412,6 +412,48 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glGetShaderInfoLog(id, log.size, length, 0, log, 0)
 		new String(log, 0, length(0))
 	}
+
+	def newProgram: ProgramId = {
+		ProgramId(gl2.glCreateProgram)
+	}
+	
+	def freeProgram(programId: ProgramId) {
+		gl2.glDeleteProgram(programId.id.asInstanceOf[Int])
+	}
+	
+	def attachShader(programId: ProgramId, shaderId: ShaderId) {
+		gl2.glAttachShader(programId.id.asInstanceOf[Int], shaderId.id.asInstanceOf[Int])
+	}
+	
+	def detachShader(programId: ProgramId, shaderId: ShaderId) {
+		gl2.glDetachShader(programId.id.asInstanceOf[Int], shaderId.id.asInstanceOf[Int])
+	}
+	
+	def linkProgram(programId: ProgramId): String = {
+		val log = new Array[Byte](8192)
+		val length = Array(0)
+		val id = programId.id.asInstanceOf[Int]
+		gl2.glLinkProgram(id)
+		gl2.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
+		new String(log, 0, length(0))
+	}
+	
+	def validateProgram(programId: ProgramId): String = {
+		val log = new Array[Byte](8192)
+		val length = Array(0)
+		val id = programId.id.asInstanceOf[Int]
+		gl2.glValidateProgram(id)
+		gl2.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
+		new String(log, 0, length(0))
+	}
+	
+	def useProgram(programId: ProgramId) {
+		gl2.glUseProgram(programId.id.asInstanceOf[Int])
+	}
+
+	def useNoProgram {
+		gl2.glUseProgram(0)
+	}
 	
 	private def glFace(face: Face): Int = face match {
 		case Front => GL_FRONT

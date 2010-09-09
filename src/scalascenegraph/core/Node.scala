@@ -19,6 +19,7 @@ abstract class Node(val parent: Node) {
    	private val textures = Map.empty[String, Texture]
     private val fonts = Map.empty[String, Font]
     private val shaders = Map.empty[String, Shader]
+    private val programs = Map.empty[String, Program]
 
     /**
      * This method should not be overriden in subclasses.
@@ -47,6 +48,10 @@ abstract class Node(val parent: Node) {
     	shaders += name -> shader
     }
     
+    def addProgram(name: String, program: Program) {
+    	programs += name -> program
+    }
+    
     def getTexture(name: String): Texture = {
     	textures.get(name) match {
     		case Some(texture) => texture
@@ -65,6 +70,13 @@ abstract class Node(val parent: Node) {
     	shaders.get(name) match {
     		case Some(shader) => shader
     		case None => parent.getShader(name)
+    	}
+    }
+    
+    def getProgram(name: String): Program = {
+    	programs.get(name) match {
+    		case Some(program) => program
+    		case None => parent.getProgram(name)
     	}
     }
     

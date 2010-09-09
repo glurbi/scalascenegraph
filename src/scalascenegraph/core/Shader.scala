@@ -23,3 +23,21 @@ class Shader(parent: Node, shaderType: ShaderType, source: String) extends Node(
 	}
 	
 }
+
+class Program(parent: Node, shaderIds: List[ShaderId]) extends Node(parent) {
+	
+	var programId: ProgramId = _
+	
+	override def prepare(context: Context) {
+		val renderer = context.renderer
+		programId = renderer.newProgram
+		shaderIds.foreach { shaderId => renderer.attachShader(programId, shaderId) }
+		println(renderer.linkProgram(programId))
+		println(renderer.validateProgram(programId))
+	}
+	
+	override def dispose(context: Context) {
+		context.renderer.freeProgram(programId)
+	}
+	
+}

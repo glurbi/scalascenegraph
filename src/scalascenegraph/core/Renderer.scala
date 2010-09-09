@@ -92,5 +92,13 @@ trait Renderer {
 	def freeShader(shaderId: ShaderId)
 	def shaderSource(shaderId: ShaderId, source: String)
 	def compileShader(shaderId: ShaderId): String
+	def newProgram: ProgramId
+	def freeProgram(programId: ProgramId)
+	def attachShader(programId: ProgramId, shaderId: ShaderId)
+	def detachShader(programId: ProgramId, shaderId: ShaderId)
+	def linkProgram(programId: ProgramId): String
+	def validateProgram(programId: ProgramId): String
+	def useProgram(programId: ProgramId)
+	def useNoProgram
 	
 }
