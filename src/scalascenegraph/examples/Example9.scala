@@ -13,12 +13,28 @@ class Example9 extends Example with WorldBuilder {
 
 	val myshadersource =
 	"""
-	this is not a shader (yet!)
+	void main (void)
+    {
+        gl_FragColor = vec4 (0.0, 1.0, 0.0, 1.0);
+    }
 	"""
-	
+
+	val angleHook = (r: Rotation, c: Context) => {
+		r.angle = (c.elapsed / 20.0f) % 360.0f
+	}
+		
 	def example =
 		world {
+			cullFace(On)
 			shader("myshader", FragmentShader, myshadersource)
+			program("myprogram", "myshader")
+			useProgram("myprogram")
+			group {
+				translation(0.0f, 0.0f, -3.0f)
+				polygonMode(Front, Line)
+				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
+				cube
+			}
 		}
 	
 }

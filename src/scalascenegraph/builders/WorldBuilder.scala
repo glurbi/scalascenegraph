@@ -231,11 +231,16 @@ trait WorldBuilder {
 	}
 	
 	def program(name: String, shaderNames: String*) {
-		val shaderIds = List[ShaderId]()
-		shaderNames.foreach { shaderName => stack.top.getShader(shaderName).shaderId :: shaderIds }
-		val program = new Program(stack.top, shaderIds)
+		var shaders = List[Shader]()
+		shaderNames.foreach { shaderName => shaders = stack.top.getShader(shaderName) :: shaders }
+		val program = new Program(stack.top, shaders)
 		stack.top.addProgram(name, program)
 		stack.top.asInstanceOf[Group].add(program)
+	}
+	
+	def useProgram(name: String) {
+		val program = stack.top.getProgram(name)
+		stack.top.addState(new ProgramState(program))
 	}
 	
 }

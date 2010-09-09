@@ -208,3 +208,14 @@ class FogState(var color: Color, var mode: FogMode) extends State {
 		context.renderer.popFogState
 	}
 }
+
+class ProgramState(var program: Program) extends State {
+	var saved: ProgramId = _
+	override def preRender(context: Context) {
+		saved = context.renderer.currentProgram
+		context.renderer.useProgram(program.programId)
+	}
+	override def postRender(context: Context) {
+		context.renderer.useProgram(saved)
+	}
+}

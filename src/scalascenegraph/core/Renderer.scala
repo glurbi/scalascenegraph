@@ -100,5 +100,6 @@ trait Renderer {
 	def validateProgram(programId: ProgramId): String
 	def useProgram(programId: ProgramId)
 	def useNoProgram
+	def currentProgram: ProgramId
 	
 }
