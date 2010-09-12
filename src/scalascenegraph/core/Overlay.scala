@@ -9,7 +9,7 @@ import javax.imageio._
 
 import scalascenegraph.core.Predefs._
 
-class Overlay(parent: Node) extends Node(parent)
+class Overlay(val parent: Node) extends Node
 
 class ImageOverlay(parent: Node,
 			  	   var x: Int = 0,

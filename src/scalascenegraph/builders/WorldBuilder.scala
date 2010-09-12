@@ -125,6 +125,14 @@ trait WorldBuilder {
 		stack.top.asInstanceOf[Group].add(Sphere(stack.top, n, r, texture, light))
 	}
 	
+	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {
+		val builder = new BoxBuilder(width, height, depth, l, m, n)
+		stack.top.asInstanceOf[Group].add(new Node with QuadArray {
+			val parent = stack.top
+			def quads: Vertices = builder.createVertices
+		})
+	}
+	
 	def light(mode: OnOffState) {
 		// FIXME: set the light mode to previous value when exiting the group  
 		light = mode

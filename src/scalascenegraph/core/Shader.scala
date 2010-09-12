@@ -8,7 +8,7 @@ import javax.media.opengl._
 
 import scalascenegraph.core.Predefs._
 
-class Shader(parent: Node, shaderType: ShaderType, source: String) extends Node(parent) {
+class Shader(val parent: Node, shaderType: ShaderType, source: String) extends Node {
 
 	var shaderId: ShaderId = _
 	
@@ -24,7 +24,7 @@ class Shader(parent: Node, shaderType: ShaderType, source: String) extends Node(
 	
 }
 
-class Program(parent: Node, shaderIds: List[Shader]) extends Node(parent) {
+class Program(val parent: Node, shaderIds: List[Shader]) extends Node {
 	
 	var programId: ProgramId = _
 	

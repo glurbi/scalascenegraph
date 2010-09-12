@@ -32,19 +32,21 @@ object Sphere {
 		Sphere(parent, n, r, texture, Off)
 	}
 	
-	def apply(parent: Node, n: Int, r: Float, texture: Texture, light: OnOffState): Node = {
+	def apply(parentNode: Node, n: Int, r: Float, texture: Texture, light: OnOffState): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
 		val textureCoordinates = builder.createTextureCoordinates
 		light match {
-			case Off => new Node(parent) {
+			case Off => new Node {
+				val parent = parentNode
 				override def doRender(context: Context) {
 					context.renderer.quads(vertices, textureCoordinates, texture)
 				}
 			}
 			case On => {
 				val normals = builder.createNormals
-				new Node(parent) {
+				new Node {
+					val parent = parentNode
 					override def doRender(context: Context) {
 						context.renderer.quads(vertices, textureCoordinates, texture, normals)
 					}

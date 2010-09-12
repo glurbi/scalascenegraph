@@ -9,7 +9,7 @@ import scalascenegraph.core.Predefs._
 /**
  * The base class for any scene graph node.
  */
-abstract class Node(val parent: Node) {
+trait Node {
 
     private val states = new ArrayBuffer[State]
     
@@ -21,6 +21,11 @@ abstract class Node(val parent: Node) {
     private val shaders = Map.empty[String, Shader]
     private val programs = Map.empty[String, Program]
 
+    /**
+     * The parent node of this node in the graph.
+     */
+    def parent: Node
+    
     /**
      * This method should not be overriden in subclasses.
      */
@@ -114,7 +119,8 @@ abstract class Node(val parent: Node) {
  * rendered, for each frame. The hook code allows the user to change some node
  * attributes before rendering, thus making the wrapped node dynamic. 
  */
-class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node(node.parent) {
+class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node {
+	def parent = node.parent
 	override def preRender(context: Context) {
 		hook(node, context)
 		node.preRender(context)
@@ -130,7 +136,7 @@ class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node(no
 /**
  * A node that is a simple container for other nodes.
  */
-class Group(parent: Node) extends Node(parent) {
+class Group(val parent: Node) extends Node {
   
     private val children = new ArrayBuffer[Node]
   

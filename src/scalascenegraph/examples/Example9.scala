@@ -20,7 +20,7 @@ class Example9 extends Example with WorldBuilder {
 	"""
 
 	val angleHook = (r: Rotation, c: Context) => {
-		r.angle = (c.elapsed / 20.0f) % 360.0f
+		r.angle = (c.elapsed / 50.0f) % 360.0f
 	}
 		
 	def example =
@@ -30,10 +30,10 @@ class Example9 extends Example with WorldBuilder {
 			program("myprogram", "myshader")
 			useProgram("myprogram")
 			group {
-				translation(0.0f, 0.0f, -3.0f)
+				translation(0.0f, 0.0f, -4.0f)
 				polygonMode(Front, Line)
 				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				cube
+				box(4.0f, 2.0f, 1.0f, 40, 20, 10)
 			}
 		}
 	

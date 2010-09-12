@@ -220,7 +220,8 @@ object Predefs {
 	}
 
 	// TODO: remove!
-	def node(parent: Node, fun: (Context) => Unit): Node = new Node(parent) {
+	def node(parentNode: Node, fun: (Context) => Unit): Node = new Node {
+		val parent = parentNode
 		override def doRender(context: Context) {
 			fun(context)
 		}

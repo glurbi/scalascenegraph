@@ -5,7 +5,6 @@ import com.jogamp.common.nio._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-
 object Cube {
 	
 	def apply(parent: Node): Node = {
@@ -20,22 +19,24 @@ object Cube {
 		node(parent, context => context.renderer.quads(Cube.vertices, color))
 	}
 	
-	def apply(parent: Node, texture: Texture): Node = {
-		new Node(parent) {
+	def apply(parentNode: Node, texture: Texture): Node = {
+		new Node {
+			val parent = parentNode
 			override def doRender(context: Context) {
 				context.renderer.quads(vertices, textureCoordinates, texture)
 			}
 		}
 	}
 	
-	def apply(parent: Node, texture: Texture, light: OnOffState): Node = {
+	def apply(parentNode: Node, texture: Texture, light: OnOffState): Node = {
 		light match {
-			case On => new Node(parent) {
+			case On => new Node {
+				val parent = parentNode
 				override def doRender(context: Context) {
 					context.renderer.quads(vertices, textureCoordinates, texture, normals)
 				}
 			}
-			case Off => Cube(parent, texture)
+			case Off => Cube(parentNode, texture)
 		}
 		
 	}

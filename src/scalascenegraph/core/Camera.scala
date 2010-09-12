@@ -28,7 +28,7 @@ object Camera {
 	
 }
 
-abstract class Camera(parent: Node, val clippingVolume: ClippingVolume) extends Node(parent) {
+abstract class Camera(val parent: Node, val clippingVolume: ClippingVolume) extends Node {
 	
 	private var xT: Float = 0 // translation along x axis
 	private var yT: Float = 0 // translation along y axis
