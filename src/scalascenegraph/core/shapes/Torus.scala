@@ -11,11 +11,11 @@ import scalascenegraph.core.Utils._
 
 object Torus {
 	
-	def apply(parent: Node, n: Int, R: Float, r: Float): Node = {
+	def apply(n: Int, R: Float, r: Float): Node = {
 		val builder = new TorusBuilder(n, R, r)
 		val vertices = builder.createVertices
 		val normals = builder.createNormals
-		node(parent, context => context.renderer.quads(vertices, normals))
+		node(context => context.renderer.quads(vertices, normals))
 	}
 
 }

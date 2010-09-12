@@ -9,36 +9,35 @@ import scalascenegraph.core.Predefs._
 
 object Sphere {
 	
-	def apply(parent: Node, n: Int, r: Float): Node = {
+	def apply(n: Int, r: Float): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
 		val normals = builder.createNormals
-		node(parent, context => context.renderer.quads(vertices, normals))
+		node(context => context.renderer.quads(vertices, normals))
 	}
 	
-	def apply(parent: Node, n: Int, r: Float, color: Color): Node = {
+	def apply(n: Int, r: Float, color: Color): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
-		node(parent, context => context.renderer.quads(vertices, color))
+		node(context => context.renderer.quads(vertices, color))
 	}
 	
-	def apply(parent: Node, n: Int, r: Float, colors: Colors): Node = {
+	def apply(n: Int, r: Float, colors: Colors): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
-		node(parent, context => context.renderer.quads(vertices, colors))
+		node(context => context.renderer.quads(vertices, colors))
 	}
 
-	def apply(parent: Node, n: Int, r: Float, texture: Texture): Node = {
-		Sphere(parent, n, r, texture, Off)
+	def apply(n: Int, r: Float, texture: Texture): Node = {
+		Sphere(n, r, texture, Off)
 	}
 	
-	def apply(parentNode: Node, n: Int, r: Float, texture: Texture, light: OnOffState): Node = {
+	def apply(n: Int, r: Float, texture: Texture, light: OnOffState): Node = {
 		val builder = new SphereBuilder(n, r)
 		val vertices = builder.createVertices
 		val textureCoordinates = builder.createTextureCoordinates
 		light match {
 			case Off => new Node {
-				val parent = parentNode
 				override def doRender(context: Context) {
 					context.renderer.quads(vertices, textureCoordinates, texture)
 				}
@@ -46,7 +45,6 @@ object Sphere {
 			case On => {
 				val normals = builder.createNormals
 				new Node {
-					val parent = parentNode
 					override def doRender(context: Context) {
 						context.renderer.quads(vertices, textureCoordinates, texture, normals)
 					}

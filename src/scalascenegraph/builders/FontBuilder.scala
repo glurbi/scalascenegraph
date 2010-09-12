@@ -19,7 +19,7 @@ object FontBuilder {
 	/**
 	 * Creates a Font object based on the AWT Font given in parameter.
 	 */
-	def create(parent: Node, jfont: JFont): Font = {
+	def create(jfont: JFont): Font = {
 		val characters = Map.empty[Char, Character]
 		val img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR)
 		val g2d = img.createGraphics
@@ -45,7 +45,7 @@ object FontBuilder {
 			characters += char.toChar -> character
 		}
 		g2d.dispose
-		new Font(parent, characters)
+		new Font(characters)
 	}
 	
 	private def makeCharacter(char: Char, image: BufferedImage): Character = {

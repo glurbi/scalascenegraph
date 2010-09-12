@@ -11,11 +11,11 @@ import scalascenegraph.core.Utils._
 
 object CheckerBoard {
 	
-	def apply(parent: Node, n: Int, m: Int, c1: Color, c2: Color): Node = {
+	def apply(n: Int, m: Int, c1: Color, c2: Color): Node = {
 		val builder = new CheckerBoardBuilder(n, m, c1, c2)
 		val vertices = builder.createVertices
 		val colors = builder.createColors
-		node(parent, context => context.renderer.quads(vertices, colors))
+		node(context => context.renderer.quads(vertices, colors))
 	}
 	
 }

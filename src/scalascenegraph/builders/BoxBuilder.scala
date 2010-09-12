@@ -9,6 +9,15 @@ import scalascenegraph.core.Predefs._
 
 class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {
 
+	def createBox: Node = {
+		new Node {
+			private val quads = createVertices
+			override def doRender(context: Context) {
+				context.renderer.quads(quads)
+			}
+		}		
+	}
+	
 	def createVertices: Vertices = {
 		val ab = new ArrayBuffer[Float]
 		val xOffset = width / 2.0f

@@ -13,6 +13,8 @@ trait Node {
 
     private val states = new ArrayBuffer[State]
     
+    // TODO: provide a add(child: Node) method to avoid asInstanceOf[Group]
+    
     //
     // TODO: should be resources...
     //
@@ -24,7 +26,7 @@ trait Node {
     /**
      * The parent node of this node in the graph.
      */
-    def parent: Node
+    var parent: Node = null
     
     /**
      * This method should not be overriden in subclasses.
@@ -120,7 +122,9 @@ trait Node {
  * attributes before rendering, thus making the wrapped node dynamic. 
  */
 class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node {
-	def parent = node.parent
+	
+	parent = node.parent
+	
 	override def preRender(context: Context) {
 		hook(node, context)
 		node.preRender(context)
@@ -136,10 +140,10 @@ class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node {
 /**
  * A node that is a simple container for other nodes.
  */
-class Group(val parent: Node) extends Node {
+class Group extends Node {
   
     private val children = new ArrayBuffer[Node]
-  
+    
     def add(child: Node) {
         children += child
     }
@@ -161,7 +165,7 @@ class Group(val parent: Node) extends Node {
 /**
  * The top node in a scene graph.
  */
-class World extends Group(null) {
+class World extends Group {
 
     override def doRender(context: Context) {
         context.renderer.clear

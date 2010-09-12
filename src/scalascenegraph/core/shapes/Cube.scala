@@ -7,21 +7,20 @@ import scalascenegraph.core.Predefs._
 
 object Cube {
 	
-	def apply(parent: Node): Node = {
-		node(parent, context => context.renderer.quads(Cube.vertices, Cube.normals))
+	def create: Node = {
+		node(context => context.renderer.quads(Cube.vertices, Cube.normals))
 	}
 
-	def apply(parent: Node, colors: Colors): Node = {
-		node(parent, context => context.renderer.quads(Cube.vertices, colors))
+	def apply(colors: Colors): Node = {
+		node(context => context.renderer.quads(Cube.vertices, colors))
 	}
 
-	def apply(parent: Node, color: Color): Node = {
-		node(parent, context => context.renderer.quads(Cube.vertices, color))
+	def apply(color: Color): Node = {
+		node(context => context.renderer.quads(Cube.vertices, color))
 	}
 	
 	def apply(parentNode: Node, texture: Texture): Node = {
 		new Node {
-			val parent = parentNode
 			override def doRender(context: Context) {
 				context.renderer.quads(vertices, textureCoordinates, texture)
 			}
@@ -31,7 +30,6 @@ object Cube {
 	def apply(parentNode: Node, texture: Texture, light: OnOffState): Node = {
 		light match {
 			case On => new Node {
-				val parent = parentNode
 				override def doRender(context: Context) {
 					context.renderer.quads(vertices, textureCoordinates, texture, normals)
 				}

@@ -9,16 +9,15 @@ import javax.imageio._
 
 import scalascenegraph.core.Predefs._
 
-class Overlay(val parent: Node) extends Node
+class Overlay extends Node
 
-class ImageOverlay(parent: Node,
-			  	   var x: Int = 0,
+class ImageOverlay(var x: Int = 0,
 		           var y: Int = 0,
  		           var width: Int,
 		           var height: Int,
 		           var imageType: ImageType,
 		           var rawImage: ByteBuffer)
-extends Overlay(parent) {
+extends Overlay {
 
 	override def doRender(context: Context) {
 		if (rawImage != null) {
@@ -28,12 +27,11 @@ extends Overlay(parent) {
 	
 }
 
-class TextOverlay(parent: Node,
-			  	  var x: Int = 0,
+class TextOverlay(var x: Int = 0,
 		          var y: Int = 0,
 		          var font: Font,
 		          var text: String)
-extends Overlay(parent) {
+extends Overlay {
 
 	override def doRender(context: Context) {
 		context.renderer.drawText(x, y, font, text)
