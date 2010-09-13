@@ -2,8 +2,10 @@ package scalascenegraph.core
 
 import java.awt.{Color => JColor}
 import javax.media.opengl._
+import java.nio._
 import scala.collection.mutable._
 
+import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Predefs._
 
 /**
@@ -11,77 +13,24 @@ import scalascenegraph.core.Predefs._
  */
 trait Node {
 
-    private val states = new ArrayBuffer[State]
-    
-    //
-    // TODO: should be resources...
-    //
-   	private val textures = Map.empty[String, Texture]
-    private val fonts = Map.empty[String, Font]
-    private val shaders = Map.empty[String, Shader]
-    private val programs = Map.empty[String, Program]
-
     /**
      * The parent node of this node in the graph.
      */
     var parent: Node = null
     
     /**
-     * This method should not be overriden in subclasses.
+     * The actual rendering of a node should be implemented here.
+     * Must be overriden in concrete nodes.
      */
-	def render(context: Context) {
-		states.foreach { state => state.preRender(context) }
-		doRender(context)
-		states.reverse.foreach { state => state.postRender(context) }
+	def render(context: Context)
+    
+	/**
+	 * Attaches the state given in parameter to this node,
+	 * thus making it part of the scene graph.
+	 */
+	def attach(state: State) {
+		throw new UnsupportedOperationException
 	}
-    
-    def addState(state: State) {
-    	states += state
-    }
-    
-    def addTexture(name: String, texture: Texture) {
-    	textures += name -> texture
-    }
-    
-    def addFont(name: String, font: Font) {
-    	fonts += name -> font
-    }
-    
-    def addShader(name: String, shader: Shader) {
-    	shaders += name -> shader
-    }
-    
-    def addProgram(name: String, program: Program) {
-    	programs += name -> program
-    }
-    
-    def getTexture(name: String): Texture = {
-    	textures.get(name) match {
-    		case Some(texture) => texture
-    		case None => parent.getTexture(name)
-    	}
-    }
-    
-    def getFont(name: String): Font = {
-    	fonts.get(name) match {
-    		case Some(font) => font
-    		case None => parent.getFont(name)
-    	}
-    }
-
-    def getShader(name: String): Shader = {
-    	shaders.get(name) match {
-    		case Some(shader) => shader
-    		case None => parent.getShader(name)
-    	}
-    }
-    
-    def getProgram(name: String): Program = {
-    	programs.get(name) match {
-    		case Some(program) => program
-    		case None => parent.getProgram(name)
-    	}
-    }
 
     /**
      * Attaches the node given in parameter to this node,
@@ -92,22 +41,32 @@ trait Node {
     }
     
     /**
-     * The actual rendering of a node should be implemented here.
+     * Attaches the resource given in parameter to this node,
+     * thus making is part of the scene graph.
      */
-	def doRender(context: Context) {}
-	
-	/**
-	 * Called once only, during scene graph initialisation.
-	 * Can be used to load resources (textures, bitmaps, ...)
-	 */
-	def prepare(context: Context) {}
-	
-	/**
-	 * Called once when the scene graph is not used any longer.
-	 * Resources should be freed here.
-	 */
-	def dispose(context: Context) {}
+    def attach(name: String, resource: Resource) {
+    	throw new UnsupportedOperationException
+    }
+    
+    /**
+     * Returns the Resource object corresponding to the name given in parameter,
+     * or <code>null</code> if it doesn't exist.
+     */
+    def getResource[T <: Resource](name: String): T = {
+    	parent.getResource(name)
+    }
 
+    /**
+     * Visitor pattern support ...
+     */
+    def accept(visitor: NodeVisitor) {}
+}
+
+/**
+ * Visitor pattern support ...
+ */
+abstract class NodeVisitor(context: Context) {
+	def visit(group: Group)
 }
 
 /**
@@ -119,9 +78,9 @@ class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node {
 	
 	parent = node.parent
 	
-	override def doRender(context: Context) {
+	def render(context: Context) {
 		hook(node, context)
-		node.doRender(context)
+		node.render(context)
 	}
 }
 
@@ -130,7 +89,9 @@ class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node {
  */
 class Group extends Node {
   
-    private val children = new ArrayBuffer[Node]
+    val children = new ArrayBuffer[Node]
+    val states = new ArrayBuffer[State]
+    val resources = LinkedHashMap.empty[String, Resource]
     
     override def attach(child: Node) {
     	if (child.parent != null) {
@@ -140,16 +101,29 @@ class Group extends Node {
         child.parent = this
     }
   
-    override def doRender(context: Context) {
-        children.foreach { child => child.render(context) }
+    override def attach(state: State) {
+    	states += state
     }
     
-    override def prepare(context: Context) {
-    	children.foreach { child => child.prepare(context) }
+    override def attach(name: String, resource: Resource) {
+    	resources += name -> resource
     }
-
-    override def dispose(context: Context) {
-    	children.foreach { child => child.dispose(context) }
+    
+    override def getResource[T <: Resource](name: String): T = {
+    	resources.get(name) match {
+    		case Some(resource) => resource.asInstanceOf[T]
+    		case None => parent.getResource(name)
+    	}
+    }
+    
+    override def render(context: Context) {
+		states.foreach { state => state.preRender(context) }
+        children.foreach { child => child.render(context) }
+		states.reverse.foreach { state => state.postRender(context) }
+    }
+    
+    override def accept(visitor: NodeVisitor) {
+    	visitor.visit(this)
     }
     
 }
@@ -159,10 +133,43 @@ class Group extends Node {
  */
 class World extends Group {
 
-    override def doRender(context: Context) {
+    override def render(context: Context) {
         context.renderer.clear
-        super.doRender(context)
+        super.render(context)
         context.renderer.flush
     }
   
+}
+
+/**
+ * A marker class for nodes that behave as overlays.
+ */
+abstract class Overlay extends Node
+
+class ImageOverlay(var x: Int = 0,
+		           var y: Int = 0,
+ 		           var width: Int,
+		           var height: Int,
+		           var imageType: ImageType,
+		           var rawImage: ByteBuffer)
+extends Overlay {
+
+	override def render(context: Context) {
+		if (rawImage != null) {
+			context.renderer.drawImage(x, y, width, height, imageType, rawImage)
+		}
+	}
+	
+}
+
+class TextOverlay(var x: Int = 0,
+		          var y: Int = 0,
+		          var font: Font,
+		          var text: String)
+extends Overlay {
+
+	override def render(context: Context) {
+		context.renderer.drawText(x, y, font, text)
+	}
+	
 }

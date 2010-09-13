@@ -14,8 +14,6 @@ import scalascenegraph.core.Predefs._
 
 trait WorldBuilder {
 
-	// TODO: provide a bind(parent, child) method
-	
 	private val stack = new Stack[Node]
 	private var light: OnOffState = Off
 	
@@ -34,47 +32,47 @@ trait WorldBuilder {
 	}
 
 	def color(c: Color) {
-		stack.top.addState(new ColorState(c))
+		stack.top.attach(new ColorState(c))
 	}
 	
 	def translation(x: Float, y: Float, z: Float) {
-		stack.top.addState(new Translation(x, y, z))
+		stack.top.attach(new Translation(x, y, z))
 	}
 
 	def translation(x: Float, y: Float, z: Float, hook: StateHook[Translation]) {
-		stack.top.addState(new DynamicState(hook, new Translation(x, y, z)))
+		stack.top.attach(new DynamicState(hook, new Translation(x, y, z)))
 	}
 	
 	def translation(hook: StateHook[Translation]) {
-		stack.top.addState(new DynamicState(hook, new Translation(0.0f, 0.0f, 0.0f)))
+		stack.top.attach(new DynamicState(hook, new Translation(0.0f, 0.0f, 0.0f)))
 	}
 	
 	def rotation(angle: Float, x: Float, y: Float, z: Float) {
-		stack.top.addState(new Rotation(angle, x, y, z))
+		stack.top.attach(new Rotation(angle, x, y, z))
 	}
 
 	def rotation(angle: Float, x: Float, y: Float, z: Float, hook: StateHook[Rotation]) {
-		stack.top.addState(new DynamicState(hook, new Rotation(angle, x, y, z)))
+		stack.top.attach(new DynamicState(hook, new Rotation(angle, x, y, z)))
 	}
 
 	def rotation(hook: StateHook[Rotation]) {
-		stack.top.addState(new DynamicState(hook, new Rotation))
+		stack.top.attach(new DynamicState(hook, new Rotation))
 	}
 	
 	def polygonMode(face: Face, mode: DrawingMode) {
-		stack.top.addState(new PolygonState(face, mode))
+		stack.top.attach(new PolygonState(face, mode))
 	}
 	
 	def frontFace(frontFace: FrontFace) {
-		stack.top.addState(new FrontFaceState(frontFace))
+		stack.top.attach(new FrontFaceState(frontFace))
 	}
 	
 	def cullFace(cullFace: OnOffState) {
-		stack.top.addState(new CullFaceState(cullFace))
+		stack.top.attach(new CullFaceState(cullFace))
 	}
 
 	def depthTest(depthTest: OnOffState) {
-		stack.top.addState(new DepthTestState(depthTest))
+		stack.top.attach(new DepthTestState(depthTest))
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
@@ -102,7 +100,7 @@ trait WorldBuilder {
 	
 	// TODO: add type TextureName or something alike
 	def cube(textureName: String) {
-		val texture = stack.top.getTexture(textureName)
+		val texture: Texture = stack.top.getResource(textureName)
 		stack.top.attach(Cube(texture, light))
 	}
 	
@@ -123,7 +121,7 @@ trait WorldBuilder {
 	}
 	
 	def sphere(n: Int, r: Float, textureName: String) {
-		val texture = stack.top.getTexture(textureName)
+		val texture: Texture = stack.top.getResource(textureName)
 		stack.top.attach(Sphere(n, r, texture, light))
 	}
 	
@@ -135,35 +133,35 @@ trait WorldBuilder {
 	def light(mode: OnOffState) {
 		// FIXME: set the light mode to previous value when exiting the group  
 		light = mode
-		stack.top.addState(new GlobalLightState(mode))
+		stack.top.attach(new GlobalLightState(mode))
 	}
 
 	def light(instance: LightInstance, mode: OnOffState) {
-		stack.top.addState(new LightState(instance, mode))
+		stack.top.attach(new LightState(instance, mode))
 	}
 	
 	def light(instance: LightInstance, lightType: LightType, color: Color) {
-		stack.top.addState(new LightColorState(instance, lightType, color))
+		stack.top.attach(new LightColorState(instance, lightType, color))
 	}
 
 	def light(instance: LightInstance, position: Position) {
-		stack.top.addState(new LightPositionState(instance, position))
+		stack.top.attach(new LightPositionState(instance, position))
 	}
 	
 	def shininess(face: Face, shininess: Int) {
-		stack.top.addState(new MaterialShininessState(face, shininess))
+		stack.top.attach(new MaterialShininessState(face, shininess))
 	}
 	
 	def ambient(intensity: Intensity) {
-		stack.top.addState(new AmbientLightState(intensity))
+		stack.top.attach(new AmbientLightState(intensity))
 	}
 	
 	def material(face: Face, lightType: LightType, color: Color) {
-		stack.top.addState(new MaterialState(face, lightType, color))
+		stack.top.attach(new MaterialState(face, lightType, color))
 	}
 	
 	def lineWidth(width: Float) {
-		stack.top.addState(new LineWidthState(width))
+		stack.top.attach(new LineWidthState(width))
 	}
 	
 	def torus(n: Int, R: Float, r: Float) {
@@ -171,7 +169,7 @@ trait WorldBuilder {
 	}
 
 	def shadeModel(shadeModel: ShadeModel) {
-		stack.top.addState(new ShadeModelState(shadeModel))
+		stack.top.attach(new ShadeModelState(shadeModel))
 	}
 
 	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
@@ -179,13 +177,12 @@ trait WorldBuilder {
 	}
 	
 	def fog(color: Color, mode: FogMode) {
-		stack.top.addState(new FogState(color, mode))
+		stack.top.attach(new FogState(color, mode))
 	}
 	
 	def texture(name: String, in: InputStream) {
 		val texture = new Texture(in)
-		stack.top.addTexture(name, texture)
-		stack.top.attach(texture)
+		stack.top.attach(name, texture)
 	}
 	
 	def overlay(x: Int, y: Int, image: BufferedImage) {
@@ -209,41 +206,39 @@ trait WorldBuilder {
 	}
 
 	def overlay(x: Int, y: Int, fontName: String, text: String) {
-		val font = stack.top.getFont(fontName)
+		val font: Font = stack.top.getResource(fontName)
 		stack.top.attach(new TextOverlay(x, y, font, text))
 	}
 
 	def overlay(x: Int, y: Int, fontName: String, text: String, hook: NodeHook[TextOverlay]) {
-		val font = stack.top.getFont(fontName)
+		val font: Font = stack.top.getResource(fontName)
 		stack.top.attach(new DynamicNode(hook, new TextOverlay(x, y, font, text)))
 	}
 	
 	def blending(mode: OnOffState) {
-		stack.top.addState(new BlendingState(mode))
+		stack.top.attach(new BlendingState(mode))
 	}
 	
 	def font(name: String, jfont: JFont) {
 		val font = FontBuilder.create(jfont)
-		stack.top.addFont(name, font)
+		stack.top.attach(name, font)
 	}
 	
 	def shader(name: String, shaderType: ShaderType, source: String) {
 		val shader = new Shader(shaderType, source)
-		stack.top.addShader(name, shader)
-		stack.top.attach(shader)
+		stack.top.attach(name, shader)
 	}
 	
 	def program(name: String, shaderNames: String*) {
 		var shaders = List[Shader]()
-		shaderNames.foreach { shaderName => shaders = stack.top.getShader(shaderName) :: shaders }
+		shaderNames.foreach { shaderName => shaders = stack.top.getResource(shaderName).asInstanceOf[Shader] :: shaders }
 		val program = new Program(shaders)
-		stack.top.addProgram(name, program)
-		stack.top.attach(program)
+		stack.top.attach(name, program)
 	}
 	
 	def useProgram(name: String) {
-		val program = stack.top.getProgram(name)
-		stack.top.addState(new ProgramState(program))
+		val program: Program = stack.top.getResource(name)
+		stack.top.attach(new ProgramState(program))
 	}
 	
 }

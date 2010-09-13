@@ -5,7 +5,7 @@ import scalascenegraph.core.Predefs._
 
 trait QuadArray extends Node {
 	def quads: Vertices
-	override def doRender(context: Context) {
+	def render(context: Context) {
 		context.renderer.quads(quads)
 	}
 }

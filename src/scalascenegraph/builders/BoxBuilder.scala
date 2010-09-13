@@ -12,7 +12,7 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 	def createBox: Node = {
 		new Node {
 			private val quads = createVertices
-			override def doRender(context: Context) {
+			def render(context: Context) {
 				context.renderer.quads(quads)
 			}
 		}		

@@ -93,8 +93,13 @@ with GLEventListener
     	val gl2 = drawable.getGL.getGL2
     	val renderer = new OpenglRenderer(gl2)
         context.renderer = renderer
-        camera.prepare(context)
-        world.prepare(context)
+        val preparator = new NodeVisitor(context) {
+    		def visit(group: Group) {
+    			group.resources.foreach { entry => entry._2.prepare(context) }
+    			group.children.foreach { child => child.accept(this) }
+    		}
+    	}
+        world.accept(preparator)
         
     	// make sure we don't draw more often than the screen is refreshed
     	//gl2.setSwapInterval(1);

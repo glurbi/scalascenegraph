@@ -221,7 +221,7 @@ object Predefs {
 
 	// TODO: remove!
 	def node(fun: (Context) => Unit): Node = new Node {
-		override def doRender(context: Context) {
+		def render(context: Context) {
 			fun(context)
 		}
 	}

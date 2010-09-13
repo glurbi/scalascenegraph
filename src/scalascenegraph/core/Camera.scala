@@ -78,7 +78,7 @@ class ClippingVolume(
 class PerspectiveCamera(clippingVolume: ClippingVolume)
 extends Camera(clippingVolume)
 {
-    override def doRender(context: Context) {
+    def render(context: Context) {
         import clippingVolume._
         context.renderer.perspective(left, right, bottom, top, near, far);
         positionCamera(context)
@@ -88,7 +88,7 @@ extends Camera(clippingVolume)
 class ParallelCamera(clippingVolume: ClippingVolume)
 extends Camera(clippingVolume)
 {
-    override def doRender(context: Context) {
+    def render(context: Context) {
         import clippingVolume._
         context.renderer.ortho(left, right, bottom, top, near, far);
         positionCamera(context)

@@ -38,14 +38,14 @@ object Sphere {
 		val textureCoordinates = builder.createTextureCoordinates
 		light match {
 			case Off => new Node {
-				override def doRender(context: Context) {
+				def render(context: Context) {
 					context.renderer.quads(vertices, textureCoordinates, texture)
 				}
 			}
 			case On => {
 				val normals = builder.createNormals
 				new Node {
-					override def doRender(context: Context) {
+					def render(context: Context) {
 						context.renderer.quads(vertices, textureCoordinates, texture, normals)
 					}
 				}
