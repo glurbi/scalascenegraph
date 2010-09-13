@@ -31,11 +31,7 @@ trait Node {
      */
 	def render(context: Context) {
 		states.foreach { state => state.preRender(context) }
-		// TODO: necessary?
-		preRender(context)
 		doRender(context)
-		// TODO: necessary?
-		postRender(context)
 		states.reverse.foreach { state => state.postRender(context) }
 	}
     
@@ -112,16 +108,6 @@ trait Node {
 	 */
 	def dispose(context: Context) {}
 
-	/**
-	 * Called before a node is actually rendered (doRender() method)
-	 */
-	def preRender(context: Context) {}
-	
-	/**
-	 * Called after a node is actually rendered (doRender() method)
-	 */
-	def postRender(context: Context) {}
-	
 }
 
 /**
@@ -133,15 +119,9 @@ class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node {
 	
 	parent = node.parent
 	
-	override def preRender(context: Context) {
-		hook(node, context)
-		node.preRender(context)
-	}
 	override def doRender(context: Context) {
+		hook(node, context)
 		node.doRender(context)
-	}
-	override def postRender(context: Context) {
-		node.postRender(context)
 	}
 }
 

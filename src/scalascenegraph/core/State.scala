@@ -2,11 +2,33 @@ package scalascenegraph.core
 
 import scalascenegraph.core.Predefs._
 
+/**
+ * A State instance controls the state of the renderer for all child nodes of a given group.
+ * <p>
+ * A state can be overriden in child nodes.
+ */
 trait State {
+	
+	/**
+	 * Called before a node is actually rendered (Node.doRender() method)
+	 * Implementations should save the current renderer state and then modify it.
+	 */
 	def preRender(context: Context) {}
+	
+	/**
+	 * Called after a node is actually rendered (Node.doRender() method)
+	 * Implementations should restore the previous state of the renderer.
+	 */
 	def postRender(context: Context) {}
+	
 }
 
+/**
+ * Wraps a state so that the specified hook can be called before the wrapped
+ * states preRender() method is called, for each frame. The hook code allows
+ * the user to change some node attributes before rendering, thus making the
+ * wrapped state dynamic. 
+ */
 class DynamicState[T <: State](val hook: StateHook[T], val state: T) extends State {
 	override def preRender(context: Context) {
 		hook(state, context)
@@ -17,6 +39,9 @@ class DynamicState[T <: State](val hook: StateHook[T], val state: T) extends Sta
 	}
 }
 
+/**
+ * A marker trait for transformations.
+ */
 trait Transformation extends State {}
 
 class DepthTestState(var depthTest: OnOffState) extends State {
