@@ -19,7 +19,7 @@ object Cube {
 		node(context => context.renderer.quads(Cube.vertices, color))
 	}
 	
-	def apply(parentNode: Node, texture: Texture): Node = {
+	def apply(texture: Texture): Node = {
 		new Node {
 			override def doRender(context: Context) {
 				context.renderer.quads(vertices, textureCoordinates, texture)
@@ -27,14 +27,14 @@ object Cube {
 		}
 	}
 	
-	def apply(parentNode: Node, texture: Texture, light: OnOffState): Node = {
+	def apply(texture: Texture, light: OnOffState): Node = {
 		light match {
 			case On => new Node {
 				override def doRender(context: Context) {
 					context.renderer.quads(vertices, textureCoordinates, texture, normals)
 				}
 			}
-			case Off => Cube(parentNode, texture)
+			case Off => Cube(texture)
 		}
 		
 	}

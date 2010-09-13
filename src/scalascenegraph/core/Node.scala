@@ -13,8 +13,6 @@ trait Node {
 
     private val states = new ArrayBuffer[State]
     
-    // TODO: provide a add(child: Node) method to avoid asInstanceOf[Group]
-    
     //
     // TODO: should be resources...
     //
@@ -33,8 +31,10 @@ trait Node {
      */
 	def render(context: Context) {
 		states.foreach { state => state.preRender(context) }
+		// TODO: necessary?
 		preRender(context)
 		doRender(context)
+		// TODO: necessary?
 		postRender(context)
 		states.reverse.foreach { state => state.postRender(context) }
 	}
@@ -85,6 +85,14 @@ trait Node {
     		case Some(program) => program
     		case None => parent.getProgram(name)
     	}
+    }
+
+    /**
+     * Attaches the node given in parameter to this node,
+     * thus making is part of the scene graph.
+     */
+    def attach(child: Node) {
+    	throw new UnsupportedOperationException
     }
     
     /**
@@ -144,8 +152,12 @@ class Group extends Node {
   
     private val children = new ArrayBuffer[Node]
     
-    def add(child: Node) {
+    override def attach(child: Node) {
+    	if (child.parent != null) {
+    		throw new RuntimeException(child + " is already attached to a node")
+    	}
         children += child
+        child.parent = this
     }
   
     override def doRender(context: Context) {

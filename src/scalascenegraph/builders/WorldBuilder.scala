@@ -26,10 +26,9 @@ trait WorldBuilder {
 	}
 	
 	def group(body: => Unit): Group = {
-		val g = new Group
-		g.parent = stack.top
-		stack.top.asInstanceOf[Group].add(g)
-		stack.push(g)
+		val group = new Group
+		stack.top.attach(group)
+		stack.push(group)
 		body
 		stack.pop.asInstanceOf[Group]
 	}
@@ -79,80 +78,58 @@ trait WorldBuilder {
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
-		val t = Triangle(v1, v2, v3)
-		t.parent = stack.top
-		stack.top.asInstanceOf[Group].add(t)
+		stack.top.attach(Triangle(v1, v2, v3))
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
     		     c1: Color, c2: Color, c3: Color)
 	{
-		val t = Triangle(v1, v2, v3, c1, c2, c3)
-		t.parent = stack.top
-		stack.top.asInstanceOf[Group].add(t)
+		stack.top.attach(Triangle(v1, v2, v3, c1, c2, c3))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
 		val c = color
-		val q = Quad(v1, v2, v3, v4, c, c, c, c)
-		q.parent = stack.top
-		stack.top.asInstanceOf[Group].add(q)
+		stack.top.attach(Quad(v1, v2, v3, v4, c, c, c, c))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) {
-		val q = Quad(v1, v2, v3, v4)
-		q.parent = stack.top
-		stack.top.asInstanceOf[Group].add(q)
+		stack.top.attach(Quad(v1, v2, v3, v4))
 	}
 	
 	def cube {
-		val c = Cube.create
-		c.parent = stack.top
-		stack.top.asInstanceOf[Group].add(c)
+		stack.top.attach(Cube.create)
 	}
 	
 	// TODO: add type TextureName or something alike
 	def cube(textureName: String) {
 		val texture = stack.top.getTexture(textureName)
-		stack.top.asInstanceOf[Group].add(Cube(stack.top, texture, light))
+		stack.top.attach(Cube(texture, light))
 	}
 	
 	def cube(color: Color) {
-		val c = Cube(color)
-		c.parent = stack.top
-		stack.top.asInstanceOf[Group].add(c)
+		stack.top.attach(Cube(color))
 	}
 	
 	def cube(colors: Array[Float]) {
-		val c = Cube(Colors(Buffers.newDirectFloatBuffer(colors)))
-		c.parent = stack.top
-		stack.top.asInstanceOf[Group].add(c)
+		stack.top.attach(Cube(Colors(Buffers.newDirectFloatBuffer(colors))))
 	}
 	
 	def sphere(n: Int, r: Float) {
-		val s = Sphere(n, r)
-		s.parent = stack.top
-		stack.top.asInstanceOf[Group].add(s)
+		stack.top.attach(Sphere(n, r))
 	}
 	
 	def sphere(n: Int, r: Float, color: Color) {
-		val s = Sphere(n, r, color)
-		s.parent = stack.top
-		stack.top.asInstanceOf[Group].add(s)
+		stack.top.attach(Sphere(n, r, color))
 	}
 	
 	def sphere(n: Int, r: Float, textureName: String) {
 		val texture = stack.top.getTexture(textureName)
-		val sphere = Sphere(n, r, texture, light)
-		sphere.parent = stack.top
-		stack.top.asInstanceOf[Group].add(sphere)
+		stack.top.attach(Sphere(n, r, texture, light))
 	}
 	
 	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {
 		val builder = new BoxBuilder(width, height, depth, l, m, n)
-		val box = builder.createBox
-		box.parent = stack.top
-		stack.top.asInstanceOf[Group].add(box)
+		stack.top.attach(builder.createBox)
 	}
 	
 	def light(mode: OnOffState) {
@@ -190,9 +167,7 @@ trait WorldBuilder {
 	}
 	
 	def torus(n: Int, R: Float, r: Float) {
-		val t = Torus(n, R, r)
-		t.parent = stack.top
-		stack.top.asInstanceOf[Group].add(t)
+		stack.top.attach(Torus(n, R, r))
 	}
 
 	def shadeModel(shadeModel: ShadeModel) {
@@ -200,9 +175,7 @@ trait WorldBuilder {
 	}
 
 	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
-		val cb = CheckerBoard(n, m, c1, c2)
-		cb.parent = stack.top
-		stack.top.asInstanceOf[Group].add(cb)
+		stack.top.attach(CheckerBoard(n, m, c1, c2))
 	}
 	
 	def fog(color: Color, mode: FogMode) {
@@ -211,9 +184,8 @@ trait WorldBuilder {
 	
 	def texture(name: String, in: InputStream) {
 		val texture = new Texture(in)
-		texture.parent = stack.top
 		stack.top.addTexture(name, texture)
-		stack.top.asInstanceOf[Group].add(texture)
+		stack.top.attach(texture)
 	}
 	
 	def overlay(x: Int, y: Int, image: BufferedImage) {
@@ -223,9 +195,7 @@ trait WorldBuilder {
 		val buffer = ByteBuffer.allocateDirect(data.length)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
-		val o = new ImageOverlay(x, y, image.getWidth, image.getHeight, RGBA, buffer)
-		o.parent = stack.top
-		stack.top.asInstanceOf[Group].add(o)
+		stack.top.attach(new ImageOverlay(x, y, image.getWidth, image.getHeight, RGBA, buffer))
 	}
 
 	def overlay(x: Int, y: Int, image: BufferedImage, hook: NodeHook[ImageOverlay]) {
@@ -235,23 +205,17 @@ trait WorldBuilder {
 		val buffer = ByteBuffer.allocateDirect(data.length)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
-		val o = new DynamicNode(hook, new ImageOverlay(x, y, image.getWidth, image.getHeight, RGBA, buffer))
-		o.parent = stack.top
-		stack.top.asInstanceOf[Group].add(o)
+		stack.top.attach(new DynamicNode(hook, new ImageOverlay(x, y, image.getWidth, image.getHeight, RGBA, buffer)))
 	}
 
 	def overlay(x: Int, y: Int, fontName: String, text: String) {
 		val font = stack.top.getFont(fontName)
-		val o = new TextOverlay(x, y, font, text)
-		o.parent = stack.top
-		stack.top.asInstanceOf[Group].add(o)
+		stack.top.attach(new TextOverlay(x, y, font, text))
 	}
 
 	def overlay(x: Int, y: Int, fontName: String, text: String, hook: NodeHook[TextOverlay]) {
 		val font = stack.top.getFont(fontName)
-		val o = new DynamicNode(hook, new TextOverlay(x, y, font, text))
-		o.parent = stack.top
-		stack.top.asInstanceOf[Group].add(o)
+		stack.top.attach(new DynamicNode(hook, new TextOverlay(x, y, font, text)))
 	}
 	
 	def blending(mode: OnOffState) {
@@ -260,24 +224,21 @@ trait WorldBuilder {
 	
 	def font(name: String, jfont: JFont) {
 		val font = FontBuilder.create(jfont)
-		font.parent = stack.top
 		stack.top.addFont(name, font)
 	}
 	
 	def shader(name: String, shaderType: ShaderType, source: String) {
 		val shader = new Shader(shaderType, source)
-		shader.parent = stack.top
 		stack.top.addShader(name, shader)
-		stack.top.asInstanceOf[Group].add(shader)
+		stack.top.attach(shader)
 	}
 	
 	def program(name: String, shaderNames: String*) {
 		var shaders = List[Shader]()
 		shaderNames.foreach { shaderName => shaders = stack.top.getShader(shaderName) :: shaders }
 		val program = new Program(shaders)
-		program.parent = stack.top
 		stack.top.addProgram(name, program)
-		stack.top.asInstanceOf[Group].add(program)
+		stack.top.attach(program)
 	}
 	
 	def useProgram(name: String) {
