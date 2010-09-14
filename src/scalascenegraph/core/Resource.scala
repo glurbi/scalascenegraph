@@ -62,6 +62,16 @@ class Program(shaderIds: List[Shader]) extends Resource {
 	
 }
 
+class Uniform(program: Program, name: String) extends Resource {
+	
+	var uniformId: UniformId = _
+
+	override def prepare(context: Context) {
+		uniformId = context.renderer.getUniformId(program, name)
+	}
+	
+}
+
 class Texture(in: InputStream) extends Resource {
 
 	var textureId: TextureId = _

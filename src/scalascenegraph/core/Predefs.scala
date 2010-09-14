@@ -100,6 +100,11 @@ object Predefs {
 	case class ProgramId(id: Any)
 	
 	/**
+	 * A uniform identifier
+	 */
+	case class UniformId(id: Any)
+	
+	/**
 	 * Defines the shade model used for rendering.
 	 */
 	abstract class ShadeModel

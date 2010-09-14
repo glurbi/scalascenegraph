@@ -460,6 +460,10 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		gl2.glGetIntegerv(GL_CURRENT_PROGRAM, id, 0)
 		ProgramId(id(0))
 	}
+
+	def getUniformId(program: Program, name: String): UniformId = {
+		UniformId(gl2.glGetUniformLocation(program.programId.id.asInstanceOf[Int], name))
+	}
 	
 	private def glFace(face: Face): Int = face match {
 		case Front => GL_FRONT

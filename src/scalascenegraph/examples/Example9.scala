@@ -13,6 +13,7 @@ class Example9 extends Example with WorldBuilder {
 
 	val myshadersource =
 	"""
+	uniform vec4 color;
 	void main (void)
     {
         gl_FragColor = vec4 (0.0, 1.0, 0.0, 1.0);
@@ -28,6 +29,7 @@ class Example9 extends Example with WorldBuilder {
 			cullFace(On)
 			shader("myshader", FragmentShader, myshadersource)
 			program("myprogram", "myshader")
+			uniform("myprogram", "color")
 			useProgram("myprogram")
 			group {
 				translation(0.0f, 0.0f, -4.0f)

@@ -241,4 +241,10 @@ trait WorldBuilder {
 		stack.top.attach(new ProgramState(program))
 	}
 	
+	def uniform(programName: String, uniformName: String) {
+		val program = stack.top.getResource[Program](programName)
+		val uniform = new Uniform(program, uniformName)
+		stack.top.attach(uniformName, uniform)
+	}
+	
 }

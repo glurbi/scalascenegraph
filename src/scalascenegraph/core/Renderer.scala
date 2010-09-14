@@ -101,5 +101,6 @@ trait Renderer {
 	def useProgram(programId: ProgramId)
 	def useNoProgram
 	def currentProgram: ProgramId
+	def getUniformId(program: Program, name: String): UniformId
 	
 }
