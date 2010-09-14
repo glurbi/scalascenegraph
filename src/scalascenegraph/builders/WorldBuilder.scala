@@ -100,7 +100,7 @@ trait WorldBuilder {
 	
 	// TODO: add type TextureName or something alike
 	def cube(textureName: String) {
-		val texture: Texture = stack.top.getResource(textureName)
+		val texture = stack.top.getResource[Texture](textureName)
 		stack.top.attach(Cube(texture, light))
 	}
 	
@@ -121,7 +121,7 @@ trait WorldBuilder {
 	}
 	
 	def sphere(n: Int, r: Float, textureName: String) {
-		val texture: Texture = stack.top.getResource(textureName)
+		val texture = stack.top.getResource[Texture](textureName)
 		stack.top.attach(Sphere(n, r, texture, light))
 	}
 	
@@ -206,12 +206,12 @@ trait WorldBuilder {
 	}
 
 	def overlay(x: Int, y: Int, fontName: String, text: String) {
-		val font: Font = stack.top.getResource(fontName)
+		val font = stack.top.getResource[Font](fontName)
 		stack.top.attach(new TextOverlay(x, y, font, text))
 	}
 
 	def overlay(x: Int, y: Int, fontName: String, text: String, hook: NodeHook[TextOverlay]) {
-		val font: Font = stack.top.getResource(fontName)
+		val font = stack.top.getResource[Font](fontName)
 		stack.top.attach(new DynamicNode(hook, new TextOverlay(x, y, font, text)))
 	}
 	
@@ -231,13 +231,13 @@ trait WorldBuilder {
 	
 	def program(name: String, shaderNames: String*) {
 		var shaders = List[Shader]()
-		shaderNames.foreach { shaderName => shaders = stack.top.getResource(shaderName).asInstanceOf[Shader] :: shaders }
+		shaderNames.foreach { shaderName => shaders = stack.top.getResource[Shader](shaderName) :: shaders }
 		val program = new Program(shaders)
 		stack.top.attach(name, program)
 	}
 	
 	def useProgram(name: String) {
-		val program: Program = stack.top.getResource(name)
+		val program = stack.top.getResource[Program](name)
 		stack.top.attach(new ProgramState(program))
 	}
 	

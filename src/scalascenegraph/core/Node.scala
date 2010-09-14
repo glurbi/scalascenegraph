@@ -55,7 +55,7 @@ trait Node {
     def getResource[T <: Resource](name: String): T = {
     	parent.getResource(name)
     }
-
+    
     /**
      * Visitor pattern support ...
      */
@@ -143,9 +143,14 @@ class World extends Group {
 
 /**
  * A marker class for nodes that behave as overlays.
+ * An overlay is a graphic item that is drawn on top in the current frame
+ * buffer, regardless of the depth buffer state.
  */
 abstract class Overlay extends Node
 
+/**
+ * An overlay made of an image.
+ */
 class ImageOverlay(var x: Int = 0,
 		           var y: Int = 0,
  		           var width: Int,
@@ -162,6 +167,9 @@ extends Overlay {
 	
 }
 
+/**
+ * An overlay made of text.
+ */
 class TextOverlay(var x: Int = 0,
 		          var y: Int = 0,
 		          var font: Font,
