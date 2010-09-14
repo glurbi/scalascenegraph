@@ -465,6 +465,11 @@ class OpenglRenderer(val gl2: GL2) extends Renderer {
 		UniformId(gl2.glGetUniformLocation(program.programId.id.asInstanceOf[Int], name))
 	}
 	
+	def setUniformValue(uniform: Uniform, a: Float, b: Float, c: Float, d: Float) {
+		gl2.glUniform4f(uniform.uniformId.id.asInstanceOf[Int], a, b, c, d)
+		uniform.value = Array(a, b, c, d)
+	}
+
 	private def glFace(face: Face): Int = face match {
 		case Front => GL_FRONT
 		case Back => GL_BACK

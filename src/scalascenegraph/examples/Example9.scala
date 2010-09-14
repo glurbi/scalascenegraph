@@ -1,6 +1,5 @@
 package scalascenegraph.examples
 
-import java.awt._
 import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
 import java.awt.image._
@@ -16,7 +15,7 @@ class Example9 extends Example with WorldBuilder {
 	uniform vec4 color;
 	void main (void)
     {
-        gl_FragColor = vec4 (0.0, 1.0, 0.0, 1.0);
+        gl_FragColor = color;
     }
 	"""
 
@@ -32,6 +31,7 @@ class Example9 extends Example with WorldBuilder {
 			uniform("myprogram", "color")
 			useProgram("myprogram")
 			group {
+				setUniform("color", JColor.orange)
 				translation(0.0f, 0.0f, -4.0f)
 				polygonMode(Front, Line)
 				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)

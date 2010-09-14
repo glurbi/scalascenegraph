@@ -102,5 +102,6 @@ trait Renderer {
 	def useNoProgram
 	def currentProgram: ProgramId
 	def getUniformId(program: Program, name: String): UniformId
+	def setUniformValue(uniform: Uniform, a: Float, b: Float, c: Float, d: Float)
 	
 }

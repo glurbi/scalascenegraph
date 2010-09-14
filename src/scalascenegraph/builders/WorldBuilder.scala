@@ -247,4 +247,9 @@ trait WorldBuilder {
 		stack.top.attach(uniformName, uniform)
 	}
 	
+	def setUniform(uniformName: String, color: Color) {
+		val uniform = stack.top.getResource[Uniform](uniformName)
+		stack.top.attach(new UniformState(uniform, color.asFloatArray))
+	}
+	
 }

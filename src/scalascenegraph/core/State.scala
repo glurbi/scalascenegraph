@@ -244,3 +244,20 @@ class ProgramState(var program: Program) extends State {
 		context.renderer.useProgram(saved)
 	}
 }
+
+class UniformState(var uniform: Uniform, var value: Array[Float]) extends State {
+	var saved: Any = _
+	override def preRender(context: Context) {
+		saved = uniform.value
+		value match {
+			case Array(a: Float, b: Float, c: Float, d: Float) => context.renderer.setUniformValue(uniform, a, b, c, d)
+			case default => 
+		}
+	}
+	override def postRender(context: Context) {
+		saved match {
+			case Array(a: Float, b: Float, c: Float, d: Float) => context.renderer.setUniformValue(uniform, a, b, c, d)
+			case default => 
+		}
+	}
+}
