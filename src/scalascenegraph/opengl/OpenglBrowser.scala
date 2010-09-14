@@ -131,13 +131,9 @@ with GLEventListener
         context.currentTime = System.currentTimeMillis
         context.elapsed = context.currentTime - context.creationTime
         context.totalFrameCount += 1
-        context.frameCountLastSecond += 1
-        val tmp = context.currentTime - context.frameCountLastSecondResetTime
-        if (tmp >= 1000) {
-        	context.frameRate = 1000 * context.frameCountLastSecond / tmp
-        	context.frameCountLastSecond = 0
-        	context.frameCountLastSecondResetTime = context.currentTime
-        }
+        val currentTimeNano = System.nanoTime
+        context.frameRate = 1000000000 / (currentTimeNano - context.lastFrameTimeNano)
+        context.lastFrameTimeNano = currentTimeNano
         
         context.upKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_UP)
         context.downKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_DOWN)

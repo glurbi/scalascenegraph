@@ -3,12 +3,11 @@ package scalascenegraph.core
 class Context {
 	
 	val creationTime = System.currentTimeMillis
+	var lastFrameTimeNano = System.nanoTime
 	var currentTime = creationTime
-	var frameCountLastSecondResetTime = creationTime
 	var elapsed = 0L
 	var totalFrameCount = 0L
 	var frameRate = 0L
-	var frameCountLastSecond = 0L
 	
 	var renderer: Renderer = _
 	
