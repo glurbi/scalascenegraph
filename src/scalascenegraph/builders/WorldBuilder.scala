@@ -9,7 +9,6 @@ import com.jogamp.common.nio._
 
 import scalascenegraph.core._
 import scalascenegraph.builders._
-import scalascenegraph.core.shapes._
 import scalascenegraph.core.Predefs._
 
 trait WorldBuilder {
@@ -31,6 +30,12 @@ trait WorldBuilder {
 		stack.pop.asInstanceOf[Group]
 	}
 
+	def node(fun: (Context) => Unit): Node = new Node {
+		def render(context: Context) {
+			fun(context)
+		}
+	}
+	
 	def color(c: Color) {
 		stack.top.attach(new ColorState(c))
 	}
@@ -76,22 +81,22 @@ trait WorldBuilder {
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
-		stack.top.attach(Triangle(v1, v2, v3))
+		stack.top.attach(node(context => context.renderer.triangle(v1, v2, v3)))
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
     		     c1: Color, c2: Color, c3: Color)
 	{
-		stack.top.attach(Triangle(v1, v2, v3, c1, c2, c3))
+		stack.top.attach(node(context => context.renderer.triangle(v1, v2, v3, c1, c2, c3)))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
 		val c = color
-		stack.top.attach(Quad(v1, v2, v3, v4, c, c, c, c))
+		stack.top.attach(node(context => context.renderer.quad(v1, v2, v3, v4, c, c, c, c)))
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) {
-		stack.top.attach(Quad(v1, v2, v3, v4))
+		stack.top.attach(node(context => context.renderer.quad(v1, v2, v3, v4)))
 	}
 	
 	def cube {

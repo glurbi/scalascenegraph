@@ -224,11 +224,4 @@ object Predefs {
 		new Color(c.getRed/255.0f, c.getGreen/255.0f, c.getBlue/255.0f, c.getAlpha/255.0f)
 	}
 
-	// TODO: remove!
-	def node(fun: (Context) => Unit): Node = new Node {
-		def render(context: Context) {
-			fun(context)
-		}
-	}
-
 }
