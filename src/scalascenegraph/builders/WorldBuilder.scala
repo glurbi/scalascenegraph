@@ -113,16 +113,19 @@ trait WorldBuilder {
 	}
 	
 	def sphere(n: Int, r: Float) {
-		stack.top.attach(Sphere(n, r))
+		val builder = new SphereBuilder(n, r)
+		stack.top.attach(builder.createSphere)
 	}
 	
 	def sphere(n: Int, r: Float, color: Color) {
-		stack.top.attach(Sphere(n, r, color))
+		val builder = new SphereBuilder(n, r)
+		stack.top.attach(builder.createSphere(color))
 	}
 	
 	def sphere(n: Int, r: Float, textureName: String) {
+		val builder = new SphereBuilder(n, r)
 		val texture = stack.top.getResource[Texture](textureName)
-		stack.top.attach(Sphere(n, r, texture, light))
+		stack.top.attach(builder.createSphere(texture, light))
 	}
 	
 	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {

@@ -1,41 +1,50 @@
-package scalascenegraph.core
+package scalascenegraph.builders
 
 import java.nio._
 import scala.math._
 import scala.collection.mutable._
 import com.jogamp.common.nio._
 
+import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-object Sphere {
-	
-	def apply(n: Int, r: Float): Node = {
-		val builder = new SphereBuilder(n, r)
-		val vertices = builder.createVertices
-		val normals = builder.createNormals
-		node(context => context.renderer.quads(vertices, normals))
-	}
-	
-	def apply(n: Int, r: Float, color: Color): Node = {
-		val builder = new SphereBuilder(n, r)
-		val vertices = builder.createVertices
-		node(context => context.renderer.quads(vertices, color))
-	}
-	
-	def apply(n: Int, r: Float, colors: Colors): Node = {
-		val builder = new SphereBuilder(n, r)
-		val vertices = builder.createVertices
-		node(context => context.renderer.quads(vertices, colors))
+class SphereBuilder(n: Int, r: Float) {
+
+	def createSphere: Node = {
+		val vertices = createVertices
+		val normals = createNormals
+		new Node {
+			def render(context: Context) {
+				context.renderer.quads(vertices, normals)
+			}
+		}
 	}
 
-	def apply(n: Int, r: Float, texture: Texture): Node = {
-		Sphere(n, r, texture, Off)
+	def createSphere(color: Color): Node = {
+		val vertices = createVertices
+		new Node {
+			def render(context: Context) {
+				context.renderer.quads(vertices, color)
+			}
+		}
 	}
-	
-	def apply(n: Int, r: Float, texture: Texture, light: OnOffState): Node = {
-		val builder = new SphereBuilder(n, r)
-		val vertices = builder.createVertices
-		val textureCoordinates = builder.createTextureCoordinates
+
+	def createSphere(colors: Colors): Node = {
+		val vertices = createVertices
+		new Node {
+			def render(context: Context) {
+				context.renderer.quads(vertices, colors)
+			}
+		}
+	}
+
+	def createSphere(texture: Texture): Node = {
+		createSphere(texture, Off)
+	}
+
+	def createSphere(texture: Texture, light: OnOffState): Node = {
+		val vertices = createVertices
+		val textureCoordinates = createTextureCoordinates
 		light match {
 			case Off => new Node {
 				def render(context: Context) {
@@ -43,7 +52,7 @@ object Sphere {
 				}
 			}
 			case On => {
-				val normals = builder.createNormals
+				val normals = createNormals
 				new Node {
 					def render(context: Context) {
 						context.renderer.quads(vertices, textureCoordinates, texture, normals)
@@ -53,10 +62,6 @@ object Sphere {
 		}
 	}
 	
-}
-
-private class SphereBuilder(n: Int, r: Float) {
-
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
 	
 	private def sphere(teta: Float, phi: Float): Vertice = {
