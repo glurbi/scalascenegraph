@@ -10,10 +10,10 @@ import scalascenegraph.core.Predefs._
 class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {
 
 	def createBox: Node = {
+		val vertices = createVertices
 		new Node {
-			private val quads = createVertices
 			def render(context: Context) {
-				context.renderer.quads(quads)
+				context.renderer.quads(vertices)
 			}
 		}		
 	}

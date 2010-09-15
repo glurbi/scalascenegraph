@@ -173,7 +173,8 @@ trait WorldBuilder {
 	}
 
 	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
-		stack.top.attach(CheckerBoard(n, m, c1, c2))
+		val builder = new CheckerBoardBuilder(n, m, c1, c2)
+		stack.top.attach(builder.createCheckerBoard)
 	}
 	
 	def fog(color: Color, mode: FogMode) {

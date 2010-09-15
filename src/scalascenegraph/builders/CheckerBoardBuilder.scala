@@ -1,4 +1,4 @@
-package scalascenegraph.core.shapes
+package scalascenegraph.builders
 
 import java.nio._
 import scala.math._
@@ -9,19 +9,18 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-object CheckerBoard {
-	
-	def apply(n: Int, m: Int, c1: Color, c2: Color): Node = {
-		val builder = new CheckerBoardBuilder(n, m, c1, c2)
-		val vertices = builder.createVertices
-		val colors = builder.createColors
-		node(context => context.renderer.quads(vertices, colors))
-	}
-	
-}
-
 class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color) {
 
+	def createCheckerBoard: Node = {
+		val vertices = createVertices
+		val colors = createColors
+		new Node {
+			def render(context: Context) {
+				context.renderer.quads(vertices, colors)
+			}
+		}		
+	}
+	
 	def createVertices: Vertices = {
 		val ab = new ArrayBuffer[Float]
 		val xOffset = -n / 2.0f
