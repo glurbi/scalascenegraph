@@ -53,7 +53,7 @@ with GLEventListener
 	}
 	
     val canvas = {
-    	val profile = GLProfile.get(GLProfile.GL2)
+    	val profile = GLProfile.get(GLProfile.GL3bc)
         val capabilities = new GLCapabilities(profile)
         capabilities.setDoubleBuffered(true)
     	new GLCanvas(capabilities)
@@ -89,9 +89,9 @@ with GLEventListener
     }
     
     def init(drawable: GLAutoDrawable) {
-    	//drawable.setGL(new DebugGL2(drawable.getGL.getGL2))
-    	val gl2 = drawable.getGL.getGL2
-    	val renderer = new OpenglRenderer(gl2)
+    	//drawable.setGL(new DebugGL3bc(drawable.getGL.getGL2))
+    	val gl = drawable.getGL.getGL3bc
+    	val renderer = new OpenglRenderer(gl)
         context.renderer = renderer
         val preparator = new NodeVisitor(context) {
     		def visit(group: Group) {
@@ -102,7 +102,7 @@ with GLEventListener
         world.accept(preparator)
         
     	// make sure we don't draw more often than the screen is refreshed
-    	//gl2.setSwapInterval(1);
+    	//gl.setSwapInterval(1);
     }
 
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
@@ -124,8 +124,8 @@ with GLEventListener
     }
 
     private def updateContext(drawable: GLAutoDrawable) {
-        val gl2 = drawable.getGL.getGL2
-        val renderer = new OpenglRenderer(gl2)
+        val gl = drawable.getGL.getGL3bc
+        val renderer = new OpenglRenderer(gl)
         context.renderer = renderer
         
         context.currentTime = System.currentTimeMillis
