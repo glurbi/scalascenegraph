@@ -95,21 +95,25 @@ trait WorldBuilder {
 	}
 	
 	def cube {
-		stack.top.attach(Cube.create)
+		val builder = new CubeBuilder
+		stack.top.attach(builder.createCube)
 	}
 	
 	// TODO: add type TextureName or something alike
 	def cube(textureName: String) {
+		val builder = new CubeBuilder
 		val texture = stack.top.getResource[Texture](textureName)
-		stack.top.attach(Cube(texture, light))
+		stack.top.attach(builder.createCube(texture, light))
 	}
 	
 	def cube(color: Color) {
-		stack.top.attach(Cube(color))
+		val builder = new CubeBuilder
+		stack.top.attach(builder.createCube(color))
 	}
 	
 	def cube(colors: Array[Float]) {
-		stack.top.attach(Cube(Colors(Buffers.newDirectFloatBuffer(colors))))
+		val builder = new CubeBuilder
+		stack.top.attach(builder.createCube(Colors(Buffers.newDirectFloatBuffer(colors))))
 	}
 	
 	def sphere(n: Int, r: Float) {

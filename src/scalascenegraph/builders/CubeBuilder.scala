@@ -1,25 +1,43 @@
-package scalascenegraph.core.shapes
+package scalascenegraph.builders
 
 import java.nio._
 import com.jogamp.common.nio._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-object Cube {
+class CubeBuilder {
 	
-	def create: Node = {
-		node(context => context.renderer.quads(Cube.vertices, Cube.normals))
+	def createCube: Node = {
+		val vertices = createVertices
+		val normals = createNormals
+		new Node {
+			def render(context: Context) {
+				context.renderer.quads(vertices, normals)
+			}
+		}
 	}
 
-	def apply(colors: Colors): Node = {
-		node(context => context.renderer.quads(Cube.vertices, colors))
+	def createCube(colors: Colors): Node = {
+		val vertices = createVertices
+		new Node {
+			def render(context: Context) {
+				context.renderer.quads(vertices, colors)
+			}
+		}
 	}
 
-	def apply(color: Color): Node = {
-		node(context => context.renderer.quads(Cube.vertices, color))
+	def createCube(color: Color): Node = {
+		val vertices = createVertices
+		new Node {
+			def render(context: Context) {
+				context.renderer.quads(vertices, color)
+			}
+		}
 	}
 	
-	def apply(texture: Texture): Node = {
+	def createCube(texture: Texture): Node = {
+		val vertices = createVertices
+		val textureCoordinates = createTextureCoordinates
 		new Node {
 			def render(context: Context) {
 				context.renderer.quads(vertices, textureCoordinates, texture)
@@ -27,19 +45,22 @@ object Cube {
 		}
 	}
 	
-	def apply(texture: Texture, light: OnOffState): Node = {
+	def createCube(texture: Texture, light: OnOffState): Node = {
+		val vertices = createVertices
+		val normals = createNormals
+		val textureCoordinates = createTextureCoordinates
 		light match {
 			case On => new Node {
 				def render(context: Context) {
 					context.renderer.quads(vertices, textureCoordinates, texture, normals)
 				}
 			}
-			case Off => Cube(texture)
+			case Off => createCube(texture)
 		}
 		
 	}
 	
-	private val vertices = Vertices(Buffers.newDirectFloatBuffer(
+	private val createVertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(-0.5f, -0.5f, -0.5f,
 				  -0.5f, 0.5f, -0.5f,
 				  0.5f, 0.5f, -0.5f,
@@ -70,7 +91,7 @@ object Cube {
 				  0.5f, 0.5f, 0.5f,
 				  0.5f, 0.5f, -0.5f)))
 				  
-	private val normals = Normals(Buffers.newDirectFloatBuffer(
+	val createNormals = Normals(Buffers.newDirectFloatBuffer(
 			Array(0.0f, 0.0f, -1.0f,
 				  0.0f, 0.0f, -1.0f,
 				  0.0f, 0.0f, -1.0f,
@@ -101,7 +122,7 @@ object Cube {
 				  0.0f, 1.0f, 0.0f,
 				  0.0f, 1.0f, 0.0f)))
 	                     
-	private val textureCoordinates = TextureCoordinates(Buffers.newDirectFloatBuffer(
+	val createTextureCoordinates = TextureCoordinates(Buffers.newDirectFloatBuffer(
 			Array(0.0f, 0.0f,
 				  1.0f, 0.0f,
 				  1.0f, 1.0f,
