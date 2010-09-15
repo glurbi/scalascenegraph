@@ -1,4 +1,4 @@
-package scalascenegraph.examples.opengl
+package scalascenegraph.examples
 
 import scalascenegraph.core._
 import scalascenegraph.examples._
