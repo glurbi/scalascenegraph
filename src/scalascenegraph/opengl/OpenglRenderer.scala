@@ -470,6 +470,11 @@ class OpenglRenderer(val gl: GL3bc) extends Renderer {
 		uniform.value = Array(a, b, c, d)
 	}
 
+	def setUniformValue(uniform: Uniform, a: Float) {
+		gl.glUniform1f(uniform.uniformId.id.asInstanceOf[Int], a)
+		uniform.value = a
+	}
+
 	private def glFace(face: Face): Int = face match {
 		case Front => GL_FRONT
 		case Back => GL_BACK
