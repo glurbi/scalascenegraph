@@ -165,7 +165,8 @@ trait WorldBuilder {
 	}
 	
 	def torus(n: Int, R: Float, r: Float) {
-		stack.top.attach(Torus(n, R, r))
+		val builder = new TorusBuilder(n, R, r)
+		stack.top.attach(builder.createTorus)
 	}
 
 	def shadeModel(shadeModel: ShadeModel) {

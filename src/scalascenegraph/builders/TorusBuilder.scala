@@ -1,4 +1,4 @@
-package scalascenegraph.core.shapes
+package scalascenegraph.builders
 
 import java.nio._
 import scala.math._
@@ -9,18 +9,17 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-object Torus {
+class TorusBuilder(n: Int, R: Float, r: Float) {
 	
-	def apply(n: Int, R: Float, r: Float): Node = {
-		val builder = new TorusBuilder(n, R, r)
-		val vertices = builder.createVertices
-		val normals = builder.createNormals
-		node(context => context.renderer.quads(vertices, normals))
+	def createTorus: Node = {
+		val vertices = createVertices
+		val normals = createNormals
+		new Node {
+			def render(context: Context) {
+				context.renderer.quads(vertices, normals)
+			}
+		}		
 	}
-
-}
-
-private class TorusBuilder(n: Int, R: Float, r: Float) {
 	
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
 	
