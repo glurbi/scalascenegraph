@@ -229,6 +229,16 @@ trait WorldBuilder {
 		stack.top.attach(new DynamicNode(hook, new TextOverlay(x, y, font, text)))
 	}
 	
+	def showFramesPerSecond = {
+		font("default", new JFont("Default", JFont.PLAIN, 20))
+		val fpsHook = (o: TextOverlay, c: Context) => {
+			o.x = 10
+			o.y = c.height - 30
+			o.text = "FPS: " + c.frameRate
+		}
+		overlay(0, 0, "default", "", fpsHook)
+	}
+	
 	def blending(mode: OnOffState) {
 		stack.top.attach(new BlendingState(mode))
 	}

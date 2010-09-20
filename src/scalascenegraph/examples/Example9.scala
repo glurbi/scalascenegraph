@@ -3,6 +3,7 @@ package scalascenegraph.examples
 import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
 import java.awt.image._
+import scala.math._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
@@ -44,7 +45,7 @@ class Example9 extends Example with WorldBuilder {
 	}
 	
 	val uniformHook = (u: UniformState, c: Context) => {
-		u.value = (Math.sin(c.elapsed / 1000.0f) * 10.0f).asInstanceOf[Float]
+		u.value = (sin(c.elapsed / 1000.0f) * 10.0f).asInstanceOf[Float]
 	}
 		
 	def example =
@@ -64,6 +65,7 @@ class Example9 extends Example with WorldBuilder {
 				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
 				box(4.0f, 2.0f, 1.0f, 40, 20, 10)
 			}
+			showFramesPerSecond
 		}
 	
 }
