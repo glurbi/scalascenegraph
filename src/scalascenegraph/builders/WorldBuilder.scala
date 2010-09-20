@@ -286,4 +286,14 @@ trait WorldBuilder {
 		stack.top.attach(new DynamicState(hook, new UniformState(uniform, value)))
 	}
 	
+	def vbo(vboName: String, vertices: Vertices) {
+		val vbo = new VertexBufferObject(vertices)
+		stack.top.attach(vboName, vbo)
+	}
+	
+	def lineStrip(vboName: String) {
+		val vbo = stack.top.getResource[VertexBufferObject](vboName)
+		stack.top.attach(node(context => context.renderer.lineStrip(vbo)))
+	}
+
 }

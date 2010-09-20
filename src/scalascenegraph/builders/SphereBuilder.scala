@@ -1,6 +1,5 @@
 package scalascenegraph.builders
 
-import java.nio._
 import scala.math._
 import scala.collection.mutable._
 import com.jogamp.common.nio._

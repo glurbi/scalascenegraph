@@ -95,7 +95,7 @@ extends GLEventListener
     }
     
     def init(drawable: GLAutoDrawable) {
-    	//drawable.setGL(new DebugGL3bc(drawable.getGL.getGL2))
+    	//drawable.setGL(new DebugGL3bc(drawable.getGL.getGL3bc))
     	val gl = drawable.getGL.getGL3bc
     	val renderer = new Renderer(gl)
         context.renderer = renderer

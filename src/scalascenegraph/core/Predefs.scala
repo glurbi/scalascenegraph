@@ -103,6 +103,11 @@ object Predefs {
 	 * A uniform identifier
 	 */
 	case class UniformId(id: Any)
+
+	/**
+	 * A vertex buffer object (VBO) id
+	 */
+	case class VertexBufferObjectId(id: Any)
 	
 	/**
 	 * Defines the shade model used for rendering.

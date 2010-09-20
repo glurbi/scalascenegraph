@@ -91,3 +91,20 @@ class Texture(in: InputStream) extends Resource {
 class Character(val char: Char, val width: Int, val height: Int, val bitmap: ByteBuffer)
 
 class Font(val characters: Map[Char, Character]) extends Resource
+
+class VertexBufferObject(vertices: Vertices) extends Resource {
+	
+	var vertexBufferObjectId: VertexBufferObjectId = _
+	var count: Int = _
+	
+	override def prepare(context: Context) {
+		vertexBufferObjectId = context.renderer.newVertexBufferObject
+		context.renderer.loadVertexBufferObjectData(this, vertices)
+		count = vertices.count
+	}
+	
+	override def dispose(context: Context) {
+		context.renderer.freeVertexBufferObject(vertexBufferObjectId)
+	}
+	
+}

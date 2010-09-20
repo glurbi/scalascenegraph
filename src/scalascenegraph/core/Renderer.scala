@@ -254,6 +254,15 @@ class Renderer(val gl: GL3bc) {
         gl.glDisableClientState(GL_VERTEX_ARRAY);
 	}
     
+	def lineStrip(vbo: VertexBufferObject) {
+		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.vertexBufferObjectId.id.asInstanceOf[Int])
+        gl.glEnableClientState(GL_VERTEX_ARRAY)
+        gl.glVertexPointer(3, GL_FLOAT, 0, null);
+        gl.glDrawArrays(GL_LINE_STRIP, 0, vbo.count)
+        gl.glDisableClientState(GL_VERTEX_ARRAY)
+		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
+	}
+	
     def translate(x: Float, y: Float, z: Float) {
         gl.glTranslatef(x, y, z)
     }
@@ -475,6 +484,23 @@ class Renderer(val gl: GL3bc) {
 		uniform.value = a
 	}
 
+	def newVertexBufferObject: VertexBufferObjectId = {
+		val ids = Array[Int](1)
+		gl.glGenBuffers(1, ids, 0)
+		VertexBufferObjectId(ids(0))
+	}
+
+	def freeVertexBufferObject(vertexBufferObjectId: VertexBufferObjectId) = {
+		val ids = Array(vertexBufferObjectId.id .asInstanceOf[Int])
+		gl.glDeleteBuffers(1, ids, 0)
+	}
+	
+	def loadVertexBufferObjectData(vbo: VertexBufferObject, vertices: Vertices) = {
+		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.vertexBufferObjectId.id.asInstanceOf[Int])
+		gl.glBufferData(GL_ARRAY_BUFFER, vertices.count, vertices.floatBuffer, GL_STATIC_DRAW)
+		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
+	}
+	
 	private def glFace(face: Face): Int = face match {
 		case Front => GL_FRONT
 		case Back => GL_BACK
