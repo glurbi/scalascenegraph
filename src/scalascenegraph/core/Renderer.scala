@@ -255,12 +255,12 @@ class Renderer(val gl: GL3bc) {
 	}
     
 	def lineStrip(vbo: VertexBufferObject) {
+		gl.glEnableClientState(GL_VERTEX_ARRAY)
 		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.vertexBufferObjectId.id.asInstanceOf[Int])
-        gl.glEnableClientState(GL_VERTEX_ARRAY)
-        gl.glVertexPointer(3, GL_FLOAT, 0, null);
+		gl.glVertexPointer(3, GL_FLOAT, 0, 0);
         gl.glDrawArrays(GL_LINE_STRIP, 0, vbo.count)
-        gl.glDisableClientState(GL_VERTEX_ARRAY)
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
+		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
 	
     def translate(x: Float, y: Float, z: Float) {
@@ -497,7 +497,7 @@ class Renderer(val gl: GL3bc) {
 	
 	def loadVertexBufferObjectData(vbo: VertexBufferObject, vertices: Vertices) = {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.vertexBufferObjectId.id.asInstanceOf[Int])
-		gl.glBufferData(GL_ARRAY_BUFFER, vertices.count, vertices.floatBuffer, GL_STATIC_DRAW)
+		gl.glBufferData(GL_ARRAY_BUFFER, vertices.count * 3 * 4, vertices.floatBuffer, GL_STATIC_DRAW)
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 	}
 	
