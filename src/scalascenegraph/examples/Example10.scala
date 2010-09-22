@@ -15,7 +15,7 @@ import scalascenegraph.builders._
 class Example10 extends Example with WorldBuilder {
 	
 	val nofSamples = 10000
-	val nofSignals = 2000
+	val nofSignals = 300
 	val amplitude = 1.0f
 	val speed = 10.0f
 	
@@ -25,14 +25,13 @@ class Example10 extends Example with WorldBuilder {
 	val counts = Buffers.newDirectIntBuffer(nofSignals)
 	
 	val vertices = {
-		val buf = Buffers.newDirectFloatBuffer(nofSignals * nofSamples * 3)
+		val buf = Buffers.newDirectFloatBuffer(nofSignals * nofSamples * 2)
 		for (signal <- 0 until nofSignals) {
 			val shift = signal * 0.1f
 			for (sample <- 0 until nofSamples) {
 				val x = sample / 1000.0f;
 				buf.put(x)
 				buf.put(f(x) + shift)
-				buf.put(0.0f)
 			}
 			firsts.put(signal * nofSamples)
 			counts.put(nofSamples)
