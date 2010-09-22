@@ -112,6 +112,10 @@ class Renderer(val gl: GL3bc) {
         gl.glFlush
     }
     
+    def finish {
+        gl.glFinish
+    }
+    
     def pushMatrix {
     	gl.glPushMatrix
     }
