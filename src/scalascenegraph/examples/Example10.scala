@@ -13,25 +13,42 @@ import scalascenegraph.core.Predefs._
 import scalascenegraph.builders._
 
 class Example10 extends Example with WorldBuilder {
+	
+	val nofSamples = 10000
+	val nofSignals = 2000
+	val amplitude = 1.0f
+	val speed = 10.0f
+	
+	def f(x: Float): Float = { sin(x * speed).asInstanceOf[Float] * amplitude }
 
+	val firsts = Buffers.newDirectIntBuffer(nofSignals)
+	val counts = Buffers.newDirectIntBuffer(nofSignals)
+	
 	val vertices = {
-		val amplitude = 10.0f
-		val ab = new ArrayBuffer[Float]
-		def f(x: Float): Float = { sin(x).asInstanceOf[Float] * amplitude }
-		for (sample <- 0 to 10000) {
-			val x = sample / 1000.0f;
-			ab ++= Vertice(x, f(x), 0.0f).asFloatArray
+		val buf = Buffers.newDirectFloatBuffer(nofSignals * nofSamples * 3)
+		for (signal <- 0 until nofSignals) {
+			val shift = signal * 0.1f
+			for (sample <- 0 until nofSamples) {
+				val x = sample / 1000.0f;
+				buf.put(x)
+				buf.put(f(x) + shift)
+				buf.put(0.0f)
+			}
+			firsts.put(signal * nofSamples)
+			counts.put(nofSamples)
 		}
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
+		buf.flip
+		firsts.flip
+		counts.flip
+		Vertices(buf)
 	}
-	
-	
 	
 	def example =
 		world {
-			vbo("signal", vertices)
-			translation(-5.0f, 0.0f, -5.0f)
-			lineStrip("signal")
+			vbo("signals", vertices)
+			rotation(90.0f, 0.0f, 0.0f, 1.0f)
+			translation(-5.0f, 0.0f, -8.0f)
+			lineStrips("signals", firsts, counts)
 			showFramesPerSecond
 		}
 	

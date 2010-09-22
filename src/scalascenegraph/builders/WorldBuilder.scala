@@ -296,4 +296,9 @@ trait WorldBuilder {
 		stack.top.attach(node(context => context.renderer.lineStrip(vbo)))
 	}
 
+	def lineStrips(vboName: String, firsts: IntBuffer, counts: IntBuffer) {
+		val vbo = stack.top.getResource[VertexBufferObject](vboName)
+		stack.top.attach(node(context => context.renderer.lineStrips(vbo, firsts, counts)))
+	}
+
 }

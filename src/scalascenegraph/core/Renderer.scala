@@ -262,6 +262,15 @@ class Renderer(val gl: GL3bc) {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
+
+	def lineStrips(vbo: VertexBufferObject, firsts: IntBuffer, counts: IntBuffer) {
+		gl.glEnableClientState(GL_VERTEX_ARRAY)
+		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.vertexBufferObjectId.id.asInstanceOf[Int])
+		gl.glVertexPointer(3, GL_FLOAT, 0, 0);
+        gl.glMultiDrawArrays(GL_LINE_STRIP, firsts, counts, firsts.capacity)
+		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
+		gl.glDisableClientState(GL_VERTEX_ARRAY)
+	}
 	
     def translate(x: Float, y: Float, z: Float) {
         gl.glTranslatef(x, y, z)
