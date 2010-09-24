@@ -106,7 +106,7 @@ class CullFaceState(var cullFace: OnOffState) extends State {
 class FrontFaceState(var frontFace: FrontFace) extends State {
 	override def preRender(context: Context) {
 		context.renderer.pushFrontFace
-		context.renderer.setFrontFace(frontFace)
+		context.gl.glFrontFace(frontFace)
 	}
 	override def postRender(context: Context) {
 		context.renderer.popFrontFace

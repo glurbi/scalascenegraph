@@ -84,14 +84,6 @@ class Renderer(val gl: GL3bc) {
     	gl.glPushAttrib(GL_POLYGON_BIT)
     }
     
-    def setFrontFace(frontFace: FrontFace) {
-    	def glFrontFace(frontFace: FrontFace): Int = frontFace match {
-			case ClockWise => GL_CW
-			case CounterClockWise => GL_CCW
-		}
-    	gl.glFrontFace(glFrontFace(frontFace))
-    }
-    
 	def popFrontFace {
     	gl.glPopAttrib
 	}

@@ -145,9 +145,7 @@ object Predefs {
 	/**
 	 * Defines how the front and back face of a polygon are calculated. 
 	 */
-	abstract class FrontFace
-	case object ClockWise extends FrontFace
-	case object CounterClockWise extends FrontFace
+	type FrontFace = Int
 	
 	/**
 	 * Defines a state that can have on/off as a value.
