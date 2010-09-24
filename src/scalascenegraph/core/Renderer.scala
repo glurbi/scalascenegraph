@@ -17,24 +17,8 @@ import com.jogamp.opengl.util._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class Renderer(val gl: GL3bc) { 
-	
-    def clear {
-        gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    }
+class Renderer(val gl: GL3bc) {
 
-    def clearColor(color: Color) {
-        gl.glClearColor(color.r, color.g, color.b, color.a)
-    }
-    
-    def pushMatrix {
-    	gl.glPushMatrix
-    }
-    
-    def popMatrix {
-    	gl.glPopMatrix
-    }
-    
     def ortho(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
         gl.glMatrixMode(GL_PROJECTION)
         gl.glLoadIdentity

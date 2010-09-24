@@ -4,6 +4,15 @@ import java.awt.{Color => JColor}
 import javax.media.opengl._
 import java.nio._
 import scala.collection.mutable._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Predefs._
@@ -134,7 +143,7 @@ class Group extends Node {
 class World extends Group {
 
     override def render(context: Context) {
-        context.renderer.clear
+        context.gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         super.render(context)
         context.gl.glFlush
     }
