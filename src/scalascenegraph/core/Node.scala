@@ -170,7 +170,8 @@ extends Overlay {
 
 	override def render(context: Context) {
 		if (rawImage != null) {
-			context.renderer.drawImage(x, y, width, height, imageType, rawImage)
+			context.gl.glWindowPos2i(x, y)
+			context.gl.glDrawPixels(width, height, imageType, GL_UNSIGNED_BYTE, rawImage)
 		}
 	}
 	
@@ -186,7 +187,15 @@ class TextOverlay(var x: Int = 0,
 extends Overlay {
 
 	override def render(context: Context) {
-		context.renderer.drawText(x, y, font, text)
+		// TODO: move to the 'init' part
+		// TODO: should use opengl default
+		context.gl.glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+		
+		context.gl.glWindowPos2i(x, y)
+		text.foreach { c => {
+			val character = font.characters(c)
+			context.gl.glBitmap(character.width, character.height, 0, 0, character.width, 0, character.bitmap)
+		}}
 	}
 	
 }

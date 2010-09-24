@@ -154,25 +154,7 @@ class Renderer(val gl: GL3bc) {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
-	
-	def drawImage(x: Int, y: Int, width: Int, height: Int, imageType: ImageType, rawImage: ByteBuffer) {
-		gl.glWindowPos2i(x, y)
-		gl.glDrawPixels(width, height, imageType, GL_UNSIGNED_BYTE, rawImage)
-	}
-	
-	def drawText(x: Int, y: Int, font: Font, text: String) {
-		
-		// TODO: move to the 'init' part
-		// TODO: should use opengl default
-		gl.glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
-		
-		gl.glWindowPos2i(x, y)
-		text.foreach { c => {
-			val character = font.characters(c)
-			gl.glBitmap(character.width, character.height, 0, 0, character.width, 0, character.bitmap)
-		}}
-	}
-	
+
 	def newShader(shaderType: ShaderType): ShaderId = {
 		ShaderId(gl.glCreateShader(shaderType))
 	}
