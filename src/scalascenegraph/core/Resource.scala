@@ -42,13 +42,18 @@ class Shader(shaderType: ShaderType, source: String) extends Resource {
 	var shaderId: ShaderId = _
 	
 	override def prepare(context: Context) {
-		shaderId = context.renderer.newShader(shaderType)
-		context.renderer.shaderSource(shaderId, source)
-		println(context.renderer.compileShader(shaderId))
+		shaderId = ShaderId(context.gl.glCreateShader(shaderType))
+		val id = shaderId.id.asInstanceOf[Int]
+		context.gl.glShaderSource(id, 1, Array(source), Array(source.size), 0)
+		val log = new Array[Byte](8192)
+		val length = Array(0)
+		context.gl.glCompileShader(id)
+		context.gl.glGetShaderInfoLog(id, log.size, length, 0, log, 0)
+		println(new String(log, 0, length(0)))
 	}
 	
 	override def dispose(context: Context) {
-		context.renderer.freeShader(shaderId)
+		context.gl.glDeleteShader(shaderId.id.asInstanceOf[Int])
 	}
 	
 }
@@ -59,14 +64,24 @@ class Program(shaderIds: List[Shader]) extends Resource {
 	
 	override def prepare(context: Context) {
 		val renderer = context.renderer
-		programId = renderer.newProgram
-		shaderIds.foreach { shader => renderer.attachShader(programId, shader.shaderId) }
-		println(renderer.linkProgram(programId))
-		println(renderer.validateProgram(programId))
+		programId = ProgramId(context.gl.glCreateProgram)
+		shaderIds.foreach { shader => renderer.gl.glAttachShader(programId.id.asInstanceOf[Int], shader.shaderId.id.asInstanceOf[Int]) }
+		
+		val log = new Array[Byte](8192)
+		val length = Array(0)
+		val id = programId.id.asInstanceOf[Int]
+		
+		context.gl.glLinkProgram(id)
+		context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
+		println(new String(log, 0, length(0)))
+		
+		context.gl.glValidateProgram(id)
+		context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
+		println(new String(log, 0, length(0)))
 	}
 	
 	override def dispose(context: Context) {
-		context.renderer.freeProgram(programId)
+		context.gl.glDeleteProgram(programId.id.asInstanceOf[Int])
 	}
 	
 }
@@ -77,7 +92,7 @@ class Uniform(program: Program, name: String) extends Resource {
 	var value: Any = _
 
 	override def prepare(context: Context) {
-		uniformId = context.renderer.getUniformId(program, name)
+		uniformId = UniformId(context.gl.glGetUniformLocation(program.programId.id.asInstanceOf[Int], name))
 	}
 	
 }

@@ -273,11 +273,13 @@ class FogState(var color: Color, var mode: FogMode) extends State {
 class ProgramState(var program: Program) extends State {
 	var saved: ProgramId = _
 	override def preRender(context: Context) {
-		saved = context.renderer.currentProgram
-		context.renderer.useProgram(program.programId)
+		val id = Array[Int](1)
+		context.gl.glGetIntegerv(GL_CURRENT_PROGRAM, id, 0)
+		saved = ProgramId(id(0))
+		context.gl.glUseProgram(program.programId.id.asInstanceOf[Int])
 	}
 	override def postRender(context: Context) {
-		context.renderer.useProgram(saved)
+		context.gl.glUseProgram(saved.id.asInstanceOf[Int])
 	}
 }
 
@@ -286,16 +288,24 @@ class UniformState(var uniform: Uniform, var value: Any) extends State {
 	override def preRender(context: Context) {
 		saved = uniform.value
 		value match {
-			case a: Float => context.renderer.setUniformValue(uniform, a)
-			case Array(a: Float, b: Float, c: Float, d: Float) => context.renderer.setUniformValue(uniform, a, b, c, d)
+			case a: Float => setUniformValue(context, uniform, a)
+			case Array(a: Float, b: Float, c: Float, d: Float) => setUniformValue(context, uniform, a, b, c, d)
 			case default => 
 		}
 	}
 	override def postRender(context: Context) {
 		saved match {
-			case a: Float => context.renderer.setUniformValue(uniform, a)
-			case Array(a: Float, b: Float, c: Float, d: Float) => context.renderer.setUniformValue(uniform, a, b, c, d)
+			case a: Float => setUniformValue(context, uniform, a)
+			case Array(a: Float, b: Float, c: Float, d: Float) => setUniformValue(context, uniform, a, b, c, d)
 			case default => 
 		}
+	}
+	private def setUniformValue(context: Context, uniform: Uniform, a: Float, b: Float, c: Float, d: Float) {
+		context.gl.glUniform4f(uniform.uniformId.id.asInstanceOf[Int], a, b, c, d)
+		uniform.value = Array(a, b, c, d)
+	}
+	private def setUniformValue(context: Context, uniform: Uniform, a: Float) {
+		context.gl.glUniform1f(uniform.uniformId.id.asInstanceOf[Int], a)
+		uniform.value = a
 	}
 }
