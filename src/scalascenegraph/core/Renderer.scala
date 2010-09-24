@@ -170,38 +170,6 @@ class Renderer(val gl: GL3bc) {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
-	
-	def setShadeModel(shadeModel: ShadeModel) {
-		gl.glShadeModel(shadeModel)
-	}
-
-    def pushFogState {
-    	gl.glPushAttrib(GL_FOG_BIT)
-    }
-    
-    def setFogState(color: Color, mode: FogMode) {
-    	gl.glEnable(GL_FOG)
-    	gl.glFogfv(GL_FOG_COLOR, color.asFloatArray, 0)
-    	mode match {
-    		case Linear(start, end) => {
-    			gl.glFogf(GL_FOG_START, start)
-    			gl.glFogf(GL_FOG_END, end)
-    			gl.glFogf(GL_FOG_MODE, GL_LINEAR)
-    		}
-    		case Exp(density) => {
-    			gl.glFogf(GL_FOG_DENSITY, density)
-    			gl.glFogf(GL_FOG_MODE, GL_EXP)
-    		}
-    		case Exp2(density) => {
-    			gl.glFogf(GL_FOG_DENSITY, density)
-    			gl.glFogf(GL_FOG_MODE, GL_EXP2)
-    		}
-    	}
-    }
-    
-    def popFogState {
-    	gl.glPopAttrib
-    }
     
 	def newTexture(image: BufferedImage): TextureId = {
 		gl.glEnable(GL_TEXTURE_2D)

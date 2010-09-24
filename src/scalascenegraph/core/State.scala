@@ -216,7 +216,7 @@ class LineWidthState(width: Float) extends State {
 class ShadeModelState(shadeModel: ShadeModel) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
-		context.renderer.setShadeModel(shadeModel)
+		context.gl.glShadeModel(shadeModel)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopAttrib
@@ -246,11 +246,27 @@ class Rotation(var angle: Float, var x: Float, var y: Float, var z: Float) exten
 
 class FogState(var color: Color, var mode: FogMode) extends State {
 	override def preRender(context: Context) {
-		context.renderer.pushFogState
-		context.renderer.setFogState(color, mode)
+		context.gl.glPushAttrib(GL_FOG_BIT)
+    	context.gl.glEnable(GL_FOG)
+    	context.gl.glFogfv(GL_FOG_COLOR, color.asFloatArray, 0)
+    	mode match {
+    		case Linear(start, end) => {
+    			context.gl.glFogf(GL_FOG_START, start)
+    			context.gl.glFogf(GL_FOG_END, end)
+    			context.gl.glFogf(GL_FOG_MODE, GL_LINEAR)
+    		}
+    		case Exp(density) => {
+    			context.gl.glFogf(GL_FOG_DENSITY, density)
+    			context.gl.glFogf(GL_FOG_MODE, GL_EXP)
+    		}
+    		case Exp2(density) => {
+    			context.gl.glFogf(GL_FOG_DENSITY, density)
+    			context.gl.glFogf(GL_FOG_MODE, GL_EXP2)
+    		}
+    	}
 	}
 	override def postRender(context: Context) {
-		context.renderer.popFogState
+		context.gl.glPopAttrib
 	}
 }
 
