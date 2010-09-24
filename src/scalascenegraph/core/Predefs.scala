@@ -92,12 +92,12 @@ object Predefs {
 	/**
 	 * A shader identifier.
 	 */
-	case class ShaderId(id: Any)
+	type ShaderId = Int
 	
 	/**
 	 * A program identifier.
 	 */
-	case class ProgramId(id: Any)
+	type ProgramId = Int
 	
 	/**
 	 * A uniform identifier

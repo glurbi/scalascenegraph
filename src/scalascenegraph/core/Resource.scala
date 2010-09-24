@@ -39,11 +39,10 @@ trait Resource {
 
 class Shader(shaderType: ShaderType, source: String) extends Resource {
 
-	var shaderId: ShaderId = _
+	var id: ShaderId = _
 	
 	override def prepare(context: Context) {
-		shaderId = ShaderId(context.gl.glCreateShader(shaderType))
-		val id = shaderId.id.asInstanceOf[Int]
+		id = context.gl.glCreateShader(shaderType)
 		context.gl.glShaderSource(id, 1, Array(source), Array(source.size), 0)
 		val log = new Array[Byte](8192)
 		val length = Array(0)
@@ -53,23 +52,22 @@ class Shader(shaderType: ShaderType, source: String) extends Resource {
 	}
 	
 	override def dispose(context: Context) {
-		context.gl.glDeleteShader(shaderId.id.asInstanceOf[Int])
+		context.gl.glDeleteShader(id)
 	}
 	
 }
 
 class Program(shaderIds: List[Shader]) extends Resource {
 	
-	var programId: ProgramId = _
+	var id: ProgramId = _
 	
 	override def prepare(context: Context) {
 		val renderer = context.renderer
-		programId = ProgramId(context.gl.glCreateProgram)
-		shaderIds.foreach { shader => renderer.gl.glAttachShader(programId.id.asInstanceOf[Int], shader.shaderId.id.asInstanceOf[Int]) }
+		id = context.gl.glCreateProgram
+		shaderIds.foreach { shader => renderer.gl.glAttachShader(id, shader.id) }
 		
 		val log = new Array[Byte](8192)
 		val length = Array(0)
-		val id = programId.id.asInstanceOf[Int]
 		
 		context.gl.glLinkProgram(id)
 		context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
@@ -81,7 +79,7 @@ class Program(shaderIds: List[Shader]) extends Resource {
 	}
 	
 	override def dispose(context: Context) {
-		context.gl.glDeleteProgram(programId.id.asInstanceOf[Int])
+		context.gl.glDeleteProgram(id)
 	}
 	
 }
@@ -92,7 +90,7 @@ class Uniform(program: Program, name: String) extends Resource {
 	var value: Any = _
 
 	override def prepare(context: Context) {
-		uniformId = UniformId(context.gl.glGetUniformLocation(program.programId.id.asInstanceOf[Int], name))
+		uniformId = UniformId(context.gl.glGetUniformLocation(program.id, name))
 	}
 	
 }

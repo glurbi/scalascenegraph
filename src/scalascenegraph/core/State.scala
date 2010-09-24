@@ -275,11 +275,11 @@ class ProgramState(var program: Program) extends State {
 	override def preRender(context: Context) {
 		val id = Array[Int](1)
 		context.gl.glGetIntegerv(GL_CURRENT_PROGRAM, id, 0)
-		saved = ProgramId(id(0))
-		context.gl.glUseProgram(program.programId.id.asInstanceOf[Int])
+		saved = id(0)
+		context.gl.glUseProgram(program.id)
 	}
 	override def postRender(context: Context) {
-		context.gl.glUseProgram(saved.id.asInstanceOf[Int])
+		context.gl.glUseProgram(saved)
 	}
 }
 
