@@ -102,7 +102,7 @@ object Predefs {
 	/**
 	 * A uniform identifier
 	 */
-	case class UniformId(id: Any)
+	type UniformId = Int
 
 	/**
 	 * A vertex buffer object (VBO) id

@@ -86,11 +86,11 @@ class Program(shaderIds: List[Shader]) extends Resource {
 
 class Uniform(program: Program, name: String) extends Resource {
 	
-	var uniformId: UniformId = _
+	var id: UniformId = _
 	var value: Any = _
 
 	override def prepare(context: Context) {
-		uniformId = UniformId(context.gl.glGetUniformLocation(program.id, name))
+		id = context.gl.glGetUniformLocation(program.id, name)
 	}
 	
 }

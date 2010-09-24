@@ -301,11 +301,11 @@ class UniformState(var uniform: Uniform, var value: Any) extends State {
 		}
 	}
 	private def setUniformValue(context: Context, uniform: Uniform, a: Float, b: Float, c: Float, d: Float) {
-		context.gl.glUniform4f(uniform.uniformId.id.asInstanceOf[Int], a, b, c, d)
+		context.gl.glUniform4f(uniform.id, a, b, c, d)
 		uniform.value = Array(a, b, c, d)
 	}
 	private def setUniformValue(context: Context, uniform: Uniform, a: Float) {
-		context.gl.glUniform1f(uniform.uniformId.id.asInstanceOf[Int], a)
+		context.gl.glUniform1f(uniform.id, a)
 		uniform.value = a
 	}
 }
