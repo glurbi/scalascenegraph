@@ -79,11 +79,11 @@ class ColorState(var color: Color) extends State {
 
 class PolygonState(var face: Face, var mode: DrawingMode) extends State {
 	override def preRender(context: Context) {
-		context.renderer.pushPolygonMode
-		context.renderer.setPolygonMode(face, mode)
+		context.gl.glPushAttrib(GL_POLYGON_BIT)
+		context.gl.glPolygonMode(face, mode)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popPolygonMode
+		context.gl.glPopAttrib
 	}
 }
 
@@ -91,8 +91,11 @@ class BlendingState(var blending: OnOffState) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_CURRENT_BIT)
 		blending match {
-			case On => context.renderer.enableBlending
-			case Off => context.renderer.disableBlending
+			case On => {
+				context.gl.glEnable(GL_BLEND)
+				context.gl.glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+			}
+			case Off => context.gl.glDisable(GL_BLEND)
 		}
 	}
 	override def postRender(context: Context) {
@@ -102,24 +105,24 @@ class BlendingState(var blending: OnOffState) extends State {
 
 class CullFaceState(var cullFace: OnOffState) extends State {
 	override def preRender(context: Context) {
-		context.renderer.pushCullFace
+		context.gl.glPushAttrib(GL_ENABLE_BIT)
 		cullFace match {
-			case On => context.renderer.enableCullFace
-			case Off => context.renderer.disableCullFace
+			case On => context.gl.glEnable(GL_CULL_FACE)
+			case Off => context.gl.glDisable(GL_CULL_FACE)
 		}
 	}
 	override def postRender(context: Context) {
-		context.renderer.popCullFace
+		context.gl.glPopAttrib
 	}
 }
 
 class FrontFaceState(var frontFace: FrontFace) extends State {
 	override def preRender(context: Context) {
-		context.renderer.pushFrontFace
+		context.gl.glPushAttrib(GL_POLYGON_BIT)
 		context.gl.glFrontFace(frontFace)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popFrontFace
+		context.gl.glPopAttrib
 	}
 }
 

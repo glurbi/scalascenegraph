@@ -26,59 +26,6 @@ class Renderer(val gl: GL3bc) {
     def clearColor(color: Color) {
         gl.glClearColor(color.r, color.g, color.b, color.a)
     }
-
-    def enableBlending {
-    	gl.glEnable(GL_BLEND)
-    	gl.glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-    }
-    
-    def disableBlending {
-    	gl.glDisable(GL_BLEND)
-    }
-    
-	def enableCullFace {
-		gl.glEnable(GL_CULL_FACE)
-	}
-	
-    def pushCullFace {
-    	gl.glPushAttrib(GL_ENABLE_BIT)
-    }
-    
-    def disableCullFace {
-		gl.glDisable(GL_CULL_FACE)
-    }
-    
-    def popCullFace {
-    	gl.glPopAttrib
-    }
-
-    def pushFrontFace {
-    	gl.glPushAttrib(GL_POLYGON_BIT)
-    }
-    
-	def popFrontFace {
-    	gl.glPopAttrib
-	}
-    
-    def pushPolygonMode {
-    	gl.glPushAttrib(GL_POLYGON_BIT)
-    }
-    
-    def popPolygonMode {
-    	gl.glPopAttrib
-    }
-	
-	def setPolygonMode(face: Face, mode: DrawingMode) {
-		gl.glPolygonMode(face, mode)
-	}
-	
-    def flush {
-        gl.glFlush
-    }
-    
-    def finish {
-        gl.glFinish
-    }
     
     def pushMatrix {
     	gl.glPushMatrix

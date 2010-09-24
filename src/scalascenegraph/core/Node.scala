@@ -136,7 +136,7 @@ class World extends Group {
     override def render(context: Context) {
         context.renderer.clear
         super.render(context)
-        context.renderer.finish
+        context.gl.glFlush
     }
   
 }
