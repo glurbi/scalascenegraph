@@ -135,7 +135,7 @@ class GlobalLightState(var state: OnOffState) extends State {
     	}
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLightState
+		context.gl.glPopAttrib
 	}
 }
 
@@ -148,17 +148,18 @@ class LightState(instance: LightInstance, var state: OnOffState) extends State {
     	}
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLightState
+		context.gl.glPopAttrib
 	}
 }
 
 class LightPositionState(instance: LightInstance, position: Position) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
-		context.renderer.lightPosition(instance, position)
+		val p = position.asFloatArray
+		context.gl.glLightfv(instance, GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLightState
+		context.gl.glPopAttrib
 	}
 }
 
@@ -168,7 +169,7 @@ class LightColorState(instance: LightInstance, lightType: LightType, color: Colo
 		context.gl.glLightfv(instance, lightType, color.asFloatArray, 0)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLightState
+		context.gl.glPopAttrib
 	}
 }
 
@@ -178,7 +179,7 @@ class AmbientLightState(intensity: Intensity) extends State {
 		context.gl.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, intensity.asFloatArray, 0)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLightState
+		context.gl.glPopAttrib
 	}
 }
 
@@ -188,27 +189,27 @@ class MaterialState(face: Face, lightType: LightType, color: Color)  extends Sta
 		context.gl.glMaterialfv(face, lightType, color.asFloatArray, 0)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLightState
+		context.gl.glPopAttrib
 	}
 }
 
 class MaterialShininessState(face: Face, shininess: Int) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
-		context.renderer.setShininess(face, shininess)
+		context.gl.glMateriali(face, GL_SHININESS, shininess)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLightState
+		context.gl.glPopAttrib
 	}
 }
 
 class LineWidthState(width: Float) extends State {
 	override def preRender(context: Context) {
-		context.renderer.pushLineState
-		context.renderer.setLineWidth(width)
+		context.gl.glPushAttrib(GL_LINE_BIT)
+		context.gl.glLineWidth(width)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLineState
+		context.renderer.gl.glPopAttrib
 	}
 }
 
@@ -218,7 +219,7 @@ class ShadeModelState(shadeModel: ShadeModel) extends State {
 		context.renderer.setShadeModel(shadeModel)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popLightState
+		context.gl.glPopAttrib
 	}
 }
 

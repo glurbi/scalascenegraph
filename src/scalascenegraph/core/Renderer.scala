@@ -171,35 +171,10 @@ class Renderer(val gl: GL3bc) {
 		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
 	
-	def lightPosition(instance: LightInstance, position: Position) {
-		val p = position.asFloatArray
-		gl.glLightfv(instance, GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
-	}
-	
-	def setShininess(face: Face, shininess: Int) {
-		gl.glMateriali(face, GL_SHININESS, shininess)
-	}
-	
-    def popLightState {
-    	gl.glPopAttrib
-    }
-	
-    def pushLineState {
-    	gl.glPushAttrib(GL_LINE_BIT)
-    }
-    
-    def setLineWidth(width: Float) {
-    	gl.glLineWidth(width)
-    }
-    
-    def popLineState {
-    	gl.glPopAttrib
-    }
-    
 	def setShadeModel(shadeModel: ShadeModel) {
 		gl.glShadeModel(shadeModel)
 	}
-    
+
     def pushFogState {
     	gl.glPushAttrib(GL_FOG_BIT)
     }
