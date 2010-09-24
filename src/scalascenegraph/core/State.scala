@@ -219,7 +219,7 @@ class ShadeModelState(shadeModel: ShadeModel) extends State {
 class Translation(var x: Float, var y: Float, var z: Float) extends Transformation {
 	override def preRender(context: Context) {
 		context.gl.glPushMatrix
-		context.renderer.translate(x, y, z)
+		context.gl.glTranslatef(x, y, z)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopMatrix
@@ -230,7 +230,7 @@ class Rotation(var angle: Float, var x: Float, var y: Float, var z: Float) exten
 	def this() = this(0.0f, 0.0f, 0.0f, 0.0f)
 	override def preRender(context: Context) {
 		context.gl.glPushMatrix
-		context.renderer.rotate(angle, x, y, z)
+		context.gl.glRotatef(angle, x, y, z)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopMatrix

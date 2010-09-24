@@ -59,10 +59,10 @@ abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
 		if (context.spaceKeyPressed) {
 			xT = 0; yT = 0; zT = 0; xR = 0; yR = 0; zR = 0
 		}
-		context.renderer.translate(xT, yT, zT)
-		context.renderer.rotate(xR, 1.0f, 0.0f, 0.0f)
-		context.renderer.rotate(yR, 0.0f, 1.0f, 0.0f)
-		context.renderer.rotate(zR, 0.0f, 0.0f, 1.0f)
+		context.gl.glTranslatef(xT, yT, zT)
+		context.gl.glRotatef(xR, 1.0f, 0.0f, 0.0f)
+		context.gl.glRotatef(yR, 0.0f, 1.0f, 0.0f)
+		context.gl.glRotatef(zR, 0.0f, 0.0f, 1.0f)
 	}
 	
 }

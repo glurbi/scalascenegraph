@@ -171,14 +171,6 @@ class Renderer(val gl: GL3bc) {
 		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
 	
-    def translate(x: Float, y: Float, z: Float) {
-        gl.glTranslatef(x, y, z)
-    }
-
-	def rotate(angle: Float, x: Float, y: Float, z: Float) {
-		gl.glRotated(angle, x, y, z)
-	}
-
     def pushLightState {
     	gl.glPushAttrib(GL_LIGHTING_BIT)
     }
