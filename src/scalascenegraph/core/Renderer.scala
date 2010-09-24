@@ -18,22 +18,6 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
 class Renderer(val gl: GL3bc) {
-
-    def ortho(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
-        gl.glMatrixMode(GL_PROJECTION)
-        gl.glLoadIdentity
-        gl.glOrtho(left, right, bottom, top, near, far)
-        gl.glMatrixMode(GL_MODELVIEW)
-        gl.glLoadIdentity
-    }
-    
-    def perspective(left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double) {
-        gl.glMatrixMode(GL_PROJECTION)
-        gl.glLoadIdentity
-        gl.glFrustum(left, right, bottom, top, near, far)
-        gl.glMatrixMode(GL_MODELVIEW)
-        gl.glLoadIdentity
-    }
  
     def triangle(v1: Vertice, v2: Vertice, v3: Vertice) {
         gl.glBegin(GL_TRIANGLES)
@@ -170,31 +154,7 @@ class Renderer(val gl: GL3bc) {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
-    
-	def newTexture(image: BufferedImage): TextureId = {
-		gl.glEnable(GL_TEXTURE_2D)
-		val buffer = Utils.makeDirectByteBuffer(image)
-		val textureIds = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder).asIntBuffer // TODO: hardcoded value...
-		gl.glGenTextures(1, textureIds)
-		val textureId = textureIds.get(0)
-		gl.glBindTexture(GL_TEXTURE_2D, textureId)
-		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-		image.getColorModel.hasAlpha match {
-			case false => gl.glTexImage2D(GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer)
-			case true => gl.glTexImage2D(GL_TEXTURE_2D, 0, 4, image.getWidth, image.getHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer)
-		}
-		TextureId(textureId)
-	}
 	
-	def freeTexture(textureId: TextureId) {
-		val textureIds = ByteBuffer.allocateDirect(4).asIntBuffer // TODO: hardcoded value...
-		textureIds.put(0, textureId.id.asInstanceOf[Int])
-		gl.glDeleteTextures(1, textureIds)
-	}
-
 	def drawImage(x: Int, y: Int, width: Int, height: Int, imageType: ImageType, rawImage: ByteBuffer) {
 		gl.glWindowPos2i(x, y)
 		gl.glDrawPixels(width, height, imageType, GL_UNSIGNED_BYTE, rawImage)

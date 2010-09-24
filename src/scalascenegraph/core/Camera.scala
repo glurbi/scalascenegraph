@@ -2,6 +2,15 @@ package scalascenegraph.core
 
 import java.io._
 import java.util._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 object Camera {
 	
@@ -80,7 +89,14 @@ extends Camera(clippingVolume)
 {
     def render(context: Context) {
         import clippingVolume._
-        context.renderer.perspective(left, right, bottom, top, near, far);
+        import context.gl
+        gl.glMatrixMode(GL_PROJECTION)
+        gl.glLoadIdentity
+        gl.glFrustum(left, right, bottom, top, near, far)
+        gl.glMatrixMode(GL_MODELVIEW)
+        gl.glLoadIdentity
+        
+        // TODO: should be in Browser...
         positionCamera(context)
     }
 }
@@ -90,7 +106,14 @@ extends Camera(clippingVolume)
 {
     def render(context: Context) {
         import clippingVolume._
-        context.renderer.ortho(left, right, bottom, top, near, far);
+        import context.gl
+        gl.glMatrixMode(GL_PROJECTION)
+        gl.glLoadIdentity
+        gl.glOrtho(left, right, bottom, top, near, far)
+        gl.glMatrixMode(GL_MODELVIEW)
+        gl.glLoadIdentity
+        
+        // TODO: should be in Browser...
         positionCamera(context)
     }
 }
