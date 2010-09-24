@@ -197,7 +197,7 @@ class Renderer(val gl: GL3bc) {
         gl.glEnableClientState(GL_VERTEX_ARRAY)
         gl.glEnableClientState(GL_COLOR_ARRAY)
         gl.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer)
-        gl.glColorPointer(4, GL_FLOAT, 0, colors)
+        gl.glColorPointer(4, GL_FLOAT, 0, colors.floatBuffer)
         gl.glDrawArrays(GL_QUADS, 0, vertices.count)
         gl.glDisableClientState(GL_VERTEX_ARRAY)
         gl.glDisableClientState(GL_COLOR_ARRAY)

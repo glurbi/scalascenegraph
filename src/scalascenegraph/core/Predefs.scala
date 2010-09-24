@@ -72,7 +72,7 @@ object Predefs {
 	/**
 	 * A set of colors.
 	 */
-	type Colors = FloatBuffer
+	case class Colors(floatBuffer: FloatBuffer)
 	
 	/**
 	 * A set of normals.

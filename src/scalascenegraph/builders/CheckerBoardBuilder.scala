@@ -50,7 +50,7 @@ class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color) {
 				ab ++= c.asFloatArray
 			}
 		}
-		Buffers.newDirectFloatBuffer(ab.toArray)
+		Colors(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 	
 }
