@@ -139,13 +139,18 @@ class VertexBufferObject(vertices: Vertices) extends Resource {
 	var count: Int = _
 	
 	override def prepare(context: Context) {
-		vertexBufferObjectId = context.renderer.newVertexBufferObject
-		context.renderer.loadVertexBufferObjectData(this, vertices)
+		val ids = Array[Int](1)
+		context.gl.glGenBuffers(1, ids, 0)
+		vertexBufferObjectId = VertexBufferObjectId(ids(0))
+		context.gl.glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId.id.asInstanceOf[Int])
+		context.gl.glBufferData(GL_ARRAY_BUFFER, vertices.count * 3 * 4, vertices.floatBuffer, GL_STATIC_DRAW)
+		context.gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 		count = vertices.count
 	}
 	
 	override def dispose(context: Context) {
-		context.renderer.freeVertexBufferObject(vertexBufferObjectId)
+		val ids = Array(vertexBufferObjectId.id .asInstanceOf[Int])
+		context.gl.glDeleteBuffers(1, ids, 0)
 	}
 	
 }

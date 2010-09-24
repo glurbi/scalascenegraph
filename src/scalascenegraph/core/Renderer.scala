@@ -154,22 +154,5 @@ class Renderer(val gl: GL3bc) {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
-
-	def newVertexBufferObject: VertexBufferObjectId = {
-		val ids = Array[Int](1)
-		gl.glGenBuffers(1, ids, 0)
-		VertexBufferObjectId(ids(0))
-	}
-
-	def freeVertexBufferObject(vertexBufferObjectId: VertexBufferObjectId) = {
-		val ids = Array(vertexBufferObjectId.id .asInstanceOf[Int])
-		gl.glDeleteBuffers(1, ids, 0)
-	}
-	
-	def loadVertexBufferObjectData(vbo: VertexBufferObject, vertices: Vertices) = {
-		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.vertexBufferObjectId.id.asInstanceOf[Int])
-		gl.glBufferData(GL_ARRAY_BUFFER, vertices.count * 3 * 4, vertices.floatBuffer, GL_STATIC_DRAW)
-		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
-	}
 	
 }
