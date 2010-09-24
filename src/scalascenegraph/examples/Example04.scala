@@ -2,6 +2,15 @@ package scalascenegraph.examples
 
 import java.awt.{Color => JColor }
 import scala.math._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
@@ -39,7 +48,7 @@ class Example04 extends Example with WorldBuilder {
     
     def wireCube = 
     	group {
-	    	polygonMode(FrontAndBack, Line)
+	    	polygonMode(FrontAndBack, GL_LINE)
 	    	translation(0.0f, 0.0f, -4.0f, translationHook((Pi).asInstanceOf[Float]))
 	    	rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
 	    	material(FrontAndBack, AmbientLight, JColor.blue)
@@ -49,7 +58,7 @@ class Example04 extends Example with WorldBuilder {
 
     def wireSphere =
     	group {
-    		polygonMode(FrontAndBack, Line)
+    		polygonMode(FrontAndBack, GL_LINE)
     		translation(0.0f, 0.0f, -4.0f, translationHook((Pi / 2.0).asInstanceOf[Float]))
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
     		material(FrontAndBack, AmbientLight, JColor.blue)

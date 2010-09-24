@@ -97,7 +97,7 @@ class Renderer(val gl: GL3bc) {
     }
 	
 	def setPolygonMode(face: Face, mode: DrawingMode) {
-		gl.glPolygonMode(glFace(face), glMode(mode))
+		gl.glPolygonMode(glFace(face), mode)
 	}
 	
     def flush {
@@ -510,12 +510,6 @@ class Renderer(val gl: GL3bc) {
 		case Front => GL_FRONT
 		case Back => GL_BACK
 		case FrontAndBack => GL_FRONT_AND_BACK
-	}
-	
-	private def glMode(mode: DrawingMode): Int = mode match {
-		case Point => GL_POINT
-		case Line => GL_LINE
-		case Fill => GL_FILL
 	}
 	
 	private def glLightType(lightType: LightType): Int = lightType match {

@@ -137,10 +137,7 @@ object Predefs {
 	/**
 	 * Defines a polygon drawing mode.
 	 */
-	abstract class DrawingMode
-	case object Point extends DrawingMode
-	case object Line extends DrawingMode
-	case object Fill extends DrawingMode
+	type DrawingMode = Int
 
 	/**
 	 * Defines how the front and back face of a polygon are calculated. 
