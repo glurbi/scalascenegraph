@@ -56,14 +56,14 @@ trait Transformation extends State {}
 
 class DepthTestState(var depthTest: OnOffState) extends State {
 	override def preRender(context: Context) {
-		context.renderer.pushDepthTestState
+		context.gl.glPushAttrib(GL_DEPTH_BUFFER_BIT)
 		depthTest match {
-			case On => context.renderer.enableDepthTest
-			case Off => context.renderer.disableDepthTest
+			case On => context.gl.glEnable(GL_DEPTH_TEST)
+			case Off => context.gl.glDisable(GL_DEPTH_TEST)
 		}
 	}
 	override def postRender(context: Context) {
-		context.renderer.popDepthTestState
+		context.gl.glPopAttrib
 	}
 }
 

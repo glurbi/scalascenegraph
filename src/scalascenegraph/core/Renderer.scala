@@ -36,22 +36,6 @@ class Renderer(val gl: GL3bc) {
     	gl.glDisable(GL_BLEND)
     }
     
-    def pushDepthTestState {
-    	gl.glPushAttrib(GL_DEPTH_BUFFER_BIT)
-    }
-    
-	def enableDepthTest {
-		gl.glEnable(GL_DEPTH_TEST)
-	}
-	
-	def disableDepthTest {
-		gl.glDisable(GL_DEPTH_TEST)
-	}
-
-    def popDepthTestState {
-    	gl.glPopAttrib
-    }
-	
 	def enableCullFace {
 		gl.glEnable(GL_CULL_FACE)
 	}
