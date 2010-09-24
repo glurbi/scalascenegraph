@@ -1,5 +1,15 @@
 package scalascenegraph.core
 
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
+
 import scalascenegraph.core.Predefs._
 
 /**
@@ -59,11 +69,11 @@ class DepthTestState(var depthTest: OnOffState) extends State {
 
 class ColorState(var color: Color) extends State {
 	override def preRender(context: Context) {
-		context.renderer.pushColorState
-		context.renderer.setColor(color)
+		context.gl.glPushAttrib(GL_CURRENT_BIT)
+		context.gl.glColor3f(color.r, color.g , color.b)
 	}
 	override def postRender(context: Context) {
-		context.renderer.popColorState
+		context.gl.glPopAttrib
 	}
 }
 
@@ -79,14 +89,14 @@ class PolygonState(var face: Face, var mode: DrawingMode) extends State {
 
 class BlendingState(var blending: OnOffState) extends State {
 	override def preRender(context: Context) {
-		context.renderer.pushColorState
+		context.gl.glPushAttrib(GL_CURRENT_BIT)
 		blending match {
 			case On => context.renderer.enableBlending
 			case Off => context.renderer.disableBlending
 		}
 	}
 	override def postRender(context: Context) {
-		context.renderer.popColorState
+		context.gl.glPopAttrib
 	}
 }
 

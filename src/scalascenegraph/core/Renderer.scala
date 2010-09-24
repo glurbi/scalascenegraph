@@ -19,26 +19,14 @@ import scalascenegraph.core.Predefs._
 
 class Renderer(val gl: GL3bc) { 
 	
-	def pushColorState {
-		gl.glPushAttrib(GL_CURRENT_BIT)
-	}
-	
-	def popColorState {
-		gl.glPopAttrib
-	}
-	
-    def setColor(color: Color) {
-        gl.glColor3f(color.r, color.g , color.b)
-    }	
-	
     def clear {
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     }
-    
+
     def clearColor(color: Color) {
         gl.glClearColor(color.r, color.g, color.b, color.a)
     }
- 
+
     def enableBlending {
     	gl.glEnable(GL_BLEND)
     	gl.glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
