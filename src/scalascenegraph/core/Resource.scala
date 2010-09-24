@@ -99,7 +99,7 @@ class Uniform(program: Program, name: String) extends Resource {
 
 class Texture(in: InputStream) extends Resource {
 
-	var textureId: TextureId = _
+	var id: TextureId = _
 	
 	override def prepare(context: Context) {
 		import context.gl
@@ -108,7 +108,7 @@ class Texture(in: InputStream) extends Resource {
 		val buffer = Utils.makeDirectByteBuffer(image)
 		val textureIds = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder).asIntBuffer // TODO: hardcoded value...
 		gl.glGenTextures(1, textureIds)
-		val id = textureIds.get(0)
+		id = textureIds.get(0)
 		gl.glBindTexture(GL_TEXTURE_2D, id)
 		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
 		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
@@ -118,12 +118,11 @@ class Texture(in: InputStream) extends Resource {
 			case false => gl.glTexImage2D(GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer)
 			case true => gl.glTexImage2D(GL_TEXTURE_2D, 0, 4, image.getWidth, image.getHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer)
 		}
-		textureId = TextureId(id)
 	}
 	
 	override def dispose(context: Context) {
 		val textureIds = ByteBuffer.allocateDirect(4).asIntBuffer // TODO: hardcoded value...
-		textureIds.put(0, textureId.id.asInstanceOf[Int])
+		textureIds.put(0, id)
 		context.gl.glDeleteTextures(1, textureIds)
 	}
 	

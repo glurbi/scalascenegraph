@@ -92,7 +92,7 @@ class Renderer(val gl: GL3bc) {
     }
 
     def quads(vertices: Vertices, textureCoordinates: TextureCoordinates, texture: Texture) {
-		gl.glBindTexture(GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
+		gl.glBindTexture(GL_TEXTURE_2D, texture.id)
         gl.glEnableClientState(GL_VERTEX_ARRAY)
         gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
         gl.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer)
@@ -103,7 +103,7 @@ class Renderer(val gl: GL3bc) {
     }
     
     def quads(vertices: Vertices, textureCoordinates: TextureCoordinates, texture: Texture, normals: Normals) {
-		gl.glBindTexture(GL_TEXTURE_2D, texture.textureId.id.asInstanceOf[Int])
+		gl.glBindTexture(GL_TEXTURE_2D, texture.id)
         gl.glEnableClientState(GL_VERTEX_ARRAY)
         gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
         gl.glEnableClientState(GL_NORMAL_ARRAY);

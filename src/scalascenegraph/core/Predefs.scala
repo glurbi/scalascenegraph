@@ -87,7 +87,7 @@ object Predefs {
 	/**
 	 * A texture identifier.
 	 */
-	case class TextureId(id: Any)
+	type TextureId = Int
 
 	/**
 	 * A shader identifier.
