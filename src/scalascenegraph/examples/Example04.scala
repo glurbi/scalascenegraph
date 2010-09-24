@@ -33,8 +33,8 @@ class Example04 extends Example with WorldBuilder {
     	group {
     		translation(0.0f, 0.0f, -4.0f, translationHook((-Pi / 2.0).asInstanceOf[Float]))
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(GL_FRONT, AmbientLight, JColor.green)
-    		material(GL_FRONT, DiffuseLight, JColor.green)
+    		material(GL_FRONT, GL_AMBIENT, JColor.green)
+    		material(GL_FRONT, GL_DIFFUSE, JColor.green)
     		sphere(30, 1.0f)
     	}
 
@@ -42,7 +42,7 @@ class Example04 extends Example with WorldBuilder {
     	group {
     		translation(0.0f, 0.0f, -4.0f, translationHook((0.0).asInstanceOf[Float]))
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(GL_FRONT, AmbientAndDiffuseLight, JColor.red)
+    		material(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, JColor.red)
     		cube
     	}
     
@@ -51,8 +51,8 @@ class Example04 extends Example with WorldBuilder {
 	    	polygonMode(GL_FRONT_AND_BACK, GL_LINE)
 	    	translation(0.0f, 0.0f, -4.0f, translationHook((Pi).asInstanceOf[Float]))
 	    	rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-	    	material(GL_FRONT_AND_BACK, AmbientLight, JColor.blue)
-	    	material(GL_FRONT_AND_BACK, DiffuseLight, JColor.blue)
+	    	material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.blue)
+	    	material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.blue)
 	    	cube
     	}
 
@@ -61,8 +61,8 @@ class Example04 extends Example with WorldBuilder {
     		polygonMode(GL_FRONT_AND_BACK, GL_LINE)
     		translation(0.0f, 0.0f, -4.0f, translationHook((Pi / 2.0).asInstanceOf[Float]))
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(GL_FRONT_AND_BACK, AmbientLight, JColor.blue)
-    		material(GL_FRONT_AND_BACK, DiffuseLight, JColor.blue)
+    		material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.blue)
+    		material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.blue)
     		sphere(15, 1.0f)
     	}
     
@@ -74,7 +74,7 @@ class Example04 extends Example with WorldBuilder {
 		    ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
 		    light(GL_LIGHT0, On)
 		    light(GL_LIGHT0, Position(2.0f, 2.0f, 0.0f))
-		    light(GL_LIGHT0, DiffuseLight, JColor.white)
+		    light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
 		    group {
 		    	cullFace(Off)
 		    	lineWidth(4.0f)

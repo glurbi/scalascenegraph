@@ -64,11 +64,11 @@ class Example08 extends Example with WorldBuilder {
 			light(GL_LIGHT0, On)
 			ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
 			light(GL_LIGHT0, Position(-2.0f, -2.0f, 0.0f))
-			light(GL_LIGHT0, DiffuseLight, JColor.white)
+			light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
 			group {
 				translation(0.0f, 0.0f, -1.8f)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-				material(GL_FRONT, AmbientAndDiffuseLight, JColor.cyan)
+				material(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, JColor.cyan)
 				cube
 			}
 			overlay(0, 0, image, centerHook)

@@ -124,12 +124,7 @@ object Predefs {
 	/**
 	 * Defines a light type.
 	 */
-	abstract class LightType
-	case object AmbientLight extends LightType
-	case object DiffuseLight extends LightType
-	case object SpecularLight extends LightType
-	case object EmissionLight extends LightType
-	case object AmbientAndDiffuseLight extends LightType
+	type LightType = Int
 
 	/**
 	 * Defines a polygon drawing mode.

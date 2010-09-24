@@ -292,7 +292,7 @@ class Renderer(val gl: GL3bc) {
 	}
 
 	def setMaterial(face: Face, lightType: LightType, color: Color) {
-		gl.glMaterialfv(face, glLightType(lightType), color.asFloatArray, 0)
+		gl.glMaterialfv(face, lightType, color.asFloatArray, 0)
 	}
 
     def setLightState(instance: LightInstance, state: OnOffState) {
@@ -303,7 +303,7 @@ class Renderer(val gl: GL3bc) {
     }
 	
 	def lightColor(instance: LightInstance, lightType: LightType, color: Color) {
-		gl.glLightfv(instance, glLightType(lightType), color.asFloatArray, 0)
+		gl.glLightfv(instance, lightType, color.asFloatArray, 0)
 	}
 	
 	def lightPosition(instance: LightInstance, position: Position) {
@@ -504,14 +504,6 @@ class Renderer(val gl: GL3bc) {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.vertexBufferObjectId.id.asInstanceOf[Int])
 		gl.glBufferData(GL_ARRAY_BUFFER, vertices.count * 3 * 4, vertices.floatBuffer, GL_STATIC_DRAW)
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
-	}
-	
-	private def glLightType(lightType: LightType): Int = lightType match {
-		case AmbientLight => GL_AMBIENT
-		case DiffuseLight => GL_DIFFUSE
-		case SpecularLight => GL_SPECULAR
-		case EmissionLight => GL_EMISSION
-		case AmbientAndDiffuseLight => GL_AMBIENT_AND_DIFFUSE
 	}
 	
 	private def glShadeModel(shadeModel: ShadeModel): Int = shadeModel match {

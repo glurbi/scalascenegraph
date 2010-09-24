@@ -40,8 +40,8 @@ class Example06 extends Example with WorldBuilder {
 				light(On)
 				light(GL_LIGHT0, On)
 				light(GL_LIGHT0, Position(0.0f, 0.0f, 0.0f))
-				light(GL_LIGHT0, DiffuseLight, JColor.white)
-				material(GL_FRONT, DiffuseLight, JColor.orange)
+				light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
+				material(GL_FRONT, GL_DIFFUSE, JColor.orange)
 				group {
 					translation(-1.5f, 0.5f, -3.5f)
 					rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
