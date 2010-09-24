@@ -132,21 +132,21 @@ class Font(val characters: Map[Char, Character]) extends Resource
 
 class VertexBufferObject(vertices: Vertices) extends Resource {
 	
-	var vertexBufferObjectId: VertexBufferObjectId = _
+	var id: VBOId = _
 	var count: Int = _
 	
 	override def prepare(context: Context) {
 		val ids = Array[Int](1)
 		context.gl.glGenBuffers(1, ids, 0)
-		vertexBufferObjectId = VertexBufferObjectId(ids(0))
-		context.gl.glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjectId.id.asInstanceOf[Int])
+		id = ids(0)
+		context.gl.glBindBuffer(GL_ARRAY_BUFFER, id)
 		context.gl.glBufferData(GL_ARRAY_BUFFER, vertices.count * 3 * 4, vertices.floatBuffer, GL_STATIC_DRAW)
 		context.gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 		count = vertices.count
 	}
 	
 	override def dispose(context: Context) {
-		val ids = Array(vertexBufferObjectId.id .asInstanceOf[Int])
+		val ids = Array(id)
 		context.gl.glDeleteBuffers(1, ids, 0)
 	}
 	

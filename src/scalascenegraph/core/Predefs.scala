@@ -107,7 +107,7 @@ object Predefs {
 	/**
 	 * A vertex buffer object (VBO) id
 	 */
-	case class VertexBufferObjectId(id: Any)
+	type VBOId = Int
 	
 	/**
 	 * Defines the shade model used for rendering.
