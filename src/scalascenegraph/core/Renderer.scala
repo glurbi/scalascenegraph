@@ -406,7 +406,7 @@ class Renderer(val gl: GL3bc) {
 	}
 	
 	def newShader(shaderType: ShaderType): ShaderId = {
-		ShaderId(gl.glCreateShader(glShaderType(shaderType)))
+		ShaderId(gl.glCreateShader(shaderType))
 	}
 	
 	def freeShader(shaderId: ShaderId) {
@@ -522,11 +522,6 @@ class Renderer(val gl: GL3bc) {
 	private def glImageType(imageType: ImageType): Int = imageType match {
 		case RGB => GL_RGB
 		case RGBA => GL_RGBA
-	}
-	
-	private def glShaderType(shaderType: ShaderType): Int = shaderType match {
-		case VertexShader => GL_VERTEX_SHADER
-		case FragmentShader => GL_FRAGMENT_SHADER
 	}
 	
 }

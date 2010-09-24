@@ -4,6 +4,15 @@ import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
 import java.awt.image._
 import scala.math._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
@@ -52,8 +61,8 @@ class Example09 extends Example with WorldBuilder {
 		world {
 			cullFace(On)
     		depthTest(On)
-			shader("myvertexshader", VertexShader, myvertexshadersource)
-			shader("myfragmentshader", FragmentShader, myfragmentshadersource)
+			shader("myvertexshader", GL_VERTEX_SHADER, myvertexshadersource)
+			shader("myfragmentshader", GL_FRAGMENT_SHADER, myfragmentshadersource)
 			program("myprogram", "myvertexshader", "myfragmentshader")
 			uniform("myprogram", "r")
 			uniform("myprogram", "color")

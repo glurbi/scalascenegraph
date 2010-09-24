@@ -164,29 +164,8 @@ object Predefs {
 	/**
 	 * Defines a shader type.
 	 */
-	abstract class ShaderType
-	case object VertexShader extends ShaderType
-	case object FragmentShader extends ShaderType
-	
-	/**
-	 * Defines a geometry type.
-	 */
-	abstract class GeometryType
-	case object PointArray extends GeometryType
-	case object LineArray extends GeometryType
-	case object TriangleArray extends GeometryType
-	case object QuadArray extends GeometryType
+	type ShaderType = Int
 
-	/**
-	 * Defines a color type.
-	 */
-	abstract class ColorType
-	case object UnspecifiedColor extends ColorType
-	case object UniColorNoAlpha extends ColorType
-	case object UniColorAlpha extends ColorType
-	case object MultiColorNoAlpha extends ColorType
-	case object MultiColorAlpha extends ColorType
-	
 	/**
 	 * Defines a normal type.
 	 */
