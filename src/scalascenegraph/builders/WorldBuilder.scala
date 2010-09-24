@@ -127,7 +127,7 @@ trait WorldBuilder {
 	
 	def cube(colors: Array[Float]) {
 		val builder = new CubeBuilder
-		stack.top.attach(builder.createCube(Colors(Buffers.newDirectFloatBuffer(colors))))
+		stack.top.attach(builder.createCube(Buffers.newDirectFloatBuffer(colors)))
 	}
 	
 	def sphere(n: Int, r: Float) {
