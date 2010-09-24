@@ -48,7 +48,7 @@ class Example05 extends Example with WorldBuilder {
 				ambient(Intensity(0.3f, 0.3f, 0.3f, 1.0f))
 				material(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, JColor.pink)
 				translation(-2.0f, -2.0f, -4.0f)
-				shadeModel(Flat)
+				shadeModel(GL_FLAT)
 				rotation(0.0f, 1.0f, 0.0f, 0.0f, angleHook)
 				torus(30, 1.0f, 0.5f)
 			}

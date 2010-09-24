@@ -112,9 +112,7 @@ object Predefs {
 	/**
 	 * Defines the shade model used for rendering.
 	 */
-	abstract class ShadeModel
-	case object Flat extends ShadeModel
-	case object Smooth extends ShadeModel
+	type ShadeModel = Int
 	
 	/**
 	 * Defines the "active" face of a polygon. 

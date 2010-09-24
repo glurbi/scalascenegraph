@@ -332,7 +332,7 @@ class Renderer(val gl: GL3bc) {
     }
     
 	def setShadeModel(shadeModel: ShadeModel) {
-		gl.glShadeModel(glShadeModel(shadeModel))
+		gl.glShadeModel(shadeModel)
 	}
     
     def pushFogState {
@@ -506,9 +506,4 @@ class Renderer(val gl: GL3bc) {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 	}
 	
-	private def glShadeModel(shadeModel: ShadeModel): Int = shadeModel match {
-		case Flat => GL_FLAT
-		case Smooth => GL_SMOOTH
-	}
-
 }
