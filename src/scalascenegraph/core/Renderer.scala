@@ -171,36 +171,6 @@ class Renderer(val gl: GL3bc) {
 		gl.glDisableClientState(GL_VERTEX_ARRAY)
 	}
 	
-    def pushLightState {
-    	gl.glPushAttrib(GL_LIGHTING_BIT)
-    }
-    
-    def setLightState(state: OnOffState) {
-    	state match {
-    		case On => gl.glEnable(GL_LIGHTING)
-    		case Off => gl.glDisable(GL_LIGHTING)
-    	}
-    }
-    
-	def setAmbientLight(intensity: Intensity) {
-		gl.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, intensity.asFloatArray, 0)
-	}
-
-	def setMaterial(face: Face, lightType: LightType, color: Color) {
-		gl.glMaterialfv(face, lightType, color.asFloatArray, 0)
-	}
-
-    def setLightState(instance: LightInstance, state: OnOffState) {
-    	state match {
-    		case On => gl.glEnable(instance)
-    		case Off => gl.glDisable(instance)
-    	}
-    }
-	
-	def lightColor(instance: LightInstance, lightType: LightType, color: Color) {
-		gl.glLightfv(instance, lightType, color.asFloatArray, 0)
-	}
-	
 	def lightPosition(instance: LightInstance, position: Position) {
 		val p = position.asFloatArray
 		gl.glLightfv(instance, GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
