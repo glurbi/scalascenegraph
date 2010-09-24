@@ -297,18 +297,18 @@ class Renderer(val gl: GL3bc) {
 
     def setLightState(instance: LightInstance, state: OnOffState) {
     	state match {
-    		case On => gl.glEnable(glLightInstance(instance))
-    		case Off => gl.glDisable(glLightInstance(instance))
+    		case On => gl.glEnable(instance)
+    		case Off => gl.glDisable(instance)
     	}
     }
 	
 	def lightColor(instance: LightInstance, lightType: LightType, color: Color) {
-		gl.glLightfv(glLightInstance(instance), glLightType(lightType), color.asFloatArray, 0)
+		gl.glLightfv(instance, glLightType(lightType), color.asFloatArray, 0)
 	}
 	
 	def lightPosition(instance: LightInstance, position: Position) {
 		val p = position.asFloatArray
-		gl.glLightfv(glLightInstance(instance), GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
+		gl.glLightfv(instance, GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
 	}
 	
 	def setShininess(face: Face, shininess: Int) {
@@ -517,17 +517,6 @@ class Renderer(val gl: GL3bc) {
 	private def glShadeModel(shadeModel: ShadeModel): Int = shadeModel match {
 		case Flat => GL_FLAT
 		case Smooth => GL_SMOOTH
-	}
-
-	private def glLightInstance(instance: LightInstance): Int = instance match {
-		case LightInstance(0) => GL_LIGHT0
-		case LightInstance(1) => GL_LIGHT1
-		case LightInstance(2) => GL_LIGHT2
-		case LightInstance(3) => GL_LIGHT3
-		case LightInstance(4) => GL_LIGHT4
-		case LightInstance(5) => GL_LIGHT5
-		case LightInstance(6) => GL_LIGHT6
-		case LightInstance(7) => GL_LIGHT7
 	}
 
 	private def glImageType(imageType: ImageType): Int = imageType match {

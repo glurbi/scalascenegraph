@@ -159,19 +159,7 @@ object Predefs {
 	/**
 	 * Defines the different light instances.
 	 */
-	class LightInstance(val n: Int)
-	object LightInstance {
-		def apply(n: Int): LightInstance = new LightInstance(n)
-		def unapply(instance: LightInstance): Option[Int] = Some(instance.n)
-	}
-	case object Light0 extends LightInstance(0)
-	case object Light1 extends LightInstance(1)
-	case object Light2 extends LightInstance(2)
-	case object Light3 extends LightInstance(3)
-	case object Light4 extends LightInstance(4)
-	case object Light5 extends LightInstance(5)
-	case object Light6 extends LightInstance(6)
-	case object Light7 extends LightInstance(7)
+	type LightInstance = Int
 
 	/**
 	 * Defines a shader type.

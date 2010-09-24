@@ -27,9 +27,9 @@ class Example05 extends Example with WorldBuilder {
     		depthTest(On)
 			cullFace(On)
 			light(On)
-		    light(Light1, On)
-		    light(Light1, Position(-3.0f, 0.0f, 0.0f))
-		    light(Light1, DiffuseLight, JColor.white)
+		    light(GL_LIGHT1, On)
+		    light(GL_LIGHT1, Position(-3.0f, 0.0f, 0.0f))
+		    light(GL_LIGHT1, DiffuseLight, JColor.white)
 			group {
 				light(Off)
 				translation(-2.0f, 2.0f, -4.0f)
@@ -53,7 +53,7 @@ class Example05 extends Example with WorldBuilder {
 				torus(30, 1.0f, 0.5f)
 			}
 			group {
-				light(Light1, SpecularLight, JColor.white)
+				light(GL_LIGHT1, SpecularLight, JColor.white)
 				material(GL_FRONT, DiffuseLight, JColor.red)
 				material(GL_FRONT, SpecularLight, JColor.white)
 				shininess(GL_FRONT, 128)

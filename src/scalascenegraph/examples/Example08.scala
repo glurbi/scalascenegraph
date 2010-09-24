@@ -61,10 +61,10 @@ class Example08 extends Example with WorldBuilder {
     		depthTest(On)
 			blending(On)
 			light(On)
-			light(Light0, On)
+			light(GL_LIGHT0, On)
 			ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
-			light(Light0, Position(-2.0f, -2.0f, 0.0f))
-			light(Light0, DiffuseLight, JColor.white)
+			light(GL_LIGHT0, Position(-2.0f, -2.0f, 0.0f))
+			light(GL_LIGHT0, DiffuseLight, JColor.white)
 			group {
 				translation(0.0f, 0.0f, -1.8f)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)

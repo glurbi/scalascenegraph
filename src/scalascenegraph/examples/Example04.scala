@@ -72,9 +72,9 @@ class Example04 extends Example with WorldBuilder {
 			cullFace(On)
 		    light(On)
 		    ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
-		    light(Light0, On)
-		    light(Light0, Position(2.0f, 2.0f, 0.0f))
-		    light(Light0, DiffuseLight, JColor.white)
+		    light(GL_LIGHT0, On)
+		    light(GL_LIGHT0, Position(2.0f, 2.0f, 0.0f))
+		    light(GL_LIGHT0, DiffuseLight, JColor.white)
 		    group {
 		    	cullFace(Off)
 		    	lineWidth(4.0f)

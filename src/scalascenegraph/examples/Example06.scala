@@ -38,9 +38,9 @@ class Example06 extends Example with WorldBuilder {
 			}
 			group {
 				light(On)
-				light(Light0, On)
-				light(Light0, Position(0.0f, 0.0f, 0.0f))
-				light(Light0, DiffuseLight, JColor.white)
+				light(GL_LIGHT0, On)
+				light(GL_LIGHT0, Position(0.0f, 0.0f, 0.0f))
+				light(GL_LIGHT0, DiffuseLight, JColor.white)
 				material(GL_FRONT, DiffuseLight, JColor.orange)
 				group {
 					translation(-1.5f, 0.5f, -3.5f)
