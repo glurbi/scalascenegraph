@@ -165,21 +165,11 @@ object Predefs {
 	 * Defines a shader type.
 	 */
 	type ShaderType = Int
-
-	/**
-	 * Defines a normal type.
-	 */
-	abstract class NormalType
-	case object UnspecifiedNormal extends NormalType
-	case object UniNormal extends NormalType
-	case object MultiNormal extends NormalType
 	
 	/**
 	 * Defines an image type.
 	 */
-	abstract class ImageType
-	case object RGB extends ImageType
-	case object RGBA extends ImageType
+	type ImageType = Int
 	
 	/**
 	 * Implicit conversion of AWT colors to ScalaSceneGraph colors.

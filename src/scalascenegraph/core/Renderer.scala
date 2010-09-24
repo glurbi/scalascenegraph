@@ -389,7 +389,7 @@ class Renderer(val gl: GL3bc) {
 
 	def drawImage(x: Int, y: Int, width: Int, height: Int, imageType: ImageType, rawImage: ByteBuffer) {
 		gl.glWindowPos2i(x, y)
-		gl.glDrawPixels(width, height, glImageType(imageType), GL_UNSIGNED_BYTE, rawImage)
+		gl.glDrawPixels(width, height, imageType, GL_UNSIGNED_BYTE, rawImage)
 	}
 	
 	def drawText(x: Int, y: Int, font: Font, text: String) {
@@ -519,9 +519,4 @@ class Renderer(val gl: GL3bc) {
 		case Smooth => GL_SMOOTH
 	}
 
-	private def glImageType(imageType: ImageType): Int = imageType match {
-		case RGB => GL_RGB
-		case RGBA => GL_RGBA
-	}
-	
 }

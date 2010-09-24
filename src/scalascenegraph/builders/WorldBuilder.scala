@@ -6,6 +6,15 @@ import java.awt.image._
 import java.awt.{Font => JFont}
 import scala.collection.mutable._
 import com.jogamp.common.nio._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core._
 import scalascenegraph.builders._
@@ -206,7 +215,7 @@ trait WorldBuilder {
 		val buffer = ByteBuffer.allocateDirect(data.length)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
-		stack.top.attach(new ImageOverlay(x, y, image.getWidth, image.getHeight, RGBA, buffer))
+		stack.top.attach(new ImageOverlay(x, y, image.getWidth, image.getHeight, GL_RGBA, buffer))
 	}
 
 	def overlay(x: Int, y: Int, image: BufferedImage, hook: NodeHook[ImageOverlay]) {
@@ -216,7 +225,7 @@ trait WorldBuilder {
 		val buffer = ByteBuffer.allocateDirect(data.length)
 		buffer.put(data, 0, data.length)
 		buffer.rewind
-		stack.top.attach(new DynamicNode(hook, new ImageOverlay(x, y, image.getWidth, image.getHeight, RGBA, buffer)))
+		stack.top.attach(new DynamicNode(hook, new ImageOverlay(x, y, image.getWidth, image.getHeight, GL_RGBA, buffer)))
 	}
 
 	def overlay(x: Int, y: Int, fontName: String, text: String) {
