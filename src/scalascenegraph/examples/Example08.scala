@@ -4,6 +4,15 @@ import java.awt._
 import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
 import java.awt.image._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
@@ -59,7 +68,7 @@ class Example08 extends Example with WorldBuilder {
 			group {
 				translation(0.0f, 0.0f, -1.8f)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-				material(Front, AmbientAndDiffuseLight, JColor.cyan)
+				material(GL_FRONT, AmbientAndDiffuseLight, JColor.cyan)
 				cube
 			}
 			overlay(0, 0, image, centerHook)

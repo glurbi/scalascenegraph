@@ -119,10 +119,7 @@ object Predefs {
 	/**
 	 * Defines the "active" face of a polygon. 
 	 */
-	abstract class Face
-	case object Front extends Face
-	case object Back extends Face
-	case object FrontAndBack extends Face
+	type Face = Int
 
 	/**
 	 * Defines a light type.

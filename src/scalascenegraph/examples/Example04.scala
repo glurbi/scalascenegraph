@@ -33,8 +33,8 @@ class Example04 extends Example with WorldBuilder {
     	group {
     		translation(0.0f, 0.0f, -4.0f, translationHook((-Pi / 2.0).asInstanceOf[Float]))
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(Front, AmbientLight, JColor.green)
-    		material(Front, DiffuseLight, JColor.green)
+    		material(GL_FRONT, AmbientLight, JColor.green)
+    		material(GL_FRONT, DiffuseLight, JColor.green)
     		sphere(30, 1.0f)
     	}
 
@@ -42,27 +42,27 @@ class Example04 extends Example with WorldBuilder {
     	group {
     		translation(0.0f, 0.0f, -4.0f, translationHook((0.0).asInstanceOf[Float]))
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(Front, AmbientAndDiffuseLight, JColor.red)
+    		material(GL_FRONT, AmbientAndDiffuseLight, JColor.red)
     		cube
     	}
     
     def wireCube = 
     	group {
-	    	polygonMode(FrontAndBack, GL_LINE)
+	    	polygonMode(GL_FRONT_AND_BACK, GL_LINE)
 	    	translation(0.0f, 0.0f, -4.0f, translationHook((Pi).asInstanceOf[Float]))
 	    	rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-	    	material(FrontAndBack, AmbientLight, JColor.blue)
-	    	material(FrontAndBack, DiffuseLight, JColor.blue)
+	    	material(GL_FRONT_AND_BACK, AmbientLight, JColor.blue)
+	    	material(GL_FRONT_AND_BACK, DiffuseLight, JColor.blue)
 	    	cube
     	}
 
     def wireSphere =
     	group {
-    		polygonMode(FrontAndBack, GL_LINE)
+    		polygonMode(GL_FRONT_AND_BACK, GL_LINE)
     		translation(0.0f, 0.0f, -4.0f, translationHook((Pi / 2.0).asInstanceOf[Float]))
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(FrontAndBack, AmbientLight, JColor.blue)
-    		material(FrontAndBack, DiffuseLight, JColor.blue)
+    		material(GL_FRONT_AND_BACK, AmbientLight, JColor.blue)
+    		material(GL_FRONT_AND_BACK, DiffuseLight, JColor.blue)
     		sphere(15, 1.0f)
     	}
     

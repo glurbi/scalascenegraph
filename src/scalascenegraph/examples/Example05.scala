@@ -34,19 +34,19 @@ class Example05 extends Example with WorldBuilder {
 				light(Off)
 				translation(-2.0f, 2.0f, -4.0f)
 				rotation(0.0f, 1.0f, 0.0f, 0.0f, angleHook)
-				polygonMode(FrontAndBack, GL_LINE)
+				polygonMode(GL_FRONT_AND_BACK, GL_LINE)
 				cullFace(Off)
 				torus(30, 1.0f, 0.5f)
 			}
 			group {
-				material(Front, DiffuseLight, JColor.orange)
+				material(GL_FRONT, DiffuseLight, JColor.orange)
 				translation(2.0f, -2.0f, -4.0f)
 				rotation(0.0f, 1.0f, 0.0f, 0.0f, angleHook)
 				torus(30, 1.0f, 0.5f)
 			}
 			group {
 				ambient(Intensity(0.3f, 0.3f, 0.3f, 1.0f))
-				material(Front, AmbientAndDiffuseLight, JColor.pink)
+				material(GL_FRONT, AmbientAndDiffuseLight, JColor.pink)
 				translation(-2.0f, -2.0f, -4.0f)
 				shadeModel(Flat)
 				rotation(0.0f, 1.0f, 0.0f, 0.0f, angleHook)
@@ -54,9 +54,9 @@ class Example05 extends Example with WorldBuilder {
 			}
 			group {
 				light(Light1, SpecularLight, JColor.white)
-				material(Front, DiffuseLight, JColor.red)
-				material(Front, SpecularLight, JColor.white)
-				shininess(Front, 128)
+				material(GL_FRONT, DiffuseLight, JColor.red)
+				material(GL_FRONT, SpecularLight, JColor.white)
+				shininess(GL_FRONT, 128)
 				translation(2.0f, 2.0f, -4.0f)
 				rotation(0.0f, 1.0f, 0.0f, 0.0f, angleHook)
 				torus(30, 1.0f, 0.5f)

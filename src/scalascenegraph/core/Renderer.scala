@@ -97,7 +97,7 @@ class Renderer(val gl: GL3bc) {
     }
 	
 	def setPolygonMode(face: Face, mode: DrawingMode) {
-		gl.glPolygonMode(glFace(face), mode)
+		gl.glPolygonMode(face, mode)
 	}
 	
     def flush {
@@ -292,7 +292,7 @@ class Renderer(val gl: GL3bc) {
 	}
 
 	def setMaterial(face: Face, lightType: LightType, color: Color) {
-		gl.glMaterialfv(glFace(face), glLightType(lightType), color.asFloatArray, 0)
+		gl.glMaterialfv(face, glLightType(lightType), color.asFloatArray, 0)
 	}
 
     def setLightState(instance: LightInstance, state: OnOffState) {
@@ -312,7 +312,7 @@ class Renderer(val gl: GL3bc) {
 	}
 	
 	def setShininess(face: Face, shininess: Int) {
-		gl.glMateriali(glFace(face), GL_SHININESS, shininess)
+		gl.glMateriali(face, GL_SHININESS, shininess)
 	}
 	
     def popLightState {
@@ -504,12 +504,6 @@ class Renderer(val gl: GL3bc) {
 		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.vertexBufferObjectId.id.asInstanceOf[Int])
 		gl.glBufferData(GL_ARRAY_BUFFER, vertices.count * 3 * 4, vertices.floatBuffer, GL_STATIC_DRAW)
 		gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
-	}
-	
-	private def glFace(face: Face): Int = face match {
-		case Front => GL_FRONT
-		case Back => GL_BACK
-		case FrontAndBack => GL_FRONT_AND_BACK
 	}
 	
 	private def glLightType(lightType: LightType): Int = lightType match {

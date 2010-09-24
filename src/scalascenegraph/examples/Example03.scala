@@ -25,7 +25,7 @@ class Example03 extends Example with WorldBuilder {
 			cullFace(On)
 			group {
 				translation(-2.0f, 0.0f, -4.0f)
-				polygonMode(Front, GL_LINE)
+				polygonMode(GL_FRONT, GL_LINE)
 				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
 				cube
 			}
@@ -37,13 +37,13 @@ class Example03 extends Example with WorldBuilder {
 			group {
 				translation(0.0f, 2.0f, -4.0f)
 				cullFace(On)
-				polygonMode(FrontAndBack, GL_LINE)
+				polygonMode(GL_FRONT_AND_BACK, GL_LINE)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
 				cube
 			}
 			group {
 				translation(0.0f, -2.0f, -4.0f)
-				polygonMode(Front, GL_LINE)
+				polygonMode(GL_FRONT, GL_LINE)
 				frontFace(GL_CW)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
 				cube

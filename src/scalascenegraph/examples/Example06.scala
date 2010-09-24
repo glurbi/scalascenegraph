@@ -2,6 +2,15 @@ package scalascenegraph.examples
 
 import java.awt.{Color => JColor }
 import scala.math._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
@@ -32,7 +41,7 @@ class Example06 extends Example with WorldBuilder {
 				light(Light0, On)
 				light(Light0, Position(0.0f, 0.0f, 0.0f))
 				light(Light0, DiffuseLight, JColor.white)
-				material(Front, DiffuseLight, JColor.orange)
+				material(GL_FRONT, DiffuseLight, JColor.orange)
 				group {
 					translation(-1.5f, 0.5f, -3.5f)
 					rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
