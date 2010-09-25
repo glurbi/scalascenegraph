@@ -90,13 +90,29 @@ trait WorldBuilder extends RenderableBuilder {
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
-		stack.top.attach(node(context => context.renderer.triangle(v1, v2, v3)))
+		val vertices = Vertices(Buffers.newDirectFloatBuffer(
+			Array(v1.x, v1.y, v1.z,
+				  v2.x, v2.y, v2.z,
+				  v3.x, v3.y, v3.z)))
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderable(GL_TRIANGLES, vertices))
+		stack.top.attach(geometry)
 	}
 	
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
     		     c1: Color, c2: Color, c3: Color)
 	{
-		stack.top.attach(node(context => context.renderer.triangle(v1, v2, v3, c1, c2, c3)))
+		val vertices = Vertices(Buffers.newDirectFloatBuffer(
+			Array(v1.x, v1.y, v1.z,
+				  v2.x, v2.y, v2.z,
+				  v3.x, v3.y, v3.z)))
+		val colors = Colors(Buffers.newDirectFloatBuffer(
+			Array(c1.r, c1.g, c1.b, c1.a,
+				  c2.r, c2.g, c2.b, c2.a,
+				  c3.r, c3.g, c3.b, c3.a)))
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderable(GL_TRIANGLES, vertices, colors))
+		stack.top.attach(geometry)
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {

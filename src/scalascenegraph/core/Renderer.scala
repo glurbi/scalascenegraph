@@ -19,30 +19,6 @@ import scalascenegraph.core.Predefs._
 
 class Renderer(val gl: GL3bc) {
  
-    def triangle(v1: Vertice, v2: Vertice, v3: Vertice) {
-        gl.glBegin(GL_TRIANGLES)
-        gl.glVertex3f(v1.x, v1.y, v1.z)
-        gl.glVertex3f(v2.x, v2.y, v2.z)
-        gl.glVertex3f(v3.x, v3.y, v3.z)
-        gl.glEnd
-    }
-    
-    def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
-    		     c1: Color, c2: Color, c3: Color)
-    {
-    	val color = new Array[Float](4)
-    	gl.glGetFloatv(GL_CURRENT_COLOR, color, 0)
-        gl.glBegin(GL_TRIANGLES)
-        gl.glColor4f(c1.r, c1.g, c1.b, c1.a)
-        gl.glVertex3f(v1.x, v1.y, v1.z)
-        gl.glColor4f(c2.r, c2.g, c2.b, c2.a)
-        gl.glVertex3f(v2.x, v2.y, v2.z)
-        gl.glColor4f(c3.r, c3.g, c3.b, c3.a)
-        gl.glVertex3f(v3.x, v3.y, v3.z)
-        gl.glEnd
-        gl.glColor4f(color(0), color(1), color(2), color(3))
-    }
-    
 	def lineStrip(vbo: VertexBufferObject) {
 		gl.glEnableClientState(GL_VERTEX_ARRAY)
 		gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
