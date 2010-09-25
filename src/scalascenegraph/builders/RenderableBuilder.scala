@@ -45,5 +45,20 @@ trait RenderableBuilder {
 			}
 		}
 	}
+
+	def createQuadsNormalsRenderable(vertices: Vertices, normals: Normals): Renderable = {
+		new Renderable {
+			def render(context: Context) {
+				import context.gl
+		        gl.glEnableClientState(GL_VERTEX_ARRAY);
+		        gl.glEnableClientState(GL_NORMAL_ARRAY);
+		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
+		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer);
+		        gl.glDrawArrays(GL_QUADS, 0, vertices.count);
+		        gl.glDisableClientState(GL_NORMAL_ARRAY);
+		        gl.glDisableClientState(GL_VERTEX_ARRAY);
+			}
+		}
+	}
 	
 }

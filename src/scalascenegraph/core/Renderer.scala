@@ -105,7 +105,7 @@ class Renderer(val gl: GL3bc) {
         gl.glDisableClientState(GL_VERTEX_ARRAY);
         gl.glColor4f(save(0), save(1), save(2), save(3))
     }
-    
+/*    
 	def quads(vertices: Vertices, normals: Normals) {
         gl.glEnableClientState(GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL_NORMAL_ARRAY);
@@ -115,6 +115,7 @@ class Renderer(val gl: GL3bc) {
         gl.glDisableClientState(GL_NORMAL_ARRAY);
         gl.glDisableClientState(GL_VERTEX_ARRAY);
 	}
+	*/
     
 	def lineStrip(vbo: VertexBufferObject) {
 		gl.glEnableClientState(GL_VERTEX_ARRAY)

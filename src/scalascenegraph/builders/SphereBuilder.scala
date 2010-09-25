@@ -7,17 +7,14 @@ import com.jogamp.common.nio._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class SphereBuilder(n: Int, r: Float)
-extends RenderableBuilder {
+class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 
 	def createSphere: Node = {
 		val vertices = createVertices
 		val normals = createNormals
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, normals)
-			}
-		}
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsNormalsRenderable(vertices, normals))
+		geometry
 	}
 
 	def createSphere(color: Color): Node = {

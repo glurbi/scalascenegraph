@@ -8,16 +8,14 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-class TorusBuilder(n: Int, R: Float, r: Float) {
+class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 	
 	def createTorus: Node = {
 		val vertices = createVertices
 		val normals = createNormals
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, normals)
-			}
-		}		
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsNormalsRenderable(vertices, normals))
+		geometry
 	}
 	
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]

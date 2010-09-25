@@ -10,11 +10,9 @@ class CubeBuilder extends RenderableBuilder {
 	def createCube: Node = {
 		val vertices = createVertices
 		val normals = createNormals
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, normals)
-			}
-		}
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsNormalsRenderable(vertices, normals))
+		geometry
 	}
 
 	def createCube(colors: Colors): Node = {
