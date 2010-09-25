@@ -5,7 +5,7 @@ import com.jogamp.common.nio._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class CubeBuilder {
+class CubeBuilder extends RenderableBuilder {
 	
 	def createCube: Node = {
 		val vertices = createVertices
@@ -19,11 +19,9 @@ class CubeBuilder {
 
 	def createCube(colors: Colors): Node = {
 		val vertices = createVertices
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, colors)
-			}
-		}
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsColorsRenderable(vertices, colors))
+		geometry
 	}
 
 	def createCube(color: Color): Node = {

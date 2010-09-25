@@ -7,7 +7,8 @@ import com.jogamp.common.nio._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class SphereBuilder(n: Int, r: Float) {
+class SphereBuilder(n: Int, r: Float)
+extends RenderableBuilder {
 
 	def createSphere: Node = {
 		val vertices = createVertices
@@ -30,11 +31,9 @@ class SphereBuilder(n: Int, r: Float) {
 
 	def createSphere(colors: Colors): Node = {
 		val vertices = createVertices
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, colors)
-			}
-		}
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsColorsRenderable(vertices, colors))
+		geometry
 	}
 
 	def createSphere(texture: Texture): Node = {

@@ -9,16 +9,15 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color) {
-
+class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color)
+extends RenderableBuilder {
+	
 	def createCheckerBoard: Node = {
 		val vertices = createVertices
 		val colors = createColors
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, colors)
-			}
-		}		
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsColorsRenderable(vertices, colors))
+		geometry
 	}
 	
 	def createVertices: Vertices = {
