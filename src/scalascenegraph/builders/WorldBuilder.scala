@@ -20,7 +20,7 @@ import scalascenegraph.core._
 import scalascenegraph.builders._
 import scalascenegraph.core.Predefs._
 
-trait WorldBuilder {
+trait WorldBuilder extends RenderableBuilder {
 
 	private val stack = new Stack[Node]
 	private var light: OnOffState = Off
@@ -100,12 +100,25 @@ trait WorldBuilder {
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
-		val c = color
-		stack.top.attach(node(context => context.renderer.quad(v1, v2, v3, v4, c, c, c, c)))
+		val vertices = Vertices(Buffers.newDirectFloatBuffer(
+			Array(v1.x, v1.y, v1.z,
+				  v2.x, v2.y, v2.z,
+				  v3.x, v3.y, v3.z,
+				  v4.x, v4.y, v4.z)))
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsColorRenderable(vertices, color))
+		stack.top.attach(geometry)
 	}
 	
 	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) {
-		stack.top.attach(node(context => context.renderer.quad(v1, v2, v3, v4)))
+		val vertices = Vertices(Buffers.newDirectFloatBuffer(
+			Array(v1.x, v1.y, v1.z,
+				  v2.x, v2.y, v2.z,
+				  v3.x, v3.y, v3.z,
+				  v4.x, v4.y, v4.z)))
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsRenderable(vertices))
+		stack.top.attach(geometry)
 	}
 	
 	def cube {
