@@ -24,36 +24,29 @@ class CubeBuilder extends RenderableBuilder {
 
 	def createCube(color: Color): Node = {
 		val vertices = createVertices
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, color)
-			}
-		}
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsColorRenderable(vertices, color))
+		geometry
 	}
 	
 	def createCube(texture: Texture): Node = {
 		val vertices = createVertices
 		val textureCoordinates = createTextureCoordinates
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, textureCoordinates, texture)
-			}
-		}
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsTextureRenderable(vertices, textureCoordinates, texture))
+		geometry
 	}
 	
 	def createCube(texture: Texture, light: OnOffState): Node = {
 		val vertices = createVertices
 		val normals = createNormals
 		val textureCoordinates = createTextureCoordinates
-		light match {
-			case On => new Node {
-				def render(context: Context) {
-					context.renderer.quads(vertices, textureCoordinates, texture, normals)
-				}
-			}
-			case Off => createCube(texture)
-		}
-		
+		val geometry = new Geometry
+		geometry.addRenderable(light match {
+			case On => createQuadsTextureNormalsRenderable(vertices, textureCoordinates, texture, normals)
+			case Off => createQuadsTextureRenderable(vertices, textureCoordinates, texture)
+		})
+		geometry
 	}
 	
 	private val createVertices = Vertices(Buffers.newDirectFloatBuffer(

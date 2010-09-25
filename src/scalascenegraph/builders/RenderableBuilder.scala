@@ -26,6 +26,23 @@ trait RenderableBuilder {
 			}
 		}
 	}
+
+	def createQuadsColorRenderable(vertices: Vertices, color: Color): Renderable = {
+		new Renderable {
+			def render(context: Context) {
+				import context.gl
+		    	val save = new Array[Float](4)
+		    	gl.glGetFloatv(GL_CURRENT_COLOR, save, 0)
+		        gl.glColor4f(color.r, color.g, color.b, color.a)
+		        gl.glEnableClientState(GL_VERTEX_ARRAY);
+		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer);
+		        gl.glDrawArrays(GL_QUADS, 0, vertices.count);
+		        gl.glDisableClientState(GL_VERTEX_ARRAY);
+		        gl.glColor4f(save(0), save(1), save(2), save(3))
+			}
+		}
+	}
+	
 	
 	def createQuadsColorsRenderable(vertices: Vertices, colors: Colors): Renderable = {
 		new Renderable {
@@ -60,5 +77,43 @@ trait RenderableBuilder {
 			}
 		}
 	}
+
+	def createQuadsTextureRenderable(vertices: Vertices,
+			textureCoordinates: TextureCoordinates, texture: Texture): Renderable =
+	{
+		new Renderable {
+			def render(context: Context) {
+				import context.gl
+				gl.glBindTexture(GL_TEXTURE_2D, texture.id)
+		        gl.glEnableClientState(GL_VERTEX_ARRAY)
+		        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer)
+		        gl.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
+		        gl.glDrawArrays(GL_QUADS, 0, vertices.count)
+		        gl.glDisableClientState(GL_VERTEX_ARRAY)
+		        gl.glDisableClientState(GL_TEXTURE_COORD_ARRAY)
+			}
+		}
+	}
+
+	def createQuadsTextureNormalsRenderable(
+			vertices: Vertices, textureCoordinates: TextureCoordinates,
+			texture: Texture, normals: Normals): Renderable =
+	{
+		new Renderable {
+			def render(context: Context) {
+				import context.gl
+				gl.glBindTexture(GL_TEXTURE_2D, texture.id)
+		        gl.glEnableClientState(GL_VERTEX_ARRAY)
+		        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer)
+		        gl.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
+		        gl.glDrawArrays(GL_QUADS, 0, vertices.count)
+		        gl.glDisableClientState(GL_VERTEX_ARRAY)
+		        gl.glDisableClientState(GL_TEXTURE_COORD_ARRAY)
+			}
+		}
+	}
+	
 	
 }

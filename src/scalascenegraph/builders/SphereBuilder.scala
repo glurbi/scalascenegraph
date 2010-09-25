@@ -19,11 +19,9 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 
 	def createSphere(color: Color): Node = {
 		val vertices = createVertices
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices, color)
-			}
-		}
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsColorRenderable(vertices, color))
+		geometry
 	}
 
 	def createSphere(colors: Colors): Node = {
@@ -40,21 +38,15 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 	def createSphere(texture: Texture, light: OnOffState): Node = {
 		val vertices = createVertices
 		val textureCoordinates = createTextureCoordinates
-		light match {
-			case Off => new Node {
-				def render(context: Context) {
-					context.renderer.quads(vertices, textureCoordinates, texture)
-				}
-			}
+		val geometry = new Geometry
+		geometry.addRenderable(light match {
+			case Off => createQuadsTextureRenderable(vertices, textureCoordinates, texture)
 			case On => {
 				val normals = createNormals
-				new Node {
-					def render(context: Context) {
-						context.renderer.quads(vertices, textureCoordinates, texture, normals)
-					}
-				}
+				createQuadsTextureNormalsRenderable(vertices, textureCoordinates, texture, normals)
 			}
-		}
+		})
+		geometry
 	}
 	
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
