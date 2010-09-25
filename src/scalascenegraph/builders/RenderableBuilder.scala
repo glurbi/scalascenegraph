@@ -15,13 +15,13 @@ import scalascenegraph.core.Predefs._
 
 trait RenderableBuilder {
 
-	def createQuadsRenderable(vertices: Vertices): Renderable = {
+	def createRenderable(primitiveType: PrimitiveType, vertices: Vertices): Renderable = {
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
 				gl.glEnableClientState(GL_VERTEX_ARRAY);
 				gl.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer);
-				gl.glDrawArrays(GL_QUADS, 0, vertices.count);
+				gl.glDrawArrays(primitiveType, 0, vertices.count);
 				gl.glDisableClientState(GL_VERTEX_ARRAY);
 			}
 		}

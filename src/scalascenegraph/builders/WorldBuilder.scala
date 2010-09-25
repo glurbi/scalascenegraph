@@ -117,7 +117,7 @@ trait WorldBuilder extends RenderableBuilder {
 				  v3.x, v3.y, v3.z,
 				  v4.x, v4.y, v4.z)))
 		val geometry = new Geometry
-		geometry.addRenderable(createQuadsRenderable(vertices))
+		geometry.addRenderable(createRenderable(GL_QUADS, vertices))
 		stack.top.attach(geometry)
 	}
 	

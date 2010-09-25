@@ -135,6 +135,13 @@ object Predefs {
 	type FrontFace = Int
 	
 	/**
+	 * Defines the type of primitive to draw.
+	 * GL_POINTS, GL_LINE_STRIP, GL_LINE_LOOP, GL_LINES, GL_TRIANGLE_STRIP,
+	 * GL_TRIANGLE_FAN, GL_TRIANGLES, GL_QUAD_STRIP, GL_QUADS
+	 */
+	type PrimitiveType = Int
+	
+	/**
 	 * Defines a state that can have on/off as a value.
 	 */
 	abstract class OnOffState
