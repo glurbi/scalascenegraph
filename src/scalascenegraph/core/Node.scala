@@ -18,20 +18,23 @@ import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Predefs._
 
 /**
+ * A Renderable class is a class that will execute OpenGL commands.
+ */
+trait Renderable {
+
+	def render(context: Context)
+
+}
+
+/**
  * The base class for any scene graph node.
  */
-trait Node {
+trait Node extends Renderable {
 
     /**
      * The parent node of this node in the graph.
      */
     var parent: Node = null
-    
-    /**
-     * The actual rendering of a node should be implemented here.
-     * Must be overriden in concrete nodes.
-     */
-	def render(context: Context)
     
 	/**
 	 * Attaches the state given in parameter to this node,
@@ -196,6 +199,20 @@ extends Overlay {
 			val character = font.characters(c)
 			context.gl.glBitmap(character.width, character.height, 0, 0, character.width, 0, character.bitmap)
 		}}
+	}
+	
+}
+
+class Geometry extends Node {
+
+	private var renderables : List[Renderable] = Nil
+	
+	def addRenderable(renderable: Renderable) {
+		renderables = renderable :: renderables
+	}
+	
+	def render(context: Context) {
+		renderables.foreach { renderable => renderable.render(context) }
 	}
 	
 }

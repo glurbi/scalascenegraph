@@ -70,13 +70,6 @@ class Renderer(val gl: GL3bc) {
         gl.glColor4f(color(0), color(1), color(2), color(3))
     }
     
-    def quads(vertices: Vertices) {
-        gl.glEnableClientState(GL_VERTEX_ARRAY);
-        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.floatBuffer);
-        gl.glDrawArrays(GL_QUADS, 0, vertices.count);
-        gl.glDisableClientState(GL_VERTEX_ARRAY);
-    }
-    
     def quads(vertices: Vertices, colors: Colors) {
     	// FIXME: should not assume a color has alpha always
     	val color = new Array[Float](4)

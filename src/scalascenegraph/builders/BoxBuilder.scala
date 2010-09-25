@@ -7,15 +7,15 @@ import com.jogamp.common.nio._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {
+class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int)
+extends RenderableBuilder
+{
 
 	def createBox: Node = {
 		val vertices = createVertices
-		new Node {
-			def render(context: Context) {
-				context.renderer.quads(vertices)
-			}
-		}		
+		val geometry = new Geometry
+		geometry.addRenderable(createQuadsRenderable(vertices))
+		geometry
 	}
 	
 	def createVertices: Vertices = {
