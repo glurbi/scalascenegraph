@@ -8,7 +8,7 @@ import java.awt.{Font => JFont}
 import java.awt.image._
 import java.nio._
 import javax.imageio._
-import scala.collection.mutable._
+import scala.collection.mutable.Map
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._

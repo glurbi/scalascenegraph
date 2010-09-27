@@ -84,7 +84,7 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 	
-	def createNormals = Normals(createVertices.floatBuffer)
+	def createNormals = Normals(createVertices.buf)
 	
 	def createTextureCoordinates = {
 		val ab = new ArrayBuffer[Float]

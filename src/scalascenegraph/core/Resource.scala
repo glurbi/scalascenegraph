@@ -3,7 +3,6 @@ package scalascenegraph.core
 import java.io._
 import java.nio._
 import javax.imageio._
-import scala.collection.mutable._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
 import javax.media.opengl.GL2GL3._
@@ -13,6 +12,7 @@ import javax.media.opengl.fixedfunc._
 import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
+import scala.collection.mutable.Map
 
 import scalascenegraph.core.Predefs._
 
@@ -129,7 +129,7 @@ class Character(val char: Char, val width: Int, val height: Int, val bitmap: Byt
 
 class Font(val characters: Map[Char, Character]) extends Resource
 
-class VertexBufferObject(vertices: Vertices) extends Resource {
+class VertexBufferObject[T <: Buffer](vertices: Vertices[T]) extends Resource {
 	
 	var id: VBOId = _
 	var count: Int = _
@@ -139,7 +139,7 @@ class VertexBufferObject(vertices: Vertices) extends Resource {
 		context.gl.glGenBuffers(1, ids, 0)
 		id = ids(0)
 		context.gl.glBindBuffer(GL_ARRAY_BUFFER, id)
-		context.gl.glBufferData(GL_ARRAY_BUFFER, vertices.count * 3 * 4, vertices.floatBuffer, GL_STATIC_DRAW)
+		context.gl.glBufferData(GL_ARRAY_BUFFER, vertices.count * 3 * 4, vertices.buf, GL_STATIC_DRAW)
 		context.gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 		count = vertices.count
 	}

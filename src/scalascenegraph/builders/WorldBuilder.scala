@@ -4,7 +4,7 @@ import java.io._
 import java.nio._
 import java.awt.image._
 import java.awt.{Font => JFont}
-import scala.collection.mutable._
+import scala.collection.mutable.Stack
 import com.jogamp.common.nio._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
@@ -102,7 +102,7 @@ trait WorldBuilder extends RenderableBuilder {
 	def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
     		     c1: Color, c2: Color, c3: Color)
 	{
-		val vertices = Vertices(Buffers.newDirectFloatBuffer(
+		val vertices = Vertices[FloatBuffer](Buffers.newDirectFloatBuffer(
 			Array(v1.x, v1.y, v1.z,
 				  v2.x, v2.y, v2.z,
 				  v3.x, v3.y, v3.z)))
@@ -324,20 +324,20 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(new DynamicState(hook, new UniformState(uniform, value)))
 	}
 	
-	def vbo(vboName: String, vertices: Vertices) {
+	def vbo[T <: Buffer](vboName: String, vertices: Vertices[T]) {
 		val vbo = new VertexBufferObject(vertices)
 		stack.top.attach(vboName, vbo)
 	}
 	
 	def lineStrip(vboName: String) {
-		val vbo = stack.top.getResource[VertexBufferObject](vboName)
+		val vbo = stack.top.getResource[VertexBufferObject[FloatBuffer]](vboName)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderableVBO(vbo))
 		stack.top.attach(geometry)
 	}
 
 	def lineStrips(vboName: String, firsts: IntBuffer, counts: IntBuffer) {
-		val vbo = stack.top.getResource[VertexBufferObject](vboName)
+		val vbo = stack.top.getResource[VertexBufferObject[FloatBuffer]](vboName)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderableVBO(vbo, firsts, counts))
 		stack.top.attach(geometry)

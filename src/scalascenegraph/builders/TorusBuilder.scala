@@ -1,5 +1,6 @@
 package scalascenegraph.builders
 
+import java.nio._
 import scala.math._
 import scala.collection.mutable._
 import com.jogamp.common.nio._
@@ -39,7 +40,7 @@ class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 		normalize(crossProduct(vector(v2, v1), vector(v3, v4)))
 	}
 	
-	def createVertices: Vertices = {
+	def createVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {

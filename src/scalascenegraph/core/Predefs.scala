@@ -44,8 +44,8 @@ object Predefs {
 	/**
 	 * Holds a set of vertices.
 	 */
-	case class Vertices(floatBuffer: FloatBuffer) {
-		def count: Int = floatBuffer.limit / 3
+	case class Vertices[T <: Buffer](buf: T) {
+		def count: Int = buf.limit / 3
 	}
 	
 	/**

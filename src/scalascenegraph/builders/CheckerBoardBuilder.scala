@@ -29,7 +29,7 @@ extends RenderableBuilder {
 		geometry
 	}
 	
-	def createVertices: Vertices = {
+	def createVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
 		val xOffset = -n / 2.0f
 		val yOffset = -m / 2.0f
