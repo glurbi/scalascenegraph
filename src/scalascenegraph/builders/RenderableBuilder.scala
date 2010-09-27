@@ -1,5 +1,6 @@
 package scalascenegraph.builders
 
+import java.nio._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
 import javax.media.opengl.GL2GL3._
@@ -114,5 +115,34 @@ trait RenderableBuilder {
 		}
 	}
 	
+	def createRenderableVBO(vbo: VertexBufferObject,
+			firsts: IntBuffer, counts: IntBuffer): Renderable =
+	{
+		new Renderable {
+			def render(context: Context) {
+				import context.gl
+				gl.glEnableClientState(GL_VERTEX_ARRAY)
+				gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
+				gl.glVertexPointer(2, GL_FLOAT, 0, 0);
+				gl.glMultiDrawArrays(GL_LINE_STRIP, firsts, counts, firsts.capacity)
+				gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
+				gl.glDisableClientState(GL_VERTEX_ARRAY)
+			}
+		}
+	}
 	
+	def createRenderableVBO(vbo: VertexBufferObject): Renderable = {
+		new Renderable {
+			def render(context: Context) {
+				import context.gl
+				gl.glEnableClientState(GL_VERTEX_ARRAY)
+				gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
+				gl.glVertexPointer(2, GL_FLOAT, 0, 0);
+		        gl.glDrawArrays(GL_LINE_STRIP, 0, vbo.count)
+				gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
+				gl.glDisableClientState(GL_VERTEX_ARRAY)
+			}
+		}
+	}
+
 }

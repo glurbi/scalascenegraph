@@ -13,8 +13,6 @@ class Context {
 	var totalFrameCount = 0L
 	var frameRate = 0L
 	
-	var renderer: Renderer = _
-	
 	var upKeyPressed: Boolean = _
 	var downKeyPressed: Boolean = _
 	var rightKeyPressed: Boolean = _

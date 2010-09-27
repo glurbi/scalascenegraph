@@ -331,12 +331,16 @@ trait WorldBuilder extends RenderableBuilder {
 	
 	def lineStrip(vboName: String) {
 		val vbo = stack.top.getResource[VertexBufferObject](vboName)
-		stack.top.attach(node(context => context.renderer.lineStrip(vbo)))
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderableVBO(vbo))
+		stack.top.attach(geometry)
 	}
 
 	def lineStrips(vboName: String, firsts: IntBuffer, counts: IntBuffer) {
 		val vbo = stack.top.getResource[VertexBufferObject](vboName)
-		stack.top.attach(node(context => context.renderer.lineStrips(vbo, firsts, counts)))
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderableVBO(vbo, firsts, counts))
+		stack.top.attach(geometry)
 	}
 
 }

@@ -62,9 +62,8 @@ class Program(shaderIds: List[Shader]) extends Resource {
 	var id: ProgramId = _
 	
 	override def prepare(context: Context) {
-		val renderer = context.renderer
 		id = context.gl.glCreateProgram
-		shaderIds.foreach { shader => renderer.gl.glAttachShader(id, shader.id) }
+		shaderIds.foreach { shader => context.gl.glAttachShader(id, shader.id) }
 		
 		val log = new Array[Byte](8192)
 		val length = Array(0)

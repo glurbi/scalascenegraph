@@ -97,9 +97,7 @@ extends GLEventListener
     def init(drawable: GLAutoDrawable) {
     	//drawable.setGL(new DebugGL3bc(drawable.getGL.getGL3bc))
     	val gl = drawable.getGL.getGL3bc
-    	val renderer = new Renderer(gl)
     	context.gl = gl
-        context.renderer = renderer
         val preparator = new NodeVisitor(context) {
     		def visit(group: Group) {
     			group.resources.foreach { entry => entry._2.prepare(context) }
@@ -131,10 +129,7 @@ extends GLEventListener
     }
 
     private def updateContext(drawable: GLAutoDrawable) {
-        val gl = drawable.getGL.getGL3bc
-        val renderer = new Renderer(gl)
-        context.renderer = renderer
-    	context.gl = gl
+    	context.gl = drawable.getGL.getGL3bc
         
         context.currentTime = System.currentTimeMillis
         context.elapsed = context.currentTime - context.creationTime

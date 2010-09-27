@@ -209,7 +209,7 @@ class LineWidthState(width: Float) extends State {
 		context.gl.glLineWidth(width)
 	}
 	override def postRender(context: Context) {
-		context.renderer.gl.glPopAttrib
+		context.gl.glPopAttrib
 	}
 }
 
