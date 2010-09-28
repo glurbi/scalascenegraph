@@ -23,7 +23,7 @@ extends RenderableBuilder
 	def createBox: Node = {
 		val vertices = createVertices
 		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(GL_QUADS, vertices))
+		geometry.addRenderable(createRenderable(vertices))
 		geometry
 	}
 	
@@ -108,7 +108,7 @@ extends RenderableBuilder
 			}
 		}
 		
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
+		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), dim_3D, GL_QUADS)
 	}
 
 }

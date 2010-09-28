@@ -89,7 +89,7 @@ class CubeBuilder extends RenderableBuilder {
 				  -0.5f, 0.5f, -0.5f,
 				  -0.5f, 0.5f, 0.5f,
 				  0.5f, 0.5f, 0.5f,
-				  0.5f, 0.5f, -0.5f)))
+				  0.5f, 0.5f, -0.5f)), dim_3D, GL_QUADS)
 				  
 	val createNormals = Normals(Buffers.newDirectFloatBuffer(
 			Array(0.0f, 0.0f, -1.0f,

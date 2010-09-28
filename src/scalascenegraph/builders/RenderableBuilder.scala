@@ -16,13 +16,13 @@ import scalascenegraph.core.Predefs._
 
 trait RenderableBuilder {
 
-	def createRenderable[T <: Buffer](primitiveType: PrimitiveType, vertices: Vertices[T]): Renderable = {
+	def createRenderable[T <: Buffer](vertices: Vertices[T]): Renderable = {
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
 				gl.glEnableClientState(GL_VERTEX_ARRAY);
-				gl.glVertexPointer(3, GL_FLOAT, 0, vertices.buf);
-				gl.glDrawArrays(primitiveType, 0, vertices.count);
+				gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf);
+				gl.glDrawArrays(vertices.primitiveType, 0, vertices.count);
 				gl.glDisableClientState(GL_VERTEX_ARRAY);
 			}
 		}
@@ -36,7 +36,7 @@ trait RenderableBuilder {
 		    	gl.glGetFloatv(GL_CURRENT_COLOR, save, 0)
 		        gl.glColor4f(color.r, color.g, color.b, color.a)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY);
-		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.buf);
+		        gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf);
 		        gl.glDrawArrays(GL_QUADS, 0, vertices.count);
 		        gl.glDisableClientState(GL_VERTEX_ARRAY);
 		        gl.glColor4f(save(0), save(1), save(2), save(3))
@@ -53,7 +53,7 @@ trait RenderableBuilder {
 		    	gl.glGetFloatv(GL_CURRENT_COLOR, color, 0)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_COLOR_ARRAY)
-		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.buf)
+		        gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf)
 		        gl.glColorPointer(4, GL_FLOAT, 0, colors.floatBuffer)
 		        gl.glDrawArrays(primitiveType, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
@@ -70,7 +70,7 @@ trait RenderableBuilder {
 		        gl.glEnableClientState(GL_VERTEX_ARRAY);
 		        gl.glEnableClientState(GL_NORMAL_ARRAY);
 		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
-		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.buf);
+		        gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf);
 		        gl.glDrawArrays(GL_QUADS, 0, vertices.count);
 		        gl.glDisableClientState(GL_NORMAL_ARRAY);
 		        gl.glDisableClientState(GL_VERTEX_ARRAY);
@@ -87,7 +87,7 @@ trait RenderableBuilder {
 				gl.glBindTexture(GL_TEXTURE_2D, texture.id)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
-		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.buf)
+		        gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf)
 		        gl.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
 		        gl.glDrawArrays(GL_QUADS, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
@@ -106,7 +106,7 @@ trait RenderableBuilder {
 				gl.glBindTexture(GL_TEXTURE_2D, texture.id)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
-		        gl.glVertexPointer(3, GL_FLOAT, 0, vertices.buf)
+		        gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf)
 		        gl.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
 		        gl.glDrawArrays(GL_QUADS, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)

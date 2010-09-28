@@ -81,7 +81,7 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 				ab ++= sphere(teta, phi+stepAngle).asFloatArray
 			}
 		}
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
+		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), dim_3D, GL_QUADS)
 	}
 	
 	def createNormals = Normals(createVertices.buf)

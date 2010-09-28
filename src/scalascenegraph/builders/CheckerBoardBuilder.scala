@@ -41,7 +41,7 @@ extends RenderableBuilder {
 				ab ++= Vertice(i + xOffset, j + 1.0f + yOffset, 0.0f).asFloatArray
 			}
 		}
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray))
+		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), dim_3D, GL_QUADS)
 	}
 
 	def createColors = {

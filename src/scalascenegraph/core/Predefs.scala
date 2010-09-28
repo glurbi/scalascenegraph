@@ -44,8 +44,8 @@ object Predefs {
 	/**
 	 * Holds a set of vertices.
 	 */
-	case class Vertices[T <: Buffer](buf: T) {
-		def count: Int = buf.limit / 3
+	case class Vertices[T <: Buffer](buf: T, dim: VertexDimension, primitiveType: PrimitiveType) {
+		def count: Int = buf.limit / dim
 	}
 	
 	/**
@@ -83,6 +83,13 @@ object Predefs {
 	 * A set of texture coordinates.
 	 */
 	case class TextureCoordinates(floatBuffer: FloatBuffer)
+	
+	/**
+	 * Defines how many coordinates a vertex has
+	 */
+	type VertexDimension = Int
+	val dim_2D = 2
+	val dim_3D = 3
 	
 	/**
 	 * A texture identifier.
