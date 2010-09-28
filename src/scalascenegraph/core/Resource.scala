@@ -103,9 +103,9 @@ class Texture(in: InputStream) extends Resource {
 		val image = ImageIO.read(in)
 		gl.glEnable(GL_TEXTURE_2D)
 		val buffer = Utils.makeDirectByteBuffer(image)
-		val textureIds = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder).asIntBuffer // TODO: hardcoded value...
-		gl.glGenTextures(1, textureIds)
-		id = textureIds.get(0)
+		val ids = new Array[Int](1)
+		gl.glGenTextures(1, ids, 0)
+		id = ids(0)
 		gl.glBindTexture(GL_TEXTURE_2D, id)
 		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
 		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
@@ -118,9 +118,8 @@ class Texture(in: InputStream) extends Resource {
 	}
 	
 	override def dispose(context: Context) {
-		val textureIds = ByteBuffer.allocateDirect(4).asIntBuffer // TODO: hardcoded value...
-		textureIds.put(0, id)
-		context.gl.glDeleteTextures(1, textureIds)
+		val ids = Array(id)
+		context.gl.glDeleteTextures(1, ids, 0)
 	}
 	
 }
