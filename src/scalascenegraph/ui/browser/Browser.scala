@@ -43,6 +43,7 @@ class Browser(val world: World, width: Int, height: Int, animated: Boolean)
 extends GLEventListener
 {
     private var camera: Camera = _
+    private var cameraPositionHandler = new CameraPositionHandler
 
     def getCamera = camera
     def setCamera(camera: Camera) {
@@ -108,6 +109,9 @@ extends GLEventListener
         
     	// make sure we don't draw more often than the screen is refreshed
     	//gl.setSwapInterval(1);
+        
+        // draw as fast as possible
+        gl.setSwapInterval(0);
     }
 
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
@@ -119,6 +123,7 @@ extends GLEventListener
     	updateContext(drawable)
     	if (context.escapeKeyPressed) { exit }
         camera.render(context)
+        cameraPositionHandler.positionCamera(context)
         world.render(context)
     }
 
