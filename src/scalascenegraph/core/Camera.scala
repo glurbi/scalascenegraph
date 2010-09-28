@@ -12,6 +12,8 @@ import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
+import scalascenegraph.core.Predefs._
+
 object Camera {
 	
 	def get(config: InputStream): Camera = {
@@ -35,9 +37,17 @@ object Camera {
 		}
 	}
 	
+	def get(projectionType: ProjectionType, clippingVolume: ClippingVolume): Camera = {
+		projectionType match {
+			case Perspective => new PerspectiveCamera(clippingVolume)
+			case Parallel => new ParallelCamera(clippingVolume)
+		}
+	}
 }
 
-abstract class Camera(val clippingVolume: ClippingVolume) extends Node
+abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
+	val projectionType: ProjectionType
+}
 
 class ClippingVolume(
     val left: Double,
@@ -50,6 +60,8 @@ class ClippingVolume(
 class PerspectiveCamera(clippingVolume: ClippingVolume)
 extends Camera(clippingVolume)
 {
+	val projectionType = Perspective
+	
     def render(context: Context) {
         import clippingVolume._
         import context.gl
@@ -64,6 +76,8 @@ extends Camera(clippingVolume)
 class ParallelCamera(clippingVolume: ClippingVolume)
 extends Camera(clippingVolume)
 {
+	val projectionType = Parallel
+	
     def render(context: Context) {
         import clippingVolume._
         import context.gl

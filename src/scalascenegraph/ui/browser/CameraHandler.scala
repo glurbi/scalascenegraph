@@ -2,7 +2,7 @@ package scalascenegraph.ui.browser
 
 import scalascenegraph.core._
 
-class CameraPositionHandler {
+class CameraHandler extends Renderable {
 
 	private var xT: Float = 0 // translation along x axis
 	private var yT: Float = 0 // translation along y axis
@@ -11,7 +11,7 @@ class CameraPositionHandler {
 	private var yR: Float = 0 // rotation around y axis
 	private var zR: Float = 0 // rotation around z axis
 	
-	def positionCamera(context: Context) {
+	def render(context: Context) {
 		val tFac = 0.1f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
 		val rFac = 1.0f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
 		if (!context.controlKeyPressed && !context.shiftKeyPressed) {

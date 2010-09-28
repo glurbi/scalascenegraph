@@ -10,6 +10,7 @@ import javax.media.opengl.awt._
 import com.jogamp.opengl.util._ 
 
 import scalascenegraph.core._
+import scalascenegraph.core.Predefs._
 import scalascenegraph.ui.browser._
 
 object Browser {
@@ -43,14 +44,16 @@ class Browser(val world: World, width: Int, height: Int, animated: Boolean)
 extends GLEventListener
 {
     private var camera: Camera = _
-    private var cameraPositionHandler = new CameraPositionHandler
+    private var defaultCamera: Camera = null
+    private var cameraHandler = new CameraHandler
 
     def getCamera = camera
     def setCamera(camera: Camera) {
         this.camera = camera
+        defaultCamera = camera
         paint
     }
-	
+
 	private val context = new Context 
 	private val mouseListener = new BrowserMouseListener
 	private val keyEventDispatcher = {
@@ -122,8 +125,16 @@ extends GLEventListener
     def display(drawable: GLAutoDrawable) {
     	updateContext(drawable)
     	if (context.escapeKeyPressed) { exit }
+    	if (context.pressedKeys.contains(KeyEvent.VK_P)) {
+    		camera = defaultCamera.projectionType match {
+    			case Perspective => Camera.get(Parallel, camera.clippingVolume)
+    			case Parallel => Camera.get(Perspective, camera.clippingVolume)
+    		}
+    	} else {
+    		camera = defaultCamera
+    	}
         camera.render(context)
-        cameraPositionHandler.positionCamera(context)
+        cameraHandler.render(context)
         world.render(context)
     }
 
@@ -151,6 +162,8 @@ extends GLEventListener
         context.shiftKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_SHIFT)
         context.spaceKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_SPACE)
         context.escapeKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_ESCAPE)
+        
+        context.pressedKeys = keyEventDispatcher.pressedKeys
     }
     
     private def exit {

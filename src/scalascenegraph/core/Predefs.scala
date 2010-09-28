@@ -111,6 +111,13 @@ object Predefs {
 	type DataType = Int
 	
 	/**
+	 * Defines the projection type
+	 */
+	abstract class ProjectionType
+	case object Perspective extends ProjectionType
+	case object Parallel extends ProjectionType
+	
+	/**
 	 * A texture identifier.
 	 */
 	type TextureId = Int

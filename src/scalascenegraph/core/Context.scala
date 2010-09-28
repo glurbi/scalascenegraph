@@ -1,5 +1,6 @@
 package scalascenegraph.core
 
+import java.util._
 import javax.media.opengl._
 
 class Context {
@@ -22,6 +23,10 @@ class Context {
 	var spaceKeyPressed: Boolean = _
 	var escapeKeyPressed: Boolean = _
 	
+	var pressedKeys: Set[Int] = _
+	
 	var width = 0
 	var height = 0
+	
+	
 }

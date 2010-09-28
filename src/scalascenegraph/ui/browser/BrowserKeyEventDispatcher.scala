@@ -8,7 +8,7 @@ import java.util.concurrent._
 
 class BrowserKeyEventDispatcher extends KeyEventDispatcher {
 
-	private val pressedKeys = Collections.newSetFromMap(new ConcurrentHashMap[Int, JBoolean])
+	val pressedKeys = Collections.newSetFromMap(new ConcurrentHashMap[Int, JBoolean])
 	
 	def dispatchKeyEvent(e: KeyEvent): Boolean = {
 		e.getID match {
