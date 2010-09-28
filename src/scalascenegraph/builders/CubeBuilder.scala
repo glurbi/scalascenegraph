@@ -36,7 +36,7 @@ class CubeBuilder extends RenderableBuilder {
 	def createCube(color: Color): Node = {
 		val vertices = createVertices
 		val geometry = new Geometry
-		geometry.addRenderable(createQuadsColorRenderable(vertices, color))
+		geometry.addRenderable(createRenderable(vertices, color))
 		geometry
 	}
 	

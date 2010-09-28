@@ -109,7 +109,7 @@ trait WorldBuilder extends RenderableBuilder {
 		val colors = Colors(Buffers.newDirectFloatBuffer(
 			Array(c1.r, c1.g, c1.b, c1.a,
 				  c2.r, c2.g, c2.b, c2.a,
-				  c3.r, c3.g, c3.b, c3.a)))
+				  c3.r, c3.g, c3.b, c3.a)), RGBA)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderable(GL_TRIANGLES, vertices, colors))
 		stack.top.attach(geometry)
@@ -122,7 +122,7 @@ trait WorldBuilder extends RenderableBuilder {
 				  v3.x, v3.y, v3.z,
 				  v4.x, v4.y, v4.z)), dim_3D, GL_QUADS)
 		val geometry = new Geometry
-		geometry.addRenderable(createQuadsColorRenderable(vertices, color))
+		geometry.addRenderable(createRenderable(vertices, color))
 		stack.top.attach(geometry)
 	}
 	
@@ -156,7 +156,7 @@ trait WorldBuilder extends RenderableBuilder {
 	
 	def cube(colors: Array[Float]) {
 		val builder = new CubeBuilder
-		stack.top.attach(builder.createCube(Colors(Buffers.newDirectFloatBuffer(colors))))
+		stack.top.attach(builder.createCube(Colors(Buffers.newDirectFloatBuffer(colors), RGBA)))
 	}
 	
 	def sphere(n: Int, r: Float) {

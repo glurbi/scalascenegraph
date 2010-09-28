@@ -28,7 +28,7 @@ trait RenderableBuilder {
 		}
 	}
 
-	def createQuadsColorRenderable[T <: Buffer](vertices: Vertices[T], color: Color): Renderable = {
+	def createRenderable[T <: Buffer](vertices: Vertices[T], color: Color): Renderable = {
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
@@ -37,7 +37,7 @@ trait RenderableBuilder {
 		        gl.glColor4f(color.r, color.g, color.b, color.a)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY);
 		        gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf);
-		        gl.glDrawArrays(GL_QUADS, 0, vertices.count);
+		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count);
 		        gl.glDisableClientState(GL_VERTEX_ARRAY);
 		        gl.glColor4f(save(0), save(1), save(2), save(3))
 			}

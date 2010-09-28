@@ -72,7 +72,7 @@ object Predefs {
 	/**
 	 * A set of colors.
 	 */
-	case class Colors(floatBuffer: FloatBuffer)
+	case class Colors(floatBuffer: FloatBuffer, colorType: ColorType)
 	
 	/**
 	 * A set of normals.
@@ -90,6 +90,13 @@ object Predefs {
 	type VertexDimension = Int
 	val dim_2D = 2
 	val dim_3D = 3
+
+	/**
+	 * Defines the color type
+	 */
+	type ColorType = Int
+	val RGB = 3
+	val RGBA = 4
 	
 	/**
 	 * A texture identifier.
