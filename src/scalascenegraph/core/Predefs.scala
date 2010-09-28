@@ -44,8 +44,11 @@ object Predefs {
 	/**
 	 * Holds a set of vertices.
 	 */
-	case class Vertices[T <: Buffer](buf: T, dim: VertexDimension, primitiveType: PrimitiveType) {
-		def count: Int = buf.limit / dim
+	case class Vertices[T <: Buffer](buf: T,
+			vertexDimension: VertexDimension,
+			primitiveType: PrimitiveType)
+	{
+		val count: Int = buf.limit / vertexDimension
 	}
 	
 	/**
