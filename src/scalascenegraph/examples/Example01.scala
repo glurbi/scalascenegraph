@@ -14,38 +14,38 @@ class Example01 extends Example with WorldBuilder {
     		group {
     			color(JColor.magenta)
     			triangle(
-    				Vertice(0.0f, 4.0f, 0.0f),
-    				Vertice(-4.0f, 3.0f, 0.0f),
-    				Vertice(4.0f, 3.0f, 0.0f))
+    				Vertice3D(0.0f, 4.0f, 0.0f),
+    				Vertice3D(-4.0f, 3.0f, 0.0f),
+    				Vertice3D(4.0f, 3.0f, 0.0f))
     		}
     		
 			triangle(
-				Vertice(-1.0f, 0.0f, 0.0f),
-				Vertice(1.0f, 0.0f, 0.0f),
-				Vertice(0.0f, 2.0f, 0.0f),
+				Vertice3D(-1.0f, 0.0f, 0.0f),
+				Vertice3D(1.0f, 0.0f, 0.0f),
+				Vertice3D(0.0f, 2.0f, 0.0f),
 				Color(1.0f, 0.0f, 0.0f),
 				Color(0.0f, 1.0f, 0.0f),
 				Color(0.0f, 0.0f, 1.0f))
    					
 			triangle(
-				Vertice(-4.0f, 2.0f, 0.0f),
-				Vertice(-3.0f, 0.0f, 0.0f),
-				Vertice(-2.0f, 2.0f, 0.0f))
+				Vertice3D(-4.0f, 2.0f, 0.0f),
+				Vertice3D(-3.0f, 0.0f, 0.0f),
+				Vertice3D(-2.0f, 2.0f, 0.0f))
 					
 			quad(
-				Vertice(2.0f, 0.0f, 0.0f),
-				Vertice(4.0f, 0.0f, 0.0f),
-				Vertice(4.0f, 2.0f, 0.0f),
-				Vertice(2.0f, 2.0f, 0.0f),
+				Vertice3D(2.0f, 0.0f, 0.0f),
+				Vertice3D(4.0f, 0.0f, 0.0f),
+				Vertice3D(4.0f, 2.0f, 0.0f),
+				Vertice3D(2.0f, 2.0f, 0.0f),
 				Color(1.0f, 1.0f, 0.0f))
 				
 			group {
 				color(JColor.green)
 				quad(
-					Vertice(4.0f, -2.0f, 0.0f),
-					Vertice(-4.0f, -2.0f, 0.0f),
-					Vertice(-4.0f, -4.0f, 0.0f),
-					Vertice(4.0f, -4.0f, 0.0f))
+					Vertice3D(4.0f, -2.0f, 0.0f),
+					Vertice3D(-4.0f, -2.0f, 0.0f),
+					Vertice3D(-4.0f, -4.0f, 0.0f),
+					Vertice3D(4.0f, -4.0f, 0.0f))
 			}
 	    }
 	

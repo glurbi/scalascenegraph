@@ -33,15 +33,15 @@ class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 	val stepAngle = 2.0 * Pi / n
 	def angle(step: Int) = step * stepAngle
 
-	private def torus(u: Float, v: Float): Vertice = {
+	private def torus(u: Float, v: Float): Vertice3D = {
 		// cf http://en.wikipedia.org/wiki/Torus
 		val x = (R + r * cos(v)) * cos(u)
 		val y = (R + r * cos(v)) * sin(u)
 		val z = r * sin(v)
-		Vertice(x, y, z)
+		Vertice3D(x, y, z)
 	}
 	
-	private def torusNormal(uStep: Int, vStep: Int): Vector = {
+	private def torusNormal(uStep: Int, vStep: Int): Vector3D = {
 		val v1 = torus(angle(uStep), angle(vStep-1))
 		val v2 = torus(angle(uStep), angle(vStep+1))
 		val v3 = torus(angle(uStep-1), angle(vStep))

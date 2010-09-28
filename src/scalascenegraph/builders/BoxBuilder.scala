@@ -41,10 +41,10 @@ extends RenderableBuilder
 		//
 		for (i <- 0 until l) {
 			for (j <- 0 until m) {
-				ab ++= Vertice(i * xStep - xOffset, j * yStep - yOffset, +zOffset).asFloatArray
-				ab ++= Vertice((i+1) * xStep - xOffset, j * yStep - yOffset, +zOffset).asFloatArray
-				ab ++= Vertice((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).asFloatArray
-				ab ++= Vertice(i * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).asFloatArray
+				ab ++= Vertice3D(i * xStep - xOffset, j * yStep - yOffset, +zOffset).asFloatArray
+				ab ++= Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, +zOffset).asFloatArray
+				ab ++= Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).asFloatArray
+				ab ++= Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).asFloatArray
 			}
 		}
 
@@ -53,10 +53,10 @@ extends RenderableBuilder
 		//
 		for (i <- 0 until l) {
 			for (j <- 0 until m) {
-				ab ++= Vertice(i * xStep - xOffset, j * yStep - yOffset, -zOffset).asFloatArray
-				ab ++= Vertice(i * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).asFloatArray
-				ab ++= Vertice((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).asFloatArray
-				ab ++= Vertice((i+1) * xStep - xOffset, j * yStep - yOffset, -zOffset).asFloatArray
+				ab ++= Vertice3D(i * xStep - xOffset, j * yStep - yOffset, -zOffset).asFloatArray
+				ab ++= Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).asFloatArray
+				ab ++= Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).asFloatArray
+				ab ++= Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, -zOffset).asFloatArray
 			}
 		}
 		
@@ -65,10 +65,10 @@ extends RenderableBuilder
 		//
 		for (i <- 0 until m) {
 			for (j <- 0 until n) {
-				ab ++= Vertice(+xOffset, i * yStep - yOffset, j * zStep - zOffset).asFloatArray
-				ab ++= Vertice(+xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).asFloatArray
-				ab ++= Vertice(+xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).asFloatArray
-				ab ++= Vertice(+xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(+xOffset, i * yStep - yOffset, j * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(+xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(+xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(+xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).asFloatArray
 			}
 		}
 		
@@ -77,10 +77,10 @@ extends RenderableBuilder
 		//
 		for (i <- 0 until m) {
 			for (j <- 0 until n) {
-				ab ++= Vertice(-xOffset, i * yStep - yOffset, j * zStep - zOffset).asFloatArray
-				ab ++= Vertice(-xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).asFloatArray
-				ab ++= Vertice(-xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).asFloatArray
-				ab ++= Vertice(-xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(-xOffset, i * yStep - yOffset, j * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(-xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(-xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(-xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).asFloatArray
 			}
 		}
 		
@@ -89,10 +89,10 @@ extends RenderableBuilder
 		//
 		for (i <- 0 until l) {
 			for (j <- 0 until n) {
-				ab ++= Vertice(i * xStep - xOffset, +yOffset, j * zStep - zOffset).asFloatArray
-				ab ++= Vertice(i * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).asFloatArray
-				ab ++= Vertice((i+1) * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).asFloatArray
-				ab ++= Vertice((i+1) * xStep - xOffset, +yOffset, j * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(i * xStep - xOffset, +yOffset, j * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(i * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D((i+1) * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D((i+1) * xStep - xOffset, +yOffset, j * zStep - zOffset).asFloatArray
 			}
 		}
 
@@ -101,10 +101,10 @@ extends RenderableBuilder
 		//
 		for (i <- 0 until l) {
 			for (j <- 0 until n) {
-				ab ++= Vertice(i * xStep - xOffset, -yOffset, j * zStep - zOffset).asFloatArray
-				ab ++= Vertice((i+1) * xStep - xOffset, -yOffset, j * zStep - zOffset).asFloatArray
-				ab ++= Vertice((i+1) * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).asFloatArray
-				ab ++= Vertice(i * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(i * xStep - xOffset, -yOffset, j * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D((i+1) * xStep - xOffset, -yOffset, j * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D((i+1) * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).asFloatArray
+				ab ++= Vertice3D(i * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).asFloatArray
 			}
 		}
 		

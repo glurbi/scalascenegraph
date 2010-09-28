@@ -23,14 +23,14 @@ object Predefs {
 	/**
 	 * A 3D vector.
 	 */
-	case class Vector(x: Float, y: Float, z: Float) {
+	case class Vector3D(x: Float, y: Float, z: Float) {
 		val asFloatArray = Array(x, y, z)
 	}
 	
 	/**
 	 * A 3D point. 
 	 */
-	case class Vertice(x: Float, y: Float, z: Float)  {
+	case class Vertice3D(x: Float, y: Float, z: Float)  {
 		val asFloatArray = Array(x, y, z)
 	}
 	
@@ -44,11 +44,12 @@ object Predefs {
 	/**
 	 * Holds a set of vertices.
 	 */
-	case class Vertices[T <: Buffer](buf: T,
+	case class Vertices[T <: Buffer](
+			buffer: T,
 			vertexDimension: VertexDimension,
 			primitiveType: PrimitiveType)
 	{
-		val count: Int = buf.limit / vertexDimension
+		val count: Int = buffer.limit / vertexDimension
 	}
 	
 	/**

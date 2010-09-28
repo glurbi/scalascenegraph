@@ -27,10 +27,10 @@ class Example06 extends Example with WorldBuilder {
     		depthTest(On)
 			fog(JColor.blue, Exp(0.1f))
 			quad(
-				Vertice(-10.0f, -10.0f, -9.9f),
-				Vertice(10.0f, -10.0f, -9.9f),
-				Vertice(10.0f, 10.0f, -9.9f),
-				Vertice(-10.0f, 10.0f, -9.9f))
+				Vertice3D(-10.0f, -10.0f, -9.9f),
+				Vertice3D(10.0f, -10.0f, -9.9f),
+				Vertice3D(10.0f, 10.0f, -9.9f),
+				Vertice3D(-10.0f, 10.0f, -9.9f))
 			group {
 				translation(0.0f, -1.0f, -5.0f)
 				rotation(-90.0f, 1.0f, 0.0f, 0.0f)

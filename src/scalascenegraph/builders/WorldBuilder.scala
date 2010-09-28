@@ -89,7 +89,7 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(new DepthTestState(depthTest))
 	}
 	
-	def triangle(v1: Vertice, v2: Vertice, v3: Vertice)	{
+	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D)	{
 		val vertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(v1.x, v1.y, v1.z,
 				  v2.x, v2.y, v2.z,
@@ -99,7 +99,7 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def triangle(v1: Vertice, v2: Vertice, v3: Vertice,
+	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D,
     		     c1: Color, c2: Color, c3: Color)
 	{
 		val vertices = Vertices[FloatBuffer](Buffers.newDirectFloatBuffer(
@@ -115,7 +115,7 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice, color: Color) {
+	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, color: Color) {
 		val vertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(v1.x, v1.y, v1.z,
 				  v2.x, v2.y, v2.z,
@@ -126,7 +126,7 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def quad(v1: Vertice, v2: Vertice, v3: Vertice, v4: Vertice) {
+	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D) {
 		val vertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(v1.x, v1.y, v1.z,
 				  v2.x, v2.y, v2.z,

@@ -60,12 +60,12 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 	
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
 	
-	private def sphere(teta: Float, phi: Float): Vertice = {
+	private def sphere(teta: Float, phi: Float): Vertice3D = {
 		// cf http://en.wikipedia.org/wiki/Sphere
 		val x = r * sin(teta) * cos(phi)
 		val y = r * sin(teta) * sin(phi)
 		val z = r * cos(teta)
-		Vertice(x, y, z)
+		Vertice3D(x, y, z)
 	}
 	
 	def createVertices = {
@@ -84,7 +84,7 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), dim_3D, GL_QUADS)
 	}
 	
-	def createNormals = Normals(createVertices.buf)
+	def createNormals = Normals(createVertices.buffer)
 	
 	def createTextureCoordinates = {
 		val ab = new ArrayBuffer[Float]

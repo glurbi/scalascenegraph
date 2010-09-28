@@ -35,10 +35,10 @@ extends RenderableBuilder {
 		val yOffset = -m / 2.0f
 		for (i <- 0 until n) {
 			for (j <- 0 until m) {
-				ab ++= Vertice(i + xOffset, j + yOffset, 0.0f).asFloatArray
-				ab ++= Vertice(i + 1.0f + xOffset, j + yOffset, 0.0f).asFloatArray
-				ab ++= Vertice(i + 1.0f + xOffset, j + 1.0f + yOffset, 0.0f).asFloatArray
-				ab ++= Vertice(i + xOffset, j + 1.0f + yOffset, 0.0f).asFloatArray
+				ab ++= Vertice3D(i + xOffset, j + yOffset, 0.0f).asFloatArray
+				ab ++= Vertice3D(i + 1.0f + xOffset, j + yOffset, 0.0f).asFloatArray
+				ab ++= Vertice3D(i + 1.0f + xOffset, j + 1.0f + yOffset, 0.0f).asFloatArray
+				ab ++= Vertice3D(i + xOffset, j + 1.0f + yOffset, 0.0f).asFloatArray
 			}
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), dim_3D, GL_QUADS)

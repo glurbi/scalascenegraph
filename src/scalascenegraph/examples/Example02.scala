@@ -42,9 +42,9 @@ class Example02 extends Example with WorldBuilder {
     		translation(0.0f, 2.0f, -5.0f)
     			
 			triangle(
-				Vertice(2.0f, 0.0f, 0.0f),
-				Vertice(4.0f, 0.0f, 0.0f),
-				Vertice(3.0f, 2.0f, 0.0f),
+				Vertice3D(2.0f, 0.0f, 0.0f),
+				Vertice3D(4.0f, 0.0f, 0.0f),
+				Vertice3D(3.0f, 2.0f, 0.0f),
 				Color(1.0f, 0.0f, 0.0f),
 				Color(0.0f, 1.0f, 0.0f),
 				Color(0.0f, 0.0f, 1.0f))
@@ -57,9 +57,9 @@ class Example02 extends Example with WorldBuilder {
     		}
     			
 			triangle(
-				Vertice(-4.0f, 2.0f, 0.0f),
-				Vertice(-3.0f, 0.0f, 0.0f),
-				Vertice(-2.0f, 2.0f, 0.0f))
+				Vertice3D(-4.0f, 2.0f, 0.0f),
+				Vertice3D(-3.0f, 0.0f, 0.0f),
+				Vertice3D(-2.0f, 2.0f, 0.0f))
     	}
 	
 }

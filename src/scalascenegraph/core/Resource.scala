@@ -141,7 +141,7 @@ class VertexBufferObject[T <: Buffer](vertices: Vertices[T]) extends Resource {
 		context.gl.glGenBuffers(1, ids, 0)
 		id = ids(0)
 		context.gl.glBindBuffer(GL_ARRAY_BUFFER, id)
-		context.gl.glBufferData(GL_ARRAY_BUFFER, vertices.buf.limit * 4, vertices.buf, GL_STATIC_DRAW)
+		context.gl.glBufferData(GL_ARRAY_BUFFER, vertices.buffer.limit * 4, vertices.buffer, GL_STATIC_DRAW)
 		context.gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 	}
 	
