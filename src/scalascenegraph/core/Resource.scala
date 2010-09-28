@@ -133,7 +133,8 @@ class VertexBufferObject[T <: Buffer](vertices: Vertices[T]) extends Resource {
 	
 	var id: VBOId = _
 	var count: Int = vertices.count
-	val dim: VertexDimension = vertices.vertexDimension
+	val vertexDimension: VertexDimension = vertices.vertexDimension
+	val dataType: DataType = vertices.dataType
 	val primitiveType: PrimitiveType = vertices.primitiveType
 	
 	override def prepare(context: Context) {

@@ -21,7 +21,7 @@ trait RenderableBuilder {
 			def render(context: Context) {
 				import context.gl
 				gl.glEnableClientState(GL_VERTEX_ARRAY);
-				gl.glVertexPointer(vertices.vertexDimension, GL_FLOAT, 0, vertices.buffer);
+				gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer);
 				gl.glDrawArrays(vertices.primitiveType, 0, vertices.count);
 				gl.glDisableClientState(GL_VERTEX_ARRAY);
 			}
@@ -36,7 +36,7 @@ trait RenderableBuilder {
 		    	gl.glGetFloatv(GL_CURRENT_COLOR, save, 0)
 		        gl.glColor4f(color.r, color.g, color.b, color.a)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY);
-		        gl.glVertexPointer(vertices.vertexDimension, GL_FLOAT, 0, vertices.buffer);
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer);
 		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count);
 		        gl.glDisableClientState(GL_VERTEX_ARRAY);
 		        gl.glColor4f(save(0), save(1), save(2), save(3))
@@ -52,7 +52,7 @@ trait RenderableBuilder {
 		    	gl.glGetFloatv(GL_CURRENT_COLOR, color, 0)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_COLOR_ARRAY)
-		        gl.glVertexPointer(vertices.vertexDimension, GL_FLOAT, 0, vertices.buffer)
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
 		        gl.glColorPointer(colors.colorType , GL_FLOAT, 0, colors.floatBuffer)
 		        gl.glDrawArrays(primitiveType, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
@@ -69,7 +69,7 @@ trait RenderableBuilder {
 		        gl.glEnableClientState(GL_VERTEX_ARRAY);
 		        gl.glEnableClientState(GL_NORMAL_ARRAY);
 		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
-		        gl.glVertexPointer(vertices.vertexDimension, GL_FLOAT, 0, vertices.buffer);
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer);
 		        gl.glDrawArrays(vertices.primitiveType , 0, vertices.count);
 		        gl.glDisableClientState(GL_NORMAL_ARRAY);
 		        gl.glDisableClientState(GL_VERTEX_ARRAY);
@@ -86,7 +86,7 @@ trait RenderableBuilder {
 				gl.glBindTexture(GL_TEXTURE_2D, texture.id)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
-		        gl.glVertexPointer(vertices.vertexDimension, GL_FLOAT, 0, vertices.buffer)
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
 		        gl.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
 		        gl.glDrawArrays(GL_QUADS, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
@@ -106,7 +106,7 @@ trait RenderableBuilder {
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 		        gl.glEnableClientState(GL_NORMAL_ARRAY);
-		        gl.glVertexPointer(vertices.vertexDimension, GL_FLOAT, 0, vertices.buffer)
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
 		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
 		        gl.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
 		        gl.glDrawArrays(GL_QUADS, 0, vertices.count)
@@ -125,7 +125,7 @@ trait RenderableBuilder {
 				import context.gl
 				gl.glEnableClientState(GL_VERTEX_ARRAY)
 				gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
-				gl.glVertexPointer(vbo.dim, GL_FLOAT, 0, 0);
+				gl.glVertexPointer(vbo.vertexDimension, vbo.dataType, 0, 0);
 				gl.glMultiDrawArrays(vbo.primitiveType, firsts, counts, firsts.capacity)
 				gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 				gl.glDisableClientState(GL_VERTEX_ARRAY)
@@ -139,7 +139,7 @@ trait RenderableBuilder {
 				import context.gl
 				gl.glEnableClientState(GL_VERTEX_ARRAY)
 				gl.glBindBuffer(GL_ARRAY_BUFFER, vbo.id)
-				gl.glVertexPointer(vbo.dim, GL_FLOAT, 0, 0);
+				gl.glVertexPointer(vbo.vertexDimension, vbo.dataType, 0, 0);
 		        gl.glDrawArrays(vbo.primitiveType, 0, vbo.count)
 				gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
 				gl.glDisableClientState(GL_VERTEX_ARRAY)
