@@ -48,7 +48,7 @@ class Example10 extends Example with WorldBuilder {
 		buf.flip
 		firsts.flip
 		counts.flip
-		Vertices(buf, dim_2D, GL_LINE_STRIP)
+		Vertices(buf, GL_FLOAT, dim_2D, GL_LINE_STRIP)
 	}
 	
 	def example =

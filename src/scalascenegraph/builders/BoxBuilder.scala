@@ -108,7 +108,7 @@ extends RenderableBuilder
 			}
 		}
 		
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), dim_3D, GL_QUADS)
+		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
 	}
 
 }

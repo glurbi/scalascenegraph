@@ -59,7 +59,7 @@ class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 				ab ++= (torus(angle(uStep), angle(vStep+1))).asFloatArray
 			}
 		}
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), dim_3D, GL_QUADS)
+		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
 	}
 
 	def createNormals: Normals = {

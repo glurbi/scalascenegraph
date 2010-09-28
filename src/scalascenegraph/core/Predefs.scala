@@ -46,6 +46,7 @@ object Predefs {
 	 */
 	case class Vertices[T <: Buffer](
 			buffer: T,
+			dataType: DataType,
 			vertexDimension: VertexDimension,
 			primitiveType: PrimitiveType)
 	{
@@ -89,18 +90,25 @@ object Predefs {
 	case class TextureCoordinates(floatBuffer: FloatBuffer)
 	
 	/**
-	 * Defines how many coordinates a vertex has
+	 * Defines how many coordinates a vertex has.
 	 */
 	type VertexDimension = Int
 	val dim_2D = 2
 	val dim_3D = 3
 
 	/**
-	 * Defines the color type
+	 * Defines a color type.
 	 */
 	type ColorType = Int
 	val RGB = 3
 	val RGBA = 4
+	
+	/**
+	 * Defines a data type.
+	 * GL_BYTE, GL_UNSIGNED_BYTE, GL_SHORT, GL_UNSIGNED_SHORT,
+	 * GL_INT, GL_UNSIGNED_INT, GL_FLOAT, GL_DOUBLE
+	 */
+	type DataType = Int
 	
 	/**
 	 * A texture identifier.
