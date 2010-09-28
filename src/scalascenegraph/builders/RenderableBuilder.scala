@@ -105,9 +105,12 @@ trait RenderableBuilder {
 				gl.glBindTexture(GL_TEXTURE_2D, texture.id)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+		        gl.glEnableClientState(GL_NORMAL_ARRAY);
 		        gl.glVertexPointer(vertices.vertexDimension, GL_FLOAT, 0, vertices.buffer)
+		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
 		        gl.glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates.floatBuffer)
 		        gl.glDrawArrays(GL_QUADS, 0, vertices.count)
+		        gl.glDisableClientState(GL_NORMAL_ARRAY);
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
 		        gl.glDisableClientState(GL_TEXTURE_COORD_ARRAY)
 			}
