@@ -22,7 +22,7 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 		val vertices = createVertices
 		val normals = createNormals
 		val geometry = new Geometry
-		geometry.addRenderable(createQuadsNormalsRenderable(vertices, normals))
+		geometry.addRenderable(createRenderable(vertices, normals))
 		geometry
 	}
 
@@ -49,10 +49,10 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 		val textureCoordinates = createTextureCoordinates
 		val geometry = new Geometry
 		geometry.addRenderable(light match {
-			case Off => createQuadsTextureRenderable(vertices, textureCoordinates, texture)
+			case Off => createRenderable(vertices, textureCoordinates, texture)
 			case On => {
 				val normals = createNormals
-				createQuadsTextureNormalsRenderable(vertices, textureCoordinates, texture, normals)
+				createRenderable(vertices, textureCoordinates, texture, normals)
 			}
 		})
 		geometry

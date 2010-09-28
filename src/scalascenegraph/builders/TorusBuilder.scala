@@ -24,7 +24,7 @@ class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 		val vertices = createVertices
 		val normals = createNormals
 		val geometry = new Geometry
-		geometry.addRenderable(createQuadsNormalsRenderable(vertices, normals))
+		geometry.addRenderable(createRenderable(vertices, normals))
 		geometry
 	}
 	

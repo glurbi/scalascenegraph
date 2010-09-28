@@ -22,7 +22,7 @@ class CubeBuilder extends RenderableBuilder {
 		val vertices = createVertices
 		val normals = createNormals
 		val geometry = new Geometry
-		geometry.addRenderable(createQuadsNormalsRenderable(vertices, normals))
+		geometry.addRenderable(createRenderable(vertices, normals))
 		geometry
 	}
 
@@ -44,7 +44,7 @@ class CubeBuilder extends RenderableBuilder {
 		val vertices = createVertices
 		val textureCoordinates = createTextureCoordinates
 		val geometry = new Geometry
-		geometry.addRenderable(createQuadsTextureRenderable(vertices, textureCoordinates, texture))
+		geometry.addRenderable(createRenderable(vertices, textureCoordinates, texture))
 		geometry
 	}
 	
@@ -54,8 +54,8 @@ class CubeBuilder extends RenderableBuilder {
 		val textureCoordinates = createTextureCoordinates
 		val geometry = new Geometry
 		geometry.addRenderable(light match {
-			case On => createQuadsTextureNormalsRenderable(vertices, textureCoordinates, texture, normals)
-			case Off => createQuadsTextureRenderable(vertices, textureCoordinates, texture)
+			case On => createRenderable(vertices, textureCoordinates, texture, normals)
+			case Off => createRenderable(vertices, textureCoordinates, texture)
 		})
 		geometry
 	}

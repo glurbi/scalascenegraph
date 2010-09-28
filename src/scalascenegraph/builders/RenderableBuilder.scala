@@ -48,13 +48,12 @@ trait RenderableBuilder {
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
-				// FIXME: should not assume a color has alpha always
 		    	val color = new Array[Float](4)
 		    	gl.glGetFloatv(GL_CURRENT_COLOR, color, 0)
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_COLOR_ARRAY)
 		        gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf)
-		        gl.glColorPointer(4, GL_FLOAT, 0, colors.floatBuffer)
+		        gl.glColorPointer(colors.colorType , GL_FLOAT, 0, colors.floatBuffer)
 		        gl.glDrawArrays(primitiveType, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
 		        gl.glDisableClientState(GL_COLOR_ARRAY)
@@ -63,7 +62,7 @@ trait RenderableBuilder {
 		}
 	}
 
-	def createQuadsNormalsRenderable[T <: Buffer](vertices: Vertices[T], normals: Normals): Renderable = {
+	def createRenderable[T <: Buffer](vertices: Vertices[T], normals: Normals): Renderable = {
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
@@ -71,14 +70,14 @@ trait RenderableBuilder {
 		        gl.glEnableClientState(GL_NORMAL_ARRAY);
 		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
 		        gl.glVertexPointer(vertices.dim, GL_FLOAT, 0, vertices.buf);
-		        gl.glDrawArrays(GL_QUADS, 0, vertices.count);
+		        gl.glDrawArrays(vertices.primitiveType , 0, vertices.count);
 		        gl.glDisableClientState(GL_NORMAL_ARRAY);
 		        gl.glDisableClientState(GL_VERTEX_ARRAY);
 			}
 		}
 	}
 
-	def createQuadsTextureRenderable[T <: Buffer](vertices: Vertices[T],
+	def createRenderable[T <: Buffer](vertices: Vertices[T],
 			textureCoordinates: TextureCoordinates, texture: Texture): Renderable =
 	{
 		new Renderable {
@@ -96,7 +95,7 @@ trait RenderableBuilder {
 		}
 	}
 
-	def createQuadsTextureNormalsRenderable[T <: Buffer](
+	def createRenderable[T <: Buffer](
 			vertices: Vertices[T], textureCoordinates: TextureCoordinates,
 			texture: Texture, normals: Normals): Renderable =
 	{
