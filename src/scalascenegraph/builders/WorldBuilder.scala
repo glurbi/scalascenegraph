@@ -354,5 +354,10 @@ trait WorldBuilder extends RenderableBuilder {
 		geometry.addRenderable(createRenderableVBO(vbo, firsts, counts))
 		stack.top.attach(geometry)
 	}
+	
+	def grid(width: Float, height: Float, m: Int, n: Int) {
+		val builder = new GridBuilder(width, height, m, n)
+		stack.top.attach(builder.createGrid)
+	}
 
 }
