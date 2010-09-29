@@ -23,12 +23,61 @@ import scalascenegraph.builders._
 
 class Example11 extends Example with WorldBuilder {
 	
+	/**
+	 * inspired from http://http.developer.nvidia.com/GPUGems/gpugems_ch01.html
+	 */
+	val waveVertexShader =
+	"""
+	struct wave {
+		float A;
+		vec2 dir;
+	    float w;
+		float phi;
+	};
+	const wave wave0 = wave(0.1, vec2(1.0, 0.0), 10.0, 5.0);
+	const wave wave1 = wave(0.05, vec2(1.0, 1.0), 8.0, 10.0);
+	const wave wave2 = wave(0.02, vec2(-1.0, -1.0), 20.0, 20.0);
+	uniform float t;
+	void main (void)
+    {
+	    vec4 v = gl_Vertex;
+	    vec2 xy = vec2(v.x, v.y);
+		wave waves[3];
+		waves[0] = wave0;
+		waves[1] = wave1;
+		waves[2] = wave2;
+	    
+	    for (int i = 0; i < 3; i++) {
+			float A = waves[i].A;
+			vec2 dir = waves[i].dir;
+			float w = waves[i].w;
+			float phi = waves[i].phi;
+		    v.z += A * sin(dot(dir, xy)*w + phi*t);
+	    }
+	    
+        gl_Position = gl_ModelViewProjectionMatrix * v;
+        gl_FrontColor = gl_Color;
+    }
+	"""
+	
+	val uniformHook = (u: UniformState, c: Context) => {
+		// time elapsed in seconds
+		u.value = c.elapsed / 1000.0f
+	}
+	
 	
 	def example =
 		world {
+			cullFace(On)
+    		depthTest(On)
+			shader("waveVertexShader", GL_VERTEX_SHADER, waveVertexShader)
+			program("waveProgram", "waveVertexShader")
+			uniform("waveProgram", "t")
+			useProgram("waveProgram")
+			setUniform("t", 0.0f, uniformHook)
 			translation(0.0f, 0.0f, -4.0f)
 			polygonMode(GL_FRONT, GL_LINE)
-			grid(3.0f, 5.0f, 30, 50)
+			grid(3.0f, 5.0f, 60, 100)
 		}
 	
 }
