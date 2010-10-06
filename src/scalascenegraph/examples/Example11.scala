@@ -23,6 +23,8 @@ import scalascenegraph.builders._
 
 class Example11 extends Example with WorldBuilder {
 	
+	val sand = getClass.getResourceAsStream("/scalascenegraph/examples/sand.jpg")
+	
 	/**
 	 * inspired from http://http.developer.nvidia.com/GPUGems/gpugems_ch01.html
 	 */
@@ -69,9 +71,9 @@ class Example11 extends Example with WorldBuilder {
 	    
 	    vec3 N = normalize(gl_NormalMatrix * vec3(-dhdx, -dhdy, 1.0));
 		vec3 L = normalize(gl_NormalMatrix * lightPos);
-        vec4 diffuse = vec4(max(0.0, dot(N, L)));
+		float diffuse = max(0.0, dot(N, L));
 	    
-        gl_FrontColor = gl_Color * diffuse;
+        gl_FrontColor = vec4(1.0, 1.0, 1.0, 0.5) * diffuse;
     }
 	"""
 	
@@ -83,15 +85,29 @@ class Example11 extends Example with WorldBuilder {
 	
 	def example =
 		world {
+			texture("sand", sand)
+			blending(On)
 			cullFace(On)
     		depthTest(On)
-			shader("waveVertexShader", GL_VERTEX_SHADER, waveVertexShader)
-			program("waveProgram", "waveVertexShader")
-			uniform("waveProgram", "t")
-			useProgram("waveProgram")
-			setUniform("t", 0.0f, uniformHook)
-			translation(0.0f, 0.0f, -4.0f)
-			grid(3.0f, 5.0f, 60, 100)
+    		color(Color(1.0f, 1.0f, 1.0f, 0.0f))
+    		group {
+				translation(0.0f, 0.0f, -5.0f)
+				quad(
+					Vertice3D(2.0f, 2.0f, 0.0f),
+					Vertice3D(-2.0f, 2.0f, 0.0f),
+					Vertice3D(-2.0f, -2.0f, -0.0f),
+					Vertice3D(2.0f, -2.0f, 0.0f),
+					Color(1.0f, 0.0f, 0.0f))
+			}
+    		group {
+				translation(0.0f, 0.0f, -4.0f)
+				shader("waveVertexShader", GL_VERTEX_SHADER, waveVertexShader)
+				program("waveProgram", "waveVertexShader")
+				uniform("waveProgram", "t")
+				useProgram("waveProgram")
+				setUniform("t", 0.0f, uniformHook)
+				grid(4.0f, 4.0f, 100, 100)
+			}
 		}
 	
 }
