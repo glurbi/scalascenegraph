@@ -5,3 +5,4 @@ bin
 .scala_dependencies
 build
 .gradle
+target
