@@ -37,36 +37,6 @@ object Utils {
 	}
 	
 	/**
-	 * Convert any BufferedImage object into a BufferedImage that complies with
-	 * scalascenegraph supported color models (RGB and RGBA) and transform the
-	 * image for an opengl like coordinate system (invert the y axis direction).
-	 */
-	def convertImage(source: BufferedImage): BufferedImage = {
-		val raster = Raster.createInterleavedRaster(
-			DataBuffer.TYPE_BYTE,
-			source.getWidth,
-			source.getHeight,
-			source.getRaster.getNumBands,
-			null) // location
-		val colorModel = new ComponentColorModel(
-			ColorSpace.getInstance(ColorSpace.CS_sRGB),
-			Array(8, 8, 8, 0),
-			source.getColorModel.hasAlpha,
-			false,
-			Transparency.OPAQUE,
-			DataBuffer.TYPE_BYTE)
-		val target = new BufferedImage(colorModel, raster, false, null)
-		val g2d = target.createGraphics
-		val transform = new AffineTransform
-		transform.translate(0, source.getHeight)
-		transform.scale(1.0, -1.0)
-		g2d.transform(transform)
-		g2d.drawImage(source, null, 0, 0)
-		g2d.dispose
-		target
-	}
-
-	/**
 	 * Creates a BufferedImage that is the inverse (y axis direction) of the
 	 * one given in parameter. 
 	 */
@@ -87,15 +57,14 @@ object Utils {
 	 * image in an RGB or RGBA format, as appropriate.
 	 */
 	def makeDirectByteBuffer(image: BufferedImage): ByteBuffer = {
-		val inverse = inverseImage(image)
 		val hasAlpha = image.getColorModel.hasAlpha
-		val size = inverse.getWidth * inverse.getHeight * inverse.getRaster.getNumBands
+		val size = image.getWidth * image.getHeight * image.getRaster.getNumBands
 		val buffer = ByteBuffer.allocateDirect(size)
 		buffer.order(ByteOrder.nativeOrder())
 
-		for (x <- 0 until inverse.getHeight) {
-                    for (y <- 0 until inverse.getWidth) {
-			val argb  = inverse.getRGB( y, x );
+		for (y <- image.getHeight-1 to 0 by -1) {
+                    for (x <- 0 until image.getWidth) {
+			val argb  = image.getRGB(x, y);
 			val alpha = (argb >> 24).asInstanceOf[Byte]
 			val red = (argb >> 16).asInstanceOf[Byte]
 			val green = (argb >> 8).asInstanceOf[Byte]

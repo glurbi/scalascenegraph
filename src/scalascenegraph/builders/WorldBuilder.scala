@@ -250,23 +250,21 @@ trait WorldBuilder extends RenderableBuilder {
 	}
 	
 	def overlay(x: Int, y: Int, image: BufferedImage) {
-		// TODO: refactor with method below
-		val converted = scalascenegraph.core.Utils.convertImage(image)
-		val data = converted.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
-		val buffer = ByteBuffer.allocateDirect(data.length)
-		buffer.put(data, 0, data.length)
-		buffer.rewind
-		stack.top.attach(new ImageOverlay(x, y, image.getWidth, image.getHeight, GL_RGBA, buffer))
+		val format = image.getColorModel.hasAlpha match {
+		    case true => GL_RGBA
+		    case false => GL_RGB
+		}
+		val data = Utils.makeDirectByteBuffer(image)
+		stack.top.attach(new ImageOverlay(x, y, image.getWidth, image.getHeight, format, data))
 	}
 
 	def overlay(x: Int, y: Int, image: BufferedImage, hook: NodeHook[ImageOverlay]) {
-		// TODO: refactor with method above
-		val converted = scalascenegraph.core.Utils.convertImage(image)
-		val data = converted.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
-		val buffer = ByteBuffer.allocateDirect(data.length)
-		buffer.put(data, 0, data.length)
-		buffer.rewind
-		stack.top.attach(new DynamicNode(hook, new ImageOverlay(x, y, image.getWidth, image.getHeight, GL_RGBA, buffer)))
+		val format = image.getColorModel.hasAlpha match {
+		    case true => GL_RGBA
+		    case false => GL_RGB
+		}
+		val data = Utils.makeDirectByteBuffer(image)
+		stack.top.attach(new DynamicNode(hook, new ImageOverlay(x, y, image.getWidth, image.getHeight, format, data)))
 	}
 
 	def overlay(x: Int, y: Int, fontName: String, text: String) {
