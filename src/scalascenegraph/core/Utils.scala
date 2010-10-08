@@ -50,9 +50,10 @@ object Utils {
 			null) // location
 		val colorModel = new ComponentColorModel(
 			ColorSpace.getInstance(ColorSpace.CS_sRGB),
+			Array(8, 8, 8, 0),
 			source.getColorModel.hasAlpha,
 			false,
-			Transparency.TRANSLUCENT,
+			Transparency.OPAQUE,
 			DataBuffer.TYPE_BYTE)
 		val target = new BufferedImage(colorModel, raster, false, null)
 		val g2d = target.createGraphics
@@ -86,10 +87,28 @@ object Utils {
 	 * image in an RGB or RGBA format, as appropriate.
 	 */
 	def makeDirectByteBuffer(image: BufferedImage): ByteBuffer = {
-		val converted = convertImage(image)
-		val data = image.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
-		val buffer = ByteBuffer.allocateDirect(data.length)
-		buffer.put(data, 0, data.length)
+		val inverse = inverseImage(image)
+		val hasAlpha = image.getColorModel.hasAlpha
+		val size = inverse.getWidth * inverse.getHeight * inverse.getRaster.getNumBands
+		val buffer = ByteBuffer.allocateDirect(size)
+		buffer.order(ByteOrder.nativeOrder())
+
+		for (x <- 0 until inverse.getHeight) {
+                    for (y <- 0 until inverse.getWidth) {
+			val argb  = inverse.getRGB( y, x );
+			val alpha = (argb >> 24).asInstanceOf[Byte]
+			val red = (argb >> 16).asInstanceOf[Byte]
+			val green = (argb >> 8).asInstanceOf[Byte]
+			val blue = (argb).asInstanceOf[Byte]
+			buffer.put(red)
+			buffer.put(green)
+			buffer.put(blue)
+			if (hasAlpha) {
+			    buffer.put(alpha)
+			}
+                    }
+		} 
+
 		buffer.rewind
 		buffer
 	}

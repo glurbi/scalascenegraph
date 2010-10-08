@@ -112,11 +112,7 @@ class Texture(in: InputStream) extends Resource {
 		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 		image.getColorModel.hasAlpha match {
-			case false => {
-				gl.glTexImage2D(GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer)
-				println(buffer.get(0) + " " + buffer.get(1) + " " + buffer.get(2))
-				println(buffer.get(3) + " " + buffer.get(4) + " " + buffer.get(5))
-			}
+			case false => gl.glTexImage2D(GL_TEXTURE_2D, 0, 3, image.getWidth, image.getHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer)
 			case true => gl.glTexImage2D(GL_TEXTURE_2D, 0, 4, image.getWidth, image.getHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer)
 		}
 	}
