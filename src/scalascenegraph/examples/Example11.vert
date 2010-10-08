@@ -13,6 +13,9 @@ const vec3 lightPos = vec3(0.0, 0.0, 1.0);
 	    
 uniform float t;
 	    
+/**
+ * inspired from http://http.developer.nvidia.com/GPUGems/gpugems_ch01.html
+ */
 void main (void)
 {
   vec4 v = gl_Vertex;
@@ -31,8 +34,8 @@ void main (void)
     float phi = waves[i].phi;
     v.z += A * sin(dot(dir, xy)*w + phi*t);
 			
-    dhdx += w * dot(dir, vec2(v.x, 1.0)) * A * cos(dot(dir, xy)*w + phi*t);
-    dhdy += w * dot(dir, vec2(1.0, v.y)) * A * cos(dot(dir, xy)*w + phi*t);
+    dhdx += w * dot(dir, vec2(v.x, 0.0)) * A * cos(dot(dir, xy)*w + phi*t);
+    dhdy += w * dot(dir, vec2(0.0, v.y)) * A * cos(dot(dir, xy)*w + phi*t);
   }
 	    
   gl_Position = gl_ModelViewProjectionMatrix * v;

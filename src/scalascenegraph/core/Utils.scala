@@ -1,11 +1,13 @@
 package scalascenegraph.core
 
+import java.io._
 import java.awt._
 import java.awt.geom._
 import java.awt.image._
 import java.awt.color._
 import java.nio._
 import scala.math._
+import scala.collection.mutable._
 
 import scalascenegraph.core.Predefs._
 import scalascenegraph.builders._
@@ -24,7 +26,7 @@ object Utils {
 	def crossProduct(u: Vector3D, v: Vector3D): Vector3D = {
 		Vector3D(u.y*v.z - u.z*v.y, u.z*v.x - u.x*v.z, u.x*v.y - u.y*v.x)
 	}
-	
+			
 	/**
 	 * @return a vector that is the normalized instance of the one given in parameter.
 	 */
@@ -41,18 +43,18 @@ object Utils {
 	 */
 	def convertImage(source: BufferedImage): BufferedImage = {
 		val raster = Raster.createInterleavedRaster(
-				DataBuffer.TYPE_BYTE,
-				source.getWidth,
-				source.getHeight,
-				4,    // bands
-				null) // location
+			DataBuffer.TYPE_BYTE,
+			source.getWidth,
+			source.getHeight,
+			4,    // bands
+			null) // location
 		val colorModel = new ComponentColorModel(
-				ColorSpace.getInstance(ColorSpace.CS_sRGB),
-				Array(8, 8, 8, 8),
-				true,
-				false,
-				Transparency.TRANSLUCENT,
-				DataBuffer.TYPE_BYTE)
+			ColorSpace.getInstance(ColorSpace.CS_sRGB),
+			Array(8, 8, 8, 8),
+			true,
+			false,
+			Transparency.TRANSLUCENT,
+			DataBuffer.TYPE_BYTE)
 		val target = new BufferedImage(colorModel, raster, false, null)
 		val g2d = target.createGraphics
 		val transform = new AffineTransform
@@ -138,5 +140,19 @@ object Utils {
 		for (i <- 0 until buffer.capacity) { buffer.put(0.toByte) }
 		buffer.rewind
 	}
-	
+
+	/**
+	 * Read the stream and returns its content as a String.
+	 */
+	def getStreamAsString(is: InputStream): String = {
+		val sb = new StringBuilder
+		val buf = new Array[Byte](1024)
+		var n = is.read(buf)
+		while (n > 0) {
+			sb.append(new String(buf, 0, n))
+			n = is.read(buf)
+		}
+		sb.toString
+	}
+
 }
