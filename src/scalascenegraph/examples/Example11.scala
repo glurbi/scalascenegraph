@@ -24,7 +24,7 @@ import scalascenegraph.builders._
 
 class Example11 extends Example with WorldBuilder {
 	
-	val sand = getClass.getResourceAsStream("/scalascenegraph/examples/sand.png")
+	val sand = getClass.getResourceAsStream("/scalascenegraph/examples/sand.jpg")
 	val waveVertexShader = getStreamAsString(getClass.getResourceAsStream("/scalascenegraph/examples/Example11.vert"))
 	
 	val uniformHook = (u: UniformState, c: Context) => {
