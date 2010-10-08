@@ -10,7 +10,7 @@ LD_LIBRARY_PATH="lib"
 FILES=`find src -name *.scala`
 
 all: resources
-	scalac -classpath $(CLASSPATH) -d ${TARGETDIR}  $(FILES)
+	fsc -make:transitivenocp -dependencyfile $(TARGETDIR)/.scala_dependencies -classpath $(CLASSPATH) -d $(TARGETDIR)  $(FILES)
 
 clean:
 	rm -rf target; find . -name "*~" -exec rm {} \;
