@@ -46,12 +46,11 @@ object Utils {
 			DataBuffer.TYPE_BYTE,
 			source.getWidth,
 			source.getHeight,
-			4,    // bands
+			source.getRaster.getNumBands,
 			null) // location
 		val colorModel = new ComponentColorModel(
 			ColorSpace.getInstance(ColorSpace.CS_sRGB),
-			Array(8, 8, 8, 8),
-			true,
+			source.getColorModel.hasAlpha,
 			false,
 			Transparency.TRANSLUCENT,
 			DataBuffer.TYPE_BYTE)
