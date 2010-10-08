@@ -1,12 +1,12 @@
 ifeq "$(OS)" "Windows_NT"
-CLASSPATH="lib\gluegen-rt.jar;lib\jogl.all.jar;lib\nativewindow.all.jar;lib\newt.all.jar"
+CLASSPATH="lib\gluegen-rt.jar;lib\jogl.all.jar;lib\nativewindow.all.jar;lib\newt.all.jar;etc;target\classes"
 TARGETDIR="target\classes"
 else
-CLASSPATH="lib/gluegen-rt.jar:lib/jogl.all.jar:lib/nativewindow.all.jar:lib/newt.all.jar"
+CLASSPATH="lib/gluegen-rt.jar:lib/jogl.all.jar:lib/nativewindow.all.jar:lib/newt.all.jar:etc:target/classes"
 TARGETDIR="target/classes"
 endif
 
-LD_LIBRARY_PATH="lib"
+LIBRARY_PATH="lib"
 FILES=`find src -name *.scala`
 
 all: resources
@@ -16,8 +16,27 @@ clean:
 	rm -rf target; find . -name "*~" -exec rm {} \;
 
 runExample01:
-	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH);\
-	scala -classpath ${TARGETDIR}:${CLASSPATH}:etc scalascenegraph.examples.RunExample scalascenegraph.examples.Example01
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example01
+runExample02:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example02
+runExample03:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example03
+runExample04:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example04
+runExample05:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example05
+runExample06:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example06
+runExample07:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example07
+runExample08:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example08
+runExample09:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example09
+runExample10:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example10
+runExample11:
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example11
 
 resources:
 	mkdir -p target/classes;\
