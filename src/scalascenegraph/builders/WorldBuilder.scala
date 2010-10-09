@@ -94,9 +94,9 @@ trait WorldBuilder extends RenderableBuilder {
 			Array(v1.x, v1.y, v1.z,
 				  v2.x, v2.y, v2.z,
 				  v3.x, v3.y, v3.z)),
-				  GL_FLOAT,
-				  dim_3D,
-				  GL_TRIANGLES)
+								GL_FLOAT,
+								dim_3D,
+								GL_TRIANGLES)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderable(vertices))
 		stack.top.attach(geometry)
@@ -109,9 +109,9 @@ trait WorldBuilder extends RenderableBuilder {
 			Array(v1.x, v1.y, v1.z,
 				  v2.x, v2.y, v2.z,
 				  v3.x, v3.y, v3.z)),
-				  GL_FLOAT,
-				  dim_3D,
-				  GL_TRIANGLES)
+											 GL_FLOAT,
+											 dim_3D,
+											 GL_TRIANGLES)
 		val colors = Colors(Buffers.newDirectFloatBuffer(
 			Array(c1.r, c1.g, c1.b, c1.a,
 				  c2.r, c2.g, c2.b, c2.a,
@@ -122,28 +122,32 @@ trait WorldBuilder extends RenderableBuilder {
 	}
 	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, color: Color) {
-		val vertices = Vertices(Buffers.newDirectFloatBuffer(
-			Array(v1.x, v1.y, v1.z,
-				  v2.x, v2.y, v2.z,
-				  v3.x, v3.y, v3.z,
-				  v4.x, v4.y, v4.z)),
-				  GL_FLOAT,
-				  dim_3D,
-				  GL_QUADS)
+		val vertices =
+			Vertices(
+				Buffers.newDirectFloatBuffer(
+					Array(v1.x, v1.y, v1.z,
+						  v2.x, v2.y, v2.z,
+						  v3.x, v3.y, v3.z,
+						  v4.x, v4.y, v4.z)),
+				GL_FLOAT,
+				dim_3D,
+				GL_QUADS)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderable(vertices, color))
 		stack.top.attach(geometry)
 	}
 	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D) {
-		val vertices = Vertices(Buffers.newDirectFloatBuffer(
-			Array(v1.x, v1.y, v1.z,
-				  v2.x, v2.y, v2.z,
-				  v3.x, v3.y, v3.z,
-				  v4.x, v4.y, v4.z)),
-				  GL_FLOAT,
-				  dim_3D,
-				  GL_QUADS)
+		val vertices =
+			Vertices(
+				Buffers.newDirectFloatBuffer(
+					Array(v1.x, v1.y, v1.z,
+						  v2.x, v2.y, v2.z,
+						  v3.x, v3.y, v3.z,
+						  v4.x, v4.y, v4.z)),
+				GL_FLOAT,
+				dim_3D,
+				GL_QUADS)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderable(vertices))
 		stack.top.attach(geometry)
