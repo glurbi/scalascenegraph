@@ -152,6 +152,29 @@ trait WorldBuilder extends RenderableBuilder {
 		geometry.addRenderable(createRenderable(vertices))
 		stack.top.attach(geometry)
 	}
+
+	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, textureName: String) {
+		val vertices =
+			Vertices(
+				Buffers.newDirectFloatBuffer(
+					Array(v1.x, v1.y, v1.z,
+						  v2.x, v2.y, v2.z,
+						  v3.x, v3.y, v3.z,
+						  v4.x, v4.y, v4.z)),
+				GL_FLOAT,
+				dim_3D,
+				GL_QUADS)
+		val texture = stack.top.getResource[Texture](textureName)
+		val textureCoordinates = TextureCoordinates(
+			Buffers.newDirectFloatBuffer(
+				Array(0.0f, 0.0f,
+					  1.0f, 0.0f,
+					  1.0f, 1.0f,
+					  0.0f, 1.0f)))
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderable(vertices, textureCoordinates, texture))
+		stack.top.attach(geometry)
+	}
 	
 	def cube {
 		val builder = new CubeBuilder

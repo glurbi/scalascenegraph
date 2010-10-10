@@ -39,7 +39,6 @@ class Example11 extends Example with WorldBuilder {
 			blending(On)
 			cullFace(On)
     		depthTest(On)
-    		color(Color(1.0f, 1.0f, 1.0f, 0.0f))
     		group {
 				translation(0.0f, 0.0f, -5.0f)
 				quad(
@@ -47,9 +46,10 @@ class Example11 extends Example with WorldBuilder {
 					Vertice3D(-2.0f, 2.0f, 0.0f),
 					Vertice3D(-2.0f, -2.0f, -0.0f),
 					Vertice3D(2.0f, -2.0f, 0.0f),
-					Color(1.0f, 0.0f, 0.0f))
+					"sand")
 			}
     		group {
+    			color(Color(1.0f, 1.0f, 1.0f, 0.0f))
 				translation(0.0f, 0.0f, -4.0f)
 				shader("waveVertexShader", GL_VERTEX_SHADER, waveVertexShader)
 				program("waveProgram", "waveVertexShader")
