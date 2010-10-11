@@ -26,12 +26,12 @@ class Example11 extends Example with WorldBuilder {
 	
 	val sand = getClass.getResourceAsStream("/scalascenegraph/examples/sand.jpg")
 	val waveVertexShader = getStreamAsString(getClass.getResourceAsStream("/scalascenegraph/examples/Example11.vert"))
+	val fragmentShader = getStreamAsString(getClass.getResourceAsStream("/scalascenegraph/examples/Example11.frag"))
 	
 	val uniformHook = (u: UniformState, c: Context) => {
 		// time elapsed in seconds
 		u.value = c.elapsed / 1000.0f
 	}
-	
 	
 	def example =
 		world {
@@ -52,7 +52,8 @@ class Example11 extends Example with WorldBuilder {
     			color(Color(1.0f, 1.0f, 1.0f, 0.0f))
 				translation(0.0f, 0.0f, -4.0f)
 				shader("waveVertexShader", GL_VERTEX_SHADER, waveVertexShader)
-				program("waveProgram", "waveVertexShader")
+				shader("fragmentShader", GL_FRAGMENT_SHADER, fragmentShader)
+				program("waveProgram", "waveVertexShader", "fragmentShader")
 				uniform("waveProgram", "t")
 				useProgram("waveProgram")
 				setUniform("t", 0.0f, uniformHook)
