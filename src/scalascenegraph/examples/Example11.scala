@@ -40,24 +40,17 @@ class Example11 extends Example with WorldBuilder {
 			cullFace(On)
     		depthTest(On)
     		group {
-				translation(0.0f, 0.0f, -5.0f)
-				quad(
-					Vertice3D(2.0f, 2.0f, 0.0f),
-					Vertice3D(-2.0f, 2.0f, 0.0f),
-					Vertice3D(-2.0f, -2.0f, -0.0f),
-					Vertice3D(2.0f, -2.0f, 0.0f),
-					"sand")
-			}
-    		group {
     			color(Color(1.0f, 1.0f, 1.0f, 0.0f))
 				translation(0.0f, 0.0f, -4.0f)
 				shader("waveVertexShader", GL_VERTEX_SHADER, waveVertexShader)
 				shader("fragmentShader", GL_FRAGMENT_SHADER, fragmentShader)
 				program("waveProgram", "waveVertexShader", "fragmentShader")
 				uniform("waveProgram", "t")
+				uniform("waveProgram", "texture")
 				useProgram("waveProgram")
 				setUniform("t", 0.0f, uniformHook)
-				grid(4.0f, 4.0f, 100, 100)
+				setUniform("texture", 0)
+				grid(4.0f, 4.0f, 100, 100, "sand")
 			}
 		}
 	

@@ -5,14 +5,14 @@ struct wave {
   float phi;
 };
 	    
-const wave wave0 = wave(0.1, vec2(1.0, 0.0), 10.0, 5.0);
-const wave wave1 = wave(0.05, vec2(0.0, 1.0), 8.0, 10.0);
-const wave wave2 = wave(0.02, vec2(-1.0, -1.0), 2.0, 20.0);
+const wave wave0 = wave(0.05, vec2(1.0, 0.0), 10.0, 5.0);
+const wave wave1 = wave(0.025, vec2(0.0, 1.0), 8.0, 10.0);
+const wave wave2 = wave(0.01, vec2(-1.0, -1.0), 2.0, 20.0);
 	    
 const vec3 lightPos = vec3(0.0, 0.0, 1.0);
 	    
 uniform float t;
-	    
+
 /**
  * inspired from http://http.developer.nvidia.com/GPUGems/gpugems_ch01.html
  */
@@ -44,5 +44,6 @@ void main (void)
   vec3 L = normalize(gl_NormalMatrix * lightPos);
   float diffuse = max(0.0, dot(N, L));
 	    
-  gl_FrontColor = vec4(1.0, 1.0, 1.0, 0.5) * diffuse;
+  gl_FrontColor = vec4(1.0, 1.0, 1.0, 0.4) * diffuse;
+  gl_TexCoord[0] = gl_MultiTexCoord0;
 }

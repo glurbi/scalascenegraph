@@ -385,4 +385,10 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(builder.createGrid)
 	}
 
+	def grid(width: Float, height: Float, m: Int, n: Int, textureName: String) {
+		val texture = stack.top.getResource[Texture](textureName)
+		val builder = new GridBuilder(width, height, m, n)
+		stack.top.attach(builder.createGrid(texture))
+	}
+
 }

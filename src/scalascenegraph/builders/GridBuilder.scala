@@ -26,6 +26,14 @@ extends RenderableBuilder
 		geometry.addRenderable(createRenderable(vertices))
 		geometry
 	}
+
+	def createGrid(texture: Texture): Node = {
+		val vertices = createVertices
+		val textureCoordinates = createTextureCoordinates
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderable(vertices, textureCoordinates, texture))
+		geometry
+	}
 	
 	def createVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
@@ -46,4 +54,16 @@ extends RenderableBuilder
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
 	}
 
+	def createTextureCoordinates: TextureCoordinates = {
+		val ab = new ArrayBuffer[Float]
+		for (i <- 0 until m) {
+			for (j <- 0 until n) {
+				ab ++= Array(1.0f * i / m, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / m, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / m, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * i / m, 1.0f * (j+1) / n)
+			}
+		}
+		TextureCoordinates(Buffers.newDirectFloatBuffer(ab.toArray))
+	}
 }
