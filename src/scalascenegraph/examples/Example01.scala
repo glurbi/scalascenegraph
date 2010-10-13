@@ -17,20 +17,20 @@ class Example01 extends Example with WorldBuilder {
     			translation(0.0f, 3.0f, 0.0f)
     			triangle(
     				Vertice3D(-1.0f, 0.0f, 0.0f),
-    				Vertice3D(0.0f, 1.0f, 0.0f),
+    				Vertice3D(0.0f, 2.0f, 0.0f),
     				Vertice3D(1.0f, 0.0f, 0.0f),
 					JColor.magenta)
 				triangle(
-					Vertice3D(-3.0f, 0.0f, 0.0f),
-					Vertice3D(-2.0f, 0.0f, 0.0f),
-					Vertice3D(-2.5f, 1.0f, 0.0f),
+    				Vertice3D(-4.0f, 0.0f, 0.0f),
+    				Vertice3D(0.0f, 2.0f, 0.0f),
+    				Vertice3D(-2.0f, 0.0f, 0.0f),
 					Color(1.0f, 0.0f, 0.0f),
 					Color(0.0f, 1.0f, 0.0f),
 					Color(0.0f, 0.0f, 1.0f))
 				triangle(
-					Vertice3D(4.0f, 2.0f, 0.0f),
-					Vertice3D(3.0f, 0.0f, 0.0f),
-					Vertice3D(2.0f, 2.0f, 0.0f))
+    				Vertice3D(4.0f, 0.0f, 0.0f),
+    				Vertice3D(0.0f, 2.0f, 0.0f),
+    				Vertice3D(2.0f, 0.0f, 0.0f))
     		}
 
 			group {
