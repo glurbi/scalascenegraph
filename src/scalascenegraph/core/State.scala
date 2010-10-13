@@ -97,6 +97,17 @@ class LineWidthState(var lineWidth: Float) extends State {
 	}
 }
 
+class LineStippleState(var factor: Int, var pattern: Short) extends State {
+	override def preRender(context: Context) {
+		context.gl.glPushAttrib(GL_LINE_BIT)
+		context.gl.glEnable(GL_LINE_STIPPLE)
+		context.gl.glLineStipple(factor, pattern)
+	}
+	override def postRender(context: Context) {
+		context.gl.glPopAttrib
+	}
+}
+
 class SmoothState(var smooth: SmoothType) extends State {
 	override def preRender(context: Context) {
 		smooth match {

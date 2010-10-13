@@ -71,6 +71,10 @@ trait WorldBuilder extends RenderableBuilder {
 	def lineWidth(width: Float) {
 		stack.top.attach(new LineWidthState(width))
 	}
+
+	def lineStipple(factor: Int, pattern: Short) {
+		stack.top.attach(new LineStippleState(factor, pattern))
+	}
 	
 	def translation(x: Float, y: Float, z: Float) {
 		stack.top.attach(new Translation(x, y, z))

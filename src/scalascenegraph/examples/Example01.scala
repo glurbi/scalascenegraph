@@ -91,11 +91,24 @@ class Example01 extends Example with WorldBuilder {
 	val lines =
 		detached {
     		translation(2.0f, 0.0f, 0.0f)
-			for (i <- 0 to 5) {
-				val x = 1.0f * i / 5
-				group {
-					lineWidth(i+1)
-					line(Vertice3D(x, -1.0f, 0.0f), Vertice3D(x, 1.0f, 0.0f))
+			group {
+				for (i <- 1 to 5) {
+					val x = 1.0f * i / 5
+					group {
+						lineWidth(i+1)
+						line(Vertice3D(x, -1.0f, 0.0f), Vertice3D(x, 1.0f, 0.0f))
+					}
+				}
+			}
+			group {
+				color(JColor.red.brighter)
+				smooth(GL_LINE_SMOOTH)
+				for (i <- 1 to 5) {
+					group {
+						lineStipple(i, 0x5505)
+						line(Vertice3D(0.0f + i / 5.0f, -1.0f, 0.0f),
+							 Vertice3D(2.0f + i / 5.0f, 1.0f, 0.0f))
+					}
 				}
 			}
 		}
