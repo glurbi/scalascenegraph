@@ -87,6 +87,20 @@ class PointSizeState(var pointSize: Float) extends State {
 	}
 }
 
+class SmoothState(var smooth: SmoothType) extends State {
+	override def preRender(context: Context) {
+		smooth match {
+			case GL_POINT_SMOOTH => context.gl.glPushAttrib(GL_POINT_BIT)
+			case GL_LINE_SMOOTH => context.gl.glPushAttrib(GL_LINE_BIT)
+			case GL_POLYGON_SMOOTH => context.gl.glPushAttrib(GL_POLYGON_BIT)
+		}
+		context.gl.glEnable(smooth)
+	}
+	override def postRender(context: Context) {
+		context.gl.glPopAttrib
+	}
+}
+
 class PolygonState(var face: Face, var mode: DrawingMode) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_POLYGON_BIT)

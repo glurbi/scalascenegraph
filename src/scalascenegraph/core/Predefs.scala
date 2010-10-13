@@ -109,6 +109,12 @@ object Predefs {
 	 * GL_INT, GL_UNSIGNED_INT, GL_FLOAT, GL_DOUBLE
 	 */
 	type DataType = Int
+
+	/**
+	 * Defines a primitive type to smooth (antialias).
+	 * GL_POINT_SMOOTH, GL_LINE_SMOOTH, GL_POLYGON_SMOOTH
+	 */
+	type SmoothType = Int
 	
 	/**
 	 * Defines the projection type

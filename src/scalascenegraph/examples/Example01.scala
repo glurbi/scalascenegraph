@@ -2,6 +2,15 @@ package scalascenegraph.examples
 
 import scala.math._
 import java.awt.{Color => JColor }
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core.Predefs._
 import scalascenegraph.builders._
@@ -55,7 +64,7 @@ class Example01 extends Example with WorldBuilder {
 				Color(0.0f, 0.0f, 1.0f))
 		}
 
-	def pointSpiral(xtrans: Float, ytrans: Float) =
+	def pointSpiral(xtrans: Float, ytrans: Float, color: JColor) =
 		detached {
     		translation(xtrans, ytrans, 0.0f)
 			for (i <- 0 to 100) {
@@ -64,14 +73,18 @@ class Example01 extends Example with WorldBuilder {
 				val y = (a * sin(a*25)).asInstanceOf[Float]
 				group {
 					pointSize(a*15)
-					point(Vertice3D(x, y, 0.0f), JColor.blue)
+					point(Vertice3D(x, y, 0.0f), color)
 				}
 			}
 		}
 
 	val points =
 		detached {
-			attach(pointSpiral(0.0f, 0.0f))
+			attach(pointSpiral(0.0f, 0.0f, JColor.blue.brighter))
+			group {
+				smooth(GL_POINT_SMOOTH)
+				attach(pointSpiral(-3.0f, 0.0f, JColor.green.brighter))
+			}
 		}
 	
 	def example =

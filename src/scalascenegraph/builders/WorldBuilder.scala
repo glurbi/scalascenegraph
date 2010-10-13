@@ -59,6 +59,10 @@ trait WorldBuilder extends RenderableBuilder {
 	def color(c: Color) {
 		stack.top.attach(new ColorState(c))
 	}
+
+	def smooth(smooth: SmoothType) {
+		stack.top.attach(new SmoothState(smooth))
+	}
 	
 	def pointSize(size: Float) {
 		stack.top.attach(new PointSizeState(size))
