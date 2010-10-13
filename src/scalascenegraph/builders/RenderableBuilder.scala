@@ -44,8 +44,7 @@ trait RenderableBuilder {
 		}
 	}
 
-	// TODO: remove this method
-	def createRenderable[T <: Buffer](primitiveType: PrimitiveType, vertices: Vertices[T], colors: Colors): Renderable = {
+	def createRenderable[T <: Buffer](vertices: Vertices[T], colors: Colors): Renderable = {
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
@@ -55,7 +54,7 @@ trait RenderableBuilder {
 		        gl.glEnableClientState(GL_COLOR_ARRAY)
 		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
 		        gl.glColorPointer(colors.colorType , GL_FLOAT, 0, colors.floatBuffer)
-		        gl.glDrawArrays(primitiveType, 0, vertices.count)
+		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
 		        gl.glDisableClientState(GL_COLOR_ARRAY)
 		        gl.glColor4f(color(0), color(1), color(2), color(3))

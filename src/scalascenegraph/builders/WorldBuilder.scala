@@ -148,7 +148,7 @@ trait WorldBuilder extends RenderableBuilder {
 				  c2.r, c2.g, c2.b, c2.a,
 				  c3.r, c3.g, c3.b, c3.a)), RGBA)
 		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(GL_TRIANGLES, vertices, colors))
+		geometry.addRenderable(createRenderable(vertices, colors))
 		stack.top.attach(geometry)
 	}
 	
@@ -202,7 +202,7 @@ trait WorldBuilder extends RenderableBuilder {
 				  c3.r, c3.g, c3.b, c3.a,
 				  c4.r, c4.g, c4.b, c4.a)), RGBA)
 		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(GL_QUADS, vertices, colors))
+		geometry.addRenderable(createRenderable(vertices, colors))
 		stack.top.attach(geometry)
 	}
 	

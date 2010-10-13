@@ -36,7 +36,7 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 	def createSphere(colors: Colors): Node = {
 		val vertices = createVertices
 		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(GL_QUADS, vertices, colors))
+		geometry.addRenderable(createRenderable(vertices, colors))
 		geometry
 	}
 

@@ -25,7 +25,7 @@ extends RenderableBuilder {
 		val vertices = createVertices
 		val colors = createColors
 		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(GL_QUADS, vertices, colors))
+		geometry.addRenderable(createRenderable(vertices, colors))
 		geometry
 	}
 	
