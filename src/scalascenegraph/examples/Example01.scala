@@ -65,7 +65,7 @@ class Example01 extends Example with WorldBuilder {
 					val x = (a * cos(a*25)).asInstanceOf[Float]
 					val y = (a * sin(a*25)).asInstanceOf[Float]
 					group {
-						pointSize(a*20)
+						pointSize(a*15)
 						point(Vertice3D(x, y, 0.0f), JColor.blue)
 					}
 				}
