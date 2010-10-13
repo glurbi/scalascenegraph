@@ -68,6 +68,10 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(new PointSizeState(size))
 	}
 	
+	def lineWidth(width: Float) {
+		stack.top.attach(new LineWidthState(width))
+	}
+	
 	def translation(x: Float, y: Float, z: Float) {
 		stack.top.attach(new Translation(x, y, z))
 	}
@@ -120,14 +124,28 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(geometry)
 	}
 	
+	def line(v1: Vertice3D, v2: Vertice3D)
+	{
+		val vertices = Vertices[FloatBuffer](
+			Buffers.newDirectFloatBuffer(
+				Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z)),
+			GL_FLOAT,
+			dim_3D,
+			GL_LINES)
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderable(vertices))
+		stack.top.attach(geometry)
+	}
+
 	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D)	{
-		val vertices = Vertices(Buffers.newDirectFloatBuffer(
-			Array(v1.x, v1.y, v1.z,
-				  v2.x, v2.y, v2.z,
-				  v3.x, v3.y, v3.z)),
-								GL_FLOAT,
-								dim_3D,
-								GL_TRIANGLES)
+		val vertices = Vertices(
+			Buffers.newDirectFloatBuffer(
+				Array(v1.x, v1.y, v1.z,
+					  v2.x, v2.y, v2.z,
+					  v3.x, v3.y, v3.z)),
+			GL_FLOAT,
+			dim_3D,
+			GL_TRIANGLES)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderable(vertices))
 		stack.top.attach(geometry)
@@ -315,10 +333,6 @@ trait WorldBuilder extends RenderableBuilder {
 	
 	def material(face: Face, lightType: LightType, color: Color) {
 		stack.top.attach(new MaterialState(face, lightType, color))
-	}
-	
-	def lineWidth(width: Float) {
-		stack.top.attach(new LineWidthState(width))
 	}
 	
 	def torus(n: Int, R: Float, r: Float) {

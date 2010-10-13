@@ -68,11 +68,11 @@ class Example01 extends Example with WorldBuilder {
 		detached {
     		translation(xtrans, ytrans, 0.0f)
 			for (i <- 0 to 100) {
-				val a = 0.01f * i
+				val a = 0.01f * i + 0.1f
 				val x = (a * cos(a*25)).asInstanceOf[Float]
 				val y = (a * sin(a*25)).asInstanceOf[Float]
 				group {
-					pointSize(a*15)
+					pointSize(a*10)
 					point(Vertice3D(x, y, 0.0f), color)
 				}
 			}
@@ -80,10 +80,23 @@ class Example01 extends Example with WorldBuilder {
 
 	val points =
 		detached {
+    		translation(0.0f, 0.0f, 0.0f)
 			attach(pointSpiral(0.0f, 0.0f, JColor.blue.brighter))
 			group {
 				smooth(GL_POINT_SMOOTH)
 				attach(pointSpiral(-3.0f, 0.0f, JColor.green.brighter))
+			}
+		}
+
+	val lines =
+		detached {
+    		translation(2.0f, 0.0f, 0.0f)
+			for (i <- 0 to 5) {
+				val x = 1.0f * i / 5
+				group {
+					lineWidth(i+1)
+					line(Vertice3D(x, -1.0f, 0.0f), Vertice3D(x, 1.0f, 0.0f))
+				}
 			}
 		}
 	
@@ -93,6 +106,7 @@ class Example01 extends Example with WorldBuilder {
 			attach(points)
     		attach(triangles)
 			attach(quads)
+			attach(lines)
 	    }
 
 }

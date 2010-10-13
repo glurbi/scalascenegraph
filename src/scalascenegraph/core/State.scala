@@ -87,6 +87,16 @@ class PointSizeState(var pointSize: Float) extends State {
 	}
 }
 
+class LineWidthState(var lineWidth: Float) extends State {
+	override def preRender(context: Context) {
+		context.gl.glPushAttrib(GL_LINE_BIT)
+		context.gl.glLineWidth(lineWidth)
+	}
+	override def postRender(context: Context) {
+		context.gl.glPopAttrib
+	}
+}
+
 class SmoothState(var smooth: SmoothType) extends State {
 	override def preRender(context: Context) {
 		smooth match {
@@ -221,16 +231,6 @@ class MaterialShininessState(face: Face, shininess: Int) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
 		context.gl.glMateriali(face, GL_SHININESS, shininess)
-	}
-	override def postRender(context: Context) {
-		context.gl.glPopAttrib
-	}
-}
-
-class LineWidthState(width: Float) extends State {
-	override def preRender(context: Context) {
-		context.gl.glPushAttrib(GL_LINE_BIT)
-		context.gl.glLineWidth(width)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopAttrib
