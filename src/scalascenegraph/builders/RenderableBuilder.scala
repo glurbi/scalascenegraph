@@ -43,7 +43,8 @@ trait RenderableBuilder {
 			}
 		}
 	}
-	
+
+	// TODO: remove this method
 	def createRenderable[T <: Buffer](primitiveType: PrimitiveType, vertices: Vertices[T], colors: Colors): Renderable = {
 		new Renderable {
 			def render(context: Context) {

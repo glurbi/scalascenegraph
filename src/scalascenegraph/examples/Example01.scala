@@ -22,31 +22,40 @@ class Example01 extends Example with WorldBuilder {
 					JColor.magenta)
 				triangle(
     				Vertice3D(-4.0f, 0.0f, 0.0f),
-    				Vertice3D(0.0f, 2.0f, 0.0f),
+    				Vertice3D(-3.0f, 2.0f, 0.0f),
     				Vertice3D(-2.0f, 0.0f, 0.0f),
 					Color(1.0f, 0.0f, 0.0f),
 					Color(0.0f, 1.0f, 0.0f),
 					Color(0.0f, 0.0f, 1.0f))
 				triangle(
     				Vertice3D(4.0f, 0.0f, 0.0f),
-    				Vertice3D(0.0f, 2.0f, 0.0f),
+    				Vertice3D(3.0f, 2.0f, 0.0f),
     				Vertice3D(2.0f, 0.0f, 0.0f))
     		}
 
 			group {
-    			translation(3.0f, -5.0f, 0.0f)
+    			translation(0.0f, -5.0f, 0.0f)
 				color(JColor.green)
 				quad(
-					Vertice3D(4.0f, 0.0f, 0.0f),
-					Vertice3D(0.0f, 0.0f, 0.0f),
-					Vertice3D(0.0f, 2.0f, 0.0f),
-					Vertice3D(4.0f, 2.0f, 0.0f))
-				quad(
-					Vertice3D(-3.0f, 0.0f, 0.0f),
 					Vertice3D(-1.0f, 0.0f, 0.0f),
-					Vertice3D(-1.0f, 2.0f, 0.0f),
-					Vertice3D(-3.0f, 2.0f, 0.0f),
-					Color(1.0f, 1.0f, 0.0f))
+					Vertice3D(1.0f, 0.0f, 0.0f),
+					Vertice3D(1.0f, 2.0f, 0.0f),
+					Vertice3D(-1.0f, 2.0f, 0.0f))
+				quad(
+					Vertice3D(-4.0f, 0.0f, 0.0f),
+					Vertice3D(-2.0f, 0.0f, 0.0f),
+					Vertice3D(-2.0f, 2.0f, 0.0f),
+					Vertice3D(-4.0f, 2.0f, 0.0f),
+					Color(1.0f, 1.0f, 1.0f))
+				quad(
+					Vertice3D(4.0f, 0.0f, 0.0f),
+					Vertice3D(2.0f, 0.0f, 0.0f),
+					Vertice3D(2.0f, 2.0f, 0.0f),
+					Vertice3D(4.0f, 2.0f, 0.0f),
+					Color(0.0f, 1.0f, 0.0f),
+					Color(1.0f, 0.0f, 1.0f),
+					Color(0.0f, 0.5f, 1.0f),
+					Color(0.0f, 0.0f, 1.0f))
 			}
 
 			group {

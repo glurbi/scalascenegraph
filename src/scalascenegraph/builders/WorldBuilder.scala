@@ -184,6 +184,28 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(geometry)
 	}
 
+	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D,
+    		     c1: Color, c2: Color, c3: Color, c4: Color)
+	{
+		val vertices = Vertices[FloatBuffer](
+			Buffers.newDirectFloatBuffer(
+				Array(v1.x, v1.y, v1.z,
+					  v2.x, v2.y, v2.z,
+					  v3.x, v3.y, v3.z,
+					  v4.x, v4.y, v4.z)),
+			GL_FLOAT,
+			dim_3D,
+			GL_QUADS)
+		val colors = Colors(Buffers.newDirectFloatBuffer(
+			Array(c1.r, c1.g, c1.b, c1.a,
+				  c2.r, c2.g, c2.b, c2.a,
+				  c3.r, c3.g, c3.b, c3.a,
+				  c4.r, c4.g, c4.b, c4.a)), RGBA)
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderable(GL_QUADS, vertices, colors))
+		stack.top.attach(geometry)
+	}
+	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, textureName: String) {
 		val vertices =
 			Vertices(
