@@ -49,6 +49,10 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(new ColorState(c))
 	}
 	
+	def pointSize(size: Float) {
+		stack.top.attach(new PointSizeState(size))
+	}
+	
 	def translation(x: Float, y: Float, z: Float) {
 		stack.top.attach(new Translation(x, y, z))
 	}
@@ -89,6 +93,18 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(new DepthTestState(depthTest))
 	}
 	
+	def point(v: Vertice3D, color: Color)
+	{
+		val vertices = Vertices[FloatBuffer](
+			Buffers.newDirectFloatBuffer(Array(v.x, v.y, v.z)),
+			GL_FLOAT,
+			dim_3D,
+			GL_POINTS)
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderable(vertices, color))
+		stack.top.attach(geometry)
+	}
+	
 	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D)	{
 		val vertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(v1.x, v1.y, v1.z,
@@ -99,6 +115,21 @@ trait WorldBuilder extends RenderableBuilder {
 								GL_TRIANGLES)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderable(vertices))
+		stack.top.attach(geometry)
+	}
+
+	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, color: Color)
+	{
+		val vertices = Vertices[FloatBuffer](
+			Buffers.newDirectFloatBuffer(
+				Array(v1.x, v1.y, v1.z,
+					  v2.x, v2.y, v2.z,
+					  v3.x, v3.y, v3.z)),
+			GL_FLOAT,
+			dim_3D,
+			GL_TRIANGLES)
+		val geometry = new Geometry
+		geometry.addRenderable(createRenderable(vertices, color))
 		stack.top.attach(geometry)
 	}
 	

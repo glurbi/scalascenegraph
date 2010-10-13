@@ -77,6 +77,16 @@ class ColorState(var color: Color) extends State {
 	}
 }
 
+class PointSizeState(var pointSize: Float) extends State {
+	override def preRender(context: Context) {
+		context.gl.glPushAttrib(GL_POINT_BIT)
+		context.gl.glPointSize(pointSize)
+	}
+	override def postRender(context: Context) {
+		context.gl.glPopAttrib
+	}
+}
+
 class PolygonState(var face: Face, var mode: DrawingMode) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_POLYGON_BIT)
