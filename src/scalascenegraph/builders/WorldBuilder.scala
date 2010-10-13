@@ -30,6 +30,17 @@ trait WorldBuilder extends RenderableBuilder {
 		body
 		stack.pop.asInstanceOf[World]
 	}
+
+	def detached(body: => Unit): Group = {
+		val group = new Group
+		stack.push(group)
+		body
+		stack.pop.asInstanceOf[Group]
+	}
+
+	def attach(group: Group) {
+		stack.top.attach(group)
+	}
 	
 	def group(body: => Unit): Group = {
 		val group = new Group
