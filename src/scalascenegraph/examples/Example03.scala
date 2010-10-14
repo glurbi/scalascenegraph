@@ -16,38 +16,8 @@ import scalascenegraph.builders._
 
 class Example03 extends Example with WorldBuilder {
 	
-	val angleHook = (r: Rotation, c: Context) => {
-		r.angle = (c.elapsed / 20.0f) % 360.0f
-	}
-	
 	def example =
 		world {
-			cullFace(On)
-			group {
-				translation(-2.0f, 0.0f, -4.0f)
-				polygonMode(GL_FRONT, GL_LINE)
-				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				cube
-			}
-			group {
-				translation(2.0f, 0.0f, -4.0f)
-				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				cube
-			}
-			group {
-				translation(0.0f, 2.0f, -4.0f)
-				cullFace(On)
-				polygonMode(GL_FRONT_AND_BACK, GL_LINE)
-				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-				cube
-			}
-			group {
-				translation(0.0f, -2.0f, -4.0f)
-				polygonMode(GL_FRONT, GL_LINE)
-				frontFace(GL_CW)
-				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-				cube
-			}
 	    }
 	
 }

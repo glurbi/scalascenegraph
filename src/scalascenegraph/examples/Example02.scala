@@ -2,11 +2,25 @@ package scalascenegraph.examples
 
 import java.util._
 import com.jogamp.common.nio._
+import javax.media.opengl.GL._
+import javax.media.opengl.GL2._
+import javax.media.opengl.GL2GL3._
+import javax.media.opengl.GL2ES1._
+import javax.media.opengl.GL2ES2._
+import javax.media.opengl.fixedfunc._
+import javax.media.opengl.fixedfunc.GLLightingFunc._
+import javax.media.opengl.fixedfunc.GLPointerFunc._
+import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
+import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.builders._
 
 class Example02 extends Example with WorldBuilder {
+
+	val angleHook = (r: Rotation, c: Context) => {
+		r.angle = (c.elapsed / 50.0f) % 360.0f
+	}
 
 	val perFaceColorCube =
 		detached {
@@ -26,7 +40,6 @@ class Example02 extends Example with WorldBuilder {
 				buf.flip
 				Colors(buf, RGB)
 			}
-    		blending(Off)
     		translation(-3.0f, 0.0f, 0.0f)
     		rotation(45.0f, 0.5f, 0.3f, 1.0f)
     		cube(colors)
@@ -43,11 +56,43 @@ class Example02 extends Example with WorldBuilder {
 				buf.flip
 				Colors(buf, RGB)
 			}
-    		blending(Off)
     		translation(-1.0f, 0.0f, 0.0f)
     		rotation(45.0f, 0.5f, 0.3f, 1.0f)
     		cube(colors)
 		}
+
+	
+	val whiteCubes =
+		detached {
+    		depthTest(Off)
+			cullFace(On)
+			group {
+				translation(-3.0f, 2.0f, 0.0f)
+				polygonMode(GL_FRONT, GL_LINE)
+				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
+				cube
+			}
+			group {
+				translation(-1.0f, 2.0f, 0.0f)
+				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
+				cube
+			}
+			group {
+				translation(1.0f, 2.0f, 0.0f)
+				cullFace(Off)
+				polygonMode(GL_FRONT_AND_BACK, GL_LINE)
+				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+				cube
+			}
+			group {
+				translation(3.0f, 2.0f, 0.0f)
+				polygonMode(GL_FRONT, GL_LINE)
+				frontFace(GL_CW)
+				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+				cube
+			}
+	    }
+
 
 	def example =
 		world {
@@ -55,6 +100,7 @@ class Example02 extends Example with WorldBuilder {
     		translation(0.0f, 0.0f, -5.0f)
 			attach(perFaceColorCube)
 			attach(perVertexColorCube)
+			attach(whiteCubes)
     	}
 	
 }
