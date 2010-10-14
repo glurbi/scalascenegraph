@@ -283,9 +283,9 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(builder.createCube(color))
 	}
 	
-	def cube(colors: Array[Float]) {
+	def cube(colors: Colors) {
 		val builder = new CubeBuilder
-		stack.top.attach(builder.createCube(Colors(Buffers.newDirectFloatBuffer(colors), RGBA)))
+		stack.top.attach(builder.createCube(colors))
 	}
 	
 	def sphere(n: Int, r: Float) {

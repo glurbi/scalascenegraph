@@ -72,6 +72,7 @@ object Predefs {
 	 */
 	case class Color(r: Float, g: Float, b: Float, a: Float = 1.0f) {
 		val asFloatArray = Array(r, g, b, a)
+		val RGB = Array(r, g, b)
 	}
 	
 	/**
