@@ -1,5 +1,6 @@
 package scalascenegraph.examples
 
+import java.awt.{Color => JColor }
 import java.util._
 import com.jogamp.common.nio._
 import javax.media.opengl.GL._
@@ -93,6 +94,22 @@ class Example02 extends Example with WorldBuilder {
 			}
 	    }
 
+    val spheres =
+    	detached {
+			group {
+				color(JColor.orange)
+    			polygonMode(GL_FRONT_AND_BACK, GL_LINE)
+    			translation(3.0f, -2.0f, 0.0f)
+    			sphere(20, 1.0f)
+			}
+			group {
+				cullFace(On)
+				color(JColor.red)
+    			polygonMode(GL_FRONT, GL_LINE)
+    			translation(0.0f, -2.0f, 0.0f)
+    			sphere(20, 1.0f)
+			}
+    	}
 
 	def example =
 		world {
@@ -101,6 +118,7 @@ class Example02 extends Example with WorldBuilder {
 			attach(perFaceColorCube)
 			attach(perVertexColorCube)
 			attach(whiteCubes)
+			attach(spheres)
     	}
-	
+
 }

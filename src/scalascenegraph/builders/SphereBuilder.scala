@@ -71,7 +71,7 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 	def createVertices = {
 		val ab = new ArrayBuffer[Float]
 		val stepAngle = Pi / n
-		for (tetaStep <- 0 to n) {
+		for (tetaStep <- 0 to n-1) {
 			for (phiStep <- 0 to 2*n) {
 				val teta = tetaStep * stepAngle
 				val phi = phiStep * stepAngle
