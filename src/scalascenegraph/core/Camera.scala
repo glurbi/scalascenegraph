@@ -50,12 +50,12 @@ abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
 }
 
 class ClippingVolume(
-    val left: Double,
-    val right: Double,
-    val bottom: Double,
-    val top: Double,
-    val near: Double,
-    val far: Double)
+    var left: Double,
+    var right: Double,
+    var bottom: Double,
+    var top: Double,
+    var near: Double,
+    var far: Double)
 
 class PerspectiveCamera(clippingVolume: ClippingVolume)
 extends Camera(clippingVolume)

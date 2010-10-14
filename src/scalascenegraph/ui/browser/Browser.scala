@@ -44,13 +44,16 @@ class Browser(val world: World, width: Int, height: Int, animated: Boolean)
 extends GLEventListener
 {
     private var camera: Camera = _
-    private var defaultCamera: Camera = null
+    private var defaultCamera: Camera = _
     private var cameraHandler = new CameraHandler
+	private var clippingVolumeHandler = new ClippingVolumeHandler
 
     def getCamera = camera
     def setCamera(camera: Camera) {
         this.camera = camera
         defaultCamera = camera
+		import camera.clippingVolume._
+		clippingVolumeHandler.defaultClippingVolume = new ClippingVolume(left, right, bottom, top, near, far)
         paint
     }
 
@@ -125,6 +128,8 @@ extends GLEventListener
     def display(drawable: GLAutoDrawable) {
     	updateContext(drawable)
     	if (context.escapeKeyPressed) { exit }
+
+		// TODO: create ProjectionHandler class
     	if (context.pressedKeys.contains(KeyEvent.VK_P)) {
     		camera = defaultCamera.projectionType match {
     			case Perspective => Camera.get(Parallel, camera.clippingVolume)
@@ -133,6 +138,8 @@ extends GLEventListener
     	} else {
     		camera = defaultCamera
     	}
+
+		clippingVolumeHandler.render(context)
         camera.render(context)
         cameraHandler.render(context)
         world.render(context)
@@ -164,6 +171,8 @@ extends GLEventListener
         context.escapeKeyPressed = keyEventDispatcher.isKeyPressed(KeyEvent.VK_ESCAPE)
         
         context.pressedKeys = keyEventDispatcher.pressedKeys
+
+		context.camera = camera
     }
     
     private def exit {

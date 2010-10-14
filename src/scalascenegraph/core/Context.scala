@@ -24,9 +24,12 @@ class Context {
 	var escapeKeyPressed: Boolean = _
 	
 	var pressedKeys: Set[Int] = _
+
+	var camera: Camera = _
 	
 	var width = 0
 	var height = 0
 	
+	def isKeyPressed(keyCode: Int) = pressedKeys.contains(keyCode)
 	
 }
