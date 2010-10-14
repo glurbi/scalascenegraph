@@ -434,7 +434,7 @@ trait WorldBuilder extends RenderableBuilder {
 	
 	def setUniform(uniformName: String, color: Color) {
 		val uniform = stack.top.getResource[Uniform](uniformName)
-		stack.top.attach(new UniformState(uniform, color.asFloatArray))
+		stack.top.attach(new UniformState(uniform, color.RGBA))
 	}
 	
 	def setUniform(uniformName: String, value: Float) {

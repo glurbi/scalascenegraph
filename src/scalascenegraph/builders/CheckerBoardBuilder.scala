@@ -52,10 +52,10 @@ extends RenderableBuilder {
 					case 0 => c1
 					case 1 => c2
 				}
-				ab ++= c.asFloatArray
-				ab ++= c.asFloatArray
-				ab ++= c.asFloatArray
-				ab ++= c.asFloatArray
+				ab ++= c.RGBA
+				ab ++= c.RGBA
+				ab ++= c.RGBA
+				ab ++= c.RGBA
 			}
 		}
 		Colors(Buffers.newDirectFloatBuffer(ab.toArray), RGBA)
