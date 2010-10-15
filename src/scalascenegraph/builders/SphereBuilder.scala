@@ -58,8 +58,6 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 		geometry
 	}
 	
-	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
-	
 	private def sphere(teta: Float, phi: Float): Vertice3D = {
 		// cf http://en.wikipedia.org/wiki/Sphere
 		val x = r * sin(teta) * cos(phi)

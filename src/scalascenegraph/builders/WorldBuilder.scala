@@ -482,4 +482,9 @@ trait WorldBuilder extends RenderableBuilder {
 		stack.top.attach(builder.createGrid(texture))
 	}
 
+	def cone(n: Int, m: Int, r: Float, h: Float) {
+		val builder = new ConeBuilder(n, m, r, h)
+		stack.top.attach(builder.createCone)
+	}
+
 }

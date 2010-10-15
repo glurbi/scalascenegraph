@@ -28,8 +28,6 @@ class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 		geometry
 	}
 	
-	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
-	
 	val stepAngle = 2.0 * Pi / n
 	def angle(step: Int) = step * stepAngle
 
