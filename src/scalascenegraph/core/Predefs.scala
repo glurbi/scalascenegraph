@@ -24,21 +24,21 @@ object Predefs {
 	 * A 3D vector.
 	 */
 	case class Vector3D(x: Float, y: Float, z: Float) {
-		val asFloatArray = Array(x, y, z)
+		val xyz = Array(x, y, z)
 	}
 	
 	/**
 	 * A 3D point. 
 	 */
 	case class Vertice3D(x: Float, y: Float, z: Float)  {
-		val asFloatArray = Array(x, y, z)
+		val xyz = Array(x, y, z)
 	}
 	
 	/**
 	 * Surface normal vector.
 	 */
 	case class Normal(x: Float, y: Float, z: Float)  {
-		val asFloatArray = Array(x, y, z)
+		val xyz = Array(x, y, z)
 	}
 	
 	/**
@@ -57,22 +57,22 @@ object Predefs {
 	 * A light position.
 	 */
 	case class Position(x: Float, y: Float, z: Float) {
-		def asFloatArray: Array[Float] = Array(x, y, z)
+		def xyz: Array[Float] = Array(x, y, z)
 	}
 	
 	/**
 	 * A light intensity.
 	 */
 	case class Intensity(r: Float, g: Float, b: Float, a: Float = 1.0f) {
-		def asFloatArray: Array[Float] = Array(r, g, b, a)
+		def rgba: Array[Float] = Array(r, g, b, a)
 	}
 
 	/**
 	 * A color.
 	 */
 	case class Color(r: Float, g: Float, b: Float, a: Float = 1.0f) {
-		val RGBA = Array(r, g, b, a)
-		val RGB = Array(r, g, b)
+		val rgba = Array(r, g, b, a)
+		val rgb = Array(r, g, b)
 	}
 	
 	/**

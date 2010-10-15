@@ -200,7 +200,7 @@ class LightState(instance: LightInstance, var state: OnOffState) extends State {
 class LightPositionState(instance: LightInstance, position: Position) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
-		val p = position.asFloatArray
+		val p = position.xyz
 		context.gl.glLightfv(instance, GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
 	}
 	override def postRender(context: Context) {
@@ -211,7 +211,7 @@ class LightPositionState(instance: LightInstance, position: Position) extends St
 class LightColorState(instance: LightInstance, lightType: LightType, color: Color) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
-		context.gl.glLightfv(instance, lightType, color.RGBA, 0)
+		context.gl.glLightfv(instance, lightType, color.rgba, 0)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopAttrib
@@ -221,7 +221,7 @@ class LightColorState(instance: LightInstance, lightType: LightType, color: Colo
 class AmbientLightState(intensity: Intensity) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
-		context.gl.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, intensity.asFloatArray, 0)
+		context.gl.glLightModelfv(GL_LIGHT_MODEL_AMBIENT, intensity.rgba, 0)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopAttrib
@@ -231,7 +231,7 @@ class AmbientLightState(intensity: Intensity) extends State {
 class MaterialState(face: Face, lightType: LightType, color: Color)  extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
-		context.gl.glMaterialfv(face, lightType, color.RGBA, 0)
+		context.gl.glMaterialfv(face, lightType, color.rgba, 0)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopAttrib
@@ -283,7 +283,7 @@ class FogState(var color: Color, var mode: FogMode) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_FOG_BIT)
     	context.gl.glEnable(GL_FOG)
-    	context.gl.glFogfv(GL_FOG_COLOR, color.RGBA, 0)
+    	context.gl.glFogfv(GL_FOG_COLOR, color.rgba, 0)
     	mode match {
     		case Linear(start, end) => {
     			context.gl.glFogf(GL_FOG_START, start)

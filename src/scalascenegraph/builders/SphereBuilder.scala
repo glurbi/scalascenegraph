@@ -75,13 +75,13 @@ class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 			for (phiStep <- 0 to 2*n) {
 				val teta = tetaStep * stepAngle
 				val phi = phiStep * stepAngle
-				ab ++= sphere(teta, phi).asFloatArray
-				ab ++= sphere(teta+stepAngle, phi).asFloatArray
-				ab ++= sphere(teta+stepAngle, phi+stepAngle).asFloatArray
-				ab ++= sphere(teta, phi+stepAngle).asFloatArray
+				ab ++= sphere(teta, phi).xyz
+				ab ++= sphere(teta+stepAngle, phi).xyz
+				ab ++= sphere(teta+stepAngle, phi+stepAngle).xyz
+				ab ++= sphere(teta, phi+stepAngle).xyz
 			}
 		}
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
+		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)	
 	}
 	
 	def createNormals = Normals(createVertices.buffer)

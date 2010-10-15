@@ -53,10 +53,10 @@ class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {
-				ab ++= (torus(angle(uStep), angle(vStep))).asFloatArray
-				ab ++= (torus(angle(uStep+1), angle(vStep))).asFloatArray
-				ab ++= (torus(angle(uStep+1), angle(vStep+1))).asFloatArray
-				ab ++= (torus(angle(uStep), angle(vStep+1))).asFloatArray
+				ab ++= (torus(angle(uStep), angle(vStep))).xyz
+				ab ++= (torus(angle(uStep+1), angle(vStep))).xyz
+				ab ++= (torus(angle(uStep+1), angle(vStep+1))).xyz
+				ab ++= (torus(angle(uStep), angle(vStep+1))).xyz
 			}
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
@@ -66,10 +66,10 @@ class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {
-				ab ++= torusNormal(uStep, vStep).asFloatArray
-				ab ++= torusNormal(uStep+1, vStep).asFloatArray
-				ab ++= torusNormal(uStep+1, vStep+1).asFloatArray
-				ab ++= torusNormal(uStep, vStep+1).asFloatArray
+				ab ++= torusNormal(uStep, vStep).xyz
+				ab ++= torusNormal(uStep+1, vStep).xyz
+				ab ++= torusNormal(uStep+1, vStep+1).xyz
+				ab ++= torusNormal(uStep, vStep+1).xyz
 			}
 		}
 		Normals(Buffers.newDirectFloatBuffer(ab.toArray))

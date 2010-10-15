@@ -35,10 +35,10 @@ extends RenderableBuilder {
 		val yOffset = -m / 2.0f
 		for (i <- 0 until n) {
 			for (j <- 0 until m) {
-				ab ++= Vertice3D(i + xOffset, j + yOffset, 0.0f).asFloatArray
-				ab ++= Vertice3D(i + 1.0f + xOffset, j + yOffset, 0.0f).asFloatArray
-				ab ++= Vertice3D(i + 1.0f + xOffset, j + 1.0f + yOffset, 0.0f).asFloatArray
-				ab ++= Vertice3D(i + xOffset, j + 1.0f + yOffset, 0.0f).asFloatArray
+				ab ++= Vertice3D(i + xOffset, j + yOffset, 0.0f).xyz
+				ab ++= Vertice3D(i + 1.0f + xOffset, j + yOffset, 0.0f).xyz
+				ab ++= Vertice3D(i + 1.0f + xOffset, j + 1.0f + yOffset, 0.0f).xyz
+				ab ++= Vertice3D(i + xOffset, j + 1.0f + yOffset, 0.0f).xyz
 			}
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
@@ -52,10 +52,10 @@ extends RenderableBuilder {
 					case 0 => c1
 					case 1 => c2
 				}
-				ab ++= c.RGBA
-				ab ++= c.RGBA
-				ab ++= c.RGBA
-				ab ++= c.RGBA
+				ab ++= c.rgba
+				ab ++= c.rgba
+				ab ++= c.rgba
+				ab ++= c.rgba
 			}
 		}
 		Colors(Buffers.newDirectFloatBuffer(ab.toArray), RGBA)

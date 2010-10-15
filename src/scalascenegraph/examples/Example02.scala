@@ -36,7 +36,7 @@ class Example02 extends Example with WorldBuilder {
 			val colors = {
 				val buf = Buffers.newDirectFloatBuffer(6 * 4 * 3)
 				for (i <- 0 to 23) {
-					buf.put(faceColors(i/4).RGB)
+					buf.put(faceColors(i/4).rgb)
 				}
 				buf.flip
 				Colors(buf, RGB)
@@ -52,7 +52,7 @@ class Example02 extends Example with WorldBuilder {
 				val r = new Random
 				val buf = Buffers.newDirectFloatBuffer(6 * 4 * 3)
 				for (i <- 1 to 6 * 4) {
-					buf.put(Color(r.nextFloat, r.nextFloat, r.nextFloat).RGB)
+					buf.put(Color(r.nextFloat, r.nextFloat, r.nextFloat).rgb)
 				}
 				buf.flip
 				Colors(buf, RGB)
