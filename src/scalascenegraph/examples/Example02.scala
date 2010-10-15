@@ -99,17 +99,46 @@ class Example02 extends Example with WorldBuilder {
 			group {
 				color(JColor.orange)
     			polygonMode(GL_FRONT_AND_BACK, GL_LINE)
-    			translation(3.0f, -2.0f, 0.0f)
-    			sphere(20, 1.0f)
+    			translation(1.0f, 0.0f, 0.0f)
+    			sphere(20, 0.8f)
 			}
 			group {
 				cullFace(On)
 				color(JColor.red)
     			polygonMode(GL_FRONT, GL_LINE)
-    			translation(0.0f, -2.0f, 0.0f)
-    			sphere(20, 1.0f)
+    			translation(3.0f, 0.0f, 0.0f)
+    			sphere(20, 0.8f)
 			}
     	}
+
+	val ellipsoids =
+		detached {
+			cullFace(On)
+			group {
+    			polygonMode(GL_FRONT, GL_LINE)
+    			translation(-3.0f, -2.0f, 0.0f)
+				ellipsoid(20, 20, 0.5f, 0.5f, 1.0f)
+			}
+			group {
+				cullFace(Off)
+    			polygonMode(GL_FRONT_AND_BACK, GL_LINE)
+    			translation(3.0f, -2.0f, 0.0f)
+				ellipsoid(20, 20, 0.5f, 0.5f, 1.0f)
+			}
+			group {
+    			translation(0.0f, -2.0f, 0.0f)
+				rotation(90.0f, 1.0f, 0.0f, 0.0f)
+				group {
+					frontFace(GL_CW)
+					ellipsoid(20, 20, 2.0f, 2.0f, 0.3f)
+				}
+				group {
+					color(JColor.black)
+    				polygonMode(GL_FRONT, GL_LINE)
+					ellipsoid(20, 20, 2.0f, 2.0f, 0.3f)
+				}
+			}
+		}
 
 	def example =
 		world {
@@ -119,6 +148,7 @@ class Example02 extends Example with WorldBuilder {
 			attach(perVertexColorCube)
 			attach(whiteCubes)
 			attach(spheres)
+			attach(ellipsoids)
     	}
 
 }

@@ -303,6 +303,11 @@ trait WorldBuilder extends RenderableBuilder {
 		val texture = stack.top.getResource[Texture](textureName)
 		stack.top.attach(builder.createSphere(texture, light))
 	}
+
+	def ellipsoid(n: Int, m: Int, a: Float, b: Float, c: Float) {
+		val builder = new EllipsoidBuilder(n, m, a, b, c)
+		stack.top.attach(builder.createEllipsoid)
+	}
 	
 	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {
 		val builder = new BoxBuilder(width, height, depth, l, m, n)
