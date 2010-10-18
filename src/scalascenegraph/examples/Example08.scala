@@ -69,7 +69,7 @@ class Example08 extends Example with WorldBuilder {
 				translation(0.0f, 0.0f, -1.8f)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
 				material(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, JColor.cyan)
-				cube
+				cube(normals = true)
 			}
 			overlay(0, 0, image, centerHook)
 			overlay(10, 10, "default", "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-+")

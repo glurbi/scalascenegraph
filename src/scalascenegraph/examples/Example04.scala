@@ -43,7 +43,7 @@ class Example04 extends Example with WorldBuilder {
     		translation(0.0f, 0.0f, -4.0f, translationHook((0.0).asInstanceOf[Float]))
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
     		material(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, JColor.red)
-    		cube
+    		cube(normals = true)
     	}
     
     def wireCube = 
@@ -53,7 +53,7 @@ class Example04 extends Example with WorldBuilder {
 	    	rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
 	    	material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.blue)
 	    	material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.blue)
-	    	cube
+	    	cube(normals = true)
     	}
 
     def wireSphere =

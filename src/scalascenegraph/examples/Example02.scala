@@ -71,26 +71,26 @@ class Example02 extends Example with WorldBuilder {
 				translation(-3.0f, 2.0f, 0.0f)
 				polygonMode(GL_FRONT, GL_LINE)
 				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				cube
+				cube(normals = false)
 			}
 			group {
 				translation(-1.0f, 2.0f, 0.0f)
 				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				cube
+				cube(normals = false)
 			}
 			group {
 				translation(1.0f, 2.0f, 0.0f)
 				cullFace(Off)
 				polygonMode(GL_FRONT_AND_BACK, GL_LINE)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-				cube
+				cube(normals = false)
 			}
 			group {
 				translation(3.0f, 2.0f, 0.0f)
 				polygonMode(GL_FRONT, GL_LINE)
 				frontFace(GL_CW)
 				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-				cube
+				cube(normals = false)
 			}
 	    }
 

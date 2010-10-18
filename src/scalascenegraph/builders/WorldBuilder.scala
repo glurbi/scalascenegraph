@@ -265,19 +265,28 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def cube {
-		val builder = new CubeBuilder
-		val vertices = builder.createVertices
-		val geometry = createGeometry(vertices)
+	def cube(normals: Boolean) {
+		val b = new CubeBuilder
+		val geometry = normals match {
+			case false => createGeometry(b.createVertices)
+			case true => createGeometry(b.createVertices, b.createNormals)
+		}
 		stack.top.attach(geometry)
 	}
 	
-	// TODO: add type TextureName or something alike
 	def cube(textureName: String) {
 		val builder = new CubeBuilder
 		val vertices = builder.createVertices
 		val textureCoordinates = builder.createTextureCoordinates
 		val texture = stack.top.getResource[Texture](textureName)
+		val geometry = createGeometry(vertices, textureCoordinates, texture)
+		stack.top.attach(geometry)
+	}
+	
+	def cube(texture: Texture) {
+		val builder = new CubeBuilder
+		val vertices = builder.createVertices
+		val textureCoordinates = builder.createTextureCoordinates
 		val geometry = createGeometry(vertices, textureCoordinates, texture)
 		stack.top.attach(geometry)
 	}
