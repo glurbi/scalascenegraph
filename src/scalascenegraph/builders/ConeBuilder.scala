@@ -55,8 +55,8 @@ class ConeBuilder(n: Int, m: Int, r: Float, h: Float) extends RenderableBuilder 
 		val tetaStep = 2 * Pi / n
 		for (i <- 0 to n) {
 			val teta = i * tetaStep
-			val x = r * cos(teta)
-			val y = r * sin(teta)
+			val x = r * sin(teta)
+			val y = r * cos(teta)
 			ab ++= Vertice3D(x, y, 0.0f).xyz
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_TRIANGLE_FAN)
