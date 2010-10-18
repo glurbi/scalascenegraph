@@ -208,11 +208,22 @@ class LightState(instance: LightInstance, var state: OnOffState) extends State {
 	}
 }
 
+// TODO: remove this state coz replaced by LightParameterState
 class LightPositionState(instance: LightInstance, position: Position) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
 		val p = position.xyz
 		context.gl.glLightfv(instance, GL_POSITION, Array(p(0), p(1), p(2), 1.0f), 0)
+	}
+	override def postRender(context: Context) {
+		context.gl.glPopAttrib
+	}
+}
+
+class LightParameterState(instance: LightInstance, parameter: LightParameter, value: Array[Float]) extends State {
+	override def preRender(context: Context) {
+		context.gl.glPushAttrib(GL_LIGHTING_BIT)
+		context.gl.glLightfv(instance, parameter, value, 0)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopAttrib

@@ -23,7 +23,7 @@ class Example03 extends Example with WorldBuilder {
 			cullFace(On)
 		    light(On)
 		    light(GL_LIGHT0, On)
-		    light(GL_LIGHT0, Position(0.0f, 0.0f, 0.0f))
+		    light(GL_LIGHT0, GL_POSITION, Array(0.0f, 1.0f, 1.0f, 0.0f))
 		    light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
 			colorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
     		translation(0.0f, 0.0f, -8.0f)

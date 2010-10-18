@@ -175,6 +175,14 @@ object Predefs {
 	 * Defines how the front and back face of a polygon are calculated. 
 	 */
 	type FrontFace = Int
+
+	/**
+	 * Defines a light parameter
+	 * GL_AMBIENT, GL_DIFFUSE, GL_SPECULAR, GL_POSITION, GL_SPOT_CUTOFF,
+	 * GL_SPOT_DIRECTION, GL_SPOT_EXPONENT, GL_CONSTANT_ATTENUATION,
+	 * GL_LINEAR_ATTENUATION, GL_QUADRATIC_ATTENUATION
+	 */
+	type LightParameter = Int
 	
 	/**
 	 * Defines the type of primitive to draw.

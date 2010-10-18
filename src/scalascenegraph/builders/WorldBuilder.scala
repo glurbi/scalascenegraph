@@ -342,7 +342,8 @@ trait WorldBuilder extends GeometryBuilder {
 	def light(instance: LightInstance, mode: OnOffState) {
 		stack.top.attach(new LightState(instance, mode))
 	}
-	
+
+	// TODO: remove (replace with light parameter)
 	def light(instance: LightInstance, lightType: LightType, color: Color) {
 		stack.top.attach(new LightColorState(instance, lightType, color))
 	}
@@ -351,6 +352,10 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(new LightPositionState(instance, position))
 	}
 	
+	def light(instance: LightInstance, parameter: LightParameter, value: Array[Float]) {
+		stack.top.attach(new LightParameterState(instance, parameter, value))
+	}
+
 	def shininess(face: Face, shininess: Int) {
 		stack.top.attach(new MaterialShininessState(face, shininess))
 	}
