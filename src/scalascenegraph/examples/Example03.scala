@@ -22,6 +22,10 @@ class Example03 extends Example with WorldBuilder {
 			depthTest(On)
 			cullFace(On)
 		    light(On)
+		    light(GL_LIGHT0, On)
+		    light(GL_LIGHT0, Position(0.0f, 0.0f, 0.0f))
+		    light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
+			colorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
     		translation(0.0f, 0.0f, -8.0f)
 		    ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
 			group {
@@ -36,7 +40,7 @@ class Example03 extends Example with WorldBuilder {
 			}
 			group {
 				color(JColor.lightGray)
-				box(12.0f, 8.0f, 0.1f, 40, 30, 1)
+				box(12.0f, 8.0f, 0.1f, 40, 30, 1, normals = true)
 			}
 	    }
 

@@ -72,7 +72,7 @@ class Example09 extends Example with WorldBuilder {
 				setUniform("r", 0.0f, uniformHook)
 				translation(0.0f, 0.0f, -4.0f)
 				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				box(4.0f, 2.0f, 1.0f, 40, 20, 10)
+				box(4.0f, 2.0f, 1.0f, 40, 20, 10, normals = false)
 			}
 			showFramesPerSecond
 		}

@@ -326,9 +326,13 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(builder.createEllipsoid)
 	}
 	
-	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {
-		val builder = new BoxBuilder(width, height, depth, l, m, n)
-		stack.top.attach(builder.createBox)
+	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, normals: Boolean) {
+		val b = new BoxBuilder(width, height, depth, l, m, n)
+		val geometry = normals match {
+			case false => createGeometry(b.createVertices)
+			case true => createGeometry(b.createVertices, b.createNormals)
+		}
+		stack.top.attach(geometry)
 	}
 	
 	def light(mode: OnOffState) {
@@ -353,6 +357,10 @@ trait WorldBuilder extends GeometryBuilder {
 	
 	def ambient(intensity: Intensity) {
 		stack.top.attach(new AmbientLightState(intensity))
+	}
+
+	def colorMaterial(face: Face, lightType: LightType) {
+		stack.top.attach(new ColorMaterialState(face, lightType))
 	}
 	
 	def material(face: Face, lightType: LightType, color: Color) {

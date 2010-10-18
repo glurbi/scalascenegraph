@@ -155,12 +155,14 @@ object Predefs {
 	type ShadeModel = Int
 	
 	/**
-	 * Defines the "active" face of a polygon. 
+	 * Defines the "active" face of a polygon.
+	 * GL_FRONT, GL_BACK, GL_FRONT_AND_BACK
 	 */
 	type Face = Int
 
 	/**
 	 * Defines a light type.
+	 * GL_AMBIENT, GL_DIFFUSE, GL_AMBIENT_AND_DIFFUSE, GL_SPECULAR
 	 */
 	type LightType = Int
 

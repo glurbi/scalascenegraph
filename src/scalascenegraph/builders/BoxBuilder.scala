@@ -20,13 +20,6 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 extends RenderableBuilder
 {
 
-	def createBox: Node = {
-		val vertices = createVertices
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices))
-		geometry
-	}
-	
 	def createVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
 		val xOffset = width / 2.0f
@@ -109,6 +102,29 @@ extends RenderableBuilder
 		}
 		
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
+	}
+
+	def createNormals: Normals = {
+		val ab = new ArrayBuffer[Float]
+		val normals = Array(
+			Vertice3D(0.0f, 0.0f, 1.0f),  // front face
+			Vertice3D(0.0f, 0.0f, -1.0f), // back face
+			Vertice3D(1.0f, 0.0f, 0.0f),  // right face
+			Vertice3D(-1.0f, 0.0f, 0.0f), // left face
+			Vertice3D(0.0f, 1.0f, 0.0f),  // top face
+			Vertice3D(0.0f, -1.0f, 0.0f)) // bottom face
+
+		for (face <- 0 to 5) {
+			for (i <- 0 until l) {
+				for (j <- 0 until m) {
+					for (k <- 1 to 4) {
+						ab ++= normals(face).xyz
+					}
+				}
+			}
+		}
+		
+		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 
 }

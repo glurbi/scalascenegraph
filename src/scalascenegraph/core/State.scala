@@ -184,6 +184,17 @@ class GlobalLightState(var state: OnOffState) extends State {
 	}
 }
 
+class ColorMaterialState(var face: Face, var lightType: LightType) extends State {
+	override def preRender(context: Context) {
+		context.gl.glPushAttrib(GL_LIGHTING_BIT)
+		context.gl.glEnable(GL_COLOR_MATERIAL)
+    	context.gl.glColorMaterial(face, lightType)
+	}
+	override def postRender(context: Context) {
+		context.gl.glPopAttrib
+	}
+}
+
 class LightState(instance: LightInstance, var state: OnOffState) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
