@@ -23,30 +23,72 @@ trait RenderableBuilder {
 			def render(context: Context) {
 				import context.gl
 				gl.glEnableClientState(GL_VERTEX_ARRAY);
-				gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer);
-				gl.glDrawArrays(vertices.primitiveType, 0, vertices.count);
-				gl.glDisableClientState(GL_VERTEX_ARRAY);
+				gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
+				gl.glDrawArrays(vertices.primitiveType, 0, vertices.count)
+				gl.glDisableClientState(GL_VERTEX_ARRAY)
 			}
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T], color: Color): Renderable = {
+	def createRenderable[T <: Buffer](vertices: Vertices[T],
+									  normals: Normals): Renderable =
+	{
+		new Renderable {
+			def render(context: Context) {
+				import context.gl
+		        gl.glEnableClientState(GL_VERTEX_ARRAY)
+		        gl.glEnableClientState(GL_NORMAL_ARRAY)
+		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
+		        gl.glDrawArrays(vertices.primitiveType , 0, vertices.count)
+		        gl.glDisableClientState(GL_NORMAL_ARRAY)
+		        gl.glDisableClientState(GL_VERTEX_ARRAY)
+			}
+		}
+	}
+
+	def createRenderable[T <: Buffer](vertices: Vertices[T],
+									  color: Color): Renderable =
+	{
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
 		    	val save = new Array[Float](4)
 		    	gl.glGetFloatv(GL_CURRENT_COLOR, save, 0)
 		        gl.glColor4f(color.r, color.g, color.b, color.a)
-		        gl.glEnableClientState(GL_VERTEX_ARRAY);
-		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer);
-		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count);
-		        gl.glDisableClientState(GL_VERTEX_ARRAY);
+		        gl.glEnableClientState(GL_VERTEX_ARRAY)
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
+		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count)
+		        gl.glDisableClientState(GL_VERTEX_ARRAY)
 		        gl.glColor4f(save(0), save(1), save(2), save(3))
 			}
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T], colors: Colors): Renderable = {
+	def createRenderable[T <: Buffer](vertices: Vertices[T],
+									  color: Color,
+									  normals: Normals): Renderable =
+	{
+		new Renderable {
+			def render(context: Context) {
+				import context.gl
+		    	val save = new Array[Float](4)
+		    	gl.glGetFloatv(GL_CURRENT_COLOR, save, 0)
+		        gl.glColor4f(color.r, color.g, color.b, color.a)
+		        gl.glEnableClientState(GL_VERTEX_ARRAY)
+		        gl.glEnableClientState(GL_NORMAL_ARRAY)
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
+		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count)
+		        gl.glDisableClientState(GL_VERTEX_ARRAY)
+		        gl.glDisableClientState(GL_NORMAL_ARRAY)
+		        gl.glColor4f(save(0), save(1), save(2), save(3))
+			}
+		}
+	}
+
+	def createRenderable[T <: Buffer](vertices: Vertices[T],
+									  colors: Colors): Renderable =
+	{
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
@@ -64,23 +106,33 @@ trait RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T], normals: Normals): Renderable = {
+	def createRenderable[T <: Buffer](vertices: Vertices[T],
+									  colors: Colors,
+									  normals: Normals): Renderable =
+	{
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
-		        gl.glEnableClientState(GL_VERTEX_ARRAY);
-		        gl.glEnableClientState(GL_NORMAL_ARRAY);
+		    	val color = new Array[Float](4)
+		    	gl.glGetFloatv(GL_CURRENT_COLOR, color, 0)
+		        gl.glEnableClientState(GL_VERTEX_ARRAY)
+		        gl.glEnableClientState(GL_COLOR_ARRAY)
+		        gl.glEnableClientState(GL_NORMAL_ARRAY)
 		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
-		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer);
-		        gl.glDrawArrays(vertices.primitiveType , 0, vertices.count);
+		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
+		        gl.glColorPointer(colors.colorType , GL_FLOAT, 0, colors.floatBuffer)
+		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count)
+		        gl.glDisableClientState(GL_VERTEX_ARRAY)
+		        gl.glDisableClientState(GL_COLOR_ARRAY)
 		        gl.glDisableClientState(GL_NORMAL_ARRAY);
-		        gl.glDisableClientState(GL_VERTEX_ARRAY);
+		        gl.glColor4f(color(0), color(1), color(2), color(3))
 			}
 		}
 	}
 
 	def createRenderable[T <: Buffer](vertices: Vertices[T],
-			textureCoordinates: TextureCoordinates, texture: Texture): Renderable =
+									  textureCoordinates: TextureCoordinates,
+									  texture: Texture): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -97,9 +149,10 @@ trait RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](
-			vertices: Vertices[T], textureCoordinates: TextureCoordinates,
-			texture: Texture, normals: Normals): Renderable =
+	def createRenderable[T <: Buffer](vertices: Vertices[T],
+									  textureCoordinates: TextureCoordinates,
+									  texture: Texture,
+									  normals: Normals): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {

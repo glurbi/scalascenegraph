@@ -20,10 +20,9 @@ import scalascenegraph.core._
 import scalascenegraph.builders._
 import scalascenegraph.core.Predefs._
 
-trait WorldBuilder extends RenderableBuilder {
+trait WorldBuilder extends GeometryBuilder {
 
 	private val stack = new Stack[Node]
-	private var light: OnOffState = Off
 	
 	def world(body: => Unit): World = {
 		stack.push(new World)
@@ -268,24 +267,33 @@ trait WorldBuilder extends RenderableBuilder {
 	
 	def cube {
 		val builder = new CubeBuilder
-		stack.top.attach(builder.createCube)
+		val vertices = builder.createVertices
+		val geometry = createGeometry(vertices)
+		stack.top.attach(geometry)
 	}
 	
 	// TODO: add type TextureName or something alike
 	def cube(textureName: String) {
 		val builder = new CubeBuilder
+		val vertices = builder.createVertices
+		val textureCoordinates = builder.createTextureCoordinates
 		val texture = stack.top.getResource[Texture](textureName)
-		stack.top.attach(builder.createCube(texture, light))
+		val geometry = createGeometry(vertices, textureCoordinates, texture)
+		stack.top.attach(geometry)
 	}
 	
 	def cube(color: Color) {
 		val builder = new CubeBuilder
-		stack.top.attach(builder.createCube(color))
+		val vertices = builder.createVertices
+		val geometry = createGeometry(vertices, color)
+		stack.top.attach(geometry)
 	}
 	
 	def cube(colors: Colors) {
 		val builder = new CubeBuilder
-		stack.top.attach(builder.createCube(colors))
+		val vertices = builder.createVertices
+		val geometry = createGeometry(vertices, colors)
+		stack.top.attach(geometry)
 	}
 	
 	def sphere(n: Int, r: Float) {
@@ -301,7 +309,7 @@ trait WorldBuilder extends RenderableBuilder {
 	def sphere(n: Int, r: Float, textureName: String) {
 		val builder = new SphereBuilder(n, r)
 		val texture = stack.top.getResource[Texture](textureName)
-		stack.top.attach(builder.createSphere(texture, light))
+		stack.top.attach(builder.createSphere(texture, Off))
 	}
 
 	def ellipsoid(n: Int, m: Int, a: Float, b: Float, c: Float) {
@@ -315,8 +323,6 @@ trait WorldBuilder extends RenderableBuilder {
 	}
 	
 	def light(mode: OnOffState) {
-		// FIXME: set the light mode to previous value when exiting the group  
-		light = mode
 		stack.top.attach(new GlobalLightState(mode))
 	}
 

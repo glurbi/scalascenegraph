@@ -15,7 +15,6 @@ import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core.Predefs._
-import scalascenegraph.core.Predefs._
 
 /**
  * A Renderable class is a class that will execute OpenGL commands.

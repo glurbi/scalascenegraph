@@ -21,22 +21,22 @@ class Example03 extends Example with WorldBuilder {
 		world {
 			depthTest(On)
 			cullFace(On)
+		    light(On)
     		translation(0.0f, 0.0f, -8.0f)
+		    ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
 			group {
-				color(JColor.black)
-				frontFace(GL_CW)
-				cone(20, 10, 0.6f, 1.0f);
+				color(JColor.cyan)
+    			translation(-2.0f, 0.0f, 1.0f)
+    			sphere(30, 1.0f)
 			}
 			group {
-    			polygonMode(GL_FRONT, GL_LINE)
-				cone(20, 10, 0.6f, 1.0f);
+				color(JColor.red)
+    			translation(2.0f, 0.0f, 0.0f)
+				cone(20, 10, 1.0f, 2.0f);
 			}
 			group {
-    			translation(0.0f, 0.0f, -0.1f)
-				color(JColor.green)
-    			polygonMode(GL_FRONT_AND_BACK, GL_LINE)
-				cullFace(Off)
-				grid(6.0f, 4.0f, 150, 100)
+				color(JColor.lightGray)
+				box(12.0f, 8.0f, 0.1f, 40, 30, 1)
 			}
 	    }
 
