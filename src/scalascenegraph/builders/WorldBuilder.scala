@@ -305,20 +305,32 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def sphere(n: Int, r: Float) {
-		val builder = new SphereBuilder(n, r)
-		stack.top.attach(builder.createSphere)
+	def sphere(n: Int, r: Float, normals: Boolean) {
+		val b = new SphereBuilder(n, r)
+		val geometry = normals match {
+			case false => createGeometry(b.createVertices)
+			case true => createGeometry(b.createVertices, b.createNormals)
+		}
+		stack.top.attach(geometry)
 	}
 	
-	def sphere(n: Int, r: Float, color: Color) {
-		val builder = new SphereBuilder(n, r)
-		stack.top.attach(builder.createSphere(color))
+	def sphere(n: Int, r: Float, color: Color, normals: Boolean) {
+		val b = new SphereBuilder(n, r)
+		val geometry = normals match {
+			case false => createGeometry(b.createVertices, color)
+			case true => createGeometry(b.createVertices, color, b.createNormals)
+		}
+		stack.top.attach(geometry)
 	}
 	
-	def sphere(n: Int, r: Float, textureName: String) {
-		val builder = new SphereBuilder(n, r)
+	def sphere(n: Int, r: Float, textureName: String, normals: Boolean) {
+		val b = new SphereBuilder(n, r)
 		val texture = stack.top.getResource[Texture](textureName)
-		stack.top.attach(builder.createSphere(texture, Off))
+		val geometry = normals match {
+			case false => createGeometry(b.createVertices, b.createTextureCoordinates, texture)
+			case true => createGeometry(b.createVertices, b.createTextureCoordinates, texture, b.createNormals)
+		}
+		stack.top.attach(geometry)
 	}
 
 	def ellipsoid(n: Int, m: Int, a: Float, b: Float, c: Float) {

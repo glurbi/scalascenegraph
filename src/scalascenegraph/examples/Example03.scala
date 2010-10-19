@@ -31,7 +31,7 @@ class Example03 extends Example with WorldBuilder {
 			group {
 				color(JColor.cyan)
     			translation(-2.0f, 0.0f, 1.0f)
-    			sphere(30, 1.0f)
+    			sphere(30, 1.0f, normals = true)
 			}
 			group {
 				color(JColor.red)

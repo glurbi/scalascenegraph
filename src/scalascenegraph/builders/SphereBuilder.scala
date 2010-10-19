@@ -18,46 +18,6 @@ import scalascenegraph.core.Predefs._
 
 class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
 
-	def createSphere: Node = {
-		val vertices = createVertices
-		val normals = createNormals
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, normals))
-		geometry
-	}
-
-	def createSphere(color: Color): Node = {
-		val vertices = createVertices
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, color))
-		geometry
-	}
-
-	def createSphere(colors: Colors): Node = {
-		val vertices = createVertices
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, colors))
-		geometry
-	}
-
-	def createSphere(texture: Texture): Node = {
-		createSphere(texture, Off)
-	}
-
-	def createSphere(texture: Texture, light: OnOffState): Node = {
-		val vertices = createVertices
-		val textureCoordinates = createTextureCoordinates
-		val geometry = new Geometry
-		geometry.addRenderable(light match {
-			case Off => createRenderable(vertices, textureCoordinates, texture)
-			case On => {
-				val normals = createNormals
-				createRenderable(vertices, textureCoordinates, texture, normals)
-			}
-		})
-		geometry
-	}
-	
 	private def sphere(teta: Float, phi: Float): Vertice3D = {
 		// cf http://en.wikipedia.org/wiki/Sphere
 		val x = r * sin(teta) * cos(phi)

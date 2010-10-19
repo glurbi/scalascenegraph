@@ -38,7 +38,7 @@ class Example07 extends Example with WorldBuilder {
 			group {
 				translation(-1.5f, 1.5f, -3.0f)
 				rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-				sphere(30, 1.0f, "melon")
+				sphere(30, 1.0f, "melon", normals = false)
 			}
 			group {
 				light(On)
@@ -54,7 +54,7 @@ class Example07 extends Example with WorldBuilder {
 				group {
 					translation(-1.5f, -1.5f, -3.0f)
 					rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-					sphere(30, 1.0f, "melon")
+					sphere(30, 1.0f, "melon", normals = true)
 				}
 			}
 		}

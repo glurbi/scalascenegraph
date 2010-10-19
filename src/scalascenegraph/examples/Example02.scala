@@ -100,14 +100,14 @@ class Example02 extends Example with WorldBuilder {
 				color(JColor.orange)
     			polygonMode(GL_FRONT_AND_BACK, GL_LINE)
     			translation(1.0f, 0.0f, 0.0f)
-    			sphere(20, 0.8f)
+    			sphere(20, 0.8f, normals = false)
 			}
 			group {
 				cullFace(On)
 				color(JColor.red)
     			polygonMode(GL_FRONT, GL_LINE)
     			translation(3.0f, 0.0f, 0.0f)
-    			sphere(20, 0.8f)
+    			sphere(20, 0.8f, normals = false)
 			}
     	}
 
