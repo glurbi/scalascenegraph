@@ -127,4 +127,82 @@ extends RenderableBuilder
 		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 
+	def createTextureCoordinates: TextureCoordinates = {
+		val ab = new ArrayBuffer[Float]
+
+		//
+		// front face
+		//
+		for (i <- 0 until l) {
+			for (j <- 0 until m) {
+				ab ++= Array(1.0f * i / l, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * i / l, 1.0f * (j+1) / n)
+			}
+		}
+
+		//
+		// back face
+		//
+		for (i <- 0 until l) {
+			for (j <- 0 until m) {
+				ab ++= Array(1.0f * i / l, 1.0f * j / n)
+				ab ++= Array(1.0f * i / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * j / n)
+			}
+		}
+		
+		//
+		// right face
+		//
+		for (i <- 0 until m) {
+			for (j <- 0 until n) {
+				ab ++= Array(1.0f * i / l, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * i / l, 1.0f * (j+1) / n)
+			}
+		}
+		
+		//
+		// left face
+		//
+		for (i <- 0 until m) {
+			for (j <- 0 until n) {
+				ab ++= Array(1.0f * i / l, 1.0f * j / n)
+				ab ++= Array(1.0f * i / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * j / n)
+			}
+		}
+		
+		//
+		// top face
+		//
+		for (i <- 0 until l) {
+			for (j <- 0 until n) {
+				ab ++= Array(1.0f * i / l, 1.0f * j / n)
+				ab ++= Array(1.0f * i / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * j / n)
+			}
+		}
+
+		//
+		// bottom face
+		//
+		for (i <- 0 until l) {
+			for (j <- 0 until n) {
+				ab ++= Array(1.0f * i / l, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * j / n)
+				ab ++= Array(1.0f * (i+1) / l, 1.0f * (j+1) / n)
+				ab ++= Array(1.0f * i / l, 1.0f * (j+1) / n)
+			}
+		}
+
+		TextureCoordinates(Buffers.newDirectFloatBuffer(ab.toArray))
+	}
+
 }

@@ -33,7 +33,7 @@ class Example07 extends Example with WorldBuilder {
 			group {
 				translation(1.5f, 1.5f, -3.0f)
 				rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-				cube("marble")
+				cube("marble", normals = false)
 			}
 			group {
 				translation(-1.5f, 1.5f, -3.0f)
@@ -49,7 +49,7 @@ class Example07 extends Example with WorldBuilder {
 				group {
 					translation(1.5f, -1.5f, -3.0f)
 					rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-					cube("marble")
+					cube("marble", normals = true)
 				}
 				group {
 					translation(-1.5f, -1.5f, -3.0f)

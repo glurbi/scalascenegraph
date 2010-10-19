@@ -274,21 +274,13 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def cube(textureName: String) {
-		val builder = new CubeBuilder
-		val vertices = builder.createVertices
-		val textureCoordinates = builder.createTextureCoordinates
+	def cube(textureName: String, normals: Boolean) {
 		val texture = stack.top.getResource[Texture](textureName)
-		val geometry = createGeometry(vertices, textureCoordinates, texture)
-		stack.top.attach(geometry)
+		box(1.0f, 1.0f, 1.0f, 1, 1, 1, texture, normals)
 	}
 	
-	def cube(texture: Texture) {
-		val builder = new CubeBuilder
-		val vertices = builder.createVertices
-		val textureCoordinates = builder.createTextureCoordinates
-		val geometry = createGeometry(vertices, textureCoordinates, texture)
-		stack.top.attach(geometry)
+	def cube(texture: Texture, normals: Boolean) {
+		box(1.0f, 1.0f, 1.0f, 1, 1, 1, texture, normals)
 	}
 	
 	def cube(color: Color) {
@@ -343,6 +335,15 @@ trait WorldBuilder extends GeometryBuilder {
 		val geometry = normals match {
 			case false => createGeometry(b.createVertices)
 			case true => createGeometry(b.createVertices, b.createNormals)
+		}
+		stack.top.attach(geometry)
+	}
+
+	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, texture: Texture, normals: Boolean) {
+		val b = new BoxBuilder(width, height, depth, l, m, n)
+		val geometry = normals match {
+			case false => createGeometry(b.createVertices, b.createTextureCoordinates, texture)
+			case true => createGeometry(b.createVertices, b.createTextureCoordinates, texture, b.createNormals)
 		}
 		stack.top.attach(geometry)
 	}
