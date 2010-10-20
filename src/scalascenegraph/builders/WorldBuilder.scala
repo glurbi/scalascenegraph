@@ -40,7 +40,31 @@ trait WorldBuilder extends GeometryBuilder {
 	def attach(group: Group) {
 		stack.top.attach(group)
 	}
+
+	def attach(texture: Texture) {
+		stack.top.attach(texture)
+	}
 	
+	def attach(font: Font) {
+		stack.top.attach(font)
+	}
+	
+	def attach(shader: Shader) {
+		stack.top.attach(shader)
+	}
+	
+	def attach(program: Program) {
+		stack.top.attach(program)
+	}
+
+	def attach(uniform: Uniform) {
+		stack.top.attach(uniform)
+	}
+	
+	def attach[T <: Buffer](vbo: VertexBufferObject[T]) {
+		stack.top.attach(vbo)
+	}
+
 	def group(body: => Unit): Group = {
 		val group = new Group
 		stack.top.attach(group)
@@ -242,7 +266,7 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, textureName: String) {
+	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, texture: Texture) {
 		val vertices =
 			Vertices(
 				Buffers.newDirectFloatBuffer(
@@ -253,7 +277,6 @@ trait WorldBuilder extends GeometryBuilder {
 				GL_FLOAT,
 				dim_3D,
 				GL_QUADS)
-		val texture = stack.top.getResource[Texture](textureName)
 		val textureCoordinates = TextureCoordinates(
 			Buffers.newDirectFloatBuffer(
 				Array(0.0f, 0.0f,
@@ -272,11 +295,6 @@ trait WorldBuilder extends GeometryBuilder {
 			case true => createGeometry(b.createVertices, b.createNormals)
 		}
 		stack.top.attach(geometry)
-	}
-	
-	def cube(textureName: String, normals: Boolean) {
-		val texture = stack.top.getResource[Texture](textureName)
-		box(1.0f, 1.0f, 1.0f, 1, 1, 1, texture, normals)
 	}
 	
 	def cube(texture: Texture, normals: Boolean) {
@@ -315,9 +333,8 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def sphere(n: Int, r: Float, textureName: String, normals: Boolean) {
+	def sphere(n: Int, r: Float, texture: Texture, normals: Boolean) {
 		val b = new SphereBuilder(n, r)
-		val texture = stack.top.getResource[Texture](textureName)
 		val geometry = normals match {
 			case false => createGeometry(b.createVertices, b.createTextureCoordinates, texture)
 			case true => createGeometry(b.createVertices, b.createTextureCoordinates, texture, b.createNormals)
@@ -403,11 +420,6 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(new FogState(color, mode))
 	}
 	
-	def texture(name: String, in: InputStream) {
-		val texture = new Texture(in)
-		stack.top.attach(name, texture)
-	}
-	
 	def overlay(x: Int, y: Int, image: BufferedImage) {
 		val format = image.getColorModel.hasAlpha match {
 		    case true => GL_RGBA
@@ -426,87 +438,52 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(new DynamicNode(hook, new ImageOverlay(x, y, image.getWidth, image.getHeight, format, data)))
 	}
 
-	def overlay(x: Int, y: Int, fontName: String, text: String) {
-		val font = stack.top.getResource[Font](fontName)
+	def overlay(x: Int, y: Int, font: Font, text: String) {
 		stack.top.attach(new TextOverlay(x, y, font, text))
 	}
 
-	def overlay(x: Int, y: Int, fontName: String, text: String, hook: NodeHook[TextOverlay]) {
-		val font = stack.top.getResource[Font](fontName)
+	def overlay(x: Int, y: Int, font: Font, text: String, hook: NodeHook[TextOverlay]) {
 		stack.top.attach(new DynamicNode(hook, new TextOverlay(x, y, font, text)))
 	}
 	
 	def showFramesPerSecond = {
-		font("default", new JFont("Default", JFont.PLAIN, 20))
+		val defaultFont = FontBuilder.create(new JFont("Default", JFont.PLAIN, 20))
+		attach(defaultFont)
 		val fpsHook = (o: TextOverlay, c: Context) => {
 			o.x = 10
 			o.y = c.height - 30
 			o.text = "FPS: " + c.frameRate
 		}
-		overlay(0, 0, "default", "", fpsHook)
+		overlay(0, 0, defaultFont, "", fpsHook)
 	}
 	
 	def blending(mode: OnOffState) {
 		stack.top.attach(new BlendingState(mode))
 	}
-	
-	def font(name: String, jfont: JFont) {
-		val font = FontBuilder.create(jfont)
-		stack.top.attach(name, font)
-	}
-	
-	def shader(name: String, shaderType: ShaderType, source: String) {
-		val shader = new Shader(shaderType, source)
-		stack.top.attach(name, shader)
-	}
-	
-	def program(name: String, shaderNames: String*) {
-		var shaders = List[Shader]()
-		shaderNames.foreach { shaderName => shaders = stack.top.getResource[Shader](shaderName) :: shaders }
-		val program = new Program(shaders)
-		stack.top.attach(name, program)
-	}
-	
-	def useProgram(name: String) {
-		val program = stack.top.getResource[Program](name)
+
+	def useProgram(program: Program) {
 		stack.top.attach(new ProgramState(program))
 	}
 	
-	def uniform(programName: String, uniformName: String) {
-		val program = stack.top.getResource[Program](programName)
-		val uniform = new Uniform(program, uniformName)
-		stack.top.attach(uniformName, uniform)
-	}
-	
-	def setUniform(uniformName: String, color: Color) {
-		val uniform = stack.top.getResource[Uniform](uniformName)
+	def setUniform(uniform: Uniform, color: Color) {
 		stack.top.attach(new UniformState(uniform, color.rgba))
 	}
 	
-	def setUniform(uniformName: String, value: Float) {
-		val uniform = stack.top.getResource[Uniform](uniformName)
+	def setUniform(uniform: Uniform, value: Float) {
 		stack.top.attach(new UniformState(uniform, value))
 	}
 
-	def setUniform(uniformName: String, value: Float, hook: StateHook[UniformState]) {
-		val uniform = stack.top.getResource[Uniform](uniformName)
+	def setUniform(uniform: Uniform, value: Float, hook: StateHook[UniformState]) {
 		stack.top.attach(new DynamicState(hook, new UniformState(uniform, value)))
 	}
 	
-	def vbo[T <: Buffer](vboName: String, vertices: Vertices[T]) {
-		val vbo = new VertexBufferObject(vertices)
-		stack.top.attach(vboName, vbo)
-	}
-	
-	def lineStrip(vboName: String) {
-		val vbo = stack.top.getResource[VertexBufferObject[FloatBuffer]](vboName)
+	def lineStrip[T <: Buffer](vbo: VertexBufferObject[T]) {
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderableVBO(vbo))
 		stack.top.attach(geometry)
 	}
 
-	def lineStrips(vboName: String, firsts: IntBuffer, counts: IntBuffer) {
-		val vbo = stack.top.getResource[VertexBufferObject[FloatBuffer]](vboName)
+	def lineStrips[T <: Buffer](vbo: VertexBufferObject[T], firsts: IntBuffer, counts: IntBuffer) {
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderableVBO(vbo, firsts, counts))
 		stack.top.attach(geometry)
@@ -517,8 +494,7 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(builder.createGrid)
 	}
 
-	def grid(width: Float, height: Float, m: Int, n: Int, textureName: String) {
-		val texture = stack.top.getResource[Texture](textureName)
+	def grid(width: Float, height: Float, m: Int, n: Int, texture: Texture) {
 		val builder = new GridBuilder(width, height, m, n)
 		stack.top.attach(builder.createGrid(texture))
 	}

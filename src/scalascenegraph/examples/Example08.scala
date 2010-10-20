@@ -54,10 +54,13 @@ class Example08 extends Example with WorldBuilder {
 		img
 	}
 	
+	val defaultFont = FontBuilder.create(new JFont("Default", JFont.PLAIN, 20))
+	val serifFont = FontBuilder.create(new JFont("Serif", JFont.BOLD, 20))
+
 	def example =
 		world {
-			font("default", new JFont("Default", JFont.PLAIN, 20))
-			font("serif", new JFont("Serif", JFont.BOLD, 20))
+			attach(defaultFont)
+			attach(serifFont)
     		depthTest(On)
 			blending(On)
 			light(On)
@@ -72,9 +75,9 @@ class Example08 extends Example with WorldBuilder {
 				cube(normals = true)
 			}
 			overlay(0, 0, image, centerHook)
-			overlay(10, 10, "default", "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-+")
-			overlay(10, 40, "default", "abcdefghijklmnopqrstuvwxyz~`|{}[]\"\\/?><,.=:;")
-			overlay(0, 0, "serif", "", fpsHook)
+			overlay(10, 10, defaultFont, "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-+")
+			overlay(10, 40, defaultFont, "abcdefghijklmnopqrstuvwxyz~`|{}[]\"\\/?><,.=:;")
+			overlay(0, 0, serifFont, "", fpsHook)
 		}
 	
 }

@@ -18,8 +18,8 @@ import scalascenegraph.builders._
 
 class Example07 extends Example with WorldBuilder {
 	
-	val marble = getClass.getResourceAsStream("/scalascenegraph/examples/marble.png")
-	val melon = getClass.getResourceAsStream("/scalascenegraph/examples/melon.png")
+	val marbleTexture = new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/marble.png"))
+	val melonTexture = new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/melon.png"))
 
 	val angleHook = (r: Rotation, c: Context) => {
 		r.angle = (c.elapsed / 10.0f) % 360.0f
@@ -28,17 +28,17 @@ class Example07 extends Example with WorldBuilder {
 	def example =
 		world {
     		depthTest(On)
-			texture("marble", marble)
-			texture("melon", melon)
+			attach(marbleTexture)
+			attach(melonTexture)
 			group {
 				translation(1.5f, 1.5f, -3.0f)
 				rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-				cube("marble", normals = false)
+				cube(marbleTexture, normals = false)
 			}
 			group {
 				translation(-1.5f, 1.5f, -3.0f)
 				rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-				sphere(30, 1.0f, "melon", normals = false)
+				sphere(30, 1.0f, melonTexture, normals = false)
 			}
 			group {
 				light(On)
@@ -49,12 +49,12 @@ class Example07 extends Example with WorldBuilder {
 				group {
 					translation(1.5f, -1.5f, -3.0f)
 					rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-					cube("marble", normals = true)
+					cube(marbleTexture, normals = true)
 				}
 				group {
 					translation(-1.5f, -1.5f, -3.0f)
 					rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-					sphere(30, 1.0f, "melon", normals = true)
+					sphere(30, 1.0f, melonTexture, normals = true)
 				}
 			}
 		}

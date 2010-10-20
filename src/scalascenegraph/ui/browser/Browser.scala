@@ -107,7 +107,7 @@ extends GLEventListener
     	context.gl = gl
         val preparator = new NodeVisitor(context) {
     		def visit(group: Group) {
-    			group.resources.foreach { entry => entry._2.prepare(context) }
+    			group.resources.foreach { resource => resource.prepare(context) }
     			group.children.foreach { child => child.accept(this) }
     		}
     	}

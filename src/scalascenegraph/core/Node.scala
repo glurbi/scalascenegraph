@@ -55,16 +55,8 @@ trait Node extends Renderable {
      * Attaches the resource given in parameter to this node,
      * thus making is part of the scene graph.
      */
-    def attach(name: String, resource: Resource) {
+    def attach(resource: Resource) {
     	throw new UnsupportedOperationException
-    }
-    
-    /**
-     * Returns the Resource object corresponding to the name given in parameter,
-     * or <code>null</code> if it doesn't exist.
-     */
-    def getResource[T <: Resource](name: String): T = {
-    	parent.getResource(name)
     }
     
     /**
@@ -102,7 +94,7 @@ class Group extends Node {
   
     val children = new ArrayBuffer[Node]
     val states = new ArrayBuffer[State]
-    val resources = LinkedHashMap.empty[String, Resource]
+    val resources = new ArrayBuffer[Resource]
     
     override def attach(child: Node) {
     	if (child.parent != null) {
@@ -116,15 +108,8 @@ class Group extends Node {
     	states += state
     }
     
-    override def attach(name: String, resource: Resource) {
-    	resources += name -> resource
-    }
-    
-    override def getResource[T <: Resource](name: String): T = {
-    	resources.get(name) match {
-    		case Some(resource) => resource.asInstanceOf[T]
-    		case None => parent.getResource(name)
-    	}
+    override def attach(resource: Resource) {
+    	resources += resource
     }
     
     override def render(context: Context) {

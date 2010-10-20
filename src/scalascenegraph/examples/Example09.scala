@@ -56,20 +56,26 @@ class Example09 extends Example with WorldBuilder {
 	val uniformHook = (u: UniformState, c: Context) => {
 		u.value = (sin(c.elapsed / 1000.0f) * 10.0f).asInstanceOf[Float]
 	}
+
+	val myvertexshader = new Shader(GL_VERTEX_SHADER, myvertexshadersource)
+	val myfragmentshader = new Shader(GL_FRAGMENT_SHADER, myfragmentshadersource)
+	val myprogram = new Program(List(myvertexshader, myfragmentshader))
+	val rUniform = new Uniform(myprogram, "r")
+	val colorUniform = new Uniform(myprogram, "color")
 		
 	def example =
 		world {
 			cullFace(On)
     		depthTest(On)
-			shader("myvertexshader", GL_VERTEX_SHADER, myvertexshadersource)
-			shader("myfragmentshader", GL_FRAGMENT_SHADER, myfragmentshadersource)
-			program("myprogram", "myvertexshader", "myfragmentshader")
-			uniform("myprogram", "r")
-			uniform("myprogram", "color")
-			useProgram("myprogram")
+			attach(myvertexshader)
+			attach(myfragmentshader)
+			attach(myprogram)
+			attach(rUniform)
+			attach(colorUniform)
+			useProgram(myprogram)
 			group {
-				setUniform("color", JColor.orange)
-				setUniform("r", 0.0f, uniformHook)
+				setUniform(colorUniform, JColor.orange)
+				setUniform(rUniform, 0.0f, uniformHook)
 				translation(0.0f, 0.0f, -4.0f)
 				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
 				box(4.0f, 2.0f, 1.0f, 40, 20, 10, normals = false)

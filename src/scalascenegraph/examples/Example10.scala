@@ -50,13 +50,15 @@ class Example10 extends Example with WorldBuilder {
 		counts.flip
 		Vertices(buf, GL_FLOAT, dim_2D, GL_LINE_STRIP)
 	}
+
+	val signalsVBO = new VertexBufferObject(vertices)
 	
 	def example =
 		world {
-			vbo("signals", vertices)
+			attach(signalsVBO)
 			rotation(90.0f, 0.0f, 0.0f, 1.0f)
 			translation(-5.0f, 0.0f, -8.0f)
-			lineStrips("signals", firsts, counts)
+			lineStrips(signalsVBO, firsts, counts)
 			showFramesPerSecond
 		}
 	
