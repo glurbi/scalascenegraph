@@ -2,6 +2,7 @@ package scalascenegraph.examples
 
 import java.awt.{Color => JColor }
 import java.util._
+import java.nio._
 import com.jogamp.common.nio._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
@@ -62,6 +63,22 @@ class Example02 extends Example with WorldBuilder {
     		cube(colors)
 		}
 
+	val perVertexColorSphere =
+		detached {
+			val b = new SphereBuilder(20, 0.8)
+			val  vertices = b.createVertices
+			val colors = {
+				val vbuf = vertices.buffer.rewind.asInstanceOf[FloatBuffer]
+				val cbuf = Buffers.newDirectFloatBuffer(vbuf.limit)
+				for (i <- 0 until vbuf.limit / 3) {
+					cbuf.put(Color(vbuf.get, vbuf.get, vbuf.get).rgb)
+				}
+				vbuf.rewind
+				cbuf.flip
+				Colors(cbuf, RGB)
+			}
+			attach(createGeometry(vertices, colors))
+		}
 	
 	val whiteCubes =
 		detached {
@@ -97,10 +114,8 @@ class Example02 extends Example with WorldBuilder {
     val spheres =
     	detached {
 			group {
-				color(JColor.orange)
-    			polygonMode(GL_FRONT_AND_BACK, GL_LINE)
     			translation(1.0f, 0.0f, 0.0f)
-    			sphere(20, 0.8f, normals = false)
+				attach(perVertexColorSphere)
 			}
 			group {
 				cullFace(On)

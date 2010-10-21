@@ -70,6 +70,7 @@ object Predefs {
 	/**
 	 * A color.
 	 */
+	// TODO: parameterize the type
 	case class Color(r: Float, g: Float, b: Float, a: Float = 1.0f) {
 		val rgba = Array(r, g, b, a)
 		val rgb = Array(r, g, b)
@@ -78,6 +79,7 @@ object Predefs {
 	/**
 	 * A set of colors.
 	 */
+	// TODO: parameterize the type
 	case class Colors(floatBuffer: FloatBuffer, colorType: ColorType)
 	
 	/**

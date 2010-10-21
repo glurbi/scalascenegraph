@@ -40,6 +40,10 @@ trait WorldBuilder extends GeometryBuilder {
 	def attach(group: Group) {
 		stack.top.attach(group)
 	}
+	
+	def attach(geometry: Geometry) {
+		stack.top.attach(geometry)
+	}
 
 	def attach(texture: Texture) {
 		stack.top.attach(texture)
