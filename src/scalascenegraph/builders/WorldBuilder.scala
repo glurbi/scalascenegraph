@@ -128,7 +128,11 @@ trait WorldBuilder extends GeometryBuilder {
 	}
 	
 	def polygonMode(face: Face, mode: DrawingMode) {
-		stack.top.attach(new PolygonState(face, mode))
+		stack.top.attach(new PolygonModeState(face, mode))
+	}
+
+	def polygonOffset(factor: Float, units: Float) {
+		stack.top.attach(new PolygonOffsetState(factor, units))
 	}
 	
 	def frontFace(frontFace: FrontFace) {

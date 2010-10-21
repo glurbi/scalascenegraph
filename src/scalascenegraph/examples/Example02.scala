@@ -63,21 +63,43 @@ class Example02 extends Example with WorldBuilder {
     		cube(colors)
 		}
 
+	def verticesAsColors[T <: Buffer](vertices: Vertices[T]): Colors = {
+		val vbuf = vertices.buffer.rewind.asInstanceOf[FloatBuffer]
+		val cbuf = Buffers.newDirectFloatBuffer(vbuf.limit)
+		for (i <- 0 until vbuf.limit / 3) {
+			cbuf.put(Color(vbuf.get, vbuf.get, vbuf.get).rgb)
+		}
+		vbuf.rewind
+		cbuf.flip
+		Colors(cbuf, RGB)
+	}
+
 	val perVertexColorSphere =
 		detached {
 			val b = new SphereBuilder(20, 0.8)
 			val  vertices = b.createVertices
-			val colors = {
-				val vbuf = vertices.buffer.rewind.asInstanceOf[FloatBuffer]
-				val cbuf = Buffers.newDirectFloatBuffer(vbuf.limit)
-				for (i <- 0 until vbuf.limit / 3) {
-					cbuf.put(Color(vbuf.get, vbuf.get, vbuf.get).rgb)
-				}
-				vbuf.rewind
-				cbuf.flip
-				Colors(cbuf, RGB)
-			}
+			val colors = verticesAsColors(vertices)
+    		translation(1.0f, 0.0f, 0.0f)
 			attach(createGeometry(vertices, colors))
+		}
+
+	val perVertexColorSphereWithWires =
+		detached {
+			val b = new SphereBuilder(10, 0.8)
+			val  vertices = b.createVertices
+			val colors = verticesAsColors(vertices)
+			cullFace(On)
+    		translation(3.0f, 0.0f, 0.0f)
+			group {
+				shadeModel(GL_FLAT)
+				polygonOffset(1.0f, 1.0f)
+				attach(createGeometry(vertices, colors))
+			}
+			group {
+				polygonMode(GL_FRONT, GL_LINE)
+				color(JColor.gray)
+				attach(createGeometry(vertices))
+			}
 		}
 	
 	val whiteCubes =
@@ -110,21 +132,6 @@ class Example02 extends Example with WorldBuilder {
 				cube(normals = false)
 			}
 	    }
-
-    val spheres =
-    	detached {
-			group {
-    			translation(1.0f, 0.0f, 0.0f)
-				attach(perVertexColorSphere)
-			}
-			group {
-				cullFace(On)
-				color(JColor.red)
-    			polygonMode(GL_FRONT, GL_LINE)
-    			translation(3.0f, 0.0f, 0.0f)
-    			sphere(20, 0.8f, normals = false)
-			}
-    	}
 
 	val ellipsoids =
 		detached {
@@ -162,7 +169,8 @@ class Example02 extends Example with WorldBuilder {
 			attach(perFaceColorCube)
 			attach(perVertexColorCube)
 			attach(whiteCubes)
-			attach(spheres)
+			attach(perVertexColorSphere)
+			attach(perVertexColorSphereWithWires)
 			attach(ellipsoids)
     	}
 

@@ -122,10 +122,21 @@ class SmoothState(var smooth: SmoothType) extends State {
 	}
 }
 
-class PolygonState(var face: Face, var mode: DrawingMode) extends State {
+class PolygonModeState(var face: Face, var mode: DrawingMode) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_POLYGON_BIT)
 		context.gl.glPolygonMode(face, mode)
+	}
+	override def postRender(context: Context) {
+		context.gl.glPopAttrib
+	}
+}
+
+class PolygonOffsetState(var factor: Float, var units: Float) extends State {
+	override def preRender(context: Context) {
+		context.gl.glPushAttrib(GL_POLYGON_BIT)
+		context.gl.glEnable(GL_POLYGON_OFFSET_FILL)
+		context.gl.glPolygonOffset(factor, units)
 	}
 	override def postRender(context: Context) {
 		context.gl.glPopAttrib
