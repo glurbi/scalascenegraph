@@ -79,8 +79,7 @@ object Predefs {
 	/**
 	 * A set of colors.
 	 */
-	// TODO: parameterize the type
-	case class Colors(floatBuffer: FloatBuffer, colorType: ColorType)
+	case class Colors[ColorBuffer <: Buffer](buffer: ColorBuffer, dataType: DataType, colorType: ColorType)
 	
 	/**
 	 * A set of normals.

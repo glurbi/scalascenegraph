@@ -58,7 +58,7 @@ extends RenderableBuilder {
 				ab ++= c.rgba
 			}
 		}
-		Colors(Buffers.newDirectFloatBuffer(ab.toArray), RGBA)
+		Colors(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, RGBA)
 	}
 	
 }

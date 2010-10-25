@@ -14,6 +14,7 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
+// TODO: T --> VertexBuffer
 trait RenderableBuilder {
 
 	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
@@ -86,8 +87,9 @@ trait RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T],
-									  colors: Colors): Renderable =
+	def createRenderable[VertexBuffer <: Buffer, ColorBuffer <: Buffer](
+		vertices: Vertices[VertexBuffer],
+		colors: Colors[ColorBuffer]): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -97,7 +99,7 @@ trait RenderableBuilder {
 		        gl.glEnableClientState(GL_VERTEX_ARRAY)
 		        gl.glEnableClientState(GL_COLOR_ARRAY)
 		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
-		        gl.glColorPointer(colors.colorType , GL_FLOAT, 0, colors.floatBuffer)
+		        gl.glColorPointer(colors.colorType , GL_FLOAT, 0, colors.buffer)
 		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
 		        gl.glDisableClientState(GL_COLOR_ARRAY)
@@ -106,9 +108,10 @@ trait RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T],
-									  colors: Colors,
-									  normals: Normals): Renderable =
+	def createRenderable[VertexBuffer <: Buffer, ColorBuffer <: Buffer](
+		vertices: Vertices[VertexBuffer],
+		colors: Colors[ColorBuffer],
+		normals: Normals): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -120,7 +123,7 @@ trait RenderableBuilder {
 		        gl.glEnableClientState(GL_NORMAL_ARRAY)
 		        gl.glNormalPointer(GL_FLOAT, 0, normals.floatBuffer)
 		        gl.glVertexPointer(vertices.vertexDimension, vertices.dataType, 0, vertices.buffer)
-		        gl.glColorPointer(colors.colorType , GL_FLOAT, 0, colors.floatBuffer)
+		        gl.glColorPointer(colors.colorType , GL_FLOAT, 0, colors.buffer)
 		        gl.glDrawArrays(vertices.primitiveType, 0, vertices.count)
 		        gl.glDisableClientState(GL_VERTEX_ARRAY)
 		        gl.glDisableClientState(GL_COLOR_ARRAY)

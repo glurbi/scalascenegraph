@@ -5,6 +5,7 @@ import java.nio._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
+// TODO: T --> VertexBuffer
 trait GeometryBuilder extends RenderableBuilder {
 
 	def createGeometry[T <: Buffer](vertices: Vertices[T]): Geometry = {
@@ -63,8 +64,9 @@ trait GeometryBuilder extends RenderableBuilder {
 		geometry
 	}
 
-	def createGeometry[T <: Buffer](vertices: Vertices[T],
-									colors: Colors): Geometry =
+	def createGeometry[VertexBuffer <: Buffer, ColorBuffer <: Buffer](
+		vertices: Vertices[VertexBuffer],
+		colors: Colors[ColorBuffer]): Geometry =
 	{
 		val geometry = new Geometry
 		val renderable = createRenderable(vertices, colors)
@@ -72,9 +74,10 @@ trait GeometryBuilder extends RenderableBuilder {
 		geometry
 	}
 
-	def createGeometry[T <: Buffer](vertices: Vertices[T],
-									colors: Colors,
-									normals: Normals): Geometry =
+	def createGeometry[VertexBuffer <: Buffer, ColorBuffer <: Buffer](
+		vertices: Vertices[VertexBuffer],
+		colors: Colors[ColorBuffer],
+		normals: Normals): Geometry =
 	{
 		val geometry = new Geometry
 		val renderable = createRenderable(vertices, colors, normals)

@@ -214,7 +214,7 @@ trait WorldBuilder extends GeometryBuilder {
 		val colors = Colors(Buffers.newDirectFloatBuffer(
 			Array(c1.r, c1.g, c1.b, c1.a,
 				  c2.r, c2.g, c2.b, c2.a,
-				  c3.r, c3.g, c3.b, c3.a)), RGBA)
+				  c3.r, c3.g, c3.b, c3.a)), GL_FLOAT, RGBA)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderable(vertices, colors))
 		stack.top.attach(geometry)
@@ -268,7 +268,7 @@ trait WorldBuilder extends GeometryBuilder {
 			Array(c1.r, c1.g, c1.b, c1.a,
 				  c2.r, c2.g, c2.b, c2.a,
 				  c3.r, c3.g, c3.b, c3.a,
-				  c4.r, c4.g, c4.b, c4.a)), RGBA)
+				  c4.r, c4.g, c4.b, c4.a)), GL_FLOAT, RGBA)
 		val geometry = new Geometry
 		geometry.addRenderable(createRenderable(vertices, colors))
 		stack.top.attach(geometry)
@@ -316,7 +316,7 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def cube(colors: Colors) {
+	def cube[ColorBuffer <: Buffer](colors: Colors[ColorBuffer]) {
 		val builder = new CubeBuilder
 		val vertices = builder.createVertices
 		val geometry = createGeometry(vertices, colors)

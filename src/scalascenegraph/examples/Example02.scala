@@ -40,7 +40,7 @@ class Example02 extends Example with WorldBuilder {
 					buf.put(faceColors(i/4).rgb)
 				}
 				buf.flip
-				Colors(buf, RGB)
+				Colors(buf, GL_FLOAT, RGB)
 			}
     		translation(-3.0f, 0.0f, 0.0f)
     		rotation(45.0f, 0.5f, 0.3f, 1.0f)
@@ -56,14 +56,16 @@ class Example02 extends Example with WorldBuilder {
 					buf.put(Color(r.nextFloat, r.nextFloat, r.nextFloat).rgb)
 				}
 				buf.flip
-				Colors(buf, RGB)
+				Colors(buf, GL_FLOAT, RGB)
 			}
     		translation(-1.0f, 0.0f, 0.0f)
     		rotation(45.0f, 0.5f, 0.3f, 1.0f)
     		cube(colors)
 		}
 
-	def verticesAsColors[T <: Buffer](vertices: Vertices[T]): Colors = {
+	def verticesAsColors[VertexBuffer <: Buffer, ColorBuffer <: Buffer](
+		vertices: Vertices[VertexBuffer]): Colors[ColorBuffer] =
+    {
 		val vbuf = vertices.buffer.rewind.asInstanceOf[FloatBuffer]
 		val cbuf = Buffers.newDirectFloatBuffer(vbuf.limit)
 		for (i <- 0 until vbuf.limit / 3) {
@@ -71,7 +73,7 @@ class Example02 extends Example with WorldBuilder {
 		}
 		vbuf.rewind
 		cbuf.flip
-		Colors(cbuf, RGB)
+		Colors(cbuf.asInstanceOf[ColorBuffer], GL_FLOAT, RGB)
 	}
 
 	val perVertexColorSphere =
