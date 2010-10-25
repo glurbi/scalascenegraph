@@ -187,16 +187,27 @@ extends Overlay {
 	
 }
 
-class Geometry extends Node {
 
-	private var renderables : List[Renderable] = Nil
+abstract class Geometry extends Node
+
+class CompositeGeometry extends Geometry {
+
+	private var geometries : List[Geometry] = Nil
 	
-	def addRenderable(renderable: Renderable) {
-		renderables = renderable :: renderables
+	def addGeometry(geometry: Geometry) {
+		geometries = geometry :: geometries
 	}
 	
 	def render(context: Context) {
-		renderables.foreach { renderable => renderable.render(context) }
+		geometries.foreach { geometry => geometry.render(context) }
+	}
+	
+}
+
+class SimpleGeometry(val renderable: Renderable) extends Geometry {
+
+	def render(context: Context) {
+		renderable.render(context)
 	}
 	
 }

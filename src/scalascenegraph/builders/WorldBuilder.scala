@@ -147,16 +147,13 @@ trait WorldBuilder extends GeometryBuilder {
 		stack.top.attach(new DepthTestState(depthTest))
 	}
 	
-	def point(v: Vertice3D, color: Color)
-	{
+	def point(v: Vertice3D, color: Color) {
 		val vertices = Vertices[FloatBuffer](
 			Buffers.newDirectFloatBuffer(Array(v.x, v.y, v.z)),
 			GL_FLOAT,
 			dim_3D,
 			GL_POINTS)
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, color))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices, color)))
 	}
 	
 	def line(v1: Vertice3D, v2: Vertice3D)
@@ -167,9 +164,7 @@ trait WorldBuilder extends GeometryBuilder {
 			GL_FLOAT,
 			dim_3D,
 			GL_LINES)
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices)))
 	}
 
 	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D)	{
@@ -181,9 +176,7 @@ trait WorldBuilder extends GeometryBuilder {
 			GL_FLOAT,
 			dim_3D,
 			GL_TRIANGLES)
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices)))
 	}
 
 	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, color: Color)
@@ -196,9 +189,7 @@ trait WorldBuilder extends GeometryBuilder {
 			GL_FLOAT,
 			dim_3D,
 			GL_TRIANGLES)
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, color))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices, color)))
 	}
 	
 	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D,
@@ -215,9 +206,7 @@ trait WorldBuilder extends GeometryBuilder {
 			Array(c1.r, c1.g, c1.b, c1.a,
 				  c2.r, c2.g, c2.b, c2.a,
 				  c3.r, c3.g, c3.b, c3.a)), GL_FLOAT, RGBA)
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, colors))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices, colors)))
 	}
 	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, color: Color) {
@@ -231,9 +220,7 @@ trait WorldBuilder extends GeometryBuilder {
 				GL_FLOAT,
 				dim_3D,
 				GL_QUADS)
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, color))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices, color)))
 	}
 	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D) {
@@ -247,9 +234,7 @@ trait WorldBuilder extends GeometryBuilder {
 				GL_FLOAT,
 				dim_3D,
 				GL_QUADS)
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices)))
 	}
 
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D,
@@ -269,9 +254,7 @@ trait WorldBuilder extends GeometryBuilder {
 				  c2.r, c2.g, c2.b, c2.a,
 				  c3.r, c3.g, c3.b, c3.a,
 				  c4.r, c4.g, c4.b, c4.a)), GL_FLOAT, RGBA)
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, colors))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices, colors)))
 	}
 	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, texture: Texture) {
@@ -291,9 +274,7 @@ trait WorldBuilder extends GeometryBuilder {
 					  1.0f, 0.0f,
 					  1.0f, 1.0f,
 					  0.0f, 1.0f)))
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, textureCoordinates, texture))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderable(vertices, textureCoordinates, texture)))
 	}
 	
 	def cube(normals: Boolean) {
@@ -486,15 +467,11 @@ trait WorldBuilder extends GeometryBuilder {
 	}
 	
 	def lineStrip[T <: Buffer](vbo: VertexBufferObject[T]) {
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderableVBO(vbo))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderableVBO(vbo)))
 	}
 
 	def lineStrips[T <: Buffer](vbo: VertexBufferObject[T], firsts: IntBuffer, counts: IntBuffer) {
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderableVBO(vbo, firsts, counts))
-		stack.top.attach(geometry)
+		stack.top.attach(new SimpleGeometry(createRenderableVBO(vbo, firsts, counts)))
 	}
 	
 	def grid(width: Float, height: Float, m: Int, n: Int) {

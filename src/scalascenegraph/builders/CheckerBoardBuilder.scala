@@ -24,9 +24,7 @@ extends RenderableBuilder {
 	def createCheckerBoard: Node = {
 		val vertices = createVertices
 		val colors = createColors
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, colors))
-		geometry
+		new SimpleGeometry(createRenderable(vertices, colors))
 	}
 	
 	def createVertices: Vertices[FloatBuffer] = {

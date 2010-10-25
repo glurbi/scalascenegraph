@@ -22,17 +22,13 @@ extends RenderableBuilder
 
 	def createGrid: Node = {
 		val vertices = createVertices
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices))
-		geometry
+		new SimpleGeometry(createRenderable(vertices))
 	}
 
 	def createGrid(texture: Texture): Node = {
 		val vertices = createVertices
 		val textureCoordinates = createTextureCoordinates
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, textureCoordinates, texture))
-		geometry
+		new SimpleGeometry(createRenderable(vertices, textureCoordinates, texture))
 	}
 	
 	def createVertices: Vertices[FloatBuffer] = {

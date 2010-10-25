@@ -20,9 +20,7 @@ class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) extends Ren
 
 	def createEllipsoid: Node = {
 		val vertices = createVertices
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices))
-		geometry
+		new SimpleGeometry(createRenderable(vertices))
 	}
 
 	private def ellipsoid(teta: Float, phi: Float): Vertice3D = {

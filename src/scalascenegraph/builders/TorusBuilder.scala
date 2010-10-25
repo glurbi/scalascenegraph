@@ -23,9 +23,7 @@ class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
 	def createTorus: Node = {
 		val vertices = createVertices
 		val normals = createNormals
-		val geometry = new Geometry
-		geometry.addRenderable(createRenderable(vertices, normals))
-		geometry
+		new SimpleGeometry(createRenderable(vertices, normals))
 	}
 	
 	val stepAngle = 2.0 * Pi / n
