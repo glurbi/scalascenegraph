@@ -107,12 +107,12 @@ extends RenderableBuilder
 	def createNormals: Normals = {
 		val ab = new ArrayBuffer[Float]
 		val normals = Array(
-			Vertice3D(0.0f, 0.0f, 1.0f),  // front face
-			Vertice3D(0.0f, 0.0f, -1.0f), // back face
-			Vertice3D(1.0f, 0.0f, 0.0f),  // right face
-			Vertice3D(-1.0f, 0.0f, 0.0f), // left face
-			Vertice3D(0.0f, 1.0f, 0.0f),  // top face
-			Vertice3D(0.0f, -1.0f, 0.0f)) // bottom face
+			Normal(0.0f, 0.0f, 1.0f),  // front face
+			Normal(0.0f, 0.0f, -1.0f), // back face
+			Normal(1.0f, 0.0f, 0.0f),  // right face
+			Normal(-1.0f, 0.0f, 0.0f), // left face
+			Normal(0.0f, 1.0f, 0.0f),  // top face
+			Normal(0.0f, -1.0f, 0.0f)) // bottom face
 
 		for (face <- 0 to 5) {
 			for (i <- 0 until l) {

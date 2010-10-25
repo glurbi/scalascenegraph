@@ -36,7 +36,7 @@ class Example03 extends Example with WorldBuilder {
 			group {
 				color(JColor.red)
     			translation(2.0f, 0.0f, 0.0f)
-				cone(20, 10, 1.0f, 2.0f);
+				cone(20, 10, 1.0f, 2.0f, normals = true);
 			}
 			group {
 				color(JColor.lightGray)

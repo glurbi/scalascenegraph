@@ -35,6 +35,15 @@ object Utils {
 		val norm = sqrt(v.x*v.x + v.y*v.y + v.z*v.z)
 		Vector3D(v.x / norm, v.y / norm, v.z / norm)
 	}
+
+	/**
+	 * @return a Normal that is the normalized instance of the one given in parameter.
+	 */
+	def normalize(n: Normal): Normal = {
+		implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
+		val norm = sqrt(n.x*n.x + n.y*n.y + n.z*n.z)
+		Normal(n.x / norm, n.y / norm, n.z / norm)
+	}
 	
 	/**
 	 * Creates a BufferedImage that is the inverse (y axis direction) of the
