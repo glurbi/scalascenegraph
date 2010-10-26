@@ -20,7 +20,7 @@ import scalascenegraph.core._
 import scalascenegraph.builders._
 import scalascenegraph.core.Predefs._
 
-trait WorldBuilder extends GeometryBuilder {
+trait WorldBuilder extends RenderableBuilder {
 
 	private val stack = new Stack[Node]
 	
@@ -280,8 +280,8 @@ trait WorldBuilder extends GeometryBuilder {
 	def cube(normals: Boolean) {
 		val b = new CubeBuilder
 		val geometry = normals match {
-			case false => createGeometry(b.createVertices)
-			case true => createGeometry(b.createVertices, b.createNormals)
+			case false => new SimpleGeometry(createRenderable(b.createVertices))
+			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createNormals))
 		}
 		stack.top.attach(geometry)
 	}
@@ -293,22 +293,22 @@ trait WorldBuilder extends GeometryBuilder {
 	def cube(color: Color) {
 		val builder = new CubeBuilder
 		val vertices = builder.createVertices
-		val geometry = createGeometry(vertices, color)
+		val geometry = new SimpleGeometry(createRenderable(vertices, color))
 		stack.top.attach(geometry)
 	}
 	
 	def cube[ColorBuffer <: Buffer](colors: Colors[ColorBuffer]) {
 		val builder = new CubeBuilder
 		val vertices = builder.createVertices
-		val geometry = createGeometry(vertices, colors)
+		val geometry = new SimpleGeometry(createRenderable(vertices, colors))
 		stack.top.attach(geometry)
 	}
 	
 	def sphere(n: Int, r: Float, normals: Boolean) {
 		val b = new SphereBuilder(n, r)
 		val geometry = normals match {
-			case false => createGeometry(b.createVertices)
-			case true => createGeometry(b.createVertices, b.createNormals)
+			case false => new SimpleGeometry(createRenderable(b.createVertices))
+			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createNormals))
 		}
 		stack.top.attach(geometry)
 	}
@@ -316,8 +316,8 @@ trait WorldBuilder extends GeometryBuilder {
 	def sphere(n: Int, r: Float, color: Color, normals: Boolean) {
 		val b = new SphereBuilder(n, r)
 		val geometry = normals match {
-			case false => createGeometry(b.createVertices, color)
-			case true => createGeometry(b.createVertices, color, b.createNormals)
+			case false => new SimpleGeometry(createRenderable(b.createVertices, color))
+			case true => new SimpleGeometry(createRenderable(b.createVertices, color, b.createNormals))
 		}
 		stack.top.attach(geometry)
 	}
@@ -325,8 +325,8 @@ trait WorldBuilder extends GeometryBuilder {
 	def sphere(n: Int, r: Float, texture: Texture, normals: Boolean) {
 		val b = new SphereBuilder(n, r)
 		val geometry = normals match {
-			case false => createGeometry(b.createVertices, b.createTextureCoordinates, texture)
-			case true => createGeometry(b.createVertices, b.createTextureCoordinates, texture, b.createNormals)
+			case false => new SimpleGeometry(createRenderable(b.createVertices, b.createTextureCoordinates, texture))
+			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createTextureCoordinates, texture, b.createNormals))
 		}
 		stack.top.attach(geometry)
 	}
@@ -339,8 +339,8 @@ trait WorldBuilder extends GeometryBuilder {
 	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, normals: Boolean) {
 		val b = new BoxBuilder(width, height, depth, l, m, n)
 		val geometry = normals match {
-			case false => createGeometry(b.createVertices)
-			case true => createGeometry(b.createVertices, b.createNormals)
+			case false => new SimpleGeometry(createRenderable(b.createVertices))
+			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createNormals))
 		}
 		stack.top.attach(geometry)
 	}
@@ -348,8 +348,8 @@ trait WorldBuilder extends GeometryBuilder {
 	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, texture: Texture, normals: Boolean) {
 		val b = new BoxBuilder(width, height, depth, l, m, n)
 		val geometry = normals match {
-			case false => createGeometry(b.createVertices, b.createTextureCoordinates, texture)
-			case true => createGeometry(b.createVertices, b.createTextureCoordinates, texture, b.createNormals)
+			case false => new SimpleGeometry(createRenderable(b.createVertices, b.createTextureCoordinates, texture))
+			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createTextureCoordinates, texture, b.createNormals))
 		}
 		stack.top.attach(geometry)
 	}

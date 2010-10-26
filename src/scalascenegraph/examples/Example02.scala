@@ -82,7 +82,7 @@ class Example02 extends Example with WorldBuilder {
 			val  vertices = b.createVertices
 			val colors = verticesAsColors(vertices)
     		translation(1.0f, 0.0f, 0.0f)
-			attach(createGeometry(vertices, colors))
+			attach(new SimpleGeometry(createRenderable(vertices, colors)))
 		}
 
 	val perVertexColorSphereWithWires =
@@ -95,12 +95,12 @@ class Example02 extends Example with WorldBuilder {
 			group {
 				shadeModel(GL_FLAT)
 				polygonOffset(1.0f, 1.0f)
-				attach(createGeometry(vertices, colors))
+				attach(new SimpleGeometry(createRenderable(vertices, colors)))
 			}
 			group {
 				polygonMode(GL_FRONT, GL_LINE)
 				color(JColor.gray)
-				attach(createGeometry(vertices))
+				attach(new SimpleGeometry(createRenderable(vertices)))
 			}
 		}
 	
