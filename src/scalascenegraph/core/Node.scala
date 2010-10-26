@@ -34,7 +34,7 @@ trait Node extends Renderable {
     /**
      * The parent node of this node in the graph.
      */
-    var parent: Node = null
+    //var parent: Node = null
     
 	/**
 	 * Attaches the state given in parameter to this node,
@@ -80,8 +80,6 @@ abstract class NodeVisitor(context: Context) {
  */
 class DynamicNode[T <: Node](val hook: NodeHook[T], val node: T) extends Node {
 	
-	parent = node.parent
-	
 	def render(context: Context) {
 		hook(node, context)
 		node.render(context)
@@ -98,11 +96,7 @@ class Group extends Node {
     val resources = new ArrayBuffer[Resource]
     
     override def attach(child: Node) {
-    	if (child.parent != null) {
-    		throw new RuntimeException(child + " is already attached to a node")
-    	}
         children += child
-        child.parent = this
     }
   
     override def attach(state: State) {

@@ -74,7 +74,7 @@ class ConeBuilder(n: Int, m: Int, r: Float, h: Float) {
 		def coneSideNormal(teta: Float): Normal = {
 			val x = - r * sin(teta)
 			val y = r * cos(teta)
-			val z = r / Math.sqrt(r*r+h*h)
+			val z = r / sqrt(r*r+h*h)
 			normalize(Normal(x, y, z))
 		}
 		val ab = new ArrayBuffer[Float]

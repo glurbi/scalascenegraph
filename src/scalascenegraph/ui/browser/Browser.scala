@@ -19,7 +19,6 @@ object Browser {
         val browserConfig = this.getClass.getResourceAsStream("/browser.properties")
         val cameraConfig = this.getClass.getResourceAsStream("/camera.properties")
         val camera = Camera.get(cameraConfig)
-        camera.parent = world
         val browser = get(world, browserConfig, animated)
         browser.setCamera(camera)
         browser
