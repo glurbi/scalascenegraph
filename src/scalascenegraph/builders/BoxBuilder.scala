@@ -16,9 +16,7 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int)
-extends RenderableBuilder
-{
+class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int) {
 
 	def createVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]

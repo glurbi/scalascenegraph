@@ -18,12 +18,12 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-class TorusBuilder(n: Int, R: Float, r: Float) extends RenderableBuilder {
+class TorusBuilder(n: Int, R: Float, r: Float) {
 	
 	def createTorus: Node = {
 		val vertices = createVertices
 		val normals = createNormals
-		new SimpleGeometry(createRenderable(vertices, normals))
+		new SimpleGeometry(vertices, normals)
 	}
 	
 	val stepAngle = 2.0 * Pi / n

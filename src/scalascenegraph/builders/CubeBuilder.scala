@@ -16,7 +16,7 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class CubeBuilder extends RenderableBuilder {
+class CubeBuilder {
 
 	val createVertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(-0.5f, -0.5f, -0.5f,

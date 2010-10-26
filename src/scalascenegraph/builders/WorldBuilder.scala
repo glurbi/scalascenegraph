@@ -20,7 +20,7 @@ import scalascenegraph.core._
 import scalascenegraph.builders._
 import scalascenegraph.core.Predefs._
 
-trait WorldBuilder extends RenderableBuilder {
+trait WorldBuilder {
 
 	private val stack = new Stack[Node]
 	
@@ -153,7 +153,7 @@ trait WorldBuilder extends RenderableBuilder {
 			GL_FLOAT,
 			dim_3D,
 			GL_POINTS)
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices, color)))
+		stack.top.attach(new SimpleGeometry(vertices, color))
 	}
 	
 	def line(v1: Vertice3D, v2: Vertice3D)
@@ -164,7 +164,7 @@ trait WorldBuilder extends RenderableBuilder {
 			GL_FLOAT,
 			dim_3D,
 			GL_LINES)
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices)))
+		stack.top.attach(new SimpleGeometry(vertices))
 	}
 
 	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D)	{
@@ -176,7 +176,7 @@ trait WorldBuilder extends RenderableBuilder {
 			GL_FLOAT,
 			dim_3D,
 			GL_TRIANGLES)
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices)))
+		stack.top.attach(new SimpleGeometry(vertices))
 	}
 
 	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, color: Color)
@@ -189,7 +189,7 @@ trait WorldBuilder extends RenderableBuilder {
 			GL_FLOAT,
 			dim_3D,
 			GL_TRIANGLES)
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices, color)))
+		stack.top.attach(new SimpleGeometry(vertices, color))
 	}
 	
 	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D,
@@ -206,7 +206,7 @@ trait WorldBuilder extends RenderableBuilder {
 			Array(c1.r, c1.g, c1.b, c1.a,
 				  c2.r, c2.g, c2.b, c2.a,
 				  c3.r, c3.g, c3.b, c3.a)), GL_FLOAT, RGBA)
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices, colors)))
+		stack.top.attach(new SimpleGeometry(vertices, colors))
 	}
 	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, color: Color) {
@@ -220,7 +220,7 @@ trait WorldBuilder extends RenderableBuilder {
 				GL_FLOAT,
 				dim_3D,
 				GL_QUADS)
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices, color)))
+		stack.top.attach(new SimpleGeometry(vertices, color))
 	}
 	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D) {
@@ -234,7 +234,7 @@ trait WorldBuilder extends RenderableBuilder {
 				GL_FLOAT,
 				dim_3D,
 				GL_QUADS)
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices)))
+		stack.top.attach(new SimpleGeometry(vertices))
 	}
 
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D,
@@ -254,7 +254,7 @@ trait WorldBuilder extends RenderableBuilder {
 				  c2.r, c2.g, c2.b, c2.a,
 				  c3.r, c3.g, c3.b, c3.a,
 				  c4.r, c4.g, c4.b, c4.a)), GL_FLOAT, RGBA)
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices, colors)))
+		stack.top.attach(new SimpleGeometry(vertices, colors))
 	}
 	
 	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, texture: Texture) {
@@ -274,14 +274,14 @@ trait WorldBuilder extends RenderableBuilder {
 					  1.0f, 0.0f,
 					  1.0f, 1.0f,
 					  0.0f, 1.0f)))
-		stack.top.attach(new SimpleGeometry(createRenderable(vertices, textureCoordinates, texture)))
+		stack.top.attach(new SimpleGeometry(vertices, textureCoordinates, texture))
 	}
 	
 	def cube(normals: Boolean) {
 		val b = new CubeBuilder
 		val geometry = normals match {
-			case false => new SimpleGeometry(createRenderable(b.createVertices))
-			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createNormals))
+			case false => new SimpleGeometry(b.createVertices)
+			case true => new SimpleGeometry(b.createVertices, b.createNormals)
 		}
 		stack.top.attach(geometry)
 	}
@@ -293,22 +293,22 @@ trait WorldBuilder extends RenderableBuilder {
 	def cube(color: Color) {
 		val builder = new CubeBuilder
 		val vertices = builder.createVertices
-		val geometry = new SimpleGeometry(createRenderable(vertices, color))
+		val geometry = new SimpleGeometry(vertices, color)
 		stack.top.attach(geometry)
 	}
 	
 	def cube[ColorBuffer <: Buffer](colors: Colors[ColorBuffer]) {
 		val builder = new CubeBuilder
 		val vertices = builder.createVertices
-		val geometry = new SimpleGeometry(createRenderable(vertices, colors))
+		val geometry = new SimpleGeometry(vertices, colors)
 		stack.top.attach(geometry)
 	}
 	
 	def sphere(n: Int, r: Float, normals: Boolean) {
 		val b = new SphereBuilder(n, r)
 		val geometry = normals match {
-			case false => new SimpleGeometry(createRenderable(b.createVertices))
-			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createNormals))
+			case false => new SimpleGeometry(b.createVertices)
+			case true => new SimpleGeometry(b.createVertices, b.createNormals)
 		}
 		stack.top.attach(geometry)
 	}
@@ -316,8 +316,8 @@ trait WorldBuilder extends RenderableBuilder {
 	def sphere(n: Int, r: Float, color: Color, normals: Boolean) {
 		val b = new SphereBuilder(n, r)
 		val geometry = normals match {
-			case false => new SimpleGeometry(createRenderable(b.createVertices, color))
-			case true => new SimpleGeometry(createRenderable(b.createVertices, color, b.createNormals))
+			case false => new SimpleGeometry(b.createVertices, color)
+			case true => new SimpleGeometry(b.createVertices, color, b.createNormals)
 		}
 		stack.top.attach(geometry)
 	}
@@ -325,8 +325,8 @@ trait WorldBuilder extends RenderableBuilder {
 	def sphere(n: Int, r: Float, texture: Texture, normals: Boolean) {
 		val b = new SphereBuilder(n, r)
 		val geometry = normals match {
-			case false => new SimpleGeometry(createRenderable(b.createVertices, b.createTextureCoordinates, texture))
-			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createTextureCoordinates, texture, b.createNormals))
+			case false => new SimpleGeometry(b.createVertices, b.createTextureCoordinates, texture)
+			case true => new SimpleGeometry(b.createVertices, b.createTextureCoordinates, texture, b.createNormals)
 		}
 		stack.top.attach(geometry)
 	}
@@ -339,8 +339,8 @@ trait WorldBuilder extends RenderableBuilder {
 	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, normals: Boolean) {
 		val b = new BoxBuilder(width, height, depth, l, m, n)
 		val geometry = normals match {
-			case false => new SimpleGeometry(createRenderable(b.createVertices))
-			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createNormals))
+			case false => new SimpleGeometry(b.createVertices)
+			case true => new SimpleGeometry(b.createVertices, b.createNormals)
 		}
 		stack.top.attach(geometry)
 	}
@@ -348,8 +348,8 @@ trait WorldBuilder extends RenderableBuilder {
 	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, texture: Texture, normals: Boolean) {
 		val b = new BoxBuilder(width, height, depth, l, m, n)
 		val geometry = normals match {
-			case false => new SimpleGeometry(createRenderable(b.createVertices, b.createTextureCoordinates, texture))
-			case true => new SimpleGeometry(createRenderable(b.createVertices, b.createTextureCoordinates, texture, b.createNormals))
+			case false => new SimpleGeometry(b.createVertices, b.createTextureCoordinates, texture)
+			case true => new SimpleGeometry(b.createVertices, b.createTextureCoordinates, texture, b.createNormals)
 		}
 		stack.top.attach(geometry)
 	}
@@ -467,11 +467,11 @@ trait WorldBuilder extends RenderableBuilder {
 	}
 	
 	def lineStrip[T <: Buffer](vbo: VertexBufferObject[T]) {
-		stack.top.attach(new SimpleGeometry(createRenderableVBO(vbo)))
+		stack.top.attach(new SimpleGeometryVBO(RenderableBuilder.createRenderableVBO(vbo)))
 	}
 
 	def lineStrips[T <: Buffer](vbo: VertexBufferObject[T], firsts: IntBuffer, counts: IntBuffer) {
-		stack.top.attach(new SimpleGeometry(createRenderableVBO(vbo, firsts, counts)))
+		stack.top.attach(new SimpleGeometryVBO(RenderableBuilder.createRenderableVBO(vbo, firsts, counts)))
 	}
 	
 	def grid(width: Float, height: Float, m: Int, n: Int) {

@@ -16,7 +16,7 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class SphereBuilder(n: Int, r: Float) extends RenderableBuilder {
+class SphereBuilder(n: Int, r: Float) {
 
 	private def sphere(teta: Float, phi: Float): Vertice3D = {
 		// cf http://en.wikipedia.org/wiki/Sphere

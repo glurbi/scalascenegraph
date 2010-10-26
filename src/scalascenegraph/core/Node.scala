@@ -15,6 +15,7 @@ import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core.Predefs._
+import scalascenegraph.builders._
 
 /**
  * A Renderable class is a class that will execute OpenGL commands.
@@ -204,10 +205,54 @@ class CompositeGeometry extends Geometry {
 	
 }
 
-class SimpleGeometry(val renderable: Renderable) extends Geometry {
+class SimpleGeometry[VertexBuffer <: java.nio.Buffer, ColorBuffer <: java.nio.Buffer]
+(
+	val renderable: Renderable,
+	val vertices: Vertices[VertexBuffer],
+	val normals: Normals,
+	val color: Color,
+	val colors: Colors[ColorBuffer],
+	val textureCoordinates: TextureCoordinates,
+	val texture: Texture
+)
+extends Geometry {
+
+	def this(vertices: Vertices[VertexBuffer]) =
+		this(RenderableBuilder.createRenderable(vertices), vertices, null, null, null, null, null)
+
+	def this(vertices: Vertices[VertexBuffer], normals: Normals) =
+		this(RenderableBuilder.createRenderable(vertices, normals), vertices, normals, null, null, null, null)
+
+	// TODO: remove (use a color state)
+	def this(vertices: Vertices[VertexBuffer], color: Color) =
+		this(RenderableBuilder.createRenderable(vertices, color), vertices, null, color, null, null, null)
+
+	def this(vertices: Vertices[VertexBuffer], color: Color, normals: Normals) =
+		this(RenderableBuilder.createRenderable(vertices, color, normals), vertices, normals, color, null, null, null)
+
+	def this(vertices: Vertices[VertexBuffer], colors: Colors[ColorBuffer]) =
+		this(RenderableBuilder.createRenderable(vertices, colors), vertices, null, null, colors, null, null)
+
+	def this(vertices: Vertices[VertexBuffer], colors: Colors[ColorBuffer], normals: Normals) =
+		this(RenderableBuilder.createRenderable(vertices, colors, normals), vertices, normals, null, colors, null, null)
+
+	def this(vertices: Vertices[VertexBuffer], textureCoordinates: TextureCoordinates, texture: Texture) =
+		this(RenderableBuilder.createRenderable(vertices, textureCoordinates, texture), vertices, null, null, null, textureCoordinates, texture)
+
+	def this(vertices: Vertices[VertexBuffer], textureCoordinates: TextureCoordinates, texture: Texture, normals: Normals) =
+		this(RenderableBuilder.createRenderable(vertices, textureCoordinates, texture, normals), vertices, normals, null, null, textureCoordinates, texture)
 
 	def render(context: Context) {
 		renderable.render(context)
 	}
-	
+
+}
+
+// TODO: nothing related to VBO here, apart from the name...
+class SimpleGeometryVBO(val renderable: Renderable) extends Geometry {
+
+	def render(context: Context) {
+		renderable.render(context)
+	}
+
 }

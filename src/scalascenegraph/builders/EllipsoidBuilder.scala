@@ -16,11 +16,11 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) extends RenderableBuilder {
+class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) {
 
 	def createEllipsoid: Node = {
 		val vertices = createVertices
-		new SimpleGeometry(createRenderable(vertices))
+		new SimpleGeometry(vertices)
 	}
 
 	private def ellipsoid(teta: Float, phi: Float): Vertice3D = {

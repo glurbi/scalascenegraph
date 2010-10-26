@@ -15,10 +15,8 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
 // TODO: T --> VertexBuffer
-trait RenderableBuilder {
+object RenderableBuilder {
 
-	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
-	
 	def createRenderable[T <: Buffer](vertices: Vertices[T]): Renderable = {
 		new Renderable {
 			def render(context: Context) {

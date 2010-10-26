@@ -16,19 +16,17 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-class GridBuilder(width: Float, height: Float, m: Int, n: Int)
-extends RenderableBuilder
-{
+class GridBuilder(width: Float, height: Float, m: Int, n: Int) {
 
 	def createGrid: Node = {
 		val vertices = createVertices
-		new SimpleGeometry(createRenderable(vertices))
+		new SimpleGeometry(vertices)
 	}
 
 	def createGrid(texture: Texture): Node = {
 		val vertices = createVertices
 		val textureCoordinates = createTextureCoordinates
-		new SimpleGeometry(createRenderable(vertices, textureCoordinates, texture))
+		new SimpleGeometry(vertices, textureCoordinates, texture)
 	}
 	
 	def createVertices: Vertices[FloatBuffer] = {

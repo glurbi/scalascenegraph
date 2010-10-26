@@ -229,4 +229,10 @@ object Predefs {
 		new Color(c.getRed/255.0f, c.getGreen/255.0f, c.getBlue/255.0f, c.getAlpha/255.0f)
 	}
 
+	/**
+	 * OpenGL works mostly with floats, while math libraries provide doubles.
+	 * Let's hope it doesn't bite me later...
+	 */
+	implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
+
 }

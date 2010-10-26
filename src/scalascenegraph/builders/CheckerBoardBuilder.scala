@@ -18,13 +18,12 @@ import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
-class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color)
-extends RenderableBuilder {
+class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color) {
 	
 	def createCheckerBoard: Node = {
 		val vertices = createVertices
 		val colors = createColors
-		new SimpleGeometry(createRenderable(vertices, colors))
+		new SimpleGeometry(vertices, colors)
 	}
 	
 	def createVertices: Vertices[FloatBuffer] = {

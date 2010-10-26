@@ -18,18 +18,18 @@ import scalascenegraph.core._
 import scalascenegraph.core.Utils._
 import scalascenegraph.core.Predefs._
 
-class ConeBuilder(n: Int, m: Int, r: Float, h: Float) extends RenderableBuilder {
+class ConeBuilder(n: Int, m: Int, r: Float, h: Float) {
 
 	def createCone(normals: Boolean): Node = {
 		val geometry = new CompositeGeometry
 		normals match {
 			case false => {
-				geometry.addGeometry(new SimpleGeometry(createRenderable(createSideVertices)))
-				geometry.addGeometry(new SimpleGeometry(createRenderable(createBottomVertices)))
+				geometry.addGeometry(new SimpleGeometry(createSideVertices))
+				geometry.addGeometry(new SimpleGeometry(createBottomVertices))
 			}
 			case true => {
-				geometry.addGeometry(new SimpleGeometry(createRenderable(createSideVertices, createSideNormals)))
-				geometry.addGeometry(new SimpleGeometry(createRenderable(createBottomVertices, createBottomNormals)))
+				geometry.addGeometry(new SimpleGeometry(createSideVertices, createSideNormals))
+				geometry.addGeometry(new SimpleGeometry(createBottomVertices, createBottomNormals))
 			}
 		}
 		geometry

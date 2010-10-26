@@ -80,27 +80,27 @@ class Example02 extends Example with WorldBuilder {
 		detached {
 			val b = new SphereBuilder(20, 0.8)
 			val  vertices = b.createVertices
-			val colors = verticesAsColors(vertices)
+			val colors: Colors[FloatBuffer] = verticesAsColors(vertices)
     		translation(1.0f, 0.0f, 0.0f)
-			attach(new SimpleGeometry(createRenderable(vertices, colors)))
+			attach(new SimpleGeometry(vertices, colors))
 		}
 
 	val perVertexColorSphereWithWires =
 		detached {
 			val b = new SphereBuilder(10, 0.8)
 			val  vertices = b.createVertices
-			val colors = verticesAsColors(vertices)
+			val colors: Colors[FloatBuffer] = verticesAsColors(vertices)
 			cullFace(On)
     		translation(3.0f, 0.0f, 0.0f)
 			group {
 				shadeModel(GL_FLAT)
 				polygonOffset(1.0f, 1.0f)
-				attach(new SimpleGeometry(createRenderable(vertices, colors)))
+				attach(new SimpleGeometry(vertices, colors))
 			}
 			group {
 				polygonMode(GL_FRONT, GL_LINE)
 				color(JColor.gray)
-				attach(new SimpleGeometry(createRenderable(vertices)))
+				attach(new SimpleGeometry(vertices))
 			}
 		}
 	
