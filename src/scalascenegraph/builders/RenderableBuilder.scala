@@ -14,10 +14,9 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
 
-// TODO: T --> VertexBuffer
 object RenderableBuilder {
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T]): Renderable = {
+	def createRenderable[VertexBuffer <: Buffer](vertices: Vertices[VertexBuffer]): Renderable = {
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
@@ -29,8 +28,8 @@ object RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T],
-									  normals: Normals): Renderable =
+	def createRenderable[VertexBuffer <: Buffer](vertices: Vertices[VertexBuffer],
+												 normals: Normals): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -46,8 +45,8 @@ object RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T],
-									  color: Color): Renderable =
+	def createRenderable[VertexBuffer <: Buffer](vertices: Vertices[VertexBuffer],
+												 color: Color): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -64,9 +63,9 @@ object RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T],
-									  color: Color,
-									  normals: Normals): Renderable =
+	def createRenderable[VertexBuffer <: Buffer](vertices: Vertices[VertexBuffer],
+												 color: Color,
+												 normals: Normals): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -131,9 +130,9 @@ object RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T],
-									  textureCoordinates: TextureCoordinates,
-									  texture: Texture): Renderable =
+	def createRenderable[VertexBuffer <: Buffer](vertices: Vertices[VertexBuffer],
+												 textureCoordinates: TextureCoordinates,
+												 texture: Texture): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -150,10 +149,10 @@ object RenderableBuilder {
 		}
 	}
 
-	def createRenderable[T <: Buffer](vertices: Vertices[T],
-									  textureCoordinates: TextureCoordinates,
-									  texture: Texture,
-									  normals: Normals): Renderable =
+	def createRenderable[VertexBuffer <: Buffer](vertices: Vertices[VertexBuffer],
+												 textureCoordinates: TextureCoordinates,
+												 texture: Texture,
+												 normals: Normals): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -173,8 +172,8 @@ object RenderableBuilder {
 		}
 	}
 	
-	def createRenderableVBO[T <: Buffer](vbo: VertexBufferObject[T],
-			firsts: IntBuffer, counts: IntBuffer): Renderable =
+	def createRenderableVBO[VertexBuffer <: Buffer](vbo: VertexBufferObject[VertexBuffer],
+													firsts: IntBuffer, counts: IntBuffer): Renderable =
 	{
 		new Renderable {
 			def render(context: Context) {
@@ -189,7 +188,7 @@ object RenderableBuilder {
 		}
 	}
 	
-	def createRenderableVBO[T <: Buffer](vbo: VertexBufferObject[T]): Renderable = {
+	def createRenderableVBO[VertexBuffer <: Buffer](vbo: VertexBufferObject[VertexBuffer]): Renderable = {
 		new Renderable {
 			def render(context: Context) {
 				import context.gl
