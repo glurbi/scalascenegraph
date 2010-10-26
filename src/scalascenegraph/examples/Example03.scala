@@ -16,6 +16,8 @@ import scalascenegraph.core.Predefs._
 import scalascenegraph.builders._
 
 class Example03 extends Example with WorldBuilder {
+
+	val mycone = cone(8, 4, 2.0f, 4.0f, normals = true)
 	
 	def example =
 		world {
@@ -36,7 +38,12 @@ class Example03 extends Example with WorldBuilder {
 			group {
 				color(JColor.red)
     			translation(2.0f, 0.0f, 0.0f)
-				attach(cone(20, 10, 1.0f, 2.0f, normals = true))
+				attach(mycone)
+				group {
+					light(Off)
+					color(JColor.white)
+					attach(normals(mycone))
+				}
 			}
 			group {
 				color(JColor.lightGray)

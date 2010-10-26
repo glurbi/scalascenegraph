@@ -488,5 +488,10 @@ trait WorldBuilder {
 		val b = new ConeBuilder(n, m, r, h)
 		b.createCone(normals)
 	}
+	
+	def normals(geometry: Geometry): Geometry = {
+		val b = new NormalFieldBuilder(geometry)
+		new SimpleGeometry(b.createNormalLines)
+	}
 
 }

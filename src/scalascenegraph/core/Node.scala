@@ -187,7 +187,7 @@ abstract class Geometry extends Node
 
 class CompositeGeometry extends Geometry {
 
-	private var geometries : List[Geometry] = Nil
+	var geometries : List[Geometry] = Nil
 	
 	def addGeometry(geometry: Geometry) {
 		geometries = geometry :: geometries
