@@ -484,9 +484,9 @@ trait WorldBuilder {
 		stack.top.attach(builder.createGrid(texture))
 	}
 
-	def cone(n: Int, m: Int, r: Float, h: Float, normals: Boolean) {
+	def cone(n: Int, m: Int, r: Float, h: Float, normals: Boolean): Geometry = {
 		val b = new ConeBuilder(n, m, r, h)
-		stack.top.attach(b.createCone(normals))
+		b.createCone(normals)
 	}
 
 }

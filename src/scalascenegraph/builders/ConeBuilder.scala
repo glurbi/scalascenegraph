@@ -20,7 +20,7 @@ import scalascenegraph.core.Predefs._
 
 class ConeBuilder(n: Int, m: Int, r: Float, h: Float) {
 
-	def createCone(normals: Boolean): Node = {
+	def createCone(normals: Boolean): CompositeGeometry = {
 		val geometry = new CompositeGeometry
 		normals match {
 			case false => {
