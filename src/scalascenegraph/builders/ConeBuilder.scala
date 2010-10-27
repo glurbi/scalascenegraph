@@ -72,8 +72,8 @@ class ConeBuilder(n: Int, m: Int, r: Float, h: Float) {
 
 	def createSideNormals: Normals = {
 		def coneSideNormal(teta: Float): Normal = {
-			val x = - r * sin(teta)
-			val y = r * cos(teta)
+			val x = r * cos(teta)
+			val y = r * sin(teta)
 			val z = r / sqrt(r*r+h*h)
 			normalize(Normal(x, y, z))
 		}

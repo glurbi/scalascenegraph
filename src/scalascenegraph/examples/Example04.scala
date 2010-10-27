@@ -35,7 +35,7 @@ class Example04 extends Example with WorldBuilder {
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
     		material(GL_FRONT, GL_AMBIENT, JColor.green)
     		material(GL_FRONT, GL_DIFFUSE, JColor.green)
-    		sphere(30, 1.0f, normals = true)
+    		attach(sphere(30, 1.0f, normals = true))
     	}
 
     def redCube =
@@ -63,7 +63,7 @@ class Example04 extends Example with WorldBuilder {
     		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
     		material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.blue)
     		material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.blue)
-    		sphere(15, 1.0f, normals = true)
+    		attach(sphere(15, 1.0f, normals = true))
     	}
     
 	def example =

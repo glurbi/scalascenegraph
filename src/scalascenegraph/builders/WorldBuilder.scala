@@ -304,13 +304,12 @@ trait WorldBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def sphere(n: Int, r: Float, normals: Boolean) {
+	def sphere(n: Int, r: Float, normals: Boolean): Geometry = {
 		val b = new SphereBuilder(n, r)
-		val geometry = normals match {
+		normals match {
 			case false => new SimpleGeometry(b.createVertices)
 			case true => new SimpleGeometry(b.createVertices, b.createNormals)
 		}
-		stack.top.attach(geometry)
 	}
 	
 	def sphere(n: Int, r: Float, color: Color, normals: Boolean) {
