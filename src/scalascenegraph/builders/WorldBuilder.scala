@@ -3,6 +3,7 @@ package scalascenegraph.builders
 import java.io._
 import java.nio._
 import java.awt.image._
+import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
 import scala.collection.mutable.Stack
 import com.jogamp.common.nio._
@@ -488,9 +489,14 @@ trait WorldBuilder {
 		b.createCone(normals)
 	}
 	
-	def normals(geometry: Geometry): Geometry = {
-		val b = new NormalFieldBuilder(geometry)
-		new SimpleGeometry(b.createNormalLines)
+	def normals(geometry: Geometry): Group = {
+		detached {
+			depthTest(On)
+			light(Off)
+			color(JColor.white)
+			val b = new NormalFieldBuilder(geometry)
+			attach(new SimpleGeometry(b.createNormalLines))
+		}
 	}
 
 }

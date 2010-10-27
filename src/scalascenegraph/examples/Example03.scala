@@ -17,8 +17,8 @@ import scalascenegraph.builders._
 
 class Example03 extends Example with WorldBuilder {
 
-	val mycone = cone(10, 5, 1.0f, 2.0f, normals = true)
-	val mysphere = sphere(12, 1.0f, normals = true)
+	val mycone = cone(20, 10, 4.0f, 6.0f, normals = true)
+	val mysphere = sphere(20, 4.0f, normals = true)
 	
 	def example =
 		world {
@@ -29,31 +29,19 @@ class Example03 extends Example with WorldBuilder {
 		    light(GL_LIGHT0, GL_POSITION, Array(0.0f, 1.0f, 1.0f, 0.0f))
 		    light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
 			colorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
-    		translation(0.0f, 0.0f, -8.0f)
-		    ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
+    		translation(0.0f, 0.0f, -15.0f)
+		    ambient(Intensity(0.1f, 0.1f, 0.1f, 1.0f))
 			group {
 				color(JColor.cyan)
-    			translation(-2.0f, 0.0f, 1.0f)
+    			translation(-6.0f, 0.0f, 1.0f)
     			attach(mysphere)
-				group {
-					light(Off)
-					color(JColor.white)
-					attach(normals(mysphere))
-				}
+				attach(normals(mysphere))
 			}
 			group {
 				color(JColor.red)
-    			translation(2.0f, 0.0f, 0.0f)
+    			translation(6.0f, 0.0f, 0.0f)
 				attach(mycone)
-				group {
-					light(Off)
-					color(JColor.white)
-					attach(normals(mycone))
-				}
-			}
-			group {
-				color(JColor.lightGray)
-				box(12.0f, 8.0f, 0.1f, 40, 30, 1, normals = true)
+				attach(normals(mycone))
 			}
 	    }
 

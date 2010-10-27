@@ -15,6 +15,7 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 
 class SphereBuilder(n: Int, r: Float) {
 
@@ -42,8 +43,16 @@ class SphereBuilder(n: Int, r: Float) {
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)	
 	}
 	
-	def createNormals = Normals(createVertices.buffer)
-	
+	def createNormals = {
+		val ab = new ArrayBuffer[Float]
+		val vbuf = createVertices.buffer
+		for (i <- 0 until vbuf.limit / 3) {
+			val n = Normal(vbuf.get, vbuf.get, vbuf.get)
+			ab ++= normalize(n).xyz
+		}
+		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
+	}	
+
 	def createTextureCoordinates = {
 		val ab = new ArrayBuffer[Float]
 		for (i <- 0 to n) {
