@@ -43,8 +43,7 @@ class NormalFieldBuilder(geometry: Geometry) {
 	private def createNormalLinesFromSimpleGeometry(sg: SimpleGeometry[FloatBuffer, FloatBuffer], ab: ArrayBuffer[Float]) {
 		val vbuf = sg.vertices.buffer
 		val nbuf = sg.normals.floatBuffer
-		println(vbuf.limit + " " + nbuf.limit)
-		for (i <- 0 until nbuf.limit / 3) {
+		for (i <- 0 until vbuf.limit / 3) {
 			val v = Vector3D(vbuf.get, vbuf.get, vbuf.get)
 			val n = Normal(nbuf.get, nbuf.get, nbuf.get)
 			ab ++= v.xyz

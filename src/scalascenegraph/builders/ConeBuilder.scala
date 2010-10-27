@@ -95,6 +95,7 @@ class ConeBuilder(n: Int, m: Int, r: Float, h: Float) {
 		val ab = new ArrayBuffer[Float]
 		val normal = Normal(0.0f, 0.0f, -1.0f)
 		val tetaStep = 2 * Pi / n
+		ab ++= normal.xyz
 		for (i <- 0 to n) {
 			ab ++= normal.xyz
 		}
