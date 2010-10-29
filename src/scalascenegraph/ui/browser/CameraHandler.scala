@@ -1,6 +1,9 @@
 package scalascenegraph.ui.browser
 
+import scala.math._
+
 import scalascenegraph.core._
+import scalascenegraph.core.Predefs._
 
 class CameraHandler extends Renderable {
 
