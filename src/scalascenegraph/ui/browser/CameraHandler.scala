@@ -18,8 +18,14 @@ class CameraHandler extends Renderable {
 		val tFac = 0.1f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
 		val rFac = 1.0f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
 		if (!context.controlKeyPressed && !context.shiftKeyPressed) {
-			if (context.upKeyPressed) { zT += tFac }
-			if (context.downKeyPressed) { zT -= tFac }
+			if (context.upKeyPressed) {
+				zT += tFac * cos(toRadians(yR))
+				xT += tFac * sin(-toRadians(yR))
+			}
+			if (context.downKeyPressed) {
+				zT -= tFac * cos(toRadians(yR))
+				xT -= tFac * sin(-toRadians(yR))
+			}
 			if (context.leftKeyPressed) { yR -= rFac }
 			if (context.rightKeyPressed) { yR += rFac }
 		} else if (context.controlKeyPressed && !context.shiftKeyPressed) {
@@ -36,10 +42,10 @@ class CameraHandler extends Renderable {
 		if (context.spaceKeyPressed) {
 			xT = 0; yT = 0; zT = 0; xR = 0; yR = 0; zR = 0
 		}
-		context.gl.glTranslatef(xT, yT, zT)
 		context.gl.glRotatef(xR, 1.0f, 0.0f, 0.0f)
 		context.gl.glRotatef(yR, 0.0f, 1.0f, 0.0f)
 		context.gl.glRotatef(zR, 0.0f, 0.0f, 1.0f)
+		context.gl.glTranslatef(xT, yT, zT)
 		printState(context)
 	}
 
