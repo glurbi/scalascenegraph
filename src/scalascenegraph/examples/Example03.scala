@@ -23,25 +23,32 @@ class Example03 extends Example with WorldBuilder {
 	def example =
 		world {
 			depthTest(On)
-			cullFace(On)
-		    light(On)
-		    light(GL_LIGHT0, On)
-		    light(GL_LIGHT0, GL_POSITION, Array(0.0f, 1.0f, 1.0f, 0.0f))
-		    light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
-			colorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
-    		translation(0.0f, 0.0f, -15.0f)
-		    ambient(Intensity(0.1f, 0.1f, 0.1f, 1.0f))
 			group {
-				color(JColor.cyan)
-    			translation(-6.0f, 0.0f, 1.0f)
-    			attach(mysphere)
-				attach(normals(mysphere))
+				cullFace(On)
+				light(On)
+				light(GL_LIGHT0, On)
+				light(GL_LIGHT0, GL_POSITION, Array(0.0f, 1.0f, 1.0f, 0.0f))
+				light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
+				colorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
+    			translation(0.0f, 0.0f, -15.0f)
+				ambient(Intensity(0.1f, 0.1f, 0.1f, 1.0f))
+				group {
+					color(JColor.cyan)
+    				translation(-6.0f, 0.0f, 1.0f)
+    				attach(mysphere)
+					attach(normals(mysphere))
+				}
+				group {
+					color(JColor.red)
+    				translation(6.0f, 0.0f, 0.0f)
+					attach(mycone)
+					attach(normals(mycone))
+				}
 			}
 			group {
-				color(JColor.red)
-    			translation(6.0f, 0.0f, 0.0f)
-				attach(mycone)
-				attach(normals(mycone))
+				color(JColor.gray)
+				polygonMode(GL_FRONT_AND_BACK, GL_LINE)
+				box(40.0f, 40.0f, 40.0f, 40, 40, 40, normals = false)
 			}
 	    }
 

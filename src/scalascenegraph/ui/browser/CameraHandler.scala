@@ -37,6 +37,13 @@ class CameraHandler extends Renderable {
 		context.gl.glRotatef(xR, 1.0f, 0.0f, 0.0f)
 		context.gl.glRotatef(yR, 0.0f, 1.0f, 0.0f)
 		context.gl.glRotatef(zR, 0.0f, 0.0f, 1.0f)
+		printState(context)
 	}
-	
+
+	def printState(context: Context) {
+		if (context.pressedKeys.size != 0) {
+			println("xT=" + xT + " yT=" + yT + " zT=" + zT + " xR=" + xR + " yR=" + yR + " zR=" + zR)
+		}
+	}
+
 }
