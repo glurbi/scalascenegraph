@@ -19,12 +19,12 @@ class CameraHandler extends Renderable {
 		val rFac = 1.0f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
 		if (!context.controlKeyPressed && !context.shiftKeyPressed) {
 			if (context.upKeyPressed) {
-				zT += tFac * cos(toRadians(yR))
+				zT += tFac * cos(toRadians(yR)) * cos(toRadians(xR))
 				xT += tFac * sin(toRadians(-yR))
 				yT += tFac * sin(toRadians(xR))
 			}
 			if (context.downKeyPressed) {
-				zT -= tFac * cos(toRadians(yR))
+				zT -= tFac * cos(toRadians(yR)) * cos(toRadians(xR))
 				xT -= tFac * sin(toRadians(-yR))
 				yT -= tFac * sin(toRadians(xR))
 			}
