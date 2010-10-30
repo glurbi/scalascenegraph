@@ -32,11 +32,11 @@ class CameraHandler extends Renderable {
 			if (context.rightKeyPressed) { yR += rFac }
 		} else if (context.controlKeyPressed && !context.shiftKeyPressed) {
 			if (context.upKeyPressed) {
-				yT -= tFac * cos(toRadians(zR))
+				yT -= tFac * cos(toRadians(zR)) * cos(toRadians(xR))
 				xT -= tFac * sin(toRadians(zR))
 			}
 			if (context.downKeyPressed) {
-				yT += tFac * cos(toRadians(zR))
+				yT += tFac * cos(toRadians(zR)) * cos(toRadians(xR))
 				xT += tFac * sin(toRadians(zR))
 			}
 			if (context.leftKeyPressed) {
