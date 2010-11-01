@@ -38,6 +38,10 @@ trait WorldBuilder {
 		stack.pop.asInstanceOf[Group]
 	}
 
+	def attach(node: Node) {
+		stack.top.attach(node)
+	}
+	
 	def attach(group: Group) {
 		stack.top.attach(group)
 	}
@@ -76,6 +80,20 @@ trait WorldBuilder {
 		stack.push(group)
 		body
 		stack.pop.asInstanceOf[Group]
+	}
+
+
+	def conditional(condition: (Context) => Boolean)(body: => Unit): Node = {
+		val child = detached { body }
+		val optional = new Node {
+			def render(context: Context) {
+				if (condition(context)) {
+					child.render(context)
+				}
+			}
+		}
+		attach(optional)
+		optional
 	}
 
 	def node(fun: (Context) => Unit): Node = new Node {

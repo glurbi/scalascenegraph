@@ -1,6 +1,7 @@
 package scalascenegraph.examples
 
 import java.awt.{Color => JColor }
+import java.awt.event._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
 import javax.media.opengl.GL2GL3._
@@ -19,6 +20,8 @@ class Example03 extends Example with WorldBuilder {
 
 	val mycone = cone(20, 10, 4.0f, 6.0f, normals = true)
 	val mysphere = sphere(20, 4.0f, normals = true)
+
+	val nPressed = (context: Context) => context.pressedKeys.contains(KeyEvent.VK_N)
 	
 	def example =
 		world {
@@ -36,13 +39,13 @@ class Example03 extends Example with WorldBuilder {
 					color(JColor.cyan)
     				translation(-6.0f, 0.0f, 1.0f)
     				attach(mysphere)
-					attach(normals(mysphere))
+					conditional(nPressed) { attach(normals(mysphere)) }
 				}
 				group {
 					color(JColor.red)
     				translation(6.0f, 0.0f, 0.0f)
 					attach(mycone)
-					attach(normals(mycone))
+					conditional(nPressed) { attach(normals(mycone)) }
 				}
 			}
 			group {
