@@ -6,6 +6,7 @@ import java.awt._
 import java.awt.event._
 import javax.swing.SwingUtilities
 import javax.media.opengl._
+import javax.media.opengl.glu._
 import javax.media.opengl.awt._
 import com.jogamp.opengl.util._ 
 
@@ -104,6 +105,7 @@ extends GLEventListener
     	//drawable.setGL(new DebugGL3bc(drawable.getGL.getGL3bc))
     	val gl = drawable.getGL.getGL3bc
     	context.gl = gl
+		context.glu = GLU.createGLU
         val preparator = new NodeVisitor(context) {
     		def visit(group: Group) {
     			group.resources.foreach { resource => resource.prepare(context) }

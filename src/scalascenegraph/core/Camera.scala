@@ -11,8 +11,10 @@ import javax.media.opengl.fixedfunc._
 import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
+import scala.math._
 
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 
 object Camera {
 	
@@ -45,8 +47,72 @@ object Camera {
 	}
 }
 
+// more or less direct scala translation of http://www.codecolony.de/opengl.htm#camera2
 abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
-	val projectionType: ProjectionType
+
+ 	val projectionType: ProjectionType
+
+	var positionV = Vector3D(0.0f, 0.0f, 0.0f)
+	var directionV = Vector3D(0.0f, 0.0f, -1.0f)
+	var rightV = Vector3D(1.0f, 0.0f, 0.0f)
+	var upV = Vector3D(0.0f, 1.0f, 0.0f)
+
+	def reset {
+		positionV = Vector3D(0.0f, 0.0f, 0.0f)
+		directionV = Vector3D(0.0f, 0.0f, -1.0f)
+		rightV = Vector3D(1.0f, 0.0f, 0.0f)
+		upV = Vector3D(0.0f, 1.0f, 0.0f)
+	}
+
+	def rotateX(deg: Float) {
+		directionV = normalize(directionV * cos(toRadians(deg)) + upV * sin(toRadians(deg)))
+		upV = crossProduct(directionV, rightV) * -1
+	}
+
+	def rotateY(deg: Float) {
+		directionV = normalize(directionV * cos(toRadians(deg)) - rightV * sin(toRadians(deg)))
+		rightV  = crossProduct(directionV, upV)
+	}
+
+	def rotateZ(deg: Float) {
+		rightV = normalize(rightV * cos(toRadians(deg)) + upV * sin(toRadians(deg)))
+		upV = crossProduct(directionV, rightV) * -1
+	}
+
+	def moveRight(dist: Float) {
+		positionV = positionV + (rightV * dist)
+	}
+
+	def moveLeft(dist: Float) {
+		positionV = positionV - (rightV * dist)
+	}
+
+	def moveUp(dist: Float) {
+		positionV = positionV + (upV * dist)
+	}
+
+	def moveDown(dist: Float) {
+		positionV = positionV - (upV * dist)
+	}
+
+	def moveForward(dist: Float) {
+		positionV = positionV + (directionV * dist)
+	}
+
+	def moveBackward(dist: Float) {
+		positionV = positionV - (directionV * dist)
+	}
+
+	protected def positionAndOrient(context: Context) {
+		val centerV = positionV + directionV
+		context.glu.gluLookAt(
+			positionV.x, positionV.y, positionV.z,
+			centerV.x, centerV.y, centerV.z,
+			upV.x, upV.y, upV.z)
+	}
+
+	override def toString: String =
+		"position=" + positionV + " direction=" + directionV + " right=" + rightV + " up=" + upV
 }
 
 class ClippingVolume(
@@ -70,6 +136,7 @@ extends Camera(clippingVolume)
         gl.glFrustum(left, right, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
+		positionAndOrient(context)
     }
 }
 
@@ -86,5 +153,6 @@ extends Camera(clippingVolume)
         gl.glOrtho(left, right, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
+		positionAndOrient(context)
     }
 }

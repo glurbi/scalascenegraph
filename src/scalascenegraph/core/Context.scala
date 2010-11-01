@@ -2,10 +2,12 @@ package scalascenegraph.core
 
 import java.util._
 import javax.media.opengl._
+import javax.media.opengl.glu._
 
 class Context {
 	
 	var gl: GL3bc = _
+	var glu: GLU = _
 	
 	val creationTime = System.currentTimeMillis
 	var lastFrameTimeNano = System.nanoTime

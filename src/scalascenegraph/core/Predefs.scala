@@ -2,6 +2,8 @@ package scalascenegraph.core
 
 import java.nio._
 
+import scalascenegraph.core.Utils._
+
 object Predefs {
 
 	/**
@@ -25,6 +27,10 @@ object Predefs {
 	 */
 	case class Vector3D(x: Float, y: Float, z: Float) {
 		val xyz = Array(x, y, z)
+		def +(other: Vector3D): Vector3D = Vector3D(this.x + other.x, this.y + other.y, this.z + other.z)
+		def -(other: Vector3D): Vector3D = Vector3D(this.x - other.x, this.y - other.y, this.z - other.z)
+		def *(f: Float): Vector3D = Vector3D(this.x * f, this.y * f, this.z * f)
+		def normalize: Vector3D = Utils.normalize(this)
 	}
 	
 	/**
