@@ -36,6 +36,7 @@ object Predefs {
 	/**
 	 * A 3D point. 
 	 */
+	// TODO: subclass from Vector3D, or make type equivalence
 	case class Vertice3D(x: Float, y: Float, z: Float)  {
 		val xyz = Array(x, y, z)
 	}
@@ -43,6 +44,7 @@ object Predefs {
 	/**
 	 * Surface normal vector.
 	 */
+	// TODO: subclass from Vector3D, or make type equivalence
 	case class Normal(x: Float, y: Float, z: Float)  {
 		val xyz = Array(x, y, z)
 	}
@@ -62,6 +64,7 @@ object Predefs {
 	/**
 	 * A light position.
 	 */
+	// TODO: subclass from Vector3D, or make type equivalence
 	case class Position(x: Float, y: Float, z: Float) {
 		def xyz: Array[Float] = Array(x, y, z)
 	}

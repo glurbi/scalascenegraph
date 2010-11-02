@@ -2,6 +2,7 @@ package scalascenegraph.builders
 
 import scala.math._
 import scala.collection.mutable._
+import java.nio._
 import com.jogamp.common.nio._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
@@ -15,13 +16,9 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 
 class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) {
-
-	def createEllipsoid: Node = {
-		val vertices = createVertices
-		new SimpleGeometry(vertices)
-	}
 
 	private def ellipsoid(teta: Float, phi: Float): Vertice3D = {
 		// cf http://en.wikipedia.org/wiki/Ellipsoid
@@ -31,7 +28,7 @@ class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) {
 		Vertice3D(x, y, z)
 	}
 	
-	def createVertices = {
+	def createVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
 		val tetaStep = 2 * Pi / n
 		val phiStep = Pi / m
@@ -47,6 +44,18 @@ class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) {
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
 	}
-	
+
+	def createNormals: Normals = {
+		val buf = createVertices.buffer
+		val ab = new ArrayBuffer[Float]
+		for (i <- 0 until buf.limit / 3) {
+			val x = buf.get
+			val y = buf.get
+			val z = buf.get
+			ab ++= normalize(Normal(2*x/(a*a), 2*y/(b*b), 2*z/(c*c))).xyz
+		}
+		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
+	}
+
 }
 

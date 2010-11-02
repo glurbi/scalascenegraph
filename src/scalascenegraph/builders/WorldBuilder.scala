@@ -21,6 +21,8 @@ import scalascenegraph.core._
 import scalascenegraph.builders._
 import scalascenegraph.core.Predefs._
 
+// TODO: separate into GeometryBuilder, GraphBuilder, ResourceBuilder, ...
+// TODO: should be some consistency with what has to be attached or not
 trait WorldBuilder {
 
 	private val stack = new Stack[Node]
@@ -349,9 +351,12 @@ trait WorldBuilder {
 		stack.top.attach(geometry)
 	}
 
-	def ellipsoid(n: Int, m: Int, a: Float, b: Float, c: Float) {
-		val builder = new EllipsoidBuilder(n, m, a, b, c)
-		stack.top.attach(builder.createEllipsoid)
+	def ellipsoid(n: Int, m: Int, a: Float, b: Float, c: Float, normals: Boolean): Geometry = {
+		val bld = new EllipsoidBuilder(n, m, a, b, c)
+		normals match {
+			case false => new SimpleGeometry(bld.createVertices)
+			case true => new SimpleGeometry(bld.createVertices, bld.createNormals)
+		}
 	}
 	
 	def box(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, normals: Boolean) {

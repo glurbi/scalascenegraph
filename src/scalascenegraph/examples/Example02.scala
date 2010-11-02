@@ -141,25 +141,25 @@ class Example02 extends Example with WorldBuilder {
 			group {
     			polygonMode(GL_FRONT, GL_LINE)
     			translation(-3.0f, -2.0f, 0.0f)
-				ellipsoid(20, 20, 0.5f, 0.5f, 1.0f)
+				attach(ellipsoid(20, 20, 0.5f, 0.5f, 1.0f, normals = false))
 			}
 			group {
 				cullFace(Off)
     			polygonMode(GL_FRONT_AND_BACK, GL_LINE)
     			translation(3.0f, -2.0f, 0.0f)
-				ellipsoid(20, 20, 0.5f, 0.5f, 1.0f)
+				attach(ellipsoid(20, 20, 0.5f, 0.5f, 1.0f, normals = false))
 			}
 			group {
     			translation(0.0f, -2.0f, 0.0f)
 				rotation(90.0f, 1.0f, 0.0f, 0.0f)
 				group {
 					frontFace(GL_CW)
-					ellipsoid(20, 20, 2.0f, 2.0f, 0.3f)
+					attach(ellipsoid(20, 20, 2.0f, 2.0f, 0.3f, normals = false))
 				}
 				group {
 					color(JColor.black)
     				polygonMode(GL_FRONT, GL_LINE)
-					ellipsoid(20, 20, 2.0f, 2.0f, 0.3f)
+					attach(ellipsoid(20, 20, 2.0f, 2.0f, 0.3f, normals = false))
 				}
 			}
 		}
