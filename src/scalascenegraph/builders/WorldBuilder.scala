@@ -414,9 +414,12 @@ trait WorldBuilder {
 		stack.top.attach(new MaterialState(face, lightType, color))
 	}
 	
-	def torus(n: Int, R: Float, r: Float) {
-		val builder = new TorusBuilder(n, R, r)
-		stack.top.attach(builder.createTorus)
+	def torus(n: Int, R: Float, r: Float, normals: Boolean): Geometry = {
+		val b = new TorusBuilder(n, R, r)
+		normals match {
+			case false => new SimpleGeometry(b.createVertices)
+			case true => new SimpleGeometry(b.createVertices, b.createNormals)
+		}
 	}
 
 	def shadeModel(shadeModel: ShadeModel) {

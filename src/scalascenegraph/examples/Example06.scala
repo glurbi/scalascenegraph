@@ -45,17 +45,17 @@ class Example06 extends Example with WorldBuilder {
 				group {
 					translation(-1.5f, 0.5f, -3.5f)
 					rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-					torus(30, 1.0f, 0.5f)
+					attach(torus(30, 1.0f, 0.5f, normals = true))
 				}
 				group {
 					translation(1.0f, 0.5f, -6.0f)
 					rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-					torus(30, 1.0f, 0.5f)
+					attach(torus(30, 1.0f, 0.5f, normals = true))
 				}
 				group {
 					translation(5.0f, 0.5f, -8.5f)
 					rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-					torus(30, 1.0f, 0.5f)
+					attach(torus(30, 1.0f, 0.5f, normals = true))
 				}
 			}
 		}

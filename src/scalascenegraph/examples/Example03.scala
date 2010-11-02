@@ -20,13 +20,15 @@ class Example03 extends Example with WorldBuilder {
 
 	val mycone = cone(20, 10, 4.0f, 6.0f, normals = true)
 	val mysphere = sphere(20, 4.0f, normals = true)
-	val myellipsoid = ellipsoid(20, 20, 8.0f, 8.0f, 3.0f, normals = true)
+	val myellipsoid = ellipsoid(20, 20, 9.0f, 9.0f, 2.0f, normals = true)
+	val mytorus = torus(30, 7.0f, 2.0f, normals = true)
 
 	val nPressed = (context: Context) => context.pressedKeys.contains(KeyEvent.VK_N)
 	
 	def example =
 		world {
 			depthTest(On)
+    		translation(0.0f, 0.0f, -12.0f)
 			group {
 				cullFace(On)
 				light(On)
@@ -54,6 +56,13 @@ class Example03 extends Example with WorldBuilder {
 					rotation(90.0f, 1.0f, 0.0f, 0.0f)
 					attach(myellipsoid)
 					conditional(nPressed) { attach(normals(myellipsoid)) }
+				}
+				group {
+					color(JColor.pink)
+    				translation(0.0f, 10.0f, 6.0f)
+					rotation(90.0f, 1.0f, 0.0f, 0.0f)
+					attach(mytorus)
+					conditional(nPressed) { attach(normals(mytorus)) }
 				}
 			}
 			group {
