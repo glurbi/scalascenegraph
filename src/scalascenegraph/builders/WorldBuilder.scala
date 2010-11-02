@@ -23,72 +23,8 @@ import scalascenegraph.core.Predefs._
 
 // TODO: separate into GeometryBuilder, ResourceBuilder, ...
 // TODO: should be some consistency with what has to be attached or not
-trait WorldBuilder extends GraphBuilder {
+trait WorldBuilder extends GraphBuilder with StateBuilder {
 
-	def color(c: Color) {
-		stack.top.attach(new ColorState(c))
-	}
-
-	def smooth(smooth: SmoothType) {
-		stack.top.attach(new SmoothState(smooth))
-	}
-	
-	def pointSize(size: Float) {
-		stack.top.attach(new PointSizeState(size))
-	}
-	
-	def lineWidth(width: Float) {
-		stack.top.attach(new LineWidthState(width))
-	}
-
-	def lineStipple(factor: Int, pattern: Short) {
-		stack.top.attach(new LineStippleState(factor, pattern))
-	}
-	
-	def translation(x: Float, y: Float, z: Float) {
-		stack.top.attach(new Translation(x, y, z))
-	}
-
-	def translation(x: Float, y: Float, z: Float, hook: StateHook[Translation]) {
-		stack.top.attach(new DynamicState(hook, new Translation(x, y, z)))
-	}
-	
-	def translation(hook: StateHook[Translation]) {
-		stack.top.attach(new DynamicState(hook, new Translation(0.0f, 0.0f, 0.0f)))
-	}
-	
-	def rotation(angle: Float, x: Float, y: Float, z: Float) {
-		stack.top.attach(new Rotation(angle, x, y, z))
-	}
-
-	def rotation(angle: Float, x: Float, y: Float, z: Float, hook: StateHook[Rotation]) {
-		stack.top.attach(new DynamicState(hook, new Rotation(angle, x, y, z)))
-	}
-
-	def rotation(hook: StateHook[Rotation]) {
-		stack.top.attach(new DynamicState(hook, new Rotation))
-	}
-	
-	def polygonMode(face: Face, mode: DrawingMode) {
-		stack.top.attach(new PolygonModeState(face, mode))
-	}
-
-	def polygonOffset(factor: Float, units: Float) {
-		stack.top.attach(new PolygonOffsetState(factor, units))
-	}
-	
-	def frontFace(frontFace: FrontFace) {
-		stack.top.attach(new FrontFaceState(frontFace))
-	}
-	
-	def cullFace(cullFace: OnOffState) {
-		stack.top.attach(new CullFaceState(cullFace))
-	}
-
-	def depthTest(depthTest: OnOffState) {
-		stack.top.attach(new DepthTestState(depthTest))
-	}
-	
 	def point(v: Vertice3D, color: Color) {
 		val vertices = Vertices[FloatBuffer](
 			Buffers.newDirectFloatBuffer(Array(v.x, v.y, v.z)),
@@ -298,43 +234,6 @@ trait WorldBuilder extends GraphBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def light(mode: OnOffState) {
-		stack.top.attach(new GlobalLightState(mode))
-	}
-
-	def light(instance: LightInstance, mode: OnOffState) {
-		stack.top.attach(new LightState(instance, mode))
-	}
-
-	// TODO: remove (replace with light parameter)
-	def light(instance: LightInstance, lightType: LightType, color: Color) {
-		stack.top.attach(new LightColorState(instance, lightType, color))
-	}
-
-	def light(instance: LightInstance, position: Position) {
-		stack.top.attach(new LightPositionState(instance, position))
-	}
-	
-	def light(instance: LightInstance, parameter: LightParameter, value: Array[Float]) {
-		stack.top.attach(new LightParameterState(instance, parameter, value))
-	}
-
-	def shininess(face: Face, shininess: Int) {
-		stack.top.attach(new MaterialShininessState(face, shininess))
-	}
-	
-	def ambient(intensity: Intensity) {
-		stack.top.attach(new AmbientLightState(intensity))
-	}
-
-	def colorMaterial(face: Face, lightType: LightType) {
-		stack.top.attach(new ColorMaterialState(face, lightType))
-	}
-	
-	def material(face: Face, lightType: LightType, color: Color) {
-		stack.top.attach(new MaterialState(face, lightType, color))
-	}
-	
 	def torus(n: Int, R: Float, r: Float, normals: Boolean): Geometry = {
 		val b = new TorusBuilder(n, R, r)
 		normals match {
@@ -343,17 +242,9 @@ trait WorldBuilder extends GraphBuilder {
 		}
 	}
 
-	def shadeModel(shadeModel: ShadeModel) {
-		stack.top.attach(new ShadeModelState(shadeModel))
-	}
-
 	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
 		val builder = new CheckerBoardBuilder(n, m, c1, c2)
 		stack.top.attach(builder.createCheckerBoard)
-	}
-	
-	def fog(color: Color, mode: FogMode) {
-		stack.top.attach(new FogState(color, mode))
 	}
 	
 	def overlay(x: Int, y: Int, image: BufferedImage) {
@@ -391,26 +282,6 @@ trait WorldBuilder extends GraphBuilder {
 			o.text = "FPS: " + c.frameRate
 		}
 		overlay(0, 0, defaultFont, "", fpsHook)
-	}
-	
-	def blending(mode: OnOffState) {
-		stack.top.attach(new BlendingState(mode))
-	}
-
-	def useProgram(program: Program) {
-		stack.top.attach(new ProgramState(program))
-	}
-	
-	def setUniform(uniform: Uniform, color: Color) {
-		stack.top.attach(new UniformState(uniform, color.rgba))
-	}
-	
-	def setUniform(uniform: Uniform, value: Float) {
-		stack.top.attach(new UniformState(uniform, value))
-	}
-
-	def setUniform(uniform: Uniform, value: Float, hook: StateHook[UniformState]) {
-		stack.top.attach(new DynamicState(hook, new UniformState(uniform, value)))
 	}
 	
 	def lineStrip[T <: Buffer](vbo: VertexBufferObject[T]) {
