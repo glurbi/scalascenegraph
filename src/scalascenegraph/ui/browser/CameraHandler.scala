@@ -8,8 +8,8 @@ import scalascenegraph.core.Predefs._
 class CameraHandler extends Renderable {
 
 	def render(context: Context) {
-		val tFac = 0.1f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
-		val rFac = 1.0f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
+		val tFac = 0.5f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
+		val rFac = 3.0f * 60 / (if (context.frameRate > 0) context.frameRate else 60)
 		if (!context.controlKeyPressed && !context.shiftKeyPressed) {
 			if (context.upKeyPressed) { context.camera.moveForward(tFac) }
 			if (context.downKeyPressed) { context.camera.moveBackward(tFac) }
