@@ -32,10 +32,10 @@ class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color) {
 		val yOffset = -m / 2.0f
 		for (i <- 0 until n) {
 			for (j <- 0 until m) {
-				ab ++= Vertice3D(i + xOffset, j + yOffset, 0.0f).xyz
-				ab ++= Vertice3D(i + 1.0f + xOffset, j + yOffset, 0.0f).xyz
-				ab ++= Vertice3D(i + 1.0f + xOffset, j + 1.0f + yOffset, 0.0f).xyz
-				ab ++= Vertice3D(i + xOffset, j + 1.0f + yOffset, 0.0f).xyz
+				ab ++= new Vertice3D(i + xOffset, j + yOffset, 0.0f).xyz
+				ab ++= new Vertice3D(i + 1.0f + xOffset, j + yOffset, 0.0f).xyz
+				ab ++= new Vertice3D(i + 1.0f + xOffset, j + 1.0f + yOffset, 0.0f).xyz
+				ab ++= new Vertice3D(i + xOffset, j + 1.0f + yOffset, 0.0f).xyz
 			}
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)

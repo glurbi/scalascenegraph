@@ -25,7 +25,7 @@ class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) {
 		val x = a * sin(phi) * cos(teta)
 		val y = b * sin(phi) * sin(teta)
 		val z = c * cos(phi)
-		Vertice3D(x, y, z)
+		new Vertice3D(x, y, z)
 	}
 	
 	def createVertices: Vertices[FloatBuffer] = {
@@ -52,7 +52,7 @@ class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) {
 			val x = buf.get
 			val y = buf.get
 			val z = buf.get
-			ab ++= normalize(Normal(2*x/(a*a), 2*y/(b*b), 2*z/(c*c))).xyz
+			ab ++= normalize(new Normal3D(2*x/(a*a), 2*y/(b*b), 2*z/(c*c))).xyz
 		}
 		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
 	}

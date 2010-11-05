@@ -24,7 +24,7 @@ class SphereBuilder(n: Int, r: Float) {
 		val x = r * sin(teta) * cos(phi)
 		val y = r * sin(teta) * sin(phi)
 		val z = r * cos(teta)
-		Vertice3D(x, y, z)
+		new Vertice3D(x, y, z)
 	}
 	
 	def createVertices = {
@@ -47,7 +47,7 @@ class SphereBuilder(n: Int, r: Float) {
 		val ab = new ArrayBuffer[Float]
 		val vbuf = createVertices.buffer
 		for (i <- 0 until vbuf.limit / 3) {
-			val n = Normal(vbuf.get, vbuf.get, vbuf.get)
+			val n = new Normal3D(vbuf.get, vbuf.get, vbuf.get)
 			ab ++= normalize(n).xyz
 		}
 		Normals(Buffers.newDirectFloatBuffer(ab.toArray))

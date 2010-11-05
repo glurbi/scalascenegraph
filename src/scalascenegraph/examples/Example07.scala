@@ -43,7 +43,7 @@ class Example07 extends Example with WorldBuilder {
 			group {
 				light(On)
 				light(GL_LIGHT1, On)
-				light(GL_LIGHT1, Position(0.0f, 5.0f, -3.0f))
+				light(GL_LIGHT1, new Position3D(0.0f, 5.0f, -3.0f))
 				light(GL_LIGHT1, GL_DIFFUSE, JColor.white)
 				ambient(Intensity(0.8f, 0.8f, 0.8f, 1.0f))
 				group {

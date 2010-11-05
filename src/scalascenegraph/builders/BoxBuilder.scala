@@ -32,10 +32,10 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 		//
 		for (i <- 0 until l) {
 			for (j <- 0 until m) {
-				ab ++= Vertice3D(i * xStep - xOffset, j * yStep - yOffset, +zOffset).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, +zOffset).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).xyz
-				ab ++= Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, j * yStep - yOffset, +zOffset).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, +zOffset).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).xyz
 			}
 		}
 
@@ -44,10 +44,10 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 		//
 		for (i <- 0 until l) {
 			for (j <- 0 until m) {
-				ab ++= Vertice3D(i * xStep - xOffset, j * yStep - yOffset, -zOffset).xyz
-				ab ++= Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, -zOffset).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, j * yStep - yOffset, -zOffset).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, -zOffset).xyz
 			}
 		}
 		
@@ -56,10 +56,10 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 		//
 		for (i <- 0 until m) {
 			for (j <- 0 until n) {
-				ab ++= Vertice3D(+xOffset, i * yStep - yOffset, j * zStep - zOffset).xyz
-				ab ++= Vertice3D(+xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).xyz
-				ab ++= Vertice3D(+xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).xyz
-				ab ++= Vertice3D(+xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+				ab ++= new Vertice3D(+xOffset, i * yStep - yOffset, j * zStep - zOffset).xyz
+				ab ++= new Vertice3D(+xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).xyz
+				ab ++= new Vertice3D(+xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+				ab ++= new Vertice3D(+xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).xyz
 			}
 		}
 		
@@ -68,10 +68,10 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 		//
 		for (i <- 0 until m) {
 			for (j <- 0 until n) {
-				ab ++= Vertice3D(-xOffset, i * yStep - yOffset, j * zStep - zOffset).xyz
-				ab ++= Vertice3D(-xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).xyz
-				ab ++= Vertice3D(-xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).xyz
-				ab ++= Vertice3D(-xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).xyz
+				ab ++= new Vertice3D(-xOffset, i * yStep - yOffset, j * zStep - zOffset).xyz
+				ab ++= new Vertice3D(-xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+				ab ++= new Vertice3D(-xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+				ab ++= new Vertice3D(-xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).xyz
 			}
 		}
 		
@@ -80,10 +80,10 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 		//
 		for (i <- 0 until l) {
 			for (j <- 0 until n) {
-				ab ++= Vertice3D(i * xStep - xOffset, +yOffset, j * zStep - zOffset).xyz
-				ab ++= Vertice3D(i * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, +yOffset, j * zStep - zOffset).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, +yOffset, j * zStep - zOffset).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, +yOffset, j * zStep - zOffset).xyz
 			}
 		}
 
@@ -92,10 +92,10 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 		//
 		for (i <- 0 until l) {
 			for (j <- 0 until n) {
-				ab ++= Vertice3D(i * xStep - xOffset, -yOffset, j * zStep - zOffset).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, -yOffset, j * zStep - zOffset).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).xyz
-				ab ++= Vertice3D(i * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, -yOffset, j * zStep - zOffset).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, -yOffset, j * zStep - zOffset).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).xyz
 			}
 		}
 		
@@ -105,12 +105,12 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
 	def createNormals: Normals = {
 		val ab = new ArrayBuffer[Float]
 		val normals = Array(
-			Normal(0.0f, 0.0f, 1.0f),  // front face
-			Normal(0.0f, 0.0f, -1.0f), // back face
-			Normal(1.0f, 0.0f, 0.0f),  // right face
-			Normal(-1.0f, 0.0f, 0.0f), // left face
-			Normal(0.0f, 1.0f, 0.0f),  // top face
-			Normal(0.0f, -1.0f, 0.0f)) // bottom face
+			new Normal3D(0.0f, 0.0f, 1.0f),  // front face
+			new Normal3D(0.0f, 0.0f, -1.0f), // back face
+			new Normal3D(1.0f, 0.0f, 0.0f),  // right face
+			new Normal3D(-1.0f, 0.0f, 0.0f), // left face
+			new Normal3D(0.0f, 1.0f, 0.0f),  // top face
+			new Normal3D(0.0f, -1.0f, 0.0f)) // bottom face
 
 		for (face <- 0 to 5) {
 			for (i <- 0 until l) {

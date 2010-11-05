@@ -38,10 +38,10 @@ class GridBuilder(width: Float, height: Float, m: Int, n: Int) {
 		
 		for (i <- 0 until m) {
 			for (j <- 0 until n) {
-				ab ++= Vertice3D(i * xStep - xOffset, j * yStep - yOffset, 0.0f).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, 0.0f).xyz
-				ab ++= Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, 0.0f).xyz
-				ab ++= Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, 0.0f).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, j * yStep - yOffset, 0.0f).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, 0.0f).xyz
+				ab ++= new Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, 0.0f).xyz
+				ab ++= new Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, 0.0f).xyz
 			}
 		}
 		

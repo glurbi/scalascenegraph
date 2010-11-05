@@ -25,29 +25,31 @@ object Predefs {
 	/**
 	 * A 3D vector.
 	 */
-	case class Vector3D(x: Float, y: Float, z: Float) {
+	class Vector3D(val x: Float, val y: Float, val z: Float) {
 		val xyz = Array(x, y, z)
-		def +(other: Vector3D): Vector3D = Vector3D(this.x + other.x, this.y + other.y, this.z + other.z)
-		def -(other: Vector3D): Vector3D = Vector3D(this.x - other.x, this.y - other.y, this.z - other.z)
-		def *(f: Float): Vector3D = Vector3D(this.x * f, this.y * f, this.z * f)
+		def +(other: Vector3D): Vector3D = new Vector3D(this.x + other.x, this.y + other.y, this.z + other.z)
+		def -(other: Vector3D): Vector3D = new Vector3D(this.x - other.x, this.y - other.y, this.z - other.z)
+		def *(f: Float): Vector3D = new Vector3D(this.x * f, this.y * f, this.z * f)
 		def normalize: Vector3D = Utils.normalize(this)
 	}
 	
 	/**
 	 * A 3D point. 
 	 */
-	// TODO: subclass from Vector3D, or make type equivalence
-	case class Vertice3D(x: Float, y: Float, z: Float)  {
-		val xyz = Array(x, y, z)
-	}
+	class Vertice3D(x: Float, y: Float, z: Float) extends Vector3D(x, y, z)
+	implicit def vector3dToVertice3D(v: Vector3D): Vertice3D = new Vertice3D(v.x, v.y, v.z)
 	
 	/**
 	 * Surface normal vector.
 	 */
-	// TODO: subclass from Vector3D, or make type equivalence
-	case class Normal(x: Float, y: Float, z: Float)  {
-		val xyz = Array(x, y, z)
-	}
+	class Normal3D(x: Float, y: Float, z: Float) extends Vector3D(x, y, z)
+	implicit def vector3dToNormal(v: Vector3D): Normal3D = new Normal3D(v.x, v.y, v.z)
+	
+	/**
+	 * A light position, camera position, ...
+	 */
+	class Position3D(x: Float, y: Float, z: Float) extends Vector3D(x, y, z)
+	implicit def vector3dToPosition3D(v: Vector3D): Position3D = new Position3D(v.x, v.y, v.z)
 	
 	/**
 	 * Holds a set of vertices.
@@ -59,14 +61,6 @@ object Predefs {
 			primitiveType: PrimitiveType)
 	{
 		val count: Int = buffer.limit / vertexDimension
-	}
-	
-	/**
-	 * A light position.
-	 */
-	// TODO: subclass from Vector3D, or make type equivalence
-	case class Position(x: Float, y: Float, z: Float) {
-		def xyz: Array[Float] = Array(x, y, z)
 	}
 	
 	/**

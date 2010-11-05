@@ -18,13 +18,13 @@ object Utils {
 	 * @return a vector created from two points in space.
 	 */
 	def vector(v1: Vertice3D, v2: Vertice3D): Vector3D =
-		Vector3D(v2.x - v1.x, v2.y - v1.y, v2.z -v1.z)
+		new Vector3D(v2.x - v1.x, v2.y - v1.y, v2.z -v1.z)
 	
 	/**
 	 * @return the cross product of two vectors.
 	 */
 	def crossProduct(u: Vector3D, v: Vector3D): Vector3D = {
-		Vector3D(u.y*v.z - u.z*v.y, u.z*v.x - u.x*v.z, u.x*v.y - u.y*v.x)
+		new Vector3D(u.y*v.z - u.z*v.y, u.z*v.x - u.x*v.z, u.x*v.y - u.y*v.x)
 	}
 			
 	/**
@@ -33,18 +33,9 @@ object Utils {
 	def normalize(v: Vector3D): Vector3D = {
 		implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
 		val norm = sqrt(v.x*v.x + v.y*v.y + v.z*v.z)
-		Vector3D(v.x / norm, v.y / norm, v.z / norm)
+		new Vector3D(v.x / norm, v.y / norm, v.z / norm)
 	}
 
-	/**
-	 * @return a Normal that is the normalized instance of the one given in parameter.
-	 */
-	def normalize(n: Normal): Normal = {
-		implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
-		val norm = sqrt(n.x*n.x + n.y*n.y + n.z*n.z)
-		Normal(n.x / norm, n.y / norm, n.z / norm)
-	}
-	
 	/**
 	 * Creates a BufferedImage that is the inverse (y axis direction) of the
 	 * one given in parameter. 

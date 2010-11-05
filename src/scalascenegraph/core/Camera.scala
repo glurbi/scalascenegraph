@@ -52,16 +52,16 @@ abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
 
  	val projectionType: ProjectionType
 
-	var positionV = Vector3D(0.0f, 0.0f, 0.0f)
-	var directionV = Vector3D(0.0f, 0.0f, -1.0f)
-	var rightV = Vector3D(1.0f, 0.0f, 0.0f)
-	var upV = Vector3D(0.0f, 1.0f, 0.0f)
+	var positionV = new Position3D(0.0f, 0.0f, 0.0f)
+	var directionV = new Vector3D(0.0f, 0.0f, -1.0f)
+	var rightV = new Vector3D(1.0f, 0.0f, 0.0f)
+	var upV = new Vector3D(0.0f, 1.0f, 0.0f)
 
 	def reset {
-		positionV = Vector3D(0.0f, 0.0f, 0.0f)
-		directionV = Vector3D(0.0f, 0.0f, -1.0f)
-		rightV = Vector3D(1.0f, 0.0f, 0.0f)
-		upV = Vector3D(0.0f, 1.0f, 0.0f)
+		positionV = new Position3D(0.0f, 0.0f, 0.0f)
+		directionV = new Vector3D(0.0f, 0.0f, -1.0f)
+		rightV = new Vector3D(1.0f, 0.0f, 0.0f)
+		upV = new Vector3D(0.0f, 1.0f, 0.0f)
 	}
 
 	def rotateX(deg: Float) {

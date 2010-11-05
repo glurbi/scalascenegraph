@@ -100,7 +100,7 @@ trait StateBuilder extends GraphBuilder{
 		stack.top.attach(new LightColorState(instance, lightType, color))
 	}
 
-	def light(instance: LightInstance, position: Position) {
+	def light(instance: LightInstance, position: Position3D) {
 		stack.top.attach(new LightPositionState(instance, position))
 	}
 	

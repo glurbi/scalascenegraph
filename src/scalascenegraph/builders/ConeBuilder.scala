@@ -39,7 +39,7 @@ class ConeBuilder(n: Int, m: Int, r: Float, h: Float) {
 		def coneSideVertex(teta: Float, z: Float): Vertice3D = {
 			val x = (r * z / h) * cos(teta)
 			val y = (r * z / h) * sin(teta)
-			Vertice3D(x, y, h-z)
+			new Vertice3D(x, y, h-z)
 		}
 		val ab = new ArrayBuffer[Float]
 		val tetaStep = 2 * Pi / n
@@ -59,23 +59,23 @@ class ConeBuilder(n: Int, m: Int, r: Float, h: Float) {
 	
 	def createBottomVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
-		ab ++= Vertice3D(0.0f, 0.0f, 0.0f).xyz
+		ab ++= new Vertice3D(0.0f, 0.0f, 0.0f).xyz
 		val tetaStep = 2 * Pi / n
 		for (i <- 0 to n) {
 			val teta = i * tetaStep
 			val x = r * sin(teta)
 			val y = r * cos(teta)
-			ab ++= Vertice3D(x, y, 0.0f).xyz
+			ab ++= new Vertice3D(x, y, 0.0f).xyz
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_TRIANGLE_FAN)
 	}
 
 	def createSideNormals: Normals = {
-		def coneSideNormal(teta: Float): Normal = {
+		def coneSideNormal(teta: Float): Normal3D = {
 			val x = r * cos(teta)
 			val y = r * sin(teta)
 			val z = r / sqrt(r*r+h*h)
-			normalize(Normal(x, y, z))
+			normalize(new Normal3D(x, y, z))
 		}
 		val ab = new ArrayBuffer[Float]
 		val tetaStep = 2 * Pi / n
@@ -93,7 +93,7 @@ class ConeBuilder(n: Int, m: Int, r: Float, h: Float) {
 
 	def createBottomNormals: Normals = {
 		val ab = new ArrayBuffer[Float]
-		val normal = Normal(0.0f, 0.0f, -1.0f)
+		val normal = new Normal3D(0.0f, 0.0f, -1.0f)
 		val tetaStep = 2 * Pi / n
 		ab ++= normal.xyz
 		for (i <- 0 to n) {

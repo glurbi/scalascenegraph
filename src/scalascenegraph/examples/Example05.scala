@@ -28,7 +28,7 @@ class Example05 extends Example with WorldBuilder {
 			cullFace(On)
 			light(On)
 		    light(GL_LIGHT1, On)
-		    light(GL_LIGHT1, Position(-3.0f, 0.0f, 0.0f))
+		    light(GL_LIGHT1, new Position3D(-3.0f, 0.0f, 0.0f))
 		    light(GL_LIGHT1, GL_DIFFUSE, JColor.white)
 			group {
 				light(Off)

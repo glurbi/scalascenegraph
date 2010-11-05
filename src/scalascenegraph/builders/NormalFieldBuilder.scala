@@ -44,10 +44,10 @@ class NormalFieldBuilder(geometry: Geometry) {
 		val vbuf = sg.vertices.buffer
 		val nbuf = sg.normals.floatBuffer
 		for (i <- 0 until vbuf.limit / 3) {
-			val v = Vector3D(vbuf.get, vbuf.get, vbuf.get)
-			val n = Normal(nbuf.get, nbuf.get, nbuf.get)
+			val v = new Vertice3D(vbuf.get, vbuf.get, vbuf.get)
+			val n = new Normal3D(nbuf.get, nbuf.get, nbuf.get)
 			ab ++= v.xyz
-			ab ++= Vector3D(v.x + n.x, v.y + n.y, v.z + n.z).xyz
+			ab ++= new Vertice3D(v.x + n.x, v.y + n.y, v.z + n.z).xyz
 		}
 		vbuf.rewind
 		nbuf.rewind

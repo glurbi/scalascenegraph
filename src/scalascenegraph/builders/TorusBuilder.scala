@@ -34,7 +34,7 @@ class TorusBuilder(n: Int, R: Float, r: Float) {
 		val x = (R + r * cos(v)) * cos(u)
 		val y = (R + r * cos(v)) * sin(u)
 		val z = r * sin(v)
-		Vertice3D(x, y, z)
+		new Vertice3D(x, y, z)
 	}
 	
 	private def torusNormal(uStep: Int, vStep: Int): Vector3D = {

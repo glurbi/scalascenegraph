@@ -27,10 +27,10 @@ class Example06 extends Example with WorldBuilder {
     		depthTest(On)
 			fog(JColor.blue, Exp(0.1f))
 			quad(
-				Vertice3D(-10.0f, -10.0f, -9.9f),
-				Vertice3D(10.0f, -10.0f, -9.9f),
-				Vertice3D(10.0f, 10.0f, -9.9f),
-				Vertice3D(-10.0f, 10.0f, -9.9f))
+				new Vertice3D(-10.0f, -10.0f, -9.9f),
+				new Vertice3D(10.0f, -10.0f, -9.9f),
+				new Vertice3D(10.0f, 10.0f, -9.9f),
+				new Vertice3D(-10.0f, 10.0f, -9.9f))
 			group {
 				translation(0.0f, -1.0f, -5.0f)
 				rotation(-90.0f, 1.0f, 0.0f, 0.0f)
@@ -39,7 +39,7 @@ class Example06 extends Example with WorldBuilder {
 			group {
 				light(On)
 				light(GL_LIGHT0, On)
-				light(GL_LIGHT0, Position(0.0f, 0.0f, 0.0f))
+				light(GL_LIGHT0, new Position3D(0.0f, 0.0f, 0.0f))
 				light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
 				material(GL_FRONT, GL_DIFFUSE, JColor.orange)
 				group {

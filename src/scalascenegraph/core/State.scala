@@ -220,7 +220,7 @@ class LightState(instance: LightInstance, var state: OnOffState) extends State {
 }
 
 // TODO: remove this state coz replaced by LightParameterState
-class LightPositionState(instance: LightInstance, position: Position) extends State {
+class LightPositionState(instance: LightInstance, position: Position3D) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_LIGHTING_BIT)
 		val p = position.xyz

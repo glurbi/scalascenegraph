@@ -21,21 +21,21 @@ class Example01 extends Example with WorldBuilder {
 		detached {
     		translation(0.0f, 3.0f, 0.0f)
     		triangle(
-    			Vertice3D(-1.0f, 0.0f, 0.0f),
-    			Vertice3D(0.0f, 2.0f, 0.0f),
-    			Vertice3D(1.0f, 0.0f, 0.0f),
+    			new Vertice3D(-1.0f, 0.0f, 0.0f),
+    			new Vertice3D(0.0f, 2.0f, 0.0f),
+    			new Vertice3D(1.0f, 0.0f, 0.0f),
 				JColor.magenta)
 			triangle(
-    			Vertice3D(-4.0f, 0.0f, 0.0f),
-    			Vertice3D(-3.0f, 2.0f, 0.0f),
-    			Vertice3D(-2.0f, 0.0f, 0.0f),
+    			new Vertice3D(-4.0f, 0.0f, 0.0f),
+    			new Vertice3D(-3.0f, 2.0f, 0.0f),
+    			new Vertice3D(-2.0f, 0.0f, 0.0f),
 				Color(1.0f, 0.0f, 0.0f),
 				Color(0.0f, 1.0f, 0.0f),
 				Color(0.0f, 0.0f, 1.0f))
 			triangle(
-    			Vertice3D(4.0f, 0.0f, 0.0f),
-    			Vertice3D(3.0f, 2.0f, 0.0f),
-    			Vertice3D(2.0f, 0.0f, 0.0f))
+    			new Vertice3D(4.0f, 0.0f, 0.0f),
+    			new Vertice3D(3.0f, 2.0f, 0.0f),
+    			new Vertice3D(2.0f, 0.0f, 0.0f))
 		}
 
 	val quads =
@@ -43,21 +43,21 @@ class Example01 extends Example with WorldBuilder {
     		translation(0.0f, -5.0f, 0.0f)
 			color(JColor.green)
 			quad(
-				Vertice3D(-1.0f, 0.0f, 0.0f),
-				Vertice3D(1.0f, 0.0f, 0.0f),
-				Vertice3D(1.0f, 2.0f, 0.0f),
-				Vertice3D(-1.0f, 2.0f, 0.0f))
+				new Vertice3D(-1.0f, 0.0f, 0.0f),
+				new Vertice3D(1.0f, 0.0f, 0.0f),
+				new Vertice3D(1.0f, 2.0f, 0.0f),
+				new Vertice3D(-1.0f, 2.0f, 0.0f))
 			quad(
-				Vertice3D(-4.0f, 0.0f, 0.0f),
-				Vertice3D(-2.0f, 0.0f, 0.0f),
-				Vertice3D(-2.0f, 2.0f, 0.0f),
-				Vertice3D(-4.0f, 2.0f, 0.0f),
+				new Vertice3D(-4.0f, 0.0f, 0.0f),
+				new Vertice3D(-2.0f, 0.0f, 0.0f),
+				new Vertice3D(-2.0f, 2.0f, 0.0f),
+				new Vertice3D(-4.0f, 2.0f, 0.0f),
 				Color(1.0f, 1.0f, 1.0f))
 			quad(
-				Vertice3D(4.0f, 0.0f, 0.0f),
-				Vertice3D(2.0f, 0.0f, 0.0f),
-				Vertice3D(2.0f, 2.0f, 0.0f),
-				Vertice3D(4.0f, 2.0f, 0.0f),
+				new Vertice3D(4.0f, 0.0f, 0.0f),
+				new Vertice3D(2.0f, 0.0f, 0.0f),
+				new Vertice3D(2.0f, 2.0f, 0.0f),
+				new Vertice3D(4.0f, 2.0f, 0.0f),
 				Color(0.0f, 1.0f, 0.0f),
 				Color(1.0f, 0.0f, 1.0f),
 				Color(0.0f, 0.5f, 1.0f),
@@ -73,7 +73,7 @@ class Example01 extends Example with WorldBuilder {
 				val y = (a * sin(a*25)).asInstanceOf[Float]
 				group {
 					pointSize(a*10)
-					point(Vertice3D(x, y, 0.0f), color)
+					point(new Vertice3D(x, y, 0.0f), color)
 				}
 			}
 		}
@@ -96,7 +96,7 @@ class Example01 extends Example with WorldBuilder {
 					val x = 1.0f * i / 5
 					group {
 						lineWidth(i+1)
-						line(Vertice3D(x, -1.0f, 0.0f), Vertice3D(x, 1.0f, 0.0f))
+						line(new Vertice3D(x, -1.0f, 0.0f), new Vertice3D(x, 1.0f, 0.0f))
 					}
 				}
 			}
@@ -106,8 +106,8 @@ class Example01 extends Example with WorldBuilder {
 				for (i <- 1 to 5) {
 					group {
 						lineStipple(i, 0x5505)
-						line(Vertice3D(0.0f + i / 5.0f, -1.0f, 0.0f),
-							 Vertice3D(2.0f + i / 5.0f, 1.0f, 0.0f))
+						line(new Vertice3D(0.0f + i / 5.0f, -1.0f, 0.0f),
+							 new Vertice3D(2.0f + i / 5.0f, 1.0f, 0.0f))
 					}
 				}
 			}
