@@ -27,7 +27,7 @@ class NormalFieldBuilder(geometry: Geometry) {
 	}
 
 	private def createNormalLines(g: Geometry, ab: ArrayBuffer[Float]) {
-		if (g.isInstanceOf[SimpleGeometry[FloatBuffer, FloatBuffer]]) {
+		if (g.isInstanceOf[SimpleGeometry[_,_]]) {
 			val sg = g.asInstanceOf[SimpleGeometry[FloatBuffer, FloatBuffer]]
 			createNormalLinesFromSimpleGeometry(sg, ab)
 		} else if (geometry.isInstanceOf[CompositeGeometry]) {
