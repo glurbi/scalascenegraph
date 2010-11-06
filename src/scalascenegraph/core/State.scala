@@ -377,3 +377,39 @@ class UniformState(var uniform: Uniform, var value: Any) extends State {
 		uniform.value = a
 	}
 }
+
+class PointSpriteState(var state: OnOffState) extends State {
+	var enabledSaved: Boolean = _
+	var texEnvSaved: Int = _
+	override def preRender(context: Context) {
+		enabledSaved = context.gl.glIsEnabled(GL_POINT_SPRITE)
+		val tmp = new Array[Int](1)
+		context.gl.glGetTexEnviv(GL_POINT_SPRITE, GL_COORD_REPLACE, tmp, 0)
+		texEnvSaved = tmp(0)
+		state match {
+			case On => context.gl.glEnable(GL_POINT_SPRITE)
+			case Off => context.gl.glDisable(GL_POINT_SPRITE)
+		}
+		context.gl.glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE)
+	}
+	override def postRender(context: Context) {
+		context.gl.glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, texEnvSaved)
+		enabledSaved match {
+			case true => context.gl.glEnable(GL_POINT_SPRITE)
+			case false => context.gl.glDisable(GL_POINT_SPRITE)
+		}
+	}
+}
+
+class BindTextureState(var textureType: TextureType, var texture: Texture) extends State {
+	var saved: Int = _
+	override def preRender(context: Context) {
+		val tmp = new Array[Int](1)
+		context.gl.glGetIntegerv(textureType, tmp, 0)
+		saved = tmp(0)
+		context.gl.glBindTexture(textureType, texture.id)
+	}
+	override def postRender(context: Context) {
+		context.gl.glBindTexture(textureType, saved)
+	}
+}

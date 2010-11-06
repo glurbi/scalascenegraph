@@ -122,6 +122,12 @@ object Predefs {
 	type SmoothType = Int
 	
 	/**
+	 * Defines the texture type
+	 * GL_TEXTURE_1D, GL_TEXTURE_2D, GL_TEXTURE_3D, GL_TEXTURE_CUBE_MAP
+	 */
+	type TextureType = Int
+
+	/**
 	 * Defines the projection type
 	 */
 	abstract class ProjectionType

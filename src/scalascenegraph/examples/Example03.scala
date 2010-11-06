@@ -24,7 +24,48 @@ class Example03 extends Example with WorldBuilder {
 	val mytorus = torus(30, 7.0f, 2.0f, normals = true)
 
 	val nPressed = (context: Context) => context.pressedKeys.contains(KeyEvent.VK_N)
+
+	val angleHook = (r: Rotation, c: Context) => {
+		r.angle = (c.elapsed / 50.0f) % 360.0f
+	}
 	
+    def greenSphere =
+    	group {
+    		translation(10.0f, 0.0f, 30.0f)
+    		material(GL_FRONT, GL_AMBIENT, JColor.green)
+    		material(GL_FRONT, GL_DIFFUSE, JColor.green)
+    		attach(sphere(30, 5.0f, normals = true))
+    	}
+
+    def redCube =
+    	group {
+    		translation(0.0f, 10.0f, 30.0f)
+    		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
+    		material(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, JColor.red)
+    		cube(normals = true)
+    	}
+    
+    def wireCube = 
+    	group {
+	    	polygonMode(GL_FRONT_AND_BACK, GL_LINE)
+	    	translation(0.0f, -10.0f, 30.0f)
+	    	rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
+	    	material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.blue)
+	    	material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.blue)
+	    	cube(normals = true)
+    	}
+
+    def wireSphere =
+    	group {
+    		polygonMode(GL_FRONT_AND_BACK, GL_LINE)
+    		translation(-10.0f, 0.0f, 30.0f)
+    		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
+    		material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.blue)
+    		material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.blue)
+    		attach(sphere(15, 5.0f, normals = true))
+    	}
+
+
 	def example =
 		world {
 			depthTest(On)
@@ -35,34 +76,46 @@ class Example03 extends Example with WorldBuilder {
 				light(GL_LIGHT0, On)
 				light(GL_LIGHT0, GL_POSITION, Array(0.0f, 1.0f, 1.0f, 0.0f))
 				light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
-				colorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
     			translation(0.0f, 0.0f, -15.0f)
 				ambient(Intensity(0.1f, 0.1f, 0.1f, 1.0f))
 				group {
-					color(JColor.cyan)
-    				translation(-6.0f, 0.0f, 1.0f)
-    				attach(mysphere)
-					conditional(nPressed) { attach(normals(mysphere)) }
+					colorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
+					group {
+						color(JColor.cyan)
+    					translation(-6.0f, 0.0f, 1.0f)
+    					attach(mysphere)
+						conditional(nPressed) { attach(normals(mysphere)) }
+					}
+					group {
+						color(JColor.red)
+    					translation(6.0f, 0.0f, 0.0f)
+						attach(mycone)
+						conditional(nPressed) { attach(normals(mycone)) }
+					}
+					group {
+						color(JColor.green)
+    					translation(0.0f, -10.0f, 0.0f)
+						rotation(90.0f, 1.0f, 0.0f, 0.0f)
+						attach(myellipsoid)
+						conditional(nPressed) { attach(normals(myellipsoid)) }
+					}
+					group {
+						color(JColor.pink)
+    					translation(0.0f, 10.0f, 6.0f)
+						rotation(90.0f, 1.0f, 0.0f, 0.0f)
+						attach(mytorus)
+						conditional(nPressed) { attach(normals(mytorus)) }
+					}
 				}
 				group {
-					color(JColor.red)
-    				translation(6.0f, 0.0f, 0.0f)
-					attach(mycone)
-					conditional(nPressed) { attach(normals(mycone)) }
-				}
-				group {
-					color(JColor.green)
-    				translation(0.0f, -10.0f, 0.0f)
-					rotation(90.0f, 1.0f, 0.0f, 0.0f)
-					attach(myellipsoid)
-					conditional(nPressed) { attach(normals(myellipsoid)) }
-				}
-				group {
-					color(JColor.pink)
-    				translation(0.0f, 10.0f, 6.0f)
-					rotation(90.0f, 1.0f, 0.0f, 0.0f)
-					attach(mytorus)
-					conditional(nPressed) { attach(normals(mytorus)) }
+					group {
+		    			cullFace(Off)
+		    			lineWidth(4.0f)
+		    			wireSphere
+		    			wireCube
+					}
+					greenSphere
+					redCube
 				}
 			}
 			group {

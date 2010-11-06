@@ -151,5 +151,13 @@ trait StateBuilder extends GraphBuilder{
 	def setUniform(uniform: Uniform, value: Float, hook: StateHook[UniformState]) {
 		stack.top.attach(new DynamicState(hook, new UniformState(uniform, value)))
 	}
-	
+
+	def pointSprite(mode: OnOffState) {
+		stack.top.attach(new PointSpriteState(mode))
+	}
+
+	def bindTexture(textureType: TextureType, texture: Texture) {
+		stack.top.attach(new BindTextureState(textureType, texture))
+	}
+
 }
