@@ -152,14 +152,13 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
 					  0.0f, 1.0f)))
 		stack.top.attach(new SimpleGeometry(vertices, textureCoordinates, texture))
 	}
-	
+
 	def cube(normals: Boolean) {
-		val b = new CubeBuilder
-		val geometry = normals match {
-			case false => new SimpleGeometry(b.createVertices)
-			case true => new SimpleGeometry(b.createVertices, b.createNormals)
-		}
-		stack.top.attach(geometry)
+		cube(1.0f, normals)
+	}
+	
+	def cube(size: Float, normals: Boolean) {
+		box(size, size, size, 1, 1, 1, normals)
 	}
 	
 	def cube(texture: Texture, normals: Boolean) {
