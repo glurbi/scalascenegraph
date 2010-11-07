@@ -1,7 +1,10 @@
 package scalascenegraph.examples
 
+import java.util._
+import java.nio._
 import java.awt.{Color => JColor }
 import scala.math._
+import scala.collection.mutable._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
 import javax.media.opengl.GL2GL3._
@@ -11,6 +14,7 @@ import javax.media.opengl.fixedfunc._
 import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
+import com.jogamp.common.nio._
 
 import scalascenegraph.core._
 import scalascenegraph.core.Predefs._
@@ -18,71 +22,37 @@ import scalascenegraph.builders._
 
 class Example04 extends Example with WorldBuilder {
 	
-	val angleHook = (r: Rotation, c: Context) => {
-		r.angle = (c.elapsed / 10.0f) % 360.0f
-	}
-	
-	def translationHook(phase: Float) = (t: Translation, c: Context) => {
-		val current = System.currentTimeMillis
-		val elapsed = current - c.creationTime
-		t.x = 2 * cos(phase + elapsed / 1000.0f).asInstanceOf[Float]
-		t.y = 2 * sin(phase + elapsed / 1000.0f).asInstanceOf[Float]
-	}
-	
-    def greenSphere =
-    	group {
-    		translation(0.0f, 0.0f, -4.0f, translationHook((-Pi / 2.0).asInstanceOf[Float]))
-    		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(GL_FRONT, GL_AMBIENT, JColor.green)
-    		material(GL_FRONT, GL_DIFFUSE, JColor.green)
-    		attach(sphere(30, 1.0f, normals = true))
-    	}
+	val r = new Random
 
-    def redCube =
-    	group {
-    		translation(0.0f, 0.0f, -4.0f, translationHook((0.0).asInstanceOf[Float]))
-    		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, JColor.red)
-    		cube(normals = true)
-    	}
-    
-    def wireCube = 
-    	group {
-	    	polygonMode(GL_FRONT_AND_BACK, GL_LINE)
-	    	translation(0.0f, 0.0f, -4.0f, translationHook((Pi).asInstanceOf[Float]))
-	    	rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-	    	material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.blue)
-	    	material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.blue)
-	    	cube(normals = true)
-    	}
+	val smileys = Array(
+		new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley1.png")),
+		new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley2.png")),
+		new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley3.png")),
+		new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley4.png")))
 
-    def wireSphere =
-    	group {
-    		polygonMode(GL_FRONT_AND_BACK, GL_LINE)
-    		translation(0.0f, 0.0f, -4.0f, translationHook((Pi / 2.0).asInstanceOf[Float]))
-    		rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-    		material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.blue)
-    		material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.blue)
-    		attach(sphere(15, 1.0f, normals = true))
-    	}
-    
+	def createVertices: Vertices[FloatBuffer] = {
+		val ab = new ArrayBuffer[Float]
+		for (i <- 0 to 10000) {
+			val x = (r.nextFloat - 0.5f) * 20
+			val y = (r.nextFloat - 0.5f) * 20
+			val z = (r.nextFloat - 0.5f) * 20
+			ab ++= new Vertice3D(x, y, z).xyz
+		}
+		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_POINTS)
+	}
+
 	def example =
 		world {
-			depthTest(On)
-			cullFace(On)
-		    light(On)
-		    ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
-		    light(GL_LIGHT0, On)
-		    light(GL_LIGHT0, new Position3D(2.0f, 2.0f, 0.0f))
-		    light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
-		    group {
-		    	cullFace(Off)
-		    	lineWidth(4.0f)
-		    	wireSphere
-		    	wireCube
-		    }
-		    greenSphere
-		    redCube
+			blending(On)
+			pointSprite(On)
+			pointSize(16.0f)
+			for (smiley <- smileys) { attach(smiley) }
+			for (i <- 0 until smileys.length) {
+				group {
+					bindTexture(GL_TEXTURE_2D, smileys(i))
+					attach(new SimpleGeometry(createVertices))
+				}
+			}
 		}
 	
 }

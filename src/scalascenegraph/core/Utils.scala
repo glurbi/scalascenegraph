@@ -63,20 +63,20 @@ object Utils {
 		buffer.order(ByteOrder.nativeOrder())
 
 		for (y <- image.getHeight-1 to 0 by -1) {
-                    for (x <- 0 until image.getWidth) {
-			val argb  = image.getRGB(x, y);
-			val alpha = (argb >> 24).asInstanceOf[Byte]
-			val red = (argb >> 16).asInstanceOf[Byte]
-			val green = (argb >> 8).asInstanceOf[Byte]
-			val blue = (argb).asInstanceOf[Byte]
-			buffer.put(red)
-			buffer.put(green)
-			buffer.put(blue)
-			if (hasAlpha) {
-			    buffer.put(alpha)
-			}
-                    }
-		} 
+            for (x <- 0 until image.getWidth) {
+				val argb  = image.getRGB(x, y);
+				val alpha = (argb >> 24).asInstanceOf[Byte]
+				val red = (argb >> 16).asInstanceOf[Byte]
+				val green = (argb >> 8).asInstanceOf[Byte]
+				val blue = (argb).asInstanceOf[Byte]
+				buffer.put(red)
+				buffer.put(green)
+				buffer.put(blue)
+				if (hasAlpha) {
+					buffer.put(alpha)
+				}
+            }
+		}
 
 		buffer.rewind
 		buffer

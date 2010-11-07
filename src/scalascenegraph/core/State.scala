@@ -391,6 +391,7 @@ class PointSpriteState(var state: OnOffState) extends State {
 			case Off => context.gl.glDisable(GL_POINT_SPRITE)
 		}
 		context.gl.glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE)
+		context.gl.glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT)
 	}
 	override def postRender(context: Context) {
 		context.gl.glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, texEnvSaved)
