@@ -24,15 +24,11 @@ class Example04 extends Example with WorldBuilder {
 	
 	val r = new Random
 
-	val smileys = Array(
-		new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley1.png")),
-		new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley2.png")),
-		new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley3.png")),
-		new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley4.png")))
+	val smiley = new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley.png"))
 
 	def createVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
-		for (i <- 0 to 10000) {
+		for (i <- 0 to 50000) {
 			val x = (r.nextFloat - 0.5f) * 20
 			val y = (r.nextFloat - 0.5f) * 20
 			val z = (r.nextFloat - 0.5f) * 20
@@ -46,13 +42,9 @@ class Example04 extends Example with WorldBuilder {
 			blending(On)
 			pointSprite(On)
 			pointSize(16.0f)
-			for (smiley <- smileys) { attach(smiley) }
-			for (i <- 0 until smileys.length) {
-				group {
-					bindTexture(GL_TEXTURE_2D, smileys(i))
-					attach(new SimpleGeometry(createVertices))
-				}
-			}
+			attach(smiley)
+			bindTexture(GL_TEXTURE_2D, smiley)
+			attach(new SimpleGeometry(createVertices))
 		}
 	
 }
