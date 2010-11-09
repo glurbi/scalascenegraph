@@ -22,7 +22,7 @@ import scalascenegraph.builders._
 import scalascenegraph.core.Predefs._
 
 // TODO: should be some consistency with what has to be attached or not
-trait WorldBuilder extends GraphBuilder with StateBuilder with GeometryBuilder {
+trait WorldBuilder extends GraphBuilder with StateBuilder with GeometryBuilder with MatrixBuilder {
 
 	def overlay(x: Int, y: Int, image: BufferedImage) {
 		val format = image.getColorModel.hasAlpha match {

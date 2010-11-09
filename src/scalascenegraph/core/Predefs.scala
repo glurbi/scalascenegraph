@@ -25,8 +25,8 @@ object Predefs {
 	/**
 	 * A 3D vector.
 	 */
-	class Vector3D(val x: Float, val y: Float, val z: Float) {
-		val xyz = Array(x, y, z)
+	class Vector3D(val x: Float, val y: Float, val z: Float, val w: Float = 1.0f) {
+		val xyz = Array(x/w, y/w, z/w)
 		def +(other: Vector3D): Vector3D = new Vector3D(this.x + other.x, this.y + other.y, this.z + other.z)
 		def -(other: Vector3D): Vector3D = new Vector3D(this.x - other.x, this.y - other.y, this.z - other.z)
 		def *(f: Float): Vector3D = new Vector3D(this.x * f, this.y * f, this.z * f)
@@ -36,20 +36,26 @@ object Predefs {
 	/**
 	 * A 3D point. 
 	 */
-	class Vertice3D(x: Float, y: Float, z: Float) extends Vector3D(x, y, z)
-	implicit def vector3dToVertice3D(v: Vector3D): Vertice3D = new Vertice3D(v.x, v.y, v.z)
+	class Vertice3D(x: Float, y: Float, z: Float, w: Float = 1.0f) extends Vector3D(x, y, z, w)
+	implicit def vector3dToVertice3D(v: Vector3D): Vertice3D = new Vertice3D(v.x, v.y, v.z, v.w)
 	
 	/**
 	 * Surface normal vector.
 	 */
-	class Normal3D(x: Float, y: Float, z: Float) extends Vector3D(x, y, z)
-	implicit def vector3dToNormal(v: Vector3D): Normal3D = new Normal3D(v.x, v.y, v.z)
+	class Normal3D(x: Float, y: Float, z: Float, w: Float = 1.0f) extends Vector3D(x, y, z, w)
+	implicit def vector3dToNormal(v: Vector3D): Normal3D = new Normal3D(v.x, v.y, v.z, v.w)
 	
 	/**
 	 * A light position, camera position, ...
 	 */
-	class Position3D(x: Float, y: Float, z: Float) extends Vector3D(x, y, z)
-	implicit def vector3dToPosition3D(v: Vector3D): Position3D = new Position3D(v.x, v.y, v.z)
+	class Position3D(x: Float, y: Float, z: Float, w: Float = 1.0f) extends Vector3D(x, y, z, w)
+	implicit def vector3dToPosition3D(v: Vector3D): Position3D = new Position3D(v.x, v.y, v.z, v.w)
+
+	/**
+	 * Holds the parameters defining a plane in 3D
+	 * equation: ax + by + cz + d = 0
+	 */
+	class Plane3D(val a: Float, val b: Float, val c: Float, val d: Float)
 	
 	/**
 	 * Holds a set of vertices.
