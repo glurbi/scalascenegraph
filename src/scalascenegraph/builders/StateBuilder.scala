@@ -21,7 +21,7 @@ import scalascenegraph.core._
 import scalascenegraph.builders._
 import scalascenegraph.core.Predefs._
 
-trait StateBuilder extends GraphBuilder{
+trait StateBuilder extends GraphBuilder {
 
 	def color(c: Color) {
 		stack.top.attach(new ColorState(c))
@@ -65,6 +65,10 @@ trait StateBuilder extends GraphBuilder{
 
 	def rotation(hook: StateHook[Rotation]) {
 		stack.top.attach(new DynamicState(hook, new Rotation))
+	}
+
+	def multMatrix(m: Array[Float]) {
+		stack.top.attach(new MultMatrix(m))
 	}
 	
 	def polygonMode(face: Face, mode: DrawingMode) {

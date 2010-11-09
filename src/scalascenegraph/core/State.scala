@@ -312,6 +312,16 @@ class Rotation(var angle: Float, var x: Float, var y: Float, var z: Float) exten
 	}
 }
 
+class MultMatrix(val m: Array[Float]) extends Transformation {
+	override def preRender(context: Context) {
+		context.gl.glPushMatrix
+		context.gl.glMultMatrixf(m, 0)
+	}
+	override def postRender(context: Context) {
+		context.gl.glPopMatrix
+	}
+}
+
 class FogState(var color: Color, var mode: FogMode) extends State {
 	override def preRender(context: Context) {
 		context.gl.glPushAttrib(GL_FOG_BIT)
