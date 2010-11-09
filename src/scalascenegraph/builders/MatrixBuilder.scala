@@ -23,6 +23,8 @@ import scalascenegraph.core.Predefs._
 
 trait MatrixBuilder {
 
+	// TODO: create Matrix type
+
 	// cf http://www.opengl.org/resources/features/StencilTalk/tsld021.htm
 	def shadowMatrix(plane: Plane3D, light: Position3D): Array[Float] = {
 

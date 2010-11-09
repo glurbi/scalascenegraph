@@ -36,7 +36,8 @@ class Example05 extends Example with WorldBuilder {
 		r.y = rot.y
 		r.z = rot.z
 	}
-	
+
+	// TODO: refactor!
 	def example =
 		world {
     		depthTest(On)
