@@ -142,4 +142,7 @@ object Utils {
 		sb.toString
 	}
 
+	// TODO: http://en.wikipedia.org/wiki/Plane_(geometry)
+	// create a plan from 3 points...
+
 }
