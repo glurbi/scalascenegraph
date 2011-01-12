@@ -8,16 +8,16 @@ import java.util.concurrent._
 
 class BrowserKeyEventDispatcher extends KeyEventDispatcher {
 
-	val pressedKeys = Collections.newSetFromMap(new ConcurrentHashMap[Int, JBoolean])
-	
-	def dispatchKeyEvent(e: KeyEvent): Boolean = {
-		e.getID match {
-			case KeyEvent.KEY_PRESSED => pressedKeys.add(e.getKeyCode)
-			case KeyEvent.KEY_RELEASED => pressedKeys.remove(e.getKeyCode)
-			case KeyEvent.KEY_TYPED =>
-		}
-		true
-	}
-	
-	def isKeyPressed(keyCode: Int) = pressedKeys.contains(keyCode)
+    val pressedKeys = Collections.newSetFromMap(new ConcurrentHashMap[Int, JBoolean])
+    
+    def dispatchKeyEvent(e: KeyEvent): Boolean = {
+        e.getID match {
+            case KeyEvent.KEY_PRESSED => pressedKeys.add(e.getKeyCode)
+            case KeyEvent.KEY_RELEASED => pressedKeys.remove(e.getKeyCode)
+            case KeyEvent.KEY_TYPED =>
+        }
+        true
+    }
+    
+    def isKeyPressed(keyCode: Int) = pressedKeys.contains(keyCode)
 }

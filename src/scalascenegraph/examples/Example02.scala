@@ -20,160 +20,160 @@ import scalascenegraph.builders._
 
 class Example02 extends Example with WorldBuilder {
 
-	val angleHook = (r: Rotation, c: Context) => {
-		r.angle = (c.elapsed / 50.0f) % 360.0f
-	}
+    val angleHook = (r: Rotation, c: Context) => {
+        r.angle = (c.elapsed / 50.0f) % 360.0f
+    }
 
-	val perFaceColorCube =
-		detached {
-			val faceColors =
-				Array(
-					Color(1.0f, 0.0f, 0.0f),
-					Color(0.0f, 1.0f, 0.0f),
-					Color(0.0f, 0.0f, 1.0f),
-					Color(1.0f, 0.0f, 1.0f),
-					Color(1.0f, 1.0f, 0.0f),
-					Color(0.0f, 1.0f, 1.0f))
-			val colors = {
-				val buf = Buffers.newDirectFloatBuffer(6 * 4 * 3)
-				for (i <- 0 to 23) {
-					buf.put(faceColors(i/4).rgb)
-				}
-				buf.flip
-				Colors(buf, GL_FLOAT, RGB)
-			}
-    		translation(-3.0f, 0.0f, 0.0f)
-    		rotation(45.0f, 0.5f, 0.3f, 1.0f)
-    		cube(colors)
-		}
+    val perFaceColorCube =
+        detached {
+            val faceColors =
+                Array(
+                    Color(1.0f, 0.0f, 0.0f),
+                    Color(0.0f, 1.0f, 0.0f),
+                    Color(0.0f, 0.0f, 1.0f),
+                    Color(1.0f, 0.0f, 1.0f),
+                    Color(1.0f, 1.0f, 0.0f),
+                    Color(0.0f, 1.0f, 1.0f))
+            val colors = {
+                val buf = Buffers.newDirectFloatBuffer(6 * 4 * 3)
+                for (i <- 0 to 23) {
+                    buf.put(faceColors(i/4).rgb)
+                }
+                buf.flip
+                Colors(buf, GL_FLOAT, RGB)
+            }
+            translation(-3.0f, 0.0f, 0.0f)
+            rotation(45.0f, 0.5f, 0.3f, 1.0f)
+            cube(colors)
+        }
 
-	val perVertexColorCube =
-		detached {
-			val colors = {
-				val r = new Random
-				val buf = Buffers.newDirectFloatBuffer(6 * 4 * 3)
-				for (i <- 1 to 6 * 4) {
-					buf.put(Color(r.nextFloat, r.nextFloat, r.nextFloat).rgb)
-				}
-				buf.flip
-				Colors(buf, GL_FLOAT, RGB)
-			}
-    		translation(-1.0f, 0.0f, 0.0f)
-    		rotation(45.0f, 0.5f, 0.3f, 1.0f)
-    		cube(colors)
-		}
+    val perVertexColorCube =
+        detached {
+            val colors = {
+                val r = new Random
+                val buf = Buffers.newDirectFloatBuffer(6 * 4 * 3)
+                for (i <- 1 to 6 * 4) {
+                    buf.put(Color(r.nextFloat, r.nextFloat, r.nextFloat).rgb)
+                }
+                buf.flip
+                Colors(buf, GL_FLOAT, RGB)
+            }
+            translation(-1.0f, 0.0f, 0.0f)
+            rotation(45.0f, 0.5f, 0.3f, 1.0f)
+            cube(colors)
+        }
 
-	def verticesAsColors[VertexBuffer <: Buffer, ColorBuffer <: Buffer](
-		vertices: Vertices[VertexBuffer]): Colors[ColorBuffer] =
+    def verticesAsColors[VertexBuffer <: Buffer, ColorBuffer <: Buffer](
+        vertices: Vertices[VertexBuffer]): Colors[ColorBuffer] =
     {
-		val vbuf = vertices.buffer.rewind.asInstanceOf[FloatBuffer]
-		val cbuf = Buffers.newDirectFloatBuffer(vbuf.limit)
-		for (i <- 0 until vbuf.limit / 3) {
-			cbuf.put(Color(vbuf.get, vbuf.get, vbuf.get).rgb)
-		}
-		vbuf.rewind
-		cbuf.flip
-		Colors(cbuf.asInstanceOf[ColorBuffer], GL_FLOAT, RGB)
-	}
+        val vbuf = vertices.buffer.rewind.asInstanceOf[FloatBuffer]
+        val cbuf = Buffers.newDirectFloatBuffer(vbuf.limit)
+        for (i <- 0 until vbuf.limit / 3) {
+            cbuf.put(Color(vbuf.get, vbuf.get, vbuf.get).rgb)
+        }
+        vbuf.rewind
+        cbuf.flip
+        Colors(cbuf.asInstanceOf[ColorBuffer], GL_FLOAT, RGB)
+    }
 
-	val perVertexColorSphere =
-		detached {
-			val b = new SphereBuilder(20, 0.8)
-			val  vertices = b.createVertices
-			val colors: Colors[FloatBuffer] = verticesAsColors(vertices)
-    		translation(1.0f, 0.0f, 0.0f)
-			attach(new SimpleGeometry(vertices, colors))
-		}
+    val perVertexColorSphere =
+        detached {
+            val b = new SphereBuilder(20, 0.8)
+            val  vertices = b.createVertices
+            val colors: Colors[FloatBuffer] = verticesAsColors(vertices)
+            translation(1.0f, 0.0f, 0.0f)
+            attach(new SimpleGeometry(vertices, colors))
+        }
 
-	val perVertexColorSphereWithWires =
-		detached {
-			val b = new SphereBuilder(10, 0.8)
-			val  vertices = b.createVertices
-			val colors: Colors[FloatBuffer] = verticesAsColors(vertices)
-			cullFace(On)
-    		translation(3.0f, 0.0f, 0.0f)
-			group {
-				shadeModel(GL_FLAT)
-				polygonOffset(1.0f, 1.0f)
-				attach(new SimpleGeometry(vertices, colors))
-			}
-			group {
-				polygonMode(GL_FRONT, GL_LINE)
-				color(JColor.gray)
-				attach(new SimpleGeometry(vertices))
-			}
-		}
-	
-	val whiteCubes =
-		detached {
-    		depthTest(Off)
-			cullFace(On)
-			group {
-				translation(-3.0f, 2.0f, 0.0f)
-				polygonMode(GL_FRONT, GL_LINE)
-				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				cube(normals = false)
-			}
-			group {
-				translation(-1.0f, 2.0f, 0.0f)
-				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				cube(normals = false)
-			}
-			group {
-				translation(1.0f, 2.0f, 0.0f)
-				cullFace(Off)
-				polygonMode(GL_FRONT_AND_BACK, GL_LINE)
-				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-				cube(normals = false)
-			}
-			group {
-				translation(3.0f, 2.0f, 0.0f)
-				polygonMode(GL_FRONT, GL_LINE)
-				frontFace(GL_CW)
-				rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
-				cube(normals = false)
-			}
-	    }
+    val perVertexColorSphereWithWires =
+        detached {
+            val b = new SphereBuilder(10, 0.8)
+            val  vertices = b.createVertices
+            val colors: Colors[FloatBuffer] = verticesAsColors(vertices)
+            cullFace(On)
+            translation(3.0f, 0.0f, 0.0f)
+            group {
+                shadeModel(GL_FLAT)
+                polygonOffset(1.0f, 1.0f)
+                attach(new SimpleGeometry(vertices, colors))
+            }
+            group {
+                polygonMode(GL_FRONT, GL_LINE)
+                color(JColor.gray)
+                attach(new SimpleGeometry(vertices))
+            }
+        }
+    
+    val whiteCubes =
+        detached {
+            depthTest(Off)
+            cullFace(On)
+            group {
+                translation(-3.0f, 2.0f, 0.0f)
+                polygonMode(GL_FRONT, GL_LINE)
+                rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
+                cube(normals = false)
+            }
+            group {
+                translation(-1.0f, 2.0f, 0.0f)
+                rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
+                cube(normals = false)
+            }
+            group {
+                translation(1.0f, 2.0f, 0.0f)
+                cullFace(Off)
+                polygonMode(GL_FRONT_AND_BACK, GL_LINE)
+                rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+                cube(normals = false)
+            }
+            group {
+                translation(3.0f, 2.0f, 0.0f)
+                polygonMode(GL_FRONT, GL_LINE)
+                frontFace(GL_CW)
+                rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+                cube(normals = false)
+            }
+        }
 
-	val ellipsoids =
-		detached {
-			cullFace(On)
-			group {
-    			polygonMode(GL_FRONT, GL_LINE)
-    			translation(-3.0f, -2.0f, 0.0f)
-				attach(ellipsoid(20, 20, 0.5f, 0.5f, 1.0f, normals = false))
-			}
-			group {
-				cullFace(Off)
-    			polygonMode(GL_FRONT_AND_BACK, GL_LINE)
-    			translation(3.0f, -2.0f, 0.0f)
-				attach(ellipsoid(20, 20, 0.5f, 0.5f, 1.0f, normals = false))
-			}
-			group {
-    			translation(0.0f, -2.0f, 0.0f)
-				rotation(90.0f, 1.0f, 0.0f, 0.0f)
-				group {
-					frontFace(GL_CW)
-					attach(ellipsoid(20, 20, 2.0f, 2.0f, 0.3f, normals = false))
-				}
-				group {
-					color(JColor.black)
-    				polygonMode(GL_FRONT, GL_LINE)
-					attach(ellipsoid(20, 20, 2.0f, 2.0f, 0.3f, normals = false))
-				}
-			}
-		}
+    val ellipsoids =
+        detached {
+            cullFace(On)
+            group {
+                polygonMode(GL_FRONT, GL_LINE)
+                translation(-3.0f, -2.0f, 0.0f)
+                attach(ellipsoid(20, 20, 0.5f, 0.5f, 1.0f, normals = false))
+            }
+            group {
+                cullFace(Off)
+                polygonMode(GL_FRONT_AND_BACK, GL_LINE)
+                translation(3.0f, -2.0f, 0.0f)
+                attach(ellipsoid(20, 20, 0.5f, 0.5f, 1.0f, normals = false))
+            }
+            group {
+                translation(0.0f, -2.0f, 0.0f)
+                rotation(90.0f, 1.0f, 0.0f, 0.0f)
+                group {
+                    frontFace(GL_CW)
+                    attach(ellipsoid(20, 20, 2.0f, 2.0f, 0.3f, normals = false))
+                }
+                group {
+                    color(JColor.black)
+                    polygonMode(GL_FRONT, GL_LINE)
+                    attach(ellipsoid(20, 20, 2.0f, 2.0f, 0.3f, normals = false))
+                }
+            }
+        }
 
-	def example =
-		world {
-    		depthTest(On)
-    		translation(0.0f, 0.0f, -5.0f)
-			attach(perFaceColorCube)
-			attach(perVertexColorCube)
-			attach(whiteCubes)
-			attach(perVertexColorSphere)
-			attach(perVertexColorSphereWithWires)
-			attach(ellipsoids)
-    	}
+    def example =
+        world {
+            depthTest(On)
+            translation(0.0f, 0.0f, -5.0f)
+            attach(perFaceColorCube)
+            attach(perVertexColorCube)
+            attach(whiteCubes)
+            attach(perVertexColorSphere)
+            attach(perVertexColorSphereWithWires)
+            attach(ellipsoids)
+        }
 
 }

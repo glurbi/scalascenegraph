@@ -20,15 +20,15 @@ import scalascenegraph.builders._
 
 class Example09 extends Example with WorldBuilder {
 
-	val myvertexshadersource =
-	"""
-	uniform float r;
-	uniform vec4 color;
+    val myvertexshadersource =
+    """
+    uniform float r;
+    uniform vec4 color;
     const vec3 lightPos = vec3(-6.0, -6.0, 0.0);
-	void main (void)
+    void main (void)
     {
-	    vec4 v = gl_Vertex;
-	    v.z = v.z + sin(r * v.x) * 0.25;
+        vec4 v = gl_Vertex;
+        v.z = v.z + sin(r * v.x) * 0.25;
         gl_Position = gl_ModelViewProjectionMatrix * v;
         
         vec3 N = gl_NormalMatrix * normalize(v.xyz);
@@ -39,48 +39,48 @@ class Example09 extends Example with WorldBuilder {
         vec4 diffuse = vec4(max(0.0, NdotL));
         gl_FrontColor = color * (ambient + diffuse);
     }
-	"""
-		
-	val myfragmentshadersource =
-	"""
-	void main (void)
+    """
+        
+    val myfragmentshadersource =
+    """
+    void main (void)
     {
         gl_FragColor = gl_Color;
     }
-	"""
+    """
 
-	val angleHook = (r: Rotation, c: Context) => {
-		r.angle = (c.elapsed / 50.0f) % 360.0f
-	}
-	
-	val uniformHook = (u: UniformState, c: Context) => {
-		u.value = (sin(c.elapsed / 1000.0f) * 10.0f).asInstanceOf[Float]
-	}
+    val angleHook = (r: Rotation, c: Context) => {
+        r.angle = (c.elapsed / 50.0f) % 360.0f
+    }
+    
+    val uniformHook = (u: UniformState, c: Context) => {
+        u.value = (sin(c.elapsed / 1000.0f) * 10.0f).asInstanceOf[Float]
+    }
 
-	val myvertexshader = new Shader(GL_VERTEX_SHADER, myvertexshadersource)
-	val myfragmentshader = new Shader(GL_FRAGMENT_SHADER, myfragmentshadersource)
-	val myprogram = new Program(List(myvertexshader, myfragmentshader))
-	val rUniform = new Uniform(myprogram, "r")
-	val colorUniform = new Uniform(myprogram, "color")
-		
-	def example =
-		world {
-			cullFace(On)
-    		depthTest(On)
-			attach(myvertexshader)
-			attach(myfragmentshader)
-			attach(myprogram)
-			attach(rUniform)
-			attach(colorUniform)
-			useProgram(myprogram)
-			group {
-				setUniform(colorUniform, JColor.orange)
-				setUniform(rUniform, 0.0f, uniformHook)
-				translation(0.0f, 0.0f, -4.0f)
-				rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
-				box(4.0f, 2.0f, 1.0f, 40, 20, 10, normals = false)
-			}
-			showFramesPerSecond
-		}
-	
+    val myvertexshader = new Shader(GL_VERTEX_SHADER, myvertexshadersource)
+    val myfragmentshader = new Shader(GL_FRAGMENT_SHADER, myfragmentshadersource)
+    val myprogram = new Program(List(myvertexshader, myfragmentshader))
+    val rUniform = new Uniform(myprogram, "r")
+    val colorUniform = new Uniform(myprogram, "color")
+        
+    def example =
+        world {
+            cullFace(On)
+            depthTest(On)
+            attach(myvertexshader)
+            attach(myfragmentshader)
+            attach(myprogram)
+            attach(rUniform)
+            attach(colorUniform)
+            useProgram(myprogram)
+            group {
+                setUniform(colorUniform, JColor.orange)
+                setUniform(rUniform, 0.0f, uniformHook)
+                translation(0.0f, 0.0f, -4.0f)
+                rotation(0.0f, 1.0f, 0.5f, 1.0f, angleHook)
+                box(4.0f, 2.0f, 1.0f, 40, 20, 10, normals = false)
+            }
+            showFramesPerSecond
+        }
+    
 }

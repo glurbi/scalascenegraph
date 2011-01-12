@@ -21,30 +21,30 @@ import scalascenegraph.core.Predefs._
 import scalascenegraph.builders._
 
 class Example04 extends Example with WorldBuilder {
-	
-	val r = new Random
+    
+    val r = new Random
 
-	val smiley = new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley.png"))
+    val smiley = new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/smiley.png"))
 
-	def createVertices: Vertices[FloatBuffer] = {
-		val ab = new ArrayBuffer[Float]
-		for (i <- 0 to 50000) {
-			val x = (r.nextFloat - 0.5f) * 20
-			val y = (r.nextFloat - 0.5f) * 20
-			val z = (r.nextFloat - 0.5f) * 20
-			ab ++= new Vertice3D(x, y, z).xyz
-		}
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_POINTS)
-	}
+    def createVertices: Vertices[FloatBuffer] = {
+        val ab = new ArrayBuffer[Float]
+        for (i <- 0 to 50000) {
+            val x = (r.nextFloat - 0.5f) * 20
+            val y = (r.nextFloat - 0.5f) * 20
+            val z = (r.nextFloat - 0.5f) * 20
+            ab ++= new Vertice3D(x, y, z).xyz
+        }
+        Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_POINTS)
+    }
 
-	def example =
-		world {
-			blending(On)
-			pointSprite(On)
-			pointSize(16.0f)
-			attach(smiley)
-			bindTexture(GL_TEXTURE_2D, smiley)
-			attach(new SimpleGeometry(createVertices))
-		}
-	
+    def example =
+        world {
+            blending(On)
+            pointSprite(On)
+            pointSize(16.0f)
+            attach(smiley)
+            bindTexture(GL_TEXTURE_2D, smiley)
+            attach(new SimpleGeometry(createVertices))
+        }
+    
 }

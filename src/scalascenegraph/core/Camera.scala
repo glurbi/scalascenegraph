@@ -17,102 +17,102 @@ import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
 object Camera {
-	
-	def get(config: InputStream): Camera = {
-		try {
-			val props = new Properties
-			props.load(config)
-			val left = props.getProperty("camera.clipping.volume.left").toDouble
-			val right = props.getProperty("camera.clipping.volume.right").toDouble
-			val bottom = props.getProperty("camera.clipping.volume.bottom").toDouble
-			val top = props.getProperty("camera.clipping.volume.top").toDouble
-			val near = props.getProperty("camera.clipping.volume.near").toDouble
-			val far = props.getProperty("camera.clipping.volume.far").toDouble
-			val clippingVolume = new ClippingVolume(left, right, bottom, top, near, far)
-			props.get("camera.projection.type") match {
-			    case "perspective" => new PerspectiveCamera(clippingVolume)
-			    case "parallel" => new ParallelCamera(clippingVolume)
-			    case _ => throw new RuntimeException("Missing or invalid property camera.projection.type")
-			}
-		} finally {
-			config.close
-		}
-	}
-	
-	def get(projectionType: ProjectionType, clippingVolume: ClippingVolume): Camera = {
-		projectionType match {
-			case Perspective => new PerspectiveCamera(clippingVolume)
-			case Parallel => new ParallelCamera(clippingVolume)
-		}
-	}
+    
+    def get(config: InputStream): Camera = {
+        try {
+            val props = new Properties
+            props.load(config)
+            val left = props.getProperty("camera.clipping.volume.left").toDouble
+            val right = props.getProperty("camera.clipping.volume.right").toDouble
+            val bottom = props.getProperty("camera.clipping.volume.bottom").toDouble
+            val top = props.getProperty("camera.clipping.volume.top").toDouble
+            val near = props.getProperty("camera.clipping.volume.near").toDouble
+            val far = props.getProperty("camera.clipping.volume.far").toDouble
+            val clippingVolume = new ClippingVolume(left, right, bottom, top, near, far)
+            props.get("camera.projection.type") match {
+                case "perspective" => new PerspectiveCamera(clippingVolume)
+                case "parallel" => new ParallelCamera(clippingVolume)
+                case _ => throw new RuntimeException("Missing or invalid property camera.projection.type")
+            }
+        } finally {
+            config.close
+        }
+    }
+    
+    def get(projectionType: ProjectionType, clippingVolume: ClippingVolume): Camera = {
+        projectionType match {
+            case Perspective => new PerspectiveCamera(clippingVolume)
+            case Parallel => new ParallelCamera(clippingVolume)
+        }
+    }
 }
 
 // more or less direct scala translation of http://www.codecolony.de/opengl.htm#camera2
 abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
 
- 	val projectionType: ProjectionType
+     val projectionType: ProjectionType
 
-	var positionV = new Position3D(0.0f, 0.0f, 0.0f)
-	var directionV = new Vector3D(0.0f, 0.0f, -1.0f)
-	var rightV = new Vector3D(1.0f, 0.0f, 0.0f)
-	var upV = new Vector3D(0.0f, 1.0f, 0.0f)
+    var positionV = new Position3D(0.0f, 0.0f, 0.0f)
+    var directionV = new Vector3D(0.0f, 0.0f, -1.0f)
+    var rightV = new Vector3D(1.0f, 0.0f, 0.0f)
+    var upV = new Vector3D(0.0f, 1.0f, 0.0f)
 
-	def reset {
-		positionV = new Position3D(0.0f, 0.0f, 0.0f)
-		directionV = new Vector3D(0.0f, 0.0f, -1.0f)
-		rightV = new Vector3D(1.0f, 0.0f, 0.0f)
-		upV = new Vector3D(0.0f, 1.0f, 0.0f)
-	}
+    def reset {
+        positionV = new Position3D(0.0f, 0.0f, 0.0f)
+        directionV = new Vector3D(0.0f, 0.0f, -1.0f)
+        rightV = new Vector3D(1.0f, 0.0f, 0.0f)
+        upV = new Vector3D(0.0f, 1.0f, 0.0f)
+    }
 
-	def rotateX(deg: Float) {
-		directionV = normalize(directionV * cos(toRadians(deg)) + upV * sin(toRadians(deg)))
-		upV = crossProduct(directionV, rightV) * -1
-	}
+    def rotateX(deg: Float) {
+        directionV = normalize(directionV * cos(toRadians(deg)) + upV * sin(toRadians(deg)))
+        upV = crossProduct(directionV, rightV) * -1
+    }
 
-	def rotateY(deg: Float) {
-		directionV = normalize(directionV * cos(toRadians(deg)) - rightV * sin(toRadians(deg)))
-		rightV  = crossProduct(directionV, upV)
-	}
+    def rotateY(deg: Float) {
+        directionV = normalize(directionV * cos(toRadians(deg)) - rightV * sin(toRadians(deg)))
+        rightV  = crossProduct(directionV, upV)
+    }
 
-	def rotateZ(deg: Float) {
-		rightV = normalize(rightV * cos(toRadians(deg)) + upV * sin(toRadians(deg)))
-		upV = crossProduct(directionV, rightV) * -1
-	}
+    def rotateZ(deg: Float) {
+        rightV = normalize(rightV * cos(toRadians(deg)) + upV * sin(toRadians(deg)))
+        upV = crossProduct(directionV, rightV) * -1
+    }
 
-	def moveRight(dist: Float) {
-		positionV = positionV + (rightV * dist)
-	}
+    def moveRight(dist: Float) {
+        positionV = positionV + (rightV * dist)
+    }
 
-	def moveLeft(dist: Float) {
-		positionV = positionV - (rightV * dist)
-	}
+    def moveLeft(dist: Float) {
+        positionV = positionV - (rightV * dist)
+    }
 
-	def moveUp(dist: Float) {
-		positionV = positionV + (upV * dist)
-	}
+    def moveUp(dist: Float) {
+        positionV = positionV + (upV * dist)
+    }
 
-	def moveDown(dist: Float) {
-		positionV = positionV - (upV * dist)
-	}
+    def moveDown(dist: Float) {
+        positionV = positionV - (upV * dist)
+    }
 
-	def moveForward(dist: Float) {
-		positionV = positionV + (directionV * dist)
-	}
+    def moveForward(dist: Float) {
+        positionV = positionV + (directionV * dist)
+    }
 
-	def moveBackward(dist: Float) {
-		positionV = positionV - (directionV * dist)
-	}
+    def moveBackward(dist: Float) {
+        positionV = positionV - (directionV * dist)
+    }
 
-	protected def positionAndOrient(context: Context) {
-		val centerV = positionV + directionV
-		context.glu.gluLookAt(
-			positionV.x, positionV.y, positionV.z,
-			centerV.x, centerV.y, centerV.z,
-			upV.x, upV.y, upV.z)
-	}
+    protected def positionAndOrient(context: Context) {
+        val centerV = positionV + directionV
+        context.glu.gluLookAt(
+            positionV.x, positionV.y, positionV.z,
+            centerV.x, centerV.y, centerV.z,
+            upV.x, upV.y, upV.z)
+    }
 
-	override def toString: String =
-		"position=" + positionV + " direction=" + directionV + " right=" + rightV + " up=" + upV
+    override def toString: String =
+        "position=" + positionV + " direction=" + directionV + " right=" + rightV + " up=" + upV
 }
 
 class ClippingVolume(
@@ -126,8 +126,8 @@ class ClippingVolume(
 class PerspectiveCamera(clippingVolume: ClippingVolume)
 extends Camera(clippingVolume)
 {
-	val projectionType = Perspective
-	
+    val projectionType = Perspective
+    
     def render(context: Context) {
         import clippingVolume._
         import context.gl
@@ -136,15 +136,15 @@ extends Camera(clippingVolume)
         gl.glFrustum(left, right, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
-		positionAndOrient(context)
+        positionAndOrient(context)
     }
 }
 
 class ParallelCamera(clippingVolume: ClippingVolume)
 extends Camera(clippingVolume)
 {
-	val projectionType = Parallel
-	
+    val projectionType = Parallel
+    
     def render(context: Context) {
         import clippingVolume._
         import context.gl
@@ -153,6 +153,6 @@ extends Camera(clippingVolume)
         gl.glOrtho(left, right, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
-		positionAndOrient(context)
+        positionAndOrient(context)
     }
 }

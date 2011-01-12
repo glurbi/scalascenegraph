@@ -4,6 +4,6 @@ import scalascenegraph.core._
 
 trait Example {
 
-	def example: World
-	
+    def example: World
+    
 }

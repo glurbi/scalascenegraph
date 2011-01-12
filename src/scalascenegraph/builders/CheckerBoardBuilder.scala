@@ -19,43 +19,43 @@ import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 
 class CheckerBoardBuilder(n: Int, m: Int, c1: Color, c2: Color) {
-	
-	def createCheckerBoard: Node = {
-		val vertices = createVertices
-		val colors = createColors
-		new SimpleGeometry(vertices, colors)
-	}
-	
-	def createVertices: Vertices[FloatBuffer] = {
-		val ab = new ArrayBuffer[Float]
-		val xOffset = -n / 2.0f
-		val yOffset = -m / 2.0f
-		for (i <- 0 until n) {
-			for (j <- 0 until m) {
-				ab ++= new Vertice3D(i + xOffset, j + yOffset, 0.0f).xyz
-				ab ++= new Vertice3D(i + 1.0f + xOffset, j + yOffset, 0.0f).xyz
-				ab ++= new Vertice3D(i + 1.0f + xOffset, j + 1.0f + yOffset, 0.0f).xyz
-				ab ++= new Vertice3D(i + xOffset, j + 1.0f + yOffset, 0.0f).xyz
-			}
-		}
-		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
-	}
+    
+    def createCheckerBoard: Node = {
+        val vertices = createVertices
+        val colors = createColors
+        new SimpleGeometry(vertices, colors)
+    }
+    
+    def createVertices: Vertices[FloatBuffer] = {
+        val ab = new ArrayBuffer[Float]
+        val xOffset = -n / 2.0f
+        val yOffset = -m / 2.0f
+        for (i <- 0 until n) {
+            for (j <- 0 until m) {
+                ab ++= new Vertice3D(i + xOffset, j + yOffset, 0.0f).xyz
+                ab ++= new Vertice3D(i + 1.0f + xOffset, j + yOffset, 0.0f).xyz
+                ab ++= new Vertice3D(i + 1.0f + xOffset, j + 1.0f + yOffset, 0.0f).xyz
+                ab ++= new Vertice3D(i + xOffset, j + 1.0f + yOffset, 0.0f).xyz
+            }
+        }
+        Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
+    }
 
-	def createColors = {
-		val ab = new ArrayBuffer[Float]
-		for (i <- 0 until n) {
-			for (j <- 0 until m) {
-				val c = (i + j) % 2 match {
-					case 0 => c1
-					case 1 => c2
-				}
-				ab ++= c.rgba
-				ab ++= c.rgba
-				ab ++= c.rgba
-				ab ++= c.rgba
-			}
-		}
-		Colors(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, RGBA)
-	}
-	
+    def createColors = {
+        val ab = new ArrayBuffer[Float]
+        for (i <- 0 until n) {
+            for (j <- 0 until m) {
+                val c = (i + j) % 2 match {
+                    case 0 => c1
+                    case 1 => c2
+                }
+                ab ++= c.rgba
+                ab ++= c.rgba
+                ab ++= c.rgba
+                ab ++= c.rgba
+            }
+        }
+        Colors(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, RGBA)
+    }
+    
 }
