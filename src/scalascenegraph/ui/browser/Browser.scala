@@ -4,7 +4,7 @@ import java.util._
 import java.io._
 import java.awt._
 import java.awt.event._
-import javax.swing.SwingUtilities
+import javax.swing._
 import javax.media.opengl._
 import javax.media.opengl.glu._
 import javax.media.opengl.awt._
@@ -69,11 +69,30 @@ extends GLEventListener
         val profile = GLProfile.get(GLProfile.GL3bc)
         val capabilities = new GLCapabilities(profile)
         capabilities.setDoubleBuffered(true)
-        new GLCanvas(capabilities)
+        new GLJPanel(capabilities) // slower but no flicker
+        //new GLCanvas(capabilities) // faster but can flicker
+    }
+    
+    val menuBar = {
+        val mb = new JMenuBar
+        val fileMenu = new JMenu("File")
+        val exitMenuItem = new JMenuItem("Exit")
+        exitMenuItem.addActionListener(new ActionListener() {
+            def actionPerformed(e: ActionEvent) {
+                exit
+            }
+        });        
+        fileMenu.add(exitMenuItem)
+        mb.add(fileMenu)
+        val helpMenu = new JMenu("Help")
+        val aboutMenuItem = new JMenuItem("About")
+        helpMenu.add(aboutMenuItem)
+        mb.add(helpMenu)
+        mb
     }
     
     val frame = {
-        val f = new Frame
+        val f = new JFrame
         f.addWindowListener(new WindowAdapter {
             override def windowClosing(e: WindowEvent) {
                 exit
@@ -83,8 +102,9 @@ extends GLEventListener
         f.addMouseListener(mouseListener)
         f.addMouseWheelListener(mouseListener)
         f.addMouseMotionListener(mouseListener)
-        f.add(canvas);
-        f.setSize(width, height);
+        f.add(canvas)
+        f.setSize(width, height)
+        f.setJMenuBar(menuBar)
         f
     }
     
