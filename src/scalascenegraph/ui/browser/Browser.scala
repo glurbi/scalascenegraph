@@ -84,6 +84,19 @@ extends GLEventListener
         });        
         fileMenu.add(exitMenuItem)
         mb.add(fileMenu)
+        val viewMenu = new JMenu("View")
+        val fullScreenMenuItem = new JMenuItem("Full Screen")
+        fullScreenMenuItem.addActionListener(new ActionListener() {
+            def actionPerformed(e: ActionEvent) {
+                frame.setVisible(false)
+                val fullScreenFrame = new JFrame
+                fullScreenFrame.setUndecorated(true)
+                fullScreenFrame.add(canvas)
+                setFullScreenWindow(fullScreenFrame)
+            }
+        })
+        viewMenu.add(fullScreenMenuItem)
+        mb.add(viewMenu)
         val helpMenu = new JMenu("Help")
         val aboutMenuItem = new JMenuItem("About")
         helpMenu.add(aboutMenuItem)
@@ -91,7 +104,7 @@ extends GLEventListener
         mb
     }
     
-    val frame = {
+    val frame: Frame = {
         val f = new JFrame
         f.addWindowListener(new WindowAdapter {
             override def windowClosing(e: WindowEvent) {
@@ -110,6 +123,15 @@ extends GLEventListener
     
     val animator = new Animator(canvas)
     
+    private var fullscreen = false
+    
+    private def setFullScreenWindow(window: Window) {
+        val graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
+        val graphicsDevice = graphicsEnvironment.getDefaultScreenDevice
+        graphicsDevice.setFullScreenWindow(window)
+        fullscreen = window != null
+    }
+
     def show {
         frame.setVisible(true)
         if (animated) {
@@ -205,6 +227,9 @@ extends GLEventListener
         // the application freezes and does not stop.
         SwingUtilities.invokeLater(new Runnable {
             def run {
+                if (fullscreen) {
+                    setFullScreenWindow(null)
+                }
                 System.exit(0)
             }
         })
