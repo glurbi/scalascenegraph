@@ -144,6 +144,8 @@ extends GLEventListener
     def reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
         context.width = width
         context.height = height
+        val gl = drawable.getGL.getGL3bc
+        gl.glViewport(0,0, width, height)
     }
 
     def display(drawable: GLAutoDrawable) {
@@ -167,9 +169,11 @@ extends GLEventListener
     }
 
     def displayChanged(drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean) {
+        println("displayChanged(" + drawable + "," + modeChanged + ", " + deviceChanged + ")")
     }
 
     def dispose(drawable: GLAutoDrawable) {
+        println("dispose(" + drawable + ")")
     }
 
     private def updateContext(drawable: GLAutoDrawable) {

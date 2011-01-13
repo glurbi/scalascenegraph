@@ -133,7 +133,8 @@ extends Camera(clippingVolume)
         import context.gl
         gl.glMatrixMode(GL_PROJECTION)
         gl.glLoadIdentity
-        gl.glFrustum(left, right, bottom, top, near, far)
+        val f = context.width.asInstanceOf[Float] / context.height // preserves aspect ratio
+        gl.glFrustum(left * f, right * f, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
         positionAndOrient(context)
@@ -150,7 +151,8 @@ extends Camera(clippingVolume)
         import context.gl
         gl.glMatrixMode(GL_PROJECTION)
         gl.glLoadIdentity
-        gl.glOrtho(left, right, bottom, top, near, far)
+        val f = context.width.asInstanceOf[Float] / context.height // preserves aspect ratio
+        gl.glOrtho(left * f , right * f, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
         positionAndOrient(context)
