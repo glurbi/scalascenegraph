@@ -72,6 +72,14 @@ extends GLEventListener
         new GLJPanel(capabilities) // slower but no flicker
         //new GLCanvas(capabilities) // faster but can flicker
     }
+
+    lazy val fullScreenCanvas = {
+        val profile = GLProfile.get(GLProfile.GL3bc)
+        val capabilities = new GLCapabilities(profile)
+        capabilities.setDoubleBuffered(true)
+        //new GLJPanel(capabilities) // slower but no flicker
+        new GLCanvas(capabilities) // faster but can flicker
+    }
     
     val menuBar = {
         val mb = new JMenuBar
@@ -88,11 +96,7 @@ extends GLEventListener
         val fullScreenMenuItem = new JMenuItem("Full Screen")
         fullScreenMenuItem.addActionListener(new ActionListener() {
             def actionPerformed(e: ActionEvent) {
-                frame.setVisible(false)
-                val fullScreenFrame = new JFrame
-                fullScreenFrame.setUndecorated(true)
-                fullScreenFrame.add(canvas)
-                setFullScreenWindow(fullScreenFrame)
+                fullScreenMode
             }
         })
         viewMenu.add(fullScreenMenuItem)
@@ -120,16 +124,45 @@ extends GLEventListener
         f.setJMenuBar(menuBar)
         f
     }
+
+    lazy val fullScreenFrame = {
+        val f = new JFrame
+        f.setUndecorated(true)
+        f.add(fullScreenCanvas)
+        f
+    }
     
     val animator = new Animator(canvas)
     
     private var fullscreen = false
     
-    private def setFullScreenWindow(window: Window) {
-        val graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
-        val graphicsDevice = graphicsEnvironment.getDefaultScreenDevice
-        graphicsDevice.setFullScreenWindow(window)
-        fullscreen = window != null
+    private def fullScreenMode {
+        if (!fullscreen) {
+            val graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
+            val graphicsDevice = graphicsEnvironment.getDefaultScreenDevice
+            frame.setVisible(false)
+            animator.add(fullScreenCanvas)
+            animator.remove(canvas)
+            frame.remove(canvas)
+            fullScreenFrame.add(canvas)
+            graphicsDevice.setFullScreenWindow(fullScreenFrame)
+            fullscreen = true
+        }
+    }
+
+    private def windowedMode {
+        if (fullscreen) {
+            val graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
+            val graphicsDevice = graphicsEnvironment.getDefaultScreenDevice
+            graphicsDevice.setFullScreenWindow(null)
+            animator.add(canvas)
+            animator.remove(fullScreenCanvas)
+            fullScreenFrame.remove(canvas)
+            fullScreenFrame.setVisible(false)
+            frame.add(canvas)
+            frame.setVisible(true)
+            fullscreen = false
+        }
     }
 
     def show {
@@ -173,6 +206,8 @@ extends GLEventListener
     def display(drawable: GLAutoDrawable) {
         updateContext(drawable)
         if (context.escapeKeyPressed) { exit }
+        if (context.pressedKeys.contains(KeyEvent.VK_F11)) { fullScreenMode }
+        if (context.pressedKeys.contains(KeyEvent.VK_F12)) { windowedMode }
 
         // TODO: create ProjectionHandler class
         if (context.pressedKeys.contains(KeyEvent.VK_P)) {
@@ -223,16 +258,8 @@ extends GLEventListener
     }
     
     private def exit {
-        // if we invoke System.exit() on the opengl thread,
-        // the application freezes and does not stop.
-        SwingUtilities.invokeLater(new Runnable {
-            def run {
-                if (fullscreen) {
-                    setFullScreenWindow(null)
-                }
-                System.exit(0)
-            }
-        })
+println(Thread.currentThread)
+        System.exit(0)
     }
-    
+
 }
