@@ -65,22 +65,20 @@ extends GLEventListener
         dispatcher
     }
     
-    val canvas = {
+    val capabilities = {
         val profile = GLProfile.get(GLProfile.GL3bc)
-        val capabilities = new GLCapabilities(profile)
-        capabilities.setDoubleBuffered(true)
-        new GLJPanel(capabilities) // slower but no flicker
-        //new GLCanvas(capabilities) // faster but can flicker
-    }
-
-    lazy val fullScreenCanvas = {
-        val profile = GLProfile.get(GLProfile.GL3bc)
-        val capabilities = new GLCapabilities(profile)
-        capabilities.setDoubleBuffered(true)
-        //new GLJPanel(capabilities) // slower but no flicker
-        new GLCanvas(capabilities) // faster but can flicker
+        val c = new GLCapabilities(profile)
+        c.setDoubleBuffered(true)
+        c
     }
     
+    val canvas = {
+        val c = new GLJPanel(capabilities) // slower but no flicker
+        //new GLCanvas(capabilities) // faster but can flicker
+        c.addGLEventListener(this)
+        c
+    }
+
     val menuBar = {
         val mb = new JMenuBar
         val fileMenu = new JMenu("File")
@@ -115,23 +113,15 @@ extends GLEventListener
                 exit
             }
         })
-        canvas.addGLEventListener(this)
-        f.addMouseListener(mouseListener)
-        f.addMouseWheelListener(mouseListener)
-        f.addMouseMotionListener(mouseListener)
+        //f.addMouseListener(mouseListener)
+        //f.addMouseWheelListener(mouseListener)
+        //f.addMouseMotionListener(mouseListener)
         f.add(canvas)
         f.setSize(width, height)
         f.setJMenuBar(menuBar)
         f
     }
 
-    lazy val fullScreenFrame = {
-        val f = new JFrame
-        f.setUndecorated(true)
-        f.add(fullScreenCanvas)
-        f
-    }
-    
     val animator = new Animator(canvas)
     
     private var fullscreen = false
@@ -140,12 +130,7 @@ extends GLEventListener
         if (!fullscreen) {
             val graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
             val graphicsDevice = graphicsEnvironment.getDefaultScreenDevice
-            frame.setVisible(false)
-            animator.add(fullScreenCanvas)
-            animator.remove(canvas)
-            frame.remove(canvas)
-            fullScreenFrame.add(canvas)
-            graphicsDevice.setFullScreenWindow(fullScreenFrame)
+            graphicsDevice.setFullScreenWindow(frame)
             fullscreen = true
         }
     }
@@ -155,12 +140,6 @@ extends GLEventListener
             val graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
             val graphicsDevice = graphicsEnvironment.getDefaultScreenDevice
             graphicsDevice.setFullScreenWindow(null)
-            animator.add(canvas)
-            animator.remove(fullScreenCanvas)
-            fullScreenFrame.remove(canvas)
-            fullScreenFrame.setVisible(false)
-            frame.add(canvas)
-            frame.setVisible(true)
             fullscreen = false
         }
     }
@@ -258,7 +237,6 @@ extends GLEventListener
     }
     
     private def exit {
-println(Thread.currentThread)
         System.exit(0)
     }
 
