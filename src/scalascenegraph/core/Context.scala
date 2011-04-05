@@ -6,7 +6,7 @@ import javax.media.opengl.glu._
 
 class Context {
     
-    var gl: GL3bc = _
+    var gl: GL4 = _
     var glu: GLU = _
     
     val creationTime = System.currentTimeMillis
