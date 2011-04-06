@@ -152,8 +152,10 @@ extends Overlay {
 
     override def render(context: Context) {
         if (rawImage != null) {
-            context.gl.glWindowPos2i(x, y)
-            context.gl.glDrawPixels(width, height, imageType, GL_UNSIGNED_BYTE, rawImage)
+        	  // TODO: replace with opengl 4 calls
+            //context.gl.glWindowPos2i(x, y)
+        	  // TODO: replace with opengl 4 calls
+            //context.gl.glDrawPixels(width, height, imageType, GL_UNSIGNED_BYTE, rawImage)
         }
     }
     
@@ -173,10 +175,12 @@ extends Overlay {
         // TODO: should use opengl default
         context.gl.glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
         
-        context.gl.glWindowPos2i(x, y)
+     	  // TODO: replace with opengl 4 calls
+        //context.gl.glWindowPos2i(x, y)
         text.foreach { c => {
             val character = font.characters(c)
-            context.gl.glBitmap(character.width, character.height, 0, 0, character.width, 0, character.bitmap)
+        	  // TODO: replace with opengl 4 calls
+            //context.gl.glBitmap(character.width, character.height, 0, 0, character.width, 0, character.bitmap)
         }}
     }
     
