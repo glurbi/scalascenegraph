@@ -7,8 +7,10 @@ import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
 import scala.collection.mutable.Stack
 import com.jogamp.common.nio._
+import javax.media.opengl._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
+import javax.media.opengl.GL4._
 import javax.media.opengl.GL2GL3._
 import javax.media.opengl.GL2ES1._
 import javax.media.opengl.GL2ES2._
@@ -23,134 +25,113 @@ import scalascenegraph.core.Predefs._
 
 trait BasicShapeBuilder extends GraphBuilder with StateBuilder {
 
-	def point(v: Vertice3D, color: Color) {
-		val vertices = Vertices[FloatBuffer](
-			Buffers.newDirectFloatBuffer(Array(v.x, v.y, v.z)),
-			GL_FLOAT,
-			dim_3D,
-			GL_POINTS)
-		stack.top.attach(new SimpleGeometry(vertices, color))
+	def point(gl: GL4, v: Vertice3D, color: Color) {
+        val builder = new GeometryBuilder
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, Array(v.x, v.y, v.z))
+                              .addAtribute(COLOR_ATTRIBUTE_INDEX, 3, GL_FLOAT, color.rgba)
+                              .setPrimitiveType(GL_POINTS)
+                              .setVertexCount(1)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 	
-	def line(v1: Vertice3D, v2: Vertice3D)
+	def line(gl: GL4, v1: Vertice3D, v2: Vertice3D)
 	{
-		val vertices = Vertices[FloatBuffer](
-			Buffers.newDirectFloatBuffer(
-				Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z)),
-			GL_FLOAT,
-			dim_3D,
-			GL_LINES)
-		stack.top.attach(new SimpleGeometry(vertices))
+        val builder = new GeometryBuilder
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z))
+                              .setPrimitiveType(GL_LINES)
+                              .setVertexCount(2)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 
-	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D)	{
-		val vertices = Vertices(
-			Buffers.newDirectFloatBuffer(
-				Array(v1.x, v1.y, v1.z,
-					  v2.x, v2.y, v2.z,
-					  v3.x, v3.y, v3.z)),
-			GL_FLOAT,
-			dim_3D,
-			GL_TRIANGLES)
-		stack.top.attach(new SimpleGeometry(vertices))
+	def triangle(gl: GL4, v1: Vertice3D, v2: Vertice3D, v3: Vertice3D)	{
+        val builder = new GeometryBuilder
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z))
+                              .setPrimitiveType(GL_TRIANGLES)
+                              .setVertexCount(3)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 
-	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, color: Color)
+	def triangle(gl: GL4, v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, c: Color)
 	{
-		val vertices = Vertices[FloatBuffer](
-			Buffers.newDirectFloatBuffer(
-				Array(v1.x, v1.y, v1.z,
-					  v2.x, v2.y, v2.z,
-					  v3.x, v3.y, v3.z)),
-			GL_FLOAT,
-			dim_3D,
-			GL_TRIANGLES)
-		stack.top.attach(new SimpleGeometry(vertices, color))
+        val builder = new GeometryBuilder
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z))
+                              .addAtribute(COLOR_ATTRIBUTE_INDEX, 3, GL_FLOAT, Array(c.r, c.g, c.b, c.a, c.r, c.g, c.b, c.a, c.r, c.g, c.b, c.a))
+                              .setPrimitiveType(GL_TRIANGLES)
+                              .setVertexCount(3)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 	
-	def triangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D,
+	def triangle(gl: GL4, v1: Vertice3D, v2: Vertice3D, v3: Vertice3D,
     		     c1: Color, c2: Color, c3: Color)
 	{
-		val vertices = Vertices[FloatBuffer](Buffers.newDirectFloatBuffer(
-			Array(v1.x, v1.y, v1.z,
-				  v2.x, v2.y, v2.z,
-				  v3.x, v3.y, v3.z)),
-											 GL_FLOAT,
-											 dim_3D,
-											 GL_TRIANGLES)
-		val colors = Colors(Buffers.newDirectFloatBuffer(
-			Array(c1.r, c1.g, c1.b, c1.a,
-				  c2.r, c2.g, c2.b, c2.a,
-				  c3.r, c3.g, c3.b, c3.a)), GL_FLOAT, RGBA)
-		stack.top.attach(new SimpleGeometry(vertices, colors))
+        val builder = new GeometryBuilder
+		val positions = Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z)
+		val colors = Array(c1.r, c1.g, c1.b, c1.a, c2.r, c2.g, c2.b, c2.a, c3.r, c3.g, c3.b, c3.a)
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)
+                              .addAtribute(COLOR_ATTRIBUTE_INDEX, 3, GL_FLOAT, colors)
+                              .setPrimitiveType(GL_TRIANGLES)
+                              .setVertexCount(3)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 	
-	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, color: Color) {
-		val vertices =
-			Vertices(
-				Buffers.newDirectFloatBuffer(
-					Array(v1.x, v1.y, v1.z,
-						  v2.x, v2.y, v2.z,
-						  v3.x, v3.y, v3.z,
-						  v4.x, v4.y, v4.z)),
-				GL_FLOAT,
-				dim_3D,
-				GL_QUADS)
-		stack.top.attach(new SimpleGeometry(vertices, color))
+	def quad(gl: GL4, v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, c: Color) {
+        val builder = new GeometryBuilder
+        val positions = Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z,
+                              v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v4.x, v4.y, v4.z)
+        val colors = Array(c.r, c.g, c.b, c.a, c.r, c.g, c.b, c.a, c.r, c.g, c.b, c.a,
+                           c.r, c.g, c.b, c.a, c.r, c.g, c.b, c.a, c.r, c.g, c.b, c.a)
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)
+                              .addAtribute(COLOR_ATTRIBUTE_INDEX, 3, GL_FLOAT, colors)
+                              .setPrimitiveType(GL_TRIANGLES)
+                              .setVertexCount(6)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 	
-	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D) {
-		val vertices =
-			Vertices(
-				Buffers.newDirectFloatBuffer(
-					Array(v1.x, v1.y, v1.z,
-						  v2.x, v2.y, v2.z,
-						  v3.x, v3.y, v3.z,
-						  v4.x, v4.y, v4.z)),
-				GL_FLOAT,
-				dim_3D,
-				GL_QUADS)
-		stack.top.attach(new SimpleGeometry(vertices))
+	def quad(gl: GL4, v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D) {
+        val builder = new GeometryBuilder
+        val positions = Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z,
+                              v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v4.x, v4.y, v4.z)
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)
+                              .setPrimitiveType(GL_TRIANGLES)
+                              .setVertexCount(6)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 
-	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D,
+	def quad(gl: GL4, v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D,
     		     c1: Color, c2: Color, c3: Color, c4: Color)
 	{
-		val vertices = Vertices[FloatBuffer](
-			Buffers.newDirectFloatBuffer(
-				Array(v1.x, v1.y, v1.z,
-					  v2.x, v2.y, v2.z,
-					  v3.x, v3.y, v3.z,
-					  v4.x, v4.y, v4.z)),
-			GL_FLOAT,
-			dim_3D,
-			GL_QUADS)
-		val colors = Colors(Buffers.newDirectFloatBuffer(
-			Array(c1.r, c1.g, c1.b, c1.a,
-				  c2.r, c2.g, c2.b, c2.a,
-				  c3.r, c3.g, c3.b, c3.a,
-				  c4.r, c4.g, c4.b, c4.a)), GL_FLOAT, RGBA)
-		stack.top.attach(new SimpleGeometry(vertices, colors))
+        val builder = new GeometryBuilder
+        val positions = Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z,
+                              v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v4.x, v4.y, v4.z)
+        val colors = Array(c1.r, c1.g, c1.b, c1.a, c2.r, c2.g, c2.b, c2.a, c3.r, c3.g, c3.b, c3.a,
+                           c1.r, c1.g, c1.b, c1.a, c2.r, c2.g, c2.b, c2.a, c4.r, c4.g, c4.b, c4.a)
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)
+                              .addAtribute(COLOR_ATTRIBUTE_INDEX, 3, GL_FLOAT, colors)
+                              .setPrimitiveType(GL_TRIANGLES)
+                              .setVertexCount(6)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 	
-	def quad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, texture: Texture) {
-		val vertices =
-			Vertices(
-				Buffers.newDirectFloatBuffer(
-					Array(v1.x, v1.y, v1.z,
-						  v2.x, v2.y, v2.z,
-						  v3.x, v3.y, v3.z,
-						  v4.x, v4.y, v4.z)),
-				GL_FLOAT,
-				dim_3D,
-				GL_QUADS)
-		val textureCoordinates = TextureCoordinates(
-			Buffers.newDirectFloatBuffer(
-				Array(0.0f, 0.0f,
-					  1.0f, 0.0f,
-					  1.0f, 1.0f,
-					  0.0f, 1.0f)))
-		stack.top.attach(new SimpleGeometry(vertices, textureCoordinates, texture))
+	def quad(gl: GL4, v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D, texture: Texture) {
+        val builder = new GeometryBuilder
+        val positions = Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v3.x, v3.y, v3.z,
+                              v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v4.x, v4.y, v4.z)
+        val texCoords = Array(0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+        					  0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f)
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)
+                              .addAtribute(TEXTURE_COORDINATE_ATTRIBUTE_INDEX, 3, GL_FLOAT, texCoords)
+                              .setPrimitiveType(GL_TRIANGLES)
+                              .setVertexCount(6)
+                              .build(gl)
+		stack.top.attach(geometry)
 	}
 
 	def cube(normals: Boolean) {
@@ -166,9 +147,14 @@ trait BasicShapeBuilder extends GraphBuilder with StateBuilder {
 	}
 	
 	def cube(color: Color) {
-		val builder = new CubeBuilder
-		val vertices = builder.createVertices
-		val geometry = new SimpleGeometry(vertices, color)
+		val cubeBuilder = new CubeBuilder
+		val positions = cubeBuilder.createPositions
+        val builder = new GeometryBuilder
+        val geometry = builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)
+                              .addAtribute(TEXTURE_COORDINATE_ATTRIBUTE_INDEX, 3, GL_FLOAT, texCoords)
+                              .setPrimitiveType(GL_TRIANGLES)
+                              .setVertexCount(36)
+                              .build(gl)
 		stack.top.attach(geometry)
 	}
 	
