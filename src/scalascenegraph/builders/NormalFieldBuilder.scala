@@ -19,7 +19,7 @@ import scalascenegraph.core.Utils._
 import scalascenegraph.core.Predefs._
 
 class NormalFieldBuilder(geometry: Geometry) {
-/*
+
 	def createNormalLines: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
 		createNormalLines(geometry, ab)
@@ -52,5 +52,5 @@ class NormalFieldBuilder(geometry: Geometry) {
 		vbuf.rewind
 		nbuf.rewind
 	}
-*/
+
 }

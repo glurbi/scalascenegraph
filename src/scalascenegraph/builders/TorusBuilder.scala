@@ -4,7 +4,6 @@ import java.nio._
 import scala.math._
 import scala.collection.mutable._
 import com.jogamp.common.nio._
-import javax.media.opengl._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
 import javax.media.opengl.GL2GL3._
@@ -21,15 +20,10 @@ import scalascenegraph.core.Utils._
 
 class TorusBuilder(n: Int, R: Float, r: Float) {
 	
-	def createTorus(gl: GL4): Node = {
-        val builder = new GeometryBuilder
-		val positions = createPositions
+	def createTorus: Node = {
+		val vertices = createVertices
 		val normals = createNormals
-        builder.addAtribute(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)
-               .addAtribute(NORMAL_ATTRIBUTE_INDEX, 3, GL_FLOAT, normals)
-               .setPrimitiveType(GL_TRIANGLES)
-               .setVertexCount(positions.length / 3)
-               .build(gl)
+		new SimpleGeometry(vertices, normals)
 	}
 	
 	val stepAngle = 2.0 * Pi / n
@@ -51,37 +45,30 @@ class TorusBuilder(n: Int, R: Float, r: Float) {
 		normalize(crossProduct(vector(v2, v1), vector(v3, v4)))
 	}
 	
-	def createPositions: Array[Float] = {
+	def createVertices: Vertices[FloatBuffer] = {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {
-                // 2 triangles to make a quad
 				ab ++= (torus(angle(uStep), angle(vStep))).xyz
 				ab ++= (torus(angle(uStep+1), angle(vStep))).xyz
 				ab ++= (torus(angle(uStep+1), angle(vStep+1))).xyz
-
-				ab ++= (torus(angle(uStep), angle(vStep))).xyz
-				ab ++= (torus(angle(uStep+1), angle(vStep))).xyz
 				ab ++= (torus(angle(uStep), angle(vStep+1))).xyz
 			}
 		}
-		ab.toArray
+		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)
 	}
 
-	def createNormals: Array[Float] = {
+	def createNormals: Normals = {
 		val ab = new ArrayBuffer[Float]
 		for (uStep <- 0 to n) {
 			for (vStep <- 0 to n) {
 				ab ++= torusNormal(uStep, vStep).xyz
 				ab ++= torusNormal(uStep+1, vStep).xyz
 				ab ++= torusNormal(uStep+1, vStep+1).xyz
-
-				ab ++= torusNormal(uStep, vStep).xyz
-				ab ++= torusNormal(uStep+1, vStep).xyz
 				ab ++= torusNormal(uStep, vStep+1).xyz
 			}
 		}
-		ab.toArray
+		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 	
 }

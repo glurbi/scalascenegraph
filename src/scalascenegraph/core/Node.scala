@@ -6,7 +6,6 @@ import java.nio._
 import scala.collection.mutable._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
-import javax.media.opengl.GL4._
 import javax.media.opengl.GL2GL3._
 import javax.media.opengl.GL2ES1._
 import javax.media.opengl.GL2ES2._
@@ -187,6 +186,7 @@ extends Overlay {
     
 }
 
+
 abstract class Geometry extends Node
 
 class CompositeGeometry extends Geometry {
@@ -203,22 +203,54 @@ class CompositeGeometry extends Geometry {
     
 }
 
-class VertexAttribute(val index: Int, val bufferName: Int, val components: Int, val dataType: Int)
+class SimpleGeometry[VertexBuffer <: java.nio.Buffer, ColorBuffer <: java.nio.Buffer]
+(
+    val renderable: Renderable,
+    val vertices: Vertices[VertexBuffer],
+    val normals: Normals,
+    val color: Color,
+    val colors: Colors[ColorBuffer],
+    val textureCoordinates: TextureCoordinates,
+    val texture: Texture
+)
+extends Geometry {
 
-// TODO: vertex count is not the number of vertices, but the number of indices
-class SimpleGeometry(val attributes: List[VertexAttribute], vertexCount: Int, primitiveType: Int) extends Geometry {
+    def this(vertices: Vertices[VertexBuffer]) =
+        this(RenderableBuilder.createRenderable(vertices), vertices, null, null, null, null, null)
+
+    def this(vertices: Vertices[VertexBuffer], normals: Normals) =
+        this(RenderableBuilder.createRenderable(vertices, normals), vertices, normals, null, null, null, null)
+
+    // TODO: remove (use a color state)
+    def this(vertices: Vertices[VertexBuffer], color: Color) =
+        this(RenderableBuilder.createRenderable(vertices, color), vertices, null, color, null, null, null)
+
+    def this(vertices: Vertices[VertexBuffer], color: Color, normals: Normals) =
+        this(RenderableBuilder.createRenderable(vertices, color, normals), vertices, normals, color, null, null, null)
+
+    def this(vertices: Vertices[VertexBuffer], colors: Colors[ColorBuffer]) =
+        this(RenderableBuilder.createRenderable(vertices, colors), vertices, null, null, colors, null, null)
+
+    def this(vertices: Vertices[VertexBuffer], colors: Colors[ColorBuffer], normals: Normals) =
+        this(RenderableBuilder.createRenderable(vertices, colors, normals), vertices, normals, null, colors, null, null)
+
+    def this(vertices: Vertices[VertexBuffer], textureCoordinates: TextureCoordinates, texture: Texture) =
+        this(RenderableBuilder.createRenderable(vertices, textureCoordinates, texture), vertices, null, null, null, textureCoordinates, texture)
+
+    def this(vertices: Vertices[VertexBuffer], textureCoordinates: TextureCoordinates, texture: Texture, normals: Normals) =
+        this(RenderableBuilder.createRenderable(vertices, textureCoordinates, texture, normals), vertices, normals, null, null, textureCoordinates, texture)
 
     def render(context: Context) {
-    	attributes.foreach { attribute =>
-    		context.gl.glEnableVertexAttribArray(attribute.index)
-    		context.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, attribute.bufferName)
-    		context.gl.glVertexAttribPointer(attribute.index, attribute.components, attribute.dataType, false, 0, 0)
-    	}
-        context.gl.glDrawArrays(primitiveType, 0, vertexCount)
-    	attributes.foreach { attribute => context.gl.glDisableVertexAttribArray(attribute.index) }
-        context.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
+        renderable.render(context)
     }
 
 }
 
+// TODO: nothing related to VBO here, apart from the name...
+class SimpleGeometryVBO(val renderable: Renderable) extends Geometry {
 
+    def render(context: Context) {
+        renderable.render(context)
+    }
+
+}
