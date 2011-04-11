@@ -18,66 +18,51 @@ import scalascenegraph.core.Predefs._
 
 class CubeBuilder {
 
-	val createPositions = 
+	val createVertices = Vertices(Buffers.newDirectFloatBuffer(
 			Array(-0.5f, -0.5f, -0.5f,
 				  -0.5f, 0.5f, -0.5f,
 				  0.5f, 0.5f, -0.5f,
-                  -0.5f, -0.5f, -0.5f,
-				  -0.5f, 0.5f, -0.5f,
 				  0.5f, -0.5f, -0.5f,
 
 				  -0.5f, -0.5f, -0.5f,
 				  -0.5f, -0.5f, 0.5f,
 				  -0.5f, 0.5f, 0.5f,
-				  -0.5f, -0.5f, -0.5f,
-				  -0.5f, -0.5f, 0.5f,
 				  -0.5f, 0.5f, -0.5f,
 
 				  -0.5f, -0.5f, -0.5f,
 				  0.5f, -0.5f, -0.5f,
 				  0.5f, -0.5f, 0.5f,
-				  -0.5f, -0.5f, -0.5f,
-				  0.5f, -0.5f, -0.5f,
 				  -0.5f, -0.5f, 0.5f,
 
 				  -0.5f, -0.5f, 0.5f,
 				  0.5f, -0.5f, 0.5f,
 				  0.5f, 0.5f, 0.5f,
-				  -0.5f, -0.5f, 0.5f,
-				  0.5f, -0.5f, 0.5f,
 				  -0.5f, 0.5f, 0.5f,
 
 				  0.5f, -0.5f, -0.5f,
 				  0.5f, 0.5f, -0.5f,
 				  0.5f, 0.5f, 0.5f,
-				  0.5f, -0.5f, -0.5f,
-				  0.5f, 0.5f, -0.5f,
 				  0.5f, -0.5f, 0.5f,
 
 				  -0.5f, 0.5f, -0.5f,
 				  -0.5f, 0.5f, 0.5f,
 				  0.5f, 0.5f, 0.5f,
-				  -0.5f, 0.5f, -0.5f,
-				  -0.5f, 0.5f, 0.5f,
-				  0.5f, 0.5f, -0.5f)
+				  0.5f, 0.5f, -0.5f)),
+				  GL_FLOAT,
+				  dim_3D,
+				  GL_QUADS)
 				  
-	val createNormals =
+	val createNormals = Normals(Buffers.newDirectFloatBuffer(
 			Array(0.0f, 0.0f, -1.0f,
 				  0.0f, 0.0f, -1.0f,
 				  0.0f, 0.0f, -1.0f,
-                  0.0f, 0.0f, -1.0f,
-				  0.0f, 0.0f, -1.0f,
 				  0.0f, 0.0f, -1.0f,
 
 				  -1.0f, 0.0f, 0.0f,
 				  -1.0f, 0.0f, 0.0f,
 				  -1.0f, 0.0f, 0.0f,
 				  -1.0f, 0.0f, 0.0f,
-				  -1.0f, 0.0f, 0.0f,
-				  -1.0f, 0.0f, 0.0f,
 
-				  0.0f, -1.0f, 0.0f,
-				  0.0f, -1.0f, 0.0f,
 				  0.0f, -1.0f, 0.0f,
 				  0.0f, -1.0f, 0.0f,
 				  0.0f, -1.0f, 0.0f,
@@ -87,11 +72,7 @@ class CubeBuilder {
 				  0.0f, 0.0f, 1.0f,
 				  0.0f, 0.0f, 1.0f,
 				  0.0f, 0.0f, 1.0f,
-				  0.0f, 0.0f, 1.0f,
-				  0.0f, 0.0f, 1.0f,
 
-				  1.0f, 0.0f, 0.0f,
-				  1.0f, 0.0f, 0.0f,
 				  1.0f, 0.0f, 0.0f,
 				  1.0f, 0.0f, 0.0f,
 				  1.0f, 0.0f, 0.0f,
@@ -100,51 +81,37 @@ class CubeBuilder {
 				  0.0f, 1.0f, 0.0f,
 				  0.0f, 1.0f, 0.0f,
 				  0.0f, 1.0f, 0.0f,
-				  0.0f, 1.0f, 0.0f,
-				  0.0f, 1.0f, 0.0f,
-				  0.0f, 1.0f, 0.0f)
+				  0.0f, 1.0f, 0.0f)))
 	                     
-	val createTextureCoordinates =
+	val createTextureCoordinates = TextureCoordinates(Buffers.newDirectFloatBuffer(
 			Array(0.0f, 0.0f,
 				  1.0f, 0.0f,
 				  1.0f, 1.0f,
-                  0.0f, 0.0f, 
-				  1.0f, 0.0f,
 				  0.0f, 1.0f,
 
 				  0.0f, 0.0f,
 				  1.0f, 0.0f,
 				  1.0f, 1.0f,
-				  0.0f, 0.0f,
-				  1.0f, 0.0f,
 				  0.0f, 1.0f,
 
 				  0.0f, 0.0f,
 				  1.0f, 0.0f,
 				  1.0f, 1.0f,
-				  0.0f, 0.0f,
-				  1.0f, 0.0f,
 				  0.0f, 1.0f,
 
 				  0.0f, 0.0f,
 				  1.0f, 0.0f,
 				  1.0f, 1.0f,
-				  0.0f, 0.0f,
-				  1.0f, 0.0f,
 				  0.0f, 1.0f,
 
 				  0.0f, 0.0f,
 				  1.0f, 0.0f,
 				  1.0f, 1.0f,
-				  0.0f, 0.0f,
-				  1.0f, 0.0f,
 				  0.0f, 1.0f,
 
 				  0.0f, 0.0f,
 				  1.0f, 0.0f,
 				  1.0f, 1.0f,
-				  0.0f, 0.0f,
-				  1.0f, 0.0f,
-				  0.0f, 1.0f)
+				  0.0f, 1.0f)))
 }
 
