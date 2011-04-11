@@ -157,7 +157,7 @@ extends GLEventListener
     
     def init(drawable: GLAutoDrawable) {
         //drawable.setGL(new DebugGL3bc(drawable.getGL.getGL3bc))
-        val gl = drawable.getGL.asInstanceOf[GL4]
+        val gl = drawable.getGL.getGL4
         context.gl = gl
         context.glu = GLU.createGLU
         val preparator = new NodeVisitor(context) {
@@ -213,7 +213,7 @@ extends GLEventListener
     }
 
     private def updateContext(drawable: GLAutoDrawable) {
-        context.gl = drawable.getGL.asInstanceOf[GL4]
+        context.gl = drawable.getGL.getGL4
         
         context.currentTime = System.currentTimeMillis
         context.elapsed = context.currentTime - context.creationTime
