@@ -250,3 +250,18 @@ class SimpleGeometryVBO(val renderable: Renderable) extends Geometry {
     }
 
 }
+
+class BufferedGeometry(val attributes: List[VertexAttributeObject], count: Int, primitiveType: Int) extends Geometry {
+
+    def render(context: Context) {
+    	attributes.foreach { attribute =>
+    		context.gl.glEnableVertexAttribArray(attribute.attributeIndex)
+    		context.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, attribute.bufferName)
+    		context.gl.glVertexAttribPointer(attribute.attributeIndex, attribute.componentCount, attribute.dataType, false, 0, 0)
+    	}
+        context.gl.glDrawArrays(primitiveType, 0, count)
+    	attributes.foreach { attribute => context.gl.glDisableVertexAttribArray(attribute.attributeIndex) }
+        context.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
+    }
+
+}

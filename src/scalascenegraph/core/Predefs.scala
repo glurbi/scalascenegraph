@@ -250,4 +250,13 @@ object Predefs {
      */
     implicit def doubleToFloat(d: Double): Float = d.asInstanceOf[Float]
 
+    val POSITION_ATTRIBUTE_INDEX = 0
+    val COLOR_ATTRIBUTE_INDEX = 1
+    val NORMAL_ATTRIBUTE_INDEX = 2
+    val TEXTURE_COORDINATE_ATTRIBUTE_INDEX = 3
+
+    def ubyte(i: Int): Byte = {
+        (i & 0xff).asInstanceOf[Byte]
+    }
+    
 }

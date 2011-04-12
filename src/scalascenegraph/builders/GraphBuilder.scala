@@ -69,6 +69,10 @@ trait GraphBuilder {
 	def attach(uniform: Uniform) {
 		stack.top.attach(uniform)
 	}
+    
+	def attach(resource: Resource) {
+		stack.top.attach(resource)
+	}
 	
 	def attach[T <: Buffer](vbo: VertexBufferObject[T]) {
 		stack.top.attach(vbo)
@@ -100,5 +104,30 @@ trait GraphBuilder {
 			fun(context)
 		}
 	}
+
+	def attributes(attributeIndex: Int, componentCount: Int, floats: Array[Float]): VertexAttributeObject =
+		new VertexAttributeObject(attributeIndex, componentCount, GL_FLOAT, makeFloatBuffer(floats))
+    
+    def makeBuffer(dataType: Int, data: Object): Buffer = {
+        dataType match {
+            case GL_FLOAT => makeFloatBuffer(data.asInstanceOf[Array[Float]])
+            case GL_UNSIGNED_BYTE => makeUbyteBuffer(data.asInstanceOf[Array[Byte]])
+            case default => throw new UnsupportedOperationException("Data type not supported")
+        }
+    }
+    
+    def makeFloatBuffer(data: Array[Float]): Buffer = {
+        ByteBuffer.allocateDirect(4*data.length)
+                  .order(ByteOrder.nativeOrder)
+                  .asFloatBuffer
+                  .put(data)
+                  .flip
+    }
+    
+    def makeUbyteBuffer(data: Array[Byte]): Buffer = {
+        ByteBuffer.allocateDirect(data.length)
+                  .put(data)
+                  .flip
+    }
 	
 }

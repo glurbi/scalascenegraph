@@ -37,6 +37,8 @@ runExample10: all
 	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example10
 runExample11: all
 	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example11
+runExample12: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example12
 
 resources:
 	mkdir -p target/classes;\

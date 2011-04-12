@@ -18,19 +18,19 @@ import scalascenegraph.core.Predefs._
 
 /**
  * A class implementing the resource trait has the responsibility to load and
- * free renderer or system resources, that will be used for the lifetime of the
- * scene graph they are attached to.
+ * free renderer or system resources, that will be used for the lifetime of their
+ * attachment to the scene graph.
  */
 trait Resource {
 
     /**
-     * Called once only, during scene graph initialisation.
-     * Can be used to load resources (textures, bitmaps, ...)
+     * Called once, after being attached to the scene graph.
+     * Can be used to load resources (textures, bitmaps, geometries...)
      */
     def prepare(context: Context) {}
     
     /**
-     * Called once when the scene graph is not used any longer.
+     * Called once, after being detached from the scene graph.
      * Resources should be freed here.
      */
     def dispose(context: Context) {}
@@ -148,6 +148,32 @@ class VertexBufferObject[T <: Buffer](vertices: Vertices[T]) extends Resource {
     override def dispose(context: Context) {
         val ids = Array(id)
         context.gl.glDeleteBuffers(1, ids, 0)
+    }
+    
+}
+
+class VertexAttributeObject(val attributeIndex: Int, val componentCount: Int, val dataType: Int, val buffer: Buffer) extends Resource {
+
+    var bufferName: Int = 0
+
+    override def prepare(context: Context) {
+        val tmp = Array[Int](1)
+        context.gl.glGenBuffers(1, tmp, 0)
+        bufferName = tmp(0)
+        val size = componentSize(dataType) * buffer.limit
+        context.gl.glBindBuffer(GL_ARRAY_BUFFER, bufferName)
+        context.gl.glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW)
+    }
+    
+    override def dispose(context: Context) {
+    }
+    
+    private def componentSize(dataType: Int): Int = {
+        dataType match {
+            case GL_FLOAT => 4
+            case GL_UNSIGNED_BYTE => 1
+            case _ => throw new UnsupportedOperationException("Data type not supported")
+        }
     }
     
 }
