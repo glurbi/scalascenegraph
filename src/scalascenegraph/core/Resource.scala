@@ -12,7 +12,6 @@ import javax.media.opengl.fixedfunc._
 import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
-import scala.collection.mutable.Map
 
 import scalascenegraph.core.Predefs._
 
@@ -57,21 +56,56 @@ class Shader(shaderType: ShaderType, source: String) extends Resource {
     
 }
 
-class Program(shaders: List[Shader]) extends Resource {
-    
+// FIXME: constructors are not so scala-ish...
+class Program extends Resource {
+
     var id: ProgramId = _
     
+    private var shaders: List[Shader] = Nil
+    private var attributes: Map[Int, String] = Map()
+    
+    private var vertexShaderSource: String = _
+    private var fragmentShaderSource: String = _
+    
+    def this(shaders: List[Shader], attributes: Map[Int, String] = Map()) = {
+        this()
+        this.shaders = shaders
+        this.attributes = attributes
+        this
+    }
+
+    def this(vertexShaderSource: String, fragmentShaderSource: String) = {
+        this()
+        this.vertexShaderSource = vertexShaderSource
+        this.fragmentShaderSource = fragmentShaderSource
+        this
+    }
+    
+    private def makeShadersFromSource(context: Context) {
+        if (vertexShaderSource != null) {
+            val shader = new Shader(GL_VERTEX_SHADER, vertexShaderSource)
+            shader.prepare(context)
+            shader +: shaders
+        }
+        if (fragmentShaderSource != null) {
+            val shader = new Shader(GL_FRAGMENT_SHADER, fragmentShaderSource)
+            shader.prepare(context)
+            shader +: shaders
+        }
+    }
+    
     override def prepare(context: Context) {
+        if (shaders == Nil) {
+            makeShadersFromSource(context)
+        }
         id = context.gl.glCreateProgram
         shaders.foreach { shader => context.gl.glAttachShader(id, shader.id) }
-        
+        attributes.foreach { attr => context.gl.glBindAttribLocation(id, attr._1, attr._2) }
         val log = new Array[Byte](8192)
         val length = Array(0)
-        
         context.gl.glLinkProgram(id)
         context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
         println(new String(log, 0, length(0)))
-        
         context.gl.glValidateProgram(id)
         context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
         println(new String(log, 0, length(0)))
@@ -126,7 +160,8 @@ class Texture(in: InputStream) extends Resource {
 
 class Character(val char: Char, val width: Int, val height: Int, val bitmap: ByteBuffer)
 
-class Font(val characters: Map[Char, Character]) extends Resource
+// TODO: use immutable collection?
+class Font(val characters: scala.collection.mutable.Map[Char, Character]) extends Resource
 
 class VertexBufferObject[T <: Buffer](vertices: Vertices[T]) extends Resource {
     

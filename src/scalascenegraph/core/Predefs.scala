@@ -34,6 +34,16 @@ object Predefs {
     }
     
     /**
+     * A standard 4 component vector
+     */
+    class Vector4(val v: Array[Float] = Array(0.0f, 0.0f, 0.0f, 1.0f)) {
+        def x: Float = v(0)
+        def y: Float = v(1)
+        def z: Float = v(2)
+        def w: Float = v(3)
+    }
+    
+    /**
      * A 3D point. 
      */
     class Vertice3D(x: Float, y: Float, z: Float, w: Float = 1.0f) extends Vector3D(x, y, z, w)

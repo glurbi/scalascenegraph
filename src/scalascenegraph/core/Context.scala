@@ -34,4 +34,5 @@ class Context {
     
     def isKeyPressed(keyCode: Int) = pressedKeys.contains(keyCode)
     
+    val matrixStack = new MatrixStack
 }

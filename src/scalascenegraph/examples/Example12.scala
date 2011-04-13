@@ -19,19 +19,17 @@ import scalascenegraph.core._
 class Example12 extends Example with WorldBuilder {
 
     val trianglePositions = attributes(POSITION_ATTRIBUTE_INDEX, 3,
-                                Array[Float](
-                                    0.0f, 0.5f, -5.0f,
-                                    -0.5f, -0.5f, -5.0f,
-                                    0.5f, -0.5f, -5.0f))
+                                Array(0.0f, 0.5f, 0.0f,
+                                      -0.5f, -0.5f, 0.0f,
+                                      0.5f, -0.5f, 0.0f))
 
     def example =
         world {
+            translation(0.0f, 0.0f, -5.0f)
             attach(trianglePositions)
-            
             attach(new BufferedGeometry(attributes = List(trianglePositions),
                                         count = 3,
                                         primitiveType = GL_TRIANGLES))
-                                        
             showFramesPerSecond
         }
 

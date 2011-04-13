@@ -293,11 +293,13 @@ class ShadeModelState(shadeModel: ShadeModel) extends State {
 
 class Translation(var x: Float, var y: Float, var z: Float) extends Transformation {
     override def preRender(context: Context) {
+        context.matrixStack.pushModelView(Matrix44.translation(x, y, z))
         context.gl.glPushMatrix
         context.gl.glTranslatef(x, y, z)
     }
     override def postRender(context: Context) {
         context.gl.glPopMatrix
+        context.matrixStack.popModelView
     }
 }
 
