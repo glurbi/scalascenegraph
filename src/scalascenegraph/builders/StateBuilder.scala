@@ -160,6 +160,10 @@ trait StateBuilder extends GraphBuilder {
 		stack.top.attach(new DynamicState(hook, new UniformState(uniform, value)))
 	}
 
+	def setUniform(uniform: Uniform, value: Matrix44, hook: StateHook[UniformState]) {
+		stack.top.attach(new DynamicState(hook, new UniformState(uniform, value)))
+	}
+
 	def pointSprite(mode: OnOffState) {
 		stack.top.attach(new PointSpriteState(mode))
 	}

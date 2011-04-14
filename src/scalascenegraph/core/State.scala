@@ -370,6 +370,7 @@ class UniformState(var uniform: Uniform, var value: Any) extends State {
         value match {
             case a: Float => setUniformValue(context, uniform, a)
             case Array(a: Float, b: Float, c: Float, d: Float) => setUniformValue(context, uniform, a, b, c, d)
+            case mat44: Matrix44 => setUniformValue(context, uniform, mat44)
             case default => 
         }
     }
@@ -387,6 +388,10 @@ class UniformState(var uniform: Uniform, var value: Any) extends State {
     private def setUniformValue(context: Context, uniform: Uniform, a: Float) {
         context.gl.glUniform1f(uniform.id, a)
         uniform.value = a
+    }
+    private def setUniformValue(context: Context, uniform: Uniform, mat44: Matrix44) {
+        context.gl.glUniformMatrix4fv(uniform.id, 1, false, mat44.m, 0)
+        uniform.value = mat44
     }
 }
 
