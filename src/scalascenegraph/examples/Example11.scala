@@ -6,7 +6,6 @@ import java.awt.{Font => JFont}
 import java.awt.image._
 import com.jogamp.common.nio._
 import scala.math._
-import scala.collection.mutable._
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
 import javax.media.opengl.GL2GL3._
@@ -35,7 +34,7 @@ class Example11 extends Example with WorldBuilder {
     
     val waveVertexShader = new Shader(GL_VERTEX_SHADER, waveVertexShaderSource)
     val fragmentShader = new Shader(GL_FRAGMENT_SHADER, fragmentShaderSource)
-    val waveProgram = new Program(List(waveVertexShader, fragmentShader))
+    val waveProgram = new Program(List(waveVertexShader, fragmentShader), Map())
     val tUniform = new Uniform(waveProgram, "t")
     val textureUniform = new Uniform(waveProgram, "texture")
     

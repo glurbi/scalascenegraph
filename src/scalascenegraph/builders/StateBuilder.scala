@@ -144,6 +144,10 @@ trait StateBuilder extends GraphBuilder {
 		stack.top.attach(new ProgramState(program))
 	}
 	
+	def program(program: Program) {
+		stack.top.attach(new ProgramState(program))
+	}
+	
 	def setUniform(uniform: Uniform, color: Color) {
 		stack.top.attach(new UniformState(uniform, color.rgba))
 	}

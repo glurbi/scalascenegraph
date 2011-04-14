@@ -57,25 +57,23 @@ class Shader(shaderType: ShaderType, source: String) extends Resource {
 }
 
 // FIXME: constructors are not so scala-ish...
-class Program extends Resource {
+class Program(private val attributes: Map[Int, String]) extends Resource {
 
     var id: ProgramId = _
     
     private var shaders: List[Shader] = Nil
-    private var attributes: Map[Int, String] = Map()
     
     private var vertexShaderSource: String = _
     private var fragmentShaderSource: String = _
     
-    def this(shaders: List[Shader], attributes: Map[Int, String] = Map()) = {
-        this()
+    def this(shaders: List[Shader], attributes: Map[Int, String]) = {
+        this(attributes)
         this.shaders = shaders
-        this.attributes = attributes
         this
     }
 
-    def this(vertexShaderSource: String, fragmentShaderSource: String) = {
-        this()
+    def this(vertexShaderSource: String, fragmentShaderSource: String, attributes: Map[Int, String]) = {
+        this(attributes)
         this.vertexShaderSource = vertexShaderSource
         this.fragmentShaderSource = fragmentShaderSource
         this
@@ -85,12 +83,12 @@ class Program extends Resource {
         if (vertexShaderSource != null) {
             val shader = new Shader(GL_VERTEX_SHADER, vertexShaderSource)
             shader.prepare(context)
-            shader +: shaders
+            shaders = shader +: shaders
         }
         if (fragmentShaderSource != null) {
             val shader = new Shader(GL_FRAGMENT_SHADER, fragmentShaderSource)
             shader.prepare(context)
-            shader +: shaders
+            shaders = shader +: shaders
         }
     }
     

@@ -59,7 +59,7 @@ class Example09 extends Example with WorldBuilder {
 
     val myvertexshader = new Shader(GL_VERTEX_SHADER, myvertexshadersource)
     val myfragmentshader = new Shader(GL_FRAGMENT_SHADER, myfragmentshadersource)
-    val myprogram = new Program(List(myvertexshader, myfragmentshader))
+    val myprogram = new Program(List(myvertexshader, myfragmentshader), Map())
     val rUniform = new Uniform(myprogram, "r")
     val colorUniform = new Uniform(myprogram, "color")
         

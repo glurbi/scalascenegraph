@@ -15,6 +15,7 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.builders._
 import scalascenegraph.core._
+import scalascenegraph.shaders._
 
 class Example12 extends Example with WorldBuilder {
 
@@ -25,6 +26,8 @@ class Example12 extends Example with WorldBuilder {
 
     def example =
         world {
+            attach(ShaderFactory.default)
+            useProgram(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
             attach(trianglePositions)
             attach(new BufferedGeometry(attributes = List(trianglePositions),
