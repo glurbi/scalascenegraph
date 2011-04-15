@@ -145,12 +145,19 @@ class Matrix44(val m: Array[Float] = new Array[Float](16)) {
         val result = new Array[Float](4)
         for (i <- 0 to 3) {
             result(i) =
-                this.m(i+0) * v.x +
-                this.m(i+4) * v.y +
-                this.m(i+8) * v.z +
-                this.m(i+12) * v.w
+                m(i+0) * v.x +
+                m(i+4) * v.y +
+                m(i+8) * v.z +
+                m(i+12) * v.w
         }
         new Vector4(result)
+    }
+
+    override def toString: String = {
+    	"" + m(0) + "\t" + m(4) + "\t" + m(8) + "\t" + m(12) + "\n"
+           + m(1) + "\t" + m(5) + "\t" + m(9) + "\t" + m(13) + "\n"
+    	   + m(2) + "\t" + m(6) + "\t" + m(10) + "\t" + m(14) + "\n"
+    	   + m(3) + "\t" + m(7) + "\t" + m(11) + "\t" + m(15) + "\n"
     }
     
 }

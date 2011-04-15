@@ -107,12 +107,22 @@ class Program(private val attributes: Map[Int, String]) extends Resource {
         context.gl.glValidateProgram(id)
         context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
         println(new String(log, 0, length(0)))
+        prepareUniforms(context)
     }
     
     override def dispose(context: Context) {
         context.gl.glDeleteProgram(id)
     }
     
+    /**
+     * Will be called each time the program will be set for use.
+     */
+    def setUniforms(context: Context) {}
+    
+    /**
+     * Will be called when this program will be prepared.
+     */
+    def prepareUniforms(context: Context) {}
 }
 
 class Uniform(program: Program, name: String) extends Resource {

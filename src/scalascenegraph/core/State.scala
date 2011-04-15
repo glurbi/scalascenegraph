@@ -357,6 +357,7 @@ class ProgramState(var program: Program) extends State {
         context.gl.glGetIntegerv(GL_CURRENT_PROGRAM, id, 0)
         saved = id(0)
         context.gl.glUseProgram(program.id)
+        program.setUniforms(context)
     }
     override def postRender(context: Context) {
         context.gl.glUseProgram(saved)
