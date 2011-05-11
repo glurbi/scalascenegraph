@@ -131,7 +131,7 @@ class Matrix44(val m: Array[Float] = new Array[Float](16)) {
     	val matrix = new Matrix44
     	for (i <- 0 to 3) {
     		for (j <- 0 to 3) {
-    			m(i+j*4) =
+    			matrix.m(i+j*4) =
     				this.m(i+0) * that.m(j*4+0) +
     				this.m(i+4) * that.m(j*4+1) +
     				this.m(i+8) * that.m(j*4+2) +
@@ -154,10 +154,11 @@ class Matrix44(val m: Array[Float] = new Array[Float](16)) {
     }
 
     override def toString: String = {
-    	"" + m(0) + "\t" + m(4) + "\t" + m(8) + "\t" + m(12) + "\n"
-           + m(1) + "\t" + m(5) + "\t" + m(9) + "\t" + m(13) + "\n"
-    	   + m(2) + "\t" + m(6) + "\t" + m(10) + "\t" + m(14) + "\n"
-    	   + m(3) + "\t" + m(7) + "\t" + m(11) + "\t" + m(15) + "\n"
+    	"Matrix44 = [" +
+           m(0) + " " + m(4) + " " + m(8) + " " + m(12) + " " +
+           m(1) + " " + m(5) + " " + m(9) + " " + m(13) + " " +
+    	   m(2) + " " + m(6) + " " + m(10) + " " + m(14) + " " +
+    	   m(3) + " " + m(7) + " " + m(11) + " " + m(15) + "]"
     }
     
 }

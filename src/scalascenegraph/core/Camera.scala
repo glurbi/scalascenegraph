@@ -137,6 +137,7 @@ extends Camera(clippingVolume)
         gl.glFrustum(left * f, right * f, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
+        context.matrixStack.reset
         positionAndOrient(context)
     }
 }
@@ -155,6 +156,7 @@ extends Camera(clippingVolume)
         gl.glOrtho(left * f , right * f, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
+        context.matrixStack.reset
         positionAndOrient(context)
     }
 }

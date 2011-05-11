@@ -204,6 +204,7 @@ extends GLEventListener
         world.render(context)
     }
 
+
     def displayChanged(drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean) {
         println("displayChanged(" + drawable + "," + modeChanged + ", " + deviceChanged + ")")
     }

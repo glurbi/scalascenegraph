@@ -7,8 +7,6 @@ class MatrixStack {
     private val mvpMatrices = new Stack[Matrix44].push(Matrix44.identity) // the Model View Projection matrix
     private val mvMatrices = new Stack[Matrix44].push(Matrix44.identity)  // the Model View matrix
     
-    private val foo = new Stack[Matrix44].push(Matrix44.identity)  
-    
     def pushProjection(matrix: Matrix44) {
         mvpMatrices.push(mvpMatrices.top.mult(matrix))
     }
@@ -33,6 +31,13 @@ class MatrixStack {
     
     def getModelViewMatrix: Matrix44 = {
         mvMatrices.top
+    }
+    
+    def reset {
+        mvpMatrices.clear
+        mvMatrices.clear
+        mvpMatrices.push(Matrix44.identity)
+        mvMatrices.push(Matrix44.identity)
     }
     
 }

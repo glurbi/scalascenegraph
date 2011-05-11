@@ -15,7 +15,6 @@ object ShaderFactory {
                 mvpUniform.prepare(context)
             }
             override def setUniforms(context: Context) {
-                println(context.matrixStack.getModelViewProjectionMatrix)
                 context.gl.glUniformMatrix4fv(mvpUniform.id, 1, false, context.matrixStack.getModelViewProjectionMatrix.m, 0)
             }
         }
