@@ -13,7 +13,7 @@ class MatrixStack {
 
     def pushModelView(matrix: Matrix44) {
         mvpMatrices.push(mvpMatrices.top.mult(matrix))
-        mvMatrices.push(mvpMatrices.top.mult(matrix))
+        mvMatrices.push(mvMatrices.top.mult(matrix))
     }
 
     def popProjection {

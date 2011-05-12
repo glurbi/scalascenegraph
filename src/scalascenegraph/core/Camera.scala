@@ -137,8 +137,14 @@ extends Camera(clippingVolume)
         gl.glFrustum(left * f, right * f, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
-        context.matrixStack.reset
         positionAndOrient(context)
+        context.matrixStack.reset
+        context.matrixStack.pushProjection(Matrix44.frustum(left * f, right * f, bottom, top, near, far))
+        //println(context.matrixStack.getModelViewProjectionMatrix)
+        println(context.matrixStack.getModelViewProjectionMatrix.mult(new Vector4(Array(0.0f, 0.0f, -50.0f, 1.0f))))
+        //val m = new Array[Float](16)
+        //context.gl.glGetFloatv(GL_PROJECTION_MATRIX, m, 0)
+        //println(Arrays.toString(m))
     }
 }
 

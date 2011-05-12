@@ -120,6 +120,34 @@ object Matrix44 {
     	new Matrix44(m)
     }
     
+    /**
+     * cf gluLookAt
+     * http://www.unix.com/man-page/All/3/gluLookAt/
+     */
+    def lookAt(eyeX: Float, eyeY: Float, eyeZ: Float,
+               centerX: Float, centerY: Float, centerZ: Float,
+               upX: Float, upY: Float, upZ: Float): Matrix44 =
+    {
+    	val m = new Array[Float](16)
+        m(0) = 0.0f
+        m(1) = 0.0f
+        m(2) = 0.0f
+        m(3) = 0.0f
+        m(4) = 0.0f
+        m(5) = 0.0f
+        m(6) = 0.0f
+        m(7) = 0.0f
+        m(8) = 0.0f
+        m(9) = 0.0f
+        m(10) = 0.0f
+        m(11) = 0.0f
+        m(12) = 0.0f
+        m(13) = 0.0f
+        m(14) = 0.0f
+        m(15) = 0.0f
+    	new Matrix44(m)
+    }
+    
 }
 
 /**

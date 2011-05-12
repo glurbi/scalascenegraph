@@ -41,6 +41,7 @@ object Predefs {
         def y: Float = v(1)
         def z: Float = v(2)
         def w: Float = v(3)
+        override def toString: String = "[ " + x + " " + y + " " + z + " " + w + "]"
     }
     
     /**
