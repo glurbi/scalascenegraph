@@ -78,6 +78,12 @@ trait GraphBuilder {
 		stack.top.attach(vbo)
 	}
 
+    def attach(attributes: List[VertexAttributeObject]) {
+        attributes.foreach {
+            attribute => stack.top.attach(attribute)
+        }    
+    }
+    
 	def group(body: => Unit): Group = {
 		val group = new Group
 		stack.top.attach(group)

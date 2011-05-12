@@ -239,6 +239,11 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
 		}
 	}
 
+	def bufferedTorus(n: Int, R: Float, r: Float): BufferedGeometry = {
+		val b = new BufferedTorusBuilder(n, R, r)
+        b.createBufferedTorus
+	}
+    
 	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
 		val builder = new CheckerBoardBuilder(n, m, c1, c2)
 		stack.top.attach(builder.createCheckerBoard)

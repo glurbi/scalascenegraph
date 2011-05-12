@@ -19,20 +19,15 @@ import scalascenegraph.shaders._
 
 class Example12 extends Example with WorldBuilder {
 
-    val trianglePositions = attributes(POSITION_ATTRIBUTE_INDEX, 3,
-                                Array(0.0f, 0.5f, 0.0f,
-                                      -0.5f, -0.5f, 0.0f,
-                                      0.5f, -0.5f, 0.0f))
+    val mytorus = bufferedTorus(30, 1.0f, 0.5f)
 
     def example =
         world {
             attach(ShaderFactory.default)
             useProgram(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
-            attach(trianglePositions)
-            attach(new BufferedGeometry(attributes = List(trianglePositions),
-                                        count = 3,
-                                        primitiveType = GL_TRIANGLES))
+            attach(mytorus.attributes)
+            attach(mytorus)
             showFramesPerSecond
         }
 
