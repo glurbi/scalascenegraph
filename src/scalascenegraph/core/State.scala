@@ -306,11 +306,13 @@ class Translation(var x: Float, var y: Float, var z: Float) extends Transformati
 class Rotation(var angle: Float, var x: Float, var y: Float, var z: Float) extends Transformation {
     def this() = this(0.0f, 0.0f, 0.0f, 0.0f)
     override def preRender(context: Context) {
+        context.matrixStack.pushModelView(Matrix44.rotation(angle, x, y, z))
         context.gl.glPushMatrix
         context.gl.glRotatef(angle, x, y, z)
     }
     override def postRender(context: Context) {
         context.gl.glPopMatrix
+        context.matrixStack.popModelView
     }
 }
 
