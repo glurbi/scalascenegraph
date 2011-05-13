@@ -24,8 +24,8 @@ class Example12 extends Example with WorldBuilder {
     def example =
         world {
             attach(ShaderFactory.default)
-            useProgram(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
+            useProgram(ShaderFactory.default)
             attach(mytorus.attributes)
             attach(mytorus)
             showFramesPerSecond
