@@ -109,6 +109,10 @@ abstract class Camera(val clippingVolume: ClippingVolume) extends Node {
             positionV.x, positionV.y, positionV.z,
             centerV.x, centerV.y, centerV.z,
             upV.x, upV.y, upV.z)
+        context.matrixStack.pushModelView(Matrix44.lookAt(
+            positionV.x, positionV.y, positionV.z,
+            centerV.x, centerV.y, centerV.z,
+            upV.x, upV.y, upV.z))
     }
 
     override def toString: String =
@@ -137,9 +141,9 @@ extends Camera(clippingVolume)
         gl.glFrustum(left * f, right * f, bottom, top, near, far)
         gl.glMatrixMode(GL_MODELVIEW)
         gl.glLoadIdentity
-        positionAndOrient(context)
         context.matrixStack.reset
         context.matrixStack.pushProjection(Matrix44.frustum(left * f, right * f, bottom, top, near, far))
+        positionAndOrient(context)
     }
 }
 

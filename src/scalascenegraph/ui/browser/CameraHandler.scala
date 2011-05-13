@@ -29,9 +29,9 @@ class CameraHandler extends Renderable {
         if (context.spaceKeyPressed) {
             context.camera.reset
         }
-        if (context.pressedKeys.size != 0) {
-            println(context.camera)
-        }
+        //if (context.pressedKeys.size != 0) {
+        //    println(context.camera)
+        //}
     }
 
 }

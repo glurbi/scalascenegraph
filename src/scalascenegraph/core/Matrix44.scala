@@ -3,6 +3,7 @@ package scalascenegraph.core
 import scala.math._
 
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 
 object Matrix44 {
 
@@ -128,24 +129,28 @@ object Matrix44 {
                centerX: Float, centerY: Float, centerZ: Float,
                upX: Float, upY: Float, upZ: Float): Matrix44 =
     {
+        val f = normalize(new Vector3D(centerX - eyeX, centerY - eyeY, centerZ - eyeZ))
+        val up = normalize(new Vector3D(upX, upY, upZ))
+        val s = crossProduct(f, up)
+        val u = crossProduct(s, f)
     	val m = new Array[Float](16)
-        m(0) = 0.0f
-        m(1) = 0.0f
-        m(2) = 0.0f
+        m(0) = s.x
+        m(1) = u.x
+        m(2) = -f.x
         m(3) = 0.0f
-        m(4) = 0.0f
-        m(5) = 0.0f
-        m(6) = 0.0f
+        m(4) = s.y
+        m(5) = u.y
+        m(6) = -f.y
         m(7) = 0.0f
-        m(8) = 0.0f
-        m(9) = 0.0f
-        m(10) = 0.0f
+        m(8) = s.z
+        m(9) = u.z
+        m(10) = -f.z
         m(11) = 0.0f
         m(12) = 0.0f
         m(13) = 0.0f
         m(14) = 0.0f
-        m(15) = 0.0f
-    	new Matrix44(m)
+        m(15) = 1.0f
+    	(new Matrix44(m)).mult(Matrix44.translation(-eyeX, -eyeY, -eyeZ))
     }
     
 }
