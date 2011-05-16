@@ -41,9 +41,20 @@ class Example12 extends Example with WorldBuilder {
             attach(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
             rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook)
-            useProgram(ShaderFactory.default)
             attach(mytorus.attributes)
-            attach(mytorus)
+            group {
+                shadeModel(GL_FLAT)
+                polygonOffset(1.0f, 1.0f)
+                color(JColor.white)
+                useProgram(ShaderFactory.default)
+                attach(mytorus)
+            }
+            group {
+                polygonMode(GL_FRONT, GL_LINE)
+                color(JColor.red)
+                useProgram(ShaderFactory.default)
+                attach(mytorus)
+            }
             showFramesPerSecond
         }
 

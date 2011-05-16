@@ -1,8 +1,11 @@
 package scalascenegraph.core
 
 import java.util._
+import java.awt.{Color => JColor }
 import javax.media.opengl._
 import javax.media.opengl.glu._
+
+import scalascenegraph.core.Predefs._
 
 class Context {
     
@@ -35,4 +38,5 @@ class Context {
     def isKeyPressed(keyCode: Int) = pressedKeys.contains(keyCode)
     
     val matrixStack = new MatrixStack
+    var currentColor = Color(1.0f, 1.0f, 1.0f, 1.0f)
 }

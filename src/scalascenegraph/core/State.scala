@@ -71,6 +71,7 @@ class ColorState(var color: Color) extends State {
     override def preRender(context: Context) {
         context.gl.glPushAttrib(GL_CURRENT_BIT)
         context.gl.glColor3f(color.r, color.g , color.b)
+        context.currentColor = color
     }
     override def postRender(context: Context) {
         context.gl.glPopAttrib
