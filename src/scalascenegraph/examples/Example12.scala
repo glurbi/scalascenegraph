@@ -37,6 +37,7 @@ class Example12 extends Example with WorldBuilder {
 
     def example =
         world {
+            depthTest(On)
             cullFace(On)
             attach(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
@@ -45,13 +46,13 @@ class Example12 extends Example with WorldBuilder {
             group {
                 shadeModel(GL_FLAT)
                 polygonOffset(1.0f, 1.0f)
-                color(JColor.white)
+                color(JColor.gray)
                 useProgram(ShaderFactory.default)
                 attach(mytorus)
             }
             group {
                 polygonMode(GL_FRONT, GL_LINE)
-                color(JColor.red)
+                color(JColor.white)
                 useProgram(ShaderFactory.default)
                 attach(mytorus)
             }

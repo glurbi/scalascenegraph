@@ -20,6 +20,7 @@ import scalascenegraph.core.Utils._
 
 class BufferedTorusBuilder(n: Int, R: Float, r: Float) {
 	
+    // TODO: use GL_TRIANGLE_STRIPS
 	def createBufferedTorus: BufferedGeometry = {
 		val positions = createPositions
         new BufferedGeometry(
@@ -54,7 +55,10 @@ class BufferedTorusBuilder(n: Int, R: Float, r: Float) {
 				ab ++= (torus(angle(uStep), angle(vStep))).xyz
 				ab ++= (torus(angle(uStep+1), angle(vStep))).xyz
 				ab ++= (torus(angle(uStep+1), angle(vStep+1))).xyz
-				//ab ++= (torus(angle(uStep), angle(vStep+1))).xyz
+                
+				ab ++= (torus(angle(uStep), angle(vStep))).xyz
+				ab ++= (torus(angle(uStep+1), angle(vStep+1))).xyz
+				ab ++= (torus(angle(uStep), angle(vStep+1))).xyz
 			}
 		}
 		new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, Buffers.newDirectFloatBuffer(ab.toArray))
