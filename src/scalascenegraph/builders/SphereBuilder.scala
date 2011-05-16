@@ -42,7 +42,27 @@ class SphereBuilder(n: Int, r: Float) {
 		}
 		Vertices(Buffers.newDirectFloatBuffer(ab.toArray), GL_FLOAT, dim_3D, GL_QUADS)	
 	}
-	
+
+    // TODO: use TRIANGLE_STRIPS
+	def createPositions = {
+		val ab = new ArrayBuffer[Float]
+		val stepAngle = Pi / n
+		for (tetaStep <- 0 to n-1) {
+			for (phiStep <- 0 to 2*n) {
+				val teta = tetaStep * stepAngle
+				val phi = phiStep * stepAngle
+				ab ++= sphere(teta, phi).xyz
+				ab ++= sphere(teta+stepAngle, phi).xyz
+				ab ++= sphere(teta+stepAngle, phi+stepAngle).xyz
+                
+				ab ++= sphere(teta, phi).xyz
+				ab ++= sphere(teta+stepAngle, phi+stepAngle).xyz
+				ab ++= sphere(teta, phi+stepAngle).xyz
+			}
+		}
+		Buffers.newDirectFloatBuffer(ab.toArray)
+	}
+    
 	def createNormals = {
 		val ab = new ArrayBuffer[Float]
 		val vbuf = createVertices.buffer

@@ -18,7 +18,7 @@ import scalascenegraph.builders._
 import scalascenegraph.core._
 import scalascenegraph.shaders._
 
-class Example12 extends Example with WorldBuilder {
+class Example13 extends Example with WorldBuilder {
 
     def animate(r: Rotation, c: Context, f: Float) {
         r.angle = sin(c.elapsed / f) * 45.0f + 90.0f
@@ -33,7 +33,7 @@ class Example12 extends Example with WorldBuilder {
 
     val rotationHook = (r: Rotation, c: Context) => animate(r, c, 5000.0f)
 
-    val mytorus = bufferedTorus(30, 1.0f, 0.5f)
+    val mytorus = bufferedSphere(20, 1.0f)
 
     def example =
         world {

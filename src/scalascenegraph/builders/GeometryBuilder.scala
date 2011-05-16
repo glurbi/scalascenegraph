@@ -179,6 +179,15 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
 		stack.top.attach(geometry)
 	}
 	
+	def bufferedSphere(n: Int, r: Float): BufferedGeometry = {
+		val b = new SphereBuilder(n, r)
+        val positions = b.createPositions
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)),
+            indicesCount = positions.limit / 3,
+            primitiveType = GL_TRIANGLES)
+	}
+    
 	def sphere(n: Int, r: Float, normals: Boolean): Geometry = {
 		val b = new SphereBuilder(n, r)
 		normals match {

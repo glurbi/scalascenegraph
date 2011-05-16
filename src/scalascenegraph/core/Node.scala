@@ -251,7 +251,7 @@ class SimpleGeometryVBO(val renderable: Renderable) extends Geometry {
 
 }
 
-class BufferedGeometry(val attributes: List[VertexAttributeObject], indicesCount: Int, primitiveType: Int) extends Geometry {
+class BufferedGeometry(val attributes: List[VertexAttributeObject], val indicesCount: Int, val primitiveType: Int) extends Geometry {
 
     def render(context: Context) {
     	attributes.foreach { attribute =>
