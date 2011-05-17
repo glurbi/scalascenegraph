@@ -1,6 +1,7 @@
 package scalascenegraph.examples
 
 import scala.math._
+import javax.swing._
 import java.awt.{Color => JColor }
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
@@ -12,6 +13,7 @@ import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
+import scalascenegraph.ui.browser._
 import scalascenegraph.core.Predefs._
 import scalascenegraph.core.Utils._
 import scalascenegraph.builders._
@@ -19,7 +21,7 @@ import scalascenegraph.core._
 import scalascenegraph.shaders._
 import ExampleUtils._
 
-class Example12 extends Example with WorldBuilder {
+object Example12 extends WorldBuilder {
 
     val mytorus = bufferedTorus(30, 1.0f, 0.5f)
 
@@ -32,7 +34,6 @@ class Example12 extends Example with WorldBuilder {
             rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook(1000.0f))
             attach(mytorus.attributes)
             group {
-                shadeModel(GL_FLAT)
                 polygonOffset(1.0f, 1.0f)
                 color(JColor.green)
                 useProgram(ShaderFactory.default)
@@ -47,4 +48,8 @@ class Example12 extends Example with WorldBuilder {
             showFramesPerSecond
         }
 
+    def main(args: Array[String]) {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+        Browser.getDefault(example, true).show
+    }
 }
