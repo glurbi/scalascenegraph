@@ -51,7 +51,7 @@ object Example13 extends WorldBuilder {
 
     def main(args: Array[String]) {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
-        Browser.getDefault(example, true).show
+        Browser.getDefault(world = example, animated = true).show
     }
 
 }
