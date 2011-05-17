@@ -17,21 +17,9 @@ import scalascenegraph.core.Utils._
 import scalascenegraph.builders._
 import scalascenegraph.core._
 import scalascenegraph.shaders._
+import ExampleUtils._
 
 class Example12 extends Example with WorldBuilder {
-
-    def animate(r: Rotation, c: Context, f: Float) {
-        r.angle = sin(c.elapsed / f) * 45.0f + 90.0f
-        val x = sin(c.elapsed / f)
-        val y = 1.0f
-        val z = cos(1.7*c.elapsed / f)
-        val rot = normalize(new Vector3D(x, y, z))
-        r.x = rot.x
-        r.y = rot.y
-        r.z = rot.z
-    }
-
-    val rotationHook = (r: Rotation, c: Context) => animate(r, c, 5000.0f)
 
     val mytorus = bufferedTorus(30, 1.0f, 0.5f)
 
@@ -41,18 +29,18 @@ class Example12 extends Example with WorldBuilder {
             cullFace(On)
             attach(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
-            rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook)
+            rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook(1000.0f))
             attach(mytorus.attributes)
             group {
                 shadeModel(GL_FLAT)
                 polygonOffset(1.0f, 1.0f)
-                color(JColor.gray)
+                color(JColor.green)
                 useProgram(ShaderFactory.default)
                 attach(mytorus)
             }
             group {
                 polygonMode(GL_FRONT, GL_LINE)
-                color(JColor.white)
+                color(JColor.gray)
                 useProgram(ShaderFactory.default)
                 attach(mytorus)
             }
