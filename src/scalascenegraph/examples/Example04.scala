@@ -1,5 +1,6 @@
 package scalascenegraph.examples
 
+import javax.swing._
 import java.util._
 import java.nio._
 import java.awt.{Color => JColor }
@@ -16,11 +17,23 @@ import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 import com.jogamp.common.nio._
 
-import scalascenegraph.core._
+import scalascenegraph.ui.browser._
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 import scalascenegraph.builders._
+import scalascenegraph.core._
+import scalascenegraph.shaders._
+import ExampleUtils._
 
-class Example04 extends Example with WorldBuilder {
+object Example04 {
+    def main(args: Array[String]) {
+        val example04 = new Example04
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+        Browser.getDefault(world = example04.example, animated = true).show
+    }
+}
+
+class Example04 extends WorldBuilder {
     
     val r = new Random
 

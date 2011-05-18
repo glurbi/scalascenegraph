@@ -1,5 +1,6 @@
 package scalascenegraph.examples
 
+import javax.swing._
 import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
 import java.awt.image._
@@ -14,11 +15,23 @@ import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
-import scalascenegraph.core._
+import scalascenegraph.ui.browser._
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 import scalascenegraph.builders._
+import scalascenegraph.core._
+import scalascenegraph.shaders._
+import ExampleUtils._
 
-class Example09 extends Example with WorldBuilder {
+object Example09 {
+    def main(args: Array[String]) {
+        val example09 = new Example09
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+        Browser.getDefault(world = example09.example, animated = true).show
+    }
+}
+
+class Example09 extends WorldBuilder {
 
     val myvertexshadersource =
     """

@@ -1,5 +1,6 @@
 package scalascenegraph.examples
 
+import javax.swing._
 import java.awt._
 import java.awt.{Color => JColor}
 import java.awt.{Font => JFont}
@@ -14,11 +15,23 @@ import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
-import scalascenegraph.core._
+import scalascenegraph.ui.browser._
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 import scalascenegraph.builders._
+import scalascenegraph.core._
+import scalascenegraph.shaders._
+import ExampleUtils._
 
-class Example08 extends Example with WorldBuilder {
+object Example08 {
+    def main(args: Array[String]) {
+        val example08 = new Example08
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+        Browser.getDefault(world = example08.example, animated = true).show
+    }
+}
+
+class Example08 extends WorldBuilder {
 
     val fpsHook = (o: TextOverlay, c: Context) => {
         o.x = 10
@@ -79,5 +92,5 @@ class Example08 extends Example with WorldBuilder {
             overlay(10, 40, defaultFont, "abcdefghijklmnopqrstuvwxyz~`|{}[]\"\\/?><,.=:;")
             overlay(0, 0, serifFont, "", fpsHook)
         }
-    
+        
 }

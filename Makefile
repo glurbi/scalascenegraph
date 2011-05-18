@@ -15,28 +15,28 @@ all: resources
 clean:
 	rm -rf target; find . -name "*~" -exec rm {} \;
 
-runExample01: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example01
-runExample02: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example02
-runExample03: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example03
-runExample04: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example04
-runExample05: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example05
-runExample06: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example06
-runExample07: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example07
-runExample08: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example08
-runExample09: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example09
-runExample10: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example10
-runExample11: all
-	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.RunExample scalascenegraph.examples.Example11
+example01: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example01
+example02: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example02
+example03: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example03
+example04: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example04
+example05: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example05
+example06: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example06
+example07: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example07
+example08: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example08
+example09: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example09
+example10: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example10
+example11: all
+	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example11
 example12: all
 	scala -Djava.library.path=$(LIBRARY_PATH) -classpath $(CLASSPATH) scalascenegraph.examples.Example12
 example13: all

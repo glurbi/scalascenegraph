@@ -1,6 +1,7 @@
 package scalascenegraph.examples
 
 import scala.math._
+import javax.swing._
 import java.awt.{Color => JColor }
 import javax.media.opengl.GL._
 import javax.media.opengl.GL2._
@@ -12,10 +13,23 @@ import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
+import scalascenegraph.ui.browser._
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 import scalascenegraph.builders._
+import scalascenegraph.core._
+import scalascenegraph.shaders._
+import ExampleUtils._
 
-class Example01 extends Example with WorldBuilder {
+object Example01 {
+    def main(args: Array[String]) {
+        val example01 = new Example01
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+        Browser.getDefault(world = example01.example, animated = true).show
+    }
+}
+
+class Example01 extends WorldBuilder {
 
     val triangles =
         detached {
@@ -112,7 +126,7 @@ class Example01 extends Example with WorldBuilder {
                 }
             }
         }
-    
+
     def example =
         world {
             translation(0.0f, 0.0f, -8.0f)

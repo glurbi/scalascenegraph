@@ -1,5 +1,6 @@
 package scalascenegraph.examples
 
+import javax.swing._
 import java.awt.{Color => JColor }
 import scala.math._
 import javax.media.opengl.GL._
@@ -12,11 +13,23 @@ import javax.media.opengl.fixedfunc.GLLightingFunc._
 import javax.media.opengl.fixedfunc.GLPointerFunc._
 import javax.media.opengl.fixedfunc.GLMatrixFunc._
 
-import scalascenegraph.core._
+import scalascenegraph.ui.browser._
 import scalascenegraph.core.Predefs._
+import scalascenegraph.core.Utils._
 import scalascenegraph.builders._
+import scalascenegraph.core._
+import scalascenegraph.shaders._
+import ExampleUtils._
 
-class Example07 extends Example with WorldBuilder {
+object Example07 {
+    def main(args: Array[String]) {
+        val example07 = new Example07
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+        Browser.getDefault(world = example07.example, animated = true).show
+    }
+}
+
+class Example07 extends WorldBuilder {
     
     val marbleTexture = new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/marble.png"))
     val melonTexture = new Texture(getClass.getResourceAsStream("/scalascenegraph/examples/melon.png"))
