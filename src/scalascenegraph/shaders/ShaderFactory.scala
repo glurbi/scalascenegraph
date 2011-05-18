@@ -26,7 +26,7 @@ object ShaderFactory {
     lazy val vcolor = {
         val vertex = getStreamAsString(getClass.getResourceAsStream("vcolor.vert"))
         val fragment = getStreamAsString(getClass.getResourceAsStream("vcolor.frag"))
-        new Program(vertex, fragment, Map(POSITION_ATTRIBUTE_INDEX -> "vPosition"))
+        new Program(vertex, fragment, Map(POSITION_ATTRIBUTE_INDEX -> "position"))
         {
             val mvpUniform = new Uniform(this, "mvp")            
             override def prepareUniforms(context: Context) {

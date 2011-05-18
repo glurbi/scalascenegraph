@@ -29,6 +29,7 @@ object Example13 extends WorldBuilder {
         world {
             depthTest(On)
             cullFace(On)
+            attach(ShaderFactory.vcolor)
             attach(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
             rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook(5000.0f))
@@ -37,7 +38,7 @@ object Example13 extends WorldBuilder {
                 shadeModel(GL_FLAT)
                 polygonOffset(1.0f, 1.0f)
                 color(JColor.red)
-                useProgram(ShaderFactory.default)
+                useProgram(ShaderFactory.vcolor)
                 attach(mysphere)
             }
             group {
