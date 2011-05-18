@@ -179,15 +179,6 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
 		stack.top.attach(geometry)
 	}
 	
-	def bufferedSphere(n: Int, r: Float): BufferedGeometry = {
-		val b = new SphereBuilder(n, r)
-        val positions = b.createPositions
-        new BufferedGeometry(
-            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)),
-            indicesCount = positions.limit / 3,
-            primitiveType = GL_TRIANGLES)
-	}
-    
 	def sphere(n: Int, r: Float, normals: Boolean): Geometry = {
 		val b = new SphereBuilder(n, r)
 		normals match {
@@ -248,11 +239,6 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
 		}
 	}
 
-	def bufferedTorus(n: Int, R: Float, r: Float): BufferedGeometry = {
-		val b = new BufferedTorusBuilder(n, R, r)
-        b.createBufferedTorus
-	}
-    
 	def checkerBoard(n: Int, m: Int, c1: Color, c2: Color) {
 		val builder = new CheckerBoardBuilder(n, m, c1, c2)
 		stack.top.attach(builder.createCheckerBoard)
@@ -291,4 +277,22 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
 		}
 	}
 
+	def bufferedSphere(n: Int, r: Float): BufferedGeometry = {
+		val b = new SphereBuilder(n, r)
+        val positions = b.createPositions
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)),
+            indicesCount = positions.limit / 3,
+            primitiveType = GL_TRIANGLES)
+	}
+    
+	def bufferedTorus(n: Int, R: Float, r: Float): BufferedGeometry = {
+		val b = new TorusBuilder(n, R, r)
+        val positions = b.createPositions
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)),
+            indicesCount = positions.limit / 3,
+            primitiveType = GL_TRIANGLES)
+	}
+    
 }

@@ -71,4 +71,20 @@ class TorusBuilder(n: Int, R: Float, r: Float) {
 		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 	
+    def createPositions = {
+        val ab = new ArrayBuffer[Float]
+        for (uStep <- 0 to n) {
+            for (vStep <- 0 to n) {
+                ab ++= (torus(angle(uStep), angle(vStep))).xyz
+                ab ++= (torus(angle(uStep+1), angle(vStep))).xyz
+                ab ++= (torus(angle(uStep+1), angle(vStep+1))).xyz
+                
+                ab ++= (torus(angle(uStep), angle(vStep))).xyz
+                ab ++= (torus(angle(uStep+1), angle(vStep+1))).xyz
+                ab ++= (torus(angle(uStep), angle(vStep+1))).xyz
+            }
+        }
+        Buffers.newDirectFloatBuffer(ab.toArray)
+	}
+
 }
