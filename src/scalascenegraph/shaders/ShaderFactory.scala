@@ -38,4 +38,19 @@ object ShaderFactory {
         }
     }
     
+    lazy val flatvcolor = {
+        val vertex = getStreamAsString(getClass.getResourceAsStream("flatvcolor.vert"))
+        val fragment = getStreamAsString(getClass.getResourceAsStream("flatvcolor.frag"))
+        new Program(vertex, fragment, Map(POSITION_ATTRIBUTE_INDEX -> "position"))
+        {
+            val mvpUniform = new Uniform(this, "mvp")            
+            override def prepareUniforms(context: Context) {
+                mvpUniform.prepare(context)
+            }
+            override def setUniforms(context: Context) {
+                context.gl.glUniformMatrix4fv(mvpUniform.id, 1, false, context.matrixStack.getModelViewProjectionMatrix.m, 0)
+            }
+        }
+    }
+    
 }

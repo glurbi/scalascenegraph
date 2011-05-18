@@ -23,29 +23,46 @@ import ExampleUtils._
 
 object Example13 extends WorldBuilder {
 
-    val mysphere = bufferedSphere(20, 1.0f)
+    val mysphere = bufferedSphere(15, 1.0f)
 
     def example =
         world {
             depthTest(On)
             cullFace(On)
             attach(ShaderFactory.vcolor)
+            attach(ShaderFactory.flatvcolor)
             attach(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
-            rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook(5000.0f))
             attach(mysphere.attributes)
             group {
-                shadeModel(GL_FLAT)
-                polygonOffset(1.0f, 1.0f)
-                color(JColor.red)
-                useProgram(ShaderFactory.vcolor)
-                attach(mysphere)
+                translation(0.0f, 1.5f, 0.0f)
+                rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook(1000.0f))
+                group {
+                    polygonOffset(1.0f, 1.0f)
+                    useProgram(ShaderFactory.vcolor)
+                    attach(mysphere)
+                }
+                group {
+                    polygonMode(GL_FRONT, GL_LINE)
+                    color(JColor.gray)
+                    useProgram(ShaderFactory.default)
+                    attach(mysphere)
+                }
             }
             group {
-                polygonMode(GL_FRONT, GL_LINE)
-                color(JColor.gray)
-                useProgram(ShaderFactory.default)
-                attach(mysphere)
+                translation(0.0f, -1.5f, 0.0f)
+                rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook(1000.0f))
+                group {
+                    polygonOffset(1.0f, 1.0f)
+                    useProgram(ShaderFactory.flatvcolor)
+                    attach(mysphere)
+                }
+                group {
+                    polygonMode(GL_FRONT, GL_LINE)
+                    color(JColor.gray)
+                    useProgram(ShaderFactory.default)
+                    attach(mysphere)
+                }
             }
             showFramesPerSecond
         }
