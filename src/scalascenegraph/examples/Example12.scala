@@ -52,4 +52,5 @@ object Example12 extends WorldBuilder {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
         Browser.getDefault(world = example, animated = true).show
     }
+    
 }

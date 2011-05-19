@@ -294,5 +294,14 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
             indicesCount = positions.limit / 3,
             primitiveType = GL_TRIANGLES)
 	}
+
+    def bufferedEllipsoid(n: Int, m: Int, a: Float, b: Float, c: Float): BufferedGeometry = {
+        val builder = new EllipsoidBuilder(n, m, a, b, c)
+        val positions = builder.createPositions
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)),
+            indicesCount = positions.limit / 3,
+            primitiveType = GL_TRIANGLES)
+    }
     
 }

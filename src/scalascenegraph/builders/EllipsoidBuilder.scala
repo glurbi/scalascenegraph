@@ -57,5 +57,26 @@ class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) {
 		Normals(Buffers.newDirectFloatBuffer(ab.toArray))
 	}
 
+    // TODO: use TRIANGLE_STRIPS
+	def createPositions = {
+		val ab = new ArrayBuffer[Float]
+		val tetaStep = 2 * Pi / n
+		val phiStep = Pi / m
+		for (i <- 0 to n-1) {
+			for (j <- 0 to m-1) {
+				val teta = i * tetaStep
+				val phi = j * phiStep
+                
+				ab ++= ellipsoid(teta, phi).xyz
+				ab ++= ellipsoid(teta, phi+phiStep).xyz
+				ab ++= ellipsoid(teta+tetaStep, phi+phiStep).xyz
+                
+				ab ++= ellipsoid(teta, phi).xyz
+				ab ++= ellipsoid(teta+tetaStep, phi+phiStep).xyz
+				ab ++= ellipsoid(teta+tetaStep, phi).xyz
+			}
+		}
+		Buffers.newDirectFloatBuffer(ab.toArray)
+	}
+    
 }
-
