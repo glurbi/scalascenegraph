@@ -206,6 +206,7 @@ class VertexAttributeObject(val attributeIndex: Int, val componentCount: Int, va
         val size = componentSize(dataType) * buffer.limit
         context.gl.glBindBuffer(GL_ARRAY_BUFFER, bufferName)
         context.gl.glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW)
+        context.gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
     
     override def dispose(context: Context) {

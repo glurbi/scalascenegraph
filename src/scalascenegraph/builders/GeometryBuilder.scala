@@ -277,6 +277,17 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
 		}
 	}
 
+	def bufferedTriangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D): BufferedGeometry = {
+        val positions = Buffers.newDirectFloatBuffer(Array(
+                            v1.x, v1.y, v1.z,
+                            v2.x, v2.y, v2.z,
+                            v3.x, v3.y, v3.z))
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)),
+            indicesCount = 3,
+            primitiveType = GL_TRIANGLES)
+	}
+    
 	def bufferedSphere(n: Int, r: Float): BufferedGeometry = {
 		val b = new SphereBuilder(n, r)
         val positions = b.createPositions
