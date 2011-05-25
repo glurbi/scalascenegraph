@@ -22,10 +22,25 @@ object ShaderFactory {
             }
         }
     }
-    
+
     lazy val vcolor = {
         val vertex = getStreamAsString(getClass.getResourceAsStream("vcolor.vert"))
         val fragment = getStreamAsString(getClass.getResourceAsStream("vcolor.frag"))
+        new Program(vertex, fragment, Map(POSITION_ATTRIBUTE_INDEX -> "position", COLOR_ATTRIBUTE_INDEX -> "color"))
+        {
+            val mvpUniform = new Uniform(this, "mvp")            
+            override def prepareUniforms(context: Context) {
+                mvpUniform.prepare(context)
+            }
+            override def setUniforms(context: Context) {
+                context.gl.glUniformMatrix4fv(mvpUniform.id, 1, false, context.matrixStack.getModelViewProjectionMatrix.m, 0)
+            }
+        }
+    }
+    
+    lazy val vorientcolor = {
+        val vertex = getStreamAsString(getClass.getResourceAsStream("vorientcolor.vert"))
+        val fragment = getStreamAsString(getClass.getResourceAsStream("vorientcolor.frag"))
         new Program(vertex, fragment, Map(POSITION_ATTRIBUTE_INDEX -> "position"))
         {
             val mvpUniform = new Uniform(this, "mvp")            

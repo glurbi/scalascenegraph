@@ -35,23 +35,35 @@ class Example01 extends WorldBuilder {
                 new Vertice3D(4.0f, 0.0f, 0.0f),
                 new Vertice3D(3.0f, 2.0f, 0.0f),
                 new Vertice3D(2.0f, 0.0f, 0.0f))
-
-    val triangles =
-        detached {
-            attach(rightTriangle.attributes)
-            translation(0.0f, 3.0f, 0.0f)
-            triangle(
+                
+    val middleTriangle = bufferedTriangle(
                 new Vertice3D(-1.0f, 0.0f, 0.0f),
                 new Vertice3D(0.0f, 2.0f, 0.0f),
-                new Vertice3D(1.0f, 0.0f, 0.0f),
-                JColor.magenta)
-            triangle(
+                new Vertice3D(1.0f, 0.0f, 0.0f))
+                
+    val leftTriangle = bufferedTriangle(
                 new Vertice3D(-4.0f, 0.0f, 0.0f),
                 new Vertice3D(-3.0f, 2.0f, 0.0f),
                 new Vertice3D(-2.0f, 0.0f, 0.0f),
                 Color(1.0f, 0.0f, 0.0f),
                 Color(0.0f, 1.0f, 0.0f),
                 Color(0.0f, 0.0f, 1.0f))
+
+    val triangles =
+        detached {
+            attach(rightTriangle.attributes)
+            attach(middleTriangle.attributes)
+            attach(leftTriangle.attributes)
+            translation(0.0f, 3.0f, 0.0f)
+            group {
+                color(JColor.magenta)
+                useProgram(ShaderFactory.default)
+                attach(middleTriangle)
+            }
+            group {
+                useProgram(ShaderFactory.vcolor)
+                attach(leftTriangle)
+            }
             group {
                 useProgram(ShaderFactory.default)
                 attach(rightTriangle)
@@ -135,7 +147,8 @@ class Example01 extends WorldBuilder {
 
     def example =
         world {
-            color(JColor.white)
+            attach(ShaderFactory.default)
+            attach(ShaderFactory.vcolor)
             translation(0.0f, 0.0f, -8.0f)
             attach(points)
             attach(triangles)

@@ -68,13 +68,16 @@ class DepthTestState(var depthTest: OnOffState) extends State {
 }
 
 class ColorState(var color: Color) extends State {
+    private var saved: Color = _
     override def preRender(context: Context) {
+        saved = context.currentColor
         context.gl.glPushAttrib(GL_CURRENT_BIT)
         context.gl.glColor3f(color.r, color.g , color.b)
         context.currentColor = color
     }
     override def postRender(context: Context) {
         context.gl.glPopAttrib
+        context.currentColor = saved
     }
 }
 

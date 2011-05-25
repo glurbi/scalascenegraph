@@ -29,7 +29,7 @@ object Example13 extends WorldBuilder {
         world {
             depthTest(On)
             cullFace(On)
-            attach(ShaderFactory.vcolor)
+            attach(ShaderFactory.vorientcolor)
             attach(ShaderFactory.flatvcolor)
             attach(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
@@ -39,7 +39,7 @@ object Example13 extends WorldBuilder {
                 rotation(0.0f, 0.0f, 0.0f, 0.0f, rotationHook(1000.0f))
                 group {
                     polygonOffset(1.0f, 1.0f)
-                    useProgram(ShaderFactory.vcolor)
+                    useProgram(ShaderFactory.vorientcolor)
                     attach(mysphere)
                 }
                 group {

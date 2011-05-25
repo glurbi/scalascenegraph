@@ -1,10 +1,10 @@
 #version 400
 
-in vec4 gl_Color;
+in vec4 color;
 
 out vec4 outColor;
 
 void main(void) 
 { 
-	outColor = gl_Color; 
+	outColor = color; 
 }
