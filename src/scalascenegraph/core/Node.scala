@@ -255,6 +255,7 @@ class BufferedGeometry(val attributes: List[VertexAttributeObject], val indicesC
 
     def render(context: Context) {
     	attributes.foreach { attribute =>
+            attribute.prepare(context)
     		context.gl.glEnableVertexAttribArray(attribute.attributeIndex)
     		context.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, attribute.bufferName)
     		context.gl.glVertexAttribPointer(attribute.attributeIndex, attribute.componentCount, attribute.dataType, false, 0, 0)

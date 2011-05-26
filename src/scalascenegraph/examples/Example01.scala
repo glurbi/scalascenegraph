@@ -73,9 +73,6 @@ class Example01 extends WorldBuilder {
                 
     val triangles =
         detached {
-            attach(rightTriangle.attributes)
-            attach(middleTriangle.attributes)
-            attach(leftTriangle.attributes)
             translation(0.0f, 3.0f, 0.0f)
             group {
                 color(JColor.magenta)
@@ -94,9 +91,6 @@ class Example01 extends WorldBuilder {
 
     val quads =
         detached {
-            attach(rightQuad.attributes)
-            attach(middleQuad.attributes)
-            attach(leftQuad.attributes)
             translation(0.0f, -5.0f, 0.0f)
             color(JColor.green)
             group {

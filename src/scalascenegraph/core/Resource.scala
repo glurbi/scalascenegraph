@@ -23,6 +23,11 @@ import scalascenegraph.core.Predefs._
 trait Resource {
 
     /**
+     * This variable should be used to prevent resources to be prepared twice.
+     */
+    protected var prepared = false
+
+    /**
      * Called once, after being attached to the scene graph.
      * Can be used to load resources (textures, bitmaps, geometries...)
      */
@@ -200,13 +205,16 @@ class VertexAttributeObject(val attributeIndex: Int, val componentCount: Int, va
     var bufferName: Int = 0
 
     override def prepare(context: Context) {
-        val tmp = Array[Int](1)
-        context.gl.glGenBuffers(1, tmp, 0)
-        bufferName = tmp(0)
-        val size = componentSize(dataType) * buffer.limit
-        context.gl.glBindBuffer(GL_ARRAY_BUFFER, bufferName)
-        context.gl.glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW)
-        context.gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
+        if (!prepared) {
+            val tmp = Array[Int](1)
+            context.gl.glGenBuffers(1, tmp, 0)
+            bufferName = tmp(0)
+            val size = componentSize(dataType) * buffer.limit
+            context.gl.glBindBuffer(GL_ARRAY_BUFFER, bufferName)
+            context.gl.glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW)
+            context.gl.glBindBuffer(GL_ARRAY_BUFFER, 0)
+            prepared = true
+        }
     }
     
     override def dispose(context: Context) {
