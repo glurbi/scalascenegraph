@@ -164,8 +164,6 @@ class Example01 extends WorldBuilder {
 
     def example =
         world {
-            attach(ShaderFactory.default)
-            attach(ShaderFactory.vcolor)
             translation(0.0f, 0.0f, -8.0f)
             attach(points)
             attach(triangles)

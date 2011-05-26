@@ -359,6 +359,7 @@ class FogState(var color: Color, var mode: FogMode) extends State {
 class ProgramState(var program: Program) extends State {
     var saved: ProgramId = _
     override def preRender(context: Context) {
+        program.prepare(context)
         val id = Array[Int](1)
         context.gl.glGetIntegerv(GL_CURRENT_PROGRAM, id, 0)
         saved = id(0)

@@ -98,21 +98,24 @@ class Program(private val attributes: Map[Int, String]) extends Resource {
     }
     
     override def prepare(context: Context) {
-        if (shaders == Nil) {
-            makeShadersFromSource(context)
+        if (!prepared) {
+            if (shaders == Nil) {
+                makeShadersFromSource(context)
+            }
+            id = context.gl.glCreateProgram
+            shaders.foreach { shader => context.gl.glAttachShader(id, shader.id) }
+            attributes.foreach { attr => context.gl.glBindAttribLocation(id, attr._1, attr._2) }
+            val log = new Array[Byte](8192)
+            val length = Array(0)
+            context.gl.glLinkProgram(id)
+            context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
+            println(new String(log, 0, length(0)))
+            context.gl.glValidateProgram(id)
+            context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
+            println(new String(log, 0, length(0)))
+            prepareUniforms(context)
+            prepared = true
         }
-        id = context.gl.glCreateProgram
-        shaders.foreach { shader => context.gl.glAttachShader(id, shader.id) }
-        attributes.foreach { attr => context.gl.glBindAttribLocation(id, attr._1, attr._2) }
-        val log = new Array[Byte](8192)
-        val length = Array(0)
-        context.gl.glLinkProgram(id)
-        context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
-        println(new String(log, 0, length(0)))
-        context.gl.glValidateProgram(id)
-        context.gl.glGetProgramInfoLog(id, log.size, length, 0, log, 0)
-        println(new String(log, 0, length(0)))
-        prepareUniforms(context)
     }
     
     override def dispose(context: Context) {

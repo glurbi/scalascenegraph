@@ -77,7 +77,6 @@ class Example02 extends WorldBuilder {
             cullFace(On)
             depthTest(On)
             color(JColor.white)
-            attach(ShaderFactory.default)
             attach(ellipsoids)
             showFramesPerSecond
         }

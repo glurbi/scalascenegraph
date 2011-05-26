@@ -29,9 +29,6 @@ object Example13 extends WorldBuilder {
         world {
             depthTest(On)
             cullFace(On)
-            attach(ShaderFactory.vorientcolor)
-            attach(ShaderFactory.flatvcolor)
-            attach(ShaderFactory.default)
             translation(0.0f, 0.0f, -5.0f)
             attach(mysphere.attributes)
             group {
