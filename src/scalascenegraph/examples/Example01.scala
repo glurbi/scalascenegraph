@@ -49,6 +49,28 @@ class Example01 extends WorldBuilder {
                 Color(0.0f, 1.0f, 0.0f),
                 Color(0.0f, 0.0f, 1.0f))
 
+    val rightQuad = bufferedQuad(
+                new Vertice3D(4.0f, 0.0f, 0.0f),
+                new Vertice3D(2.0f, 0.0f, 0.0f),
+                new Vertice3D(2.0f, 2.0f, 0.0f),
+                new Vertice3D(4.0f, 2.0f, 0.0f),
+                Color(0.0f, 1.0f, 0.0f),
+                Color(1.0f, 0.0f, 1.0f),
+                Color(0.0f, 0.5f, 1.0f),
+                Color(0.0f, 0.0f, 1.0f))
+
+    val middleQuad = bufferedQuad(
+                new Vertice3D(-1.0f, 0.0f, 0.0f),
+                new Vertice3D(1.0f, 0.0f, 0.0f),
+                new Vertice3D(1.0f, 2.0f, 0.0f),
+                new Vertice3D(-1.0f, 2.0f, 0.0f))
+                
+    val leftQuad = bufferedQuad(
+                new Vertice3D(-4.0f, 0.0f, 0.0f),
+                new Vertice3D(-2.0f, 0.0f, 0.0f),
+                new Vertice3D(-2.0f, 2.0f, 0.0f),
+                new Vertice3D(-4.0f, 2.0f, 0.0f))
+                
     val triangles =
         detached {
             attach(rightTriangle.attributes)
@@ -72,28 +94,24 @@ class Example01 extends WorldBuilder {
 
     val quads =
         detached {
+            attach(rightQuad.attributes)
+            attach(middleQuad.attributes)
+            attach(leftQuad.attributes)
             translation(0.0f, -5.0f, 0.0f)
             color(JColor.green)
-            quad(
-                new Vertice3D(-1.0f, 0.0f, 0.0f),
-                new Vertice3D(1.0f, 0.0f, 0.0f),
-                new Vertice3D(1.0f, 2.0f, 0.0f),
-                new Vertice3D(-1.0f, 2.0f, 0.0f))
-            quad(
-                new Vertice3D(-4.0f, 0.0f, 0.0f),
-                new Vertice3D(-2.0f, 0.0f, 0.0f),
-                new Vertice3D(-2.0f, 2.0f, 0.0f),
-                new Vertice3D(-4.0f, 2.0f, 0.0f),
-                Color(1.0f, 1.0f, 1.0f))
-            quad(
-                new Vertice3D(4.0f, 0.0f, 0.0f),
-                new Vertice3D(2.0f, 0.0f, 0.0f),
-                new Vertice3D(2.0f, 2.0f, 0.0f),
-                new Vertice3D(4.0f, 2.0f, 0.0f),
-                Color(0.0f, 1.0f, 0.0f),
-                Color(1.0f, 0.0f, 1.0f),
-                Color(0.0f, 0.5f, 1.0f),
-                Color(0.0f, 0.0f, 1.0f))
+            group {
+                color(JColor.white)
+                useProgram(ShaderFactory.default)
+                attach(leftQuad)
+            }
+            group {
+                useProgram(ShaderFactory.default)
+                attach(middleQuad)
+            }
+            group {
+                useProgram(ShaderFactory.vcolor)
+                attach(rightQuad)
+            }
         }
 
     def pointSpiral(xtrans: Float, ytrans: Float, color: JColor) =

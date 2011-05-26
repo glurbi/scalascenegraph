@@ -305,6 +305,46 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
             primitiveType = GL_TRIANGLES)
 	}
     
+	def bufferedQuad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D): BufferedGeometry = {
+        val positions = Buffers.newDirectFloatBuffer(Array(
+                            v1.x, v1.y, v1.z,
+                            v2.x, v2.y, v2.z,
+                            v3.x, v3.y, v3.z,
+                            
+                            v1.x, v1.y, v1.z,
+                            v3.x, v3.y, v3.z,
+                            v4.x, v4.y, v4.z))
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)),
+            indicesCount = 6,
+            primitiveType = GL_TRIANGLES)
+	}
+    
+	def bufferedQuad(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D, v4: Vertice3D,
+                     c1: Color, c2: Color, c3: Color, c4: Color): BufferedGeometry = {
+        val positions = Buffers.newDirectFloatBuffer(Array(
+                            v1.x, v1.y, v1.z,
+                            v2.x, v2.y, v2.z,
+                            v3.x, v3.y, v3.z,
+                            
+                            v1.x, v1.y, v1.z,
+                            v3.x, v3.y, v3.z,
+                            v4.x, v4.y, v4.z))
+        val colors = Buffers.newDirectFloatBuffer(Array(
+                            c1.r, c1.g, c1.b, c1.a,
+                            c2.r, c2.g, c2.b, c2.a,
+                            c3.r, c3.g, c3.b, c3.a,
+                            
+                            c1.r, c1.g, c1.b, c1.a,
+                            c3.r, c3.g, c3.b, c3.a,
+                            c4.r, c4.g, c4.b, c4.a))
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions),
+                              new VertexAttributeObject(COLOR_ATTRIBUTE_INDEX, 4, GL_FLOAT, colors)),
+            indicesCount = 6,
+            primitiveType = GL_TRIANGLES)
+	}
+    
 	def bufferedSphere(n: Int, r: Float): BufferedGeometry = {
 		val b = new SphereBuilder(n, r)
         val positions = b.createPositions
