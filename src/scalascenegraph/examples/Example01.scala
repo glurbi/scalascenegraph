@@ -117,7 +117,8 @@ class Example01 extends WorldBuilder {
                 val y = (a * sin(a*25)).asInstanceOf[Float]
                 group {
                     pointSize(a*10)
-                    point(new Vertice3D(x, y, 0.0f), color)
+                    useProgram(ShaderFactory.vcolor)
+                    attach(bufferedPoint(new Vertice3D(x, y, 0.0f), color))
                 }
             }
         }
