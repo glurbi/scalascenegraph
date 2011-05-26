@@ -286,6 +286,14 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
             indicesCount = 1,
             primitiveType = GL_POINTS)
 	}
+
+	def bufferedLine(v1: Vertice3D, v2: Vertice3D): BufferedGeometry = {
+        val positions = Buffers.newDirectFloatBuffer(Array(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z))
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions)),
+            indicesCount = 2,
+            primitiveType = GL_LINES)
+	}
     
 	def bufferedTriangle(v1: Vertice3D, v2: Vertice3D, v3: Vertice3D): BufferedGeometry = {
         val positions = Buffers.newDirectFloatBuffer(Array(

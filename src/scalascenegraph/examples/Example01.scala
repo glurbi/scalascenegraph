@@ -141,7 +141,8 @@ class Example01 extends WorldBuilder {
                     val x = 1.0f * i / 5
                     group {
                         lineWidth(i+1)
-                        line(new Vertice3D(x, -1.0f, 0.0f), new Vertice3D(x, 1.0f, 0.0f))
+                        useProgram(ShaderFactory.default)
+                        attach(bufferedLine(new Vertice3D(x, -1.0f, 0.0f), new Vertice3D(x, 1.0f, 0.0f)))
                     }
                 }
             }
@@ -150,9 +151,12 @@ class Example01 extends WorldBuilder {
                 smooth(GL_LINE_SMOOTH)
                 for (i <- 1 to 5) {
                     group {
-                        lineStipple(i, 0x5505)
-                        line(new Vertice3D(0.0f + i / 5.0f, -1.0f, 0.0f),
-                             new Vertice3D(2.0f + i / 5.0f, 1.0f, 0.0f))
+                        // TODO: how to implement line stipple with OpenGL 3.1?
+                        // http://stackoverflow.com/questions/6017176/gllinestipple-deprecated-in-opengl-3-1
+                        // lineStipple(i, 0x5505)
+                        useProgram(ShaderFactory.default)
+                        attach(bufferedLine(new Vertice3D(0.0f + i / 5.0f, -1.0f, 0.0f),
+                             new Vertice3D(2.0f + i / 5.0f, 1.0f, 0.0f)))
                     }
                 }
             }
