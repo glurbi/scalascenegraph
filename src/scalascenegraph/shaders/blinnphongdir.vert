@@ -4,6 +4,7 @@ uniform mat4 mvp;
 uniform mat4 mv;
 uniform vec3 color;
 uniform vec3 lightDir;
+uniform vec4 ambientLight;
 
 in vec3 vPosition;
 in vec3 vNormal;
@@ -22,5 +23,8 @@ void main(void)
 	dotProduct = dot(normalEye, lightDir);
 
 	gl_Position = mvp * vec4(vPosition, 1.0f);
-	vColor = -min(dotProduct, 0.0f) * vec4(color, 1.0f);
+    
+    vec4 ambient = vec4(color, 1.0f) * ambientLight;
+    vec4 diffuse = -min(dotProduct, 0.0f) * vec4(color, 1.0f);
+	vColor = ambient + diffuse;
 }

@@ -69,7 +69,7 @@ class Example08 extends WorldBuilder {
     
     val defaultFont = FontBuilder.create(new JFont("Default", JFont.PLAIN, 20))
     val serifFont = FontBuilder.create(new JFont("Serif", JFont.BOLD, 20))
-    val program = ShaderFactory.blinnphongdir(new Vector3D(0.0f, 0.0f, -1.0f))
+    val program = new BlinnPhongShader
 
     def example =
         world {
@@ -77,17 +77,11 @@ class Example08 extends WorldBuilder {
             attach(serifFont)
             depthTest(On)
             blending(On)
-            //light(On)
-            //light(GL_LIGHT0, On)
-            //ambient(Intensity(0.4f, 0.4f, 0.4f, 1.0f))
-            //light(GL_LIGHT0, new Position3D(-2.0f, -2.0f, 0.0f))
-            //light(GL_LIGHT0, GL_DIFFUSE, JColor.white)
             group {
                 translation(0.0f, 0.0f, -1.8f)
                 rotation(0.0f, 0.0f, 1.0f, 0.0f, angleHook)
+                color(JColor.cyan)
                 useProgram(program)
-                //material(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, JColor.cyan)
-                //cube(normals = true)
                 attach(bufferedBox(1.0f, 1.0f, 1.0f, 1, 1, 1, normals = true))
             }
             overlay(0, 0, image, centerHook)

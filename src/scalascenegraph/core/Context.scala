@@ -39,4 +39,5 @@ class Context {
     
     val matrixStack = new MatrixStack
     var currentColor = Color(1.0f, 1.0f, 1.0f, 1.0f)
+    var currentProgram: Program = _
 }

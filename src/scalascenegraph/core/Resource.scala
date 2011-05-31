@@ -62,23 +62,32 @@ class Shader(shaderType: ShaderType, source: String) extends Resource {
 }
 
 // FIXME: constructors are not so scala-ish...
-class Program(private val attributes: Map[Int, String]) extends Resource {
+class Program extends Resource {
 
     var id: ProgramId = _
     
     private var shaders: List[Shader] = Nil
     
-    private var vertexShaderSource: String = _
-    private var fragmentShaderSource: String = _
+    protected var vertexShaderSource: String = _
+    protected var fragmentShaderSource: String = _
+    protected var attributes: Map[Int, String] = _
+    
+    def this(attributes: Map[Int, String]) {
+        this()
+        this.attributes = attributes
+        this
+    }
     
     def this(shaders: List[Shader], attributes: Map[Int, String]) = {
-        this(attributes)
+        this()
+        this.attributes = attributes
         this.shaders = shaders
         this
     }
 
     def this(vertexShaderSource: String, fragmentShaderSource: String, attributes: Map[Int, String]) = {
-        this(attributes)
+        this()
+        this.attributes = attributes
         this.vertexShaderSource = vertexShaderSource
         this.fragmentShaderSource = fragmentShaderSource
         this
