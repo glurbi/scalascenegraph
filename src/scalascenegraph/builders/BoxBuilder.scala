@@ -203,4 +203,129 @@ class BoxBuilder(width: Float, height: Float, depth: Float, l: Int, m: Int, n: I
         TextureCoordinates(Buffers.newDirectFloatBuffer(ab.toArray))
     }
 
+    def createPositions: FloatBuffer = {
+        val ab = new ArrayBuffer[Float]
+        val xOffset = width / 2.0f
+        val yOffset = height / 2.0f
+        val zOffset = depth / 2.0f
+        val xStep = width / l
+        val yStep = height / m
+        val zStep = depth / n
+        
+        //
+        // front face
+        //
+        for (i <- 0 until l) {
+            for (j <- 0 until m) {
+                ab ++= new Vertice3D(i * xStep - xOffset, j * yStep - yOffset, +zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, +zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).xyz
+                
+                ab ++= new Vertice3D(i * xStep - xOffset, j * yStep - yOffset, +zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).xyz
+                ab ++= new Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, +zOffset).xyz
+            }
+        }
+
+        //
+        // back face
+        //
+        for (i <- 0 until l) {
+            for (j <- 0 until m) {
+                ab ++= new Vertice3D(i * xStep - xOffset, j * yStep - yOffset, -zOffset).xyz
+                ab ++= new Vertice3D(i * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).xyz
+                
+                ab ++= new Vertice3D(i * xStep - xOffset, j * yStep - yOffset, -zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, (j+1) * yStep - yOffset, -zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, j * yStep - yOffset, -zOffset).xyz
+            }
+        }
+        
+        //
+        // right face
+        //
+        for (i <- 0 until m) {
+            for (j <- 0 until n) {
+                ab ++= new Vertice3D(+xOffset, i * yStep - yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D(+xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D(+xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+                
+                ab ++= new Vertice3D(+xOffset, i * yStep - yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D(+xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+                ab ++= new Vertice3D(+xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+            }
+        }
+        
+        //
+        // left face
+        //
+        for (i <- 0 until m) {
+            for (j <- 0 until n) {
+                ab ++= new Vertice3D(-xOffset, i * yStep - yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D(-xOffset, i * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+                ab ++= new Vertice3D(-xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+                
+                ab ++= new Vertice3D(-xOffset, i * yStep - yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D(-xOffset, (i+1) * yStep - yOffset, (j+1) * zStep - zOffset).xyz
+                ab ++= new Vertice3D(-xOffset, (i+1) * yStep - yOffset, j * zStep - zOffset).xyz
+            }
+        }
+        
+        //
+        // top face
+        //
+        for (i <- 0 until l) {
+            for (j <- 0 until n) {
+                ab ++= new Vertice3D(i * xStep - xOffset, +yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D(i * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).xyz
+
+                ab ++= new Vertice3D(i * xStep - xOffset, +yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, +yOffset, (j+1) * zStep - zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, +yOffset, j * zStep - zOffset).xyz
+                }
+        }
+
+        //
+        // bottom face
+        //
+        for (i <- 0 until l) {
+            for (j <- 0 until n) {
+                ab ++= new Vertice3D(i * xStep - xOffset, -yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, -yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).xyz
+
+                ab ++= new Vertice3D(i * xStep - xOffset, -yOffset, j * zStep - zOffset).xyz
+                ab ++= new Vertice3D((i+1) * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).xyz
+                ab ++= new Vertice3D(i * xStep - xOffset, -yOffset, (j+1) * zStep - zOffset).xyz
+            }
+        }
+        
+        Buffers.newDirectFloatBuffer(ab.toArray)
+    }
+    
+    def createNormals2: FloatBuffer = {
+        val ab = new ArrayBuffer[Float]
+        val normals = Array(
+            new Normal3D(0.0f, 0.0f, 1.0f),  // front face
+            new Normal3D(0.0f, 0.0f, -1.0f), // back face
+            new Normal3D(1.0f, 0.0f, 0.0f),  // right face
+            new Normal3D(-1.0f, 0.0f, 0.0f), // left face
+            new Normal3D(0.0f, 1.0f, 0.0f),  // top face
+            new Normal3D(0.0f, -1.0f, 0.0f)) // bottom face
+
+        for (face <- 0 to 5) {
+            for (i <- 0 until l) {
+                for (j <- 0 until m) {
+                    for (k <- 1 to 6) {
+                        ab ++= normals(face).xyz
+                    }
+                }
+            }
+        }
+        
+        Buffers.newDirectFloatBuffer(ab.toArray)
+    }
+    
 }

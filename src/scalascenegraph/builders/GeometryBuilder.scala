@@ -389,5 +389,16 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
             indicesCount = positions.limit / 3,
             primitiveType = GL_TRIANGLES)
     }
+
+	def bufferedBox(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, normals: Boolean): BufferedGeometry = {
+		val b = new BoxBuilder(width, height, depth, l, m, n)
+        val positions = b.createPositions
+		val attributes = normals match {
+			case false => List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions))
+			case true => List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions),
+                              new VertexAttributeObject(NORMAL_ATTRIBUTE_INDEX, 3, GL_FLOAT, b.createNormals2))
+		}
+        new BufferedGeometry(attributes, positions.limit / 3, GL_TRIANGLES)
+	}
     
 }
