@@ -34,7 +34,7 @@ class Example03 extends WorldBuilder {
     val mycone = cone(20, 10, 4.0f, 6.0f, normals = true)
     val mysphere1 = bufferedSphereWithNormals(20, 4.0f)
     val mysphere2 = bufferedSphereWithNormals(15, 5.0f)
-    val myellipsoid = ellipsoid(20, 20, 6.0f, 6.0f, 2.0f, normals = true)
+    val myellipsoid = bufferedEllipsoidWithNormals(20, 20, 6.0f, 6.0f, 2.0f)
     val mytorus = bufferedTorusWithNormals(30, 5.0f, 1.5f)
     
     val mylighter = new BlinnPhongShader
@@ -65,6 +65,7 @@ class Example03 extends WorldBuilder {
                 color(JColor.green)
                 translation(-15.0f, 0.0f, 12.0f)
                 rotation(90.0f, 0.0f, 1.0f, 0.0f, angleHook)
+                useProgram(mylighter)
                 attach(myellipsoid)
                 conditional(nPressed) { attach(normals(myellipsoid)) }
             }

@@ -79,4 +79,16 @@ class EllipsoidBuilder(n: Int, m: Int, a: Float, b: Float, c: Float) {
 		Buffers.newDirectFloatBuffer(ab.toArray)
 	}
     
+	def createNormals2 = {
+		val buf = createPositions
+		val ab = new ArrayBuffer[Float]
+		for (i <- 0 until buf.limit / 3) {
+			val x = buf.get
+			val y = buf.get
+			val z = buf.get
+			ab ++= normalize(new Normal3D(2*x/(a*a), 2*y/(b*b), 2*z/(c*c))).xyz
+		}
+		Buffers.newDirectFloatBuffer(ab.toArray)
+	}
+
 }

@@ -412,6 +412,17 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
             primitiveType = GL_TRIANGLES)
     }
 
+    def bufferedEllipsoidWithNormals(n: Int, m: Int, a: Float, b: Float, c: Float): BufferedGeometry = {
+        val builder = new EllipsoidBuilder(n, m, a, b, c)
+        val positions = builder.createPositions
+        val normals = builder.createNormals2
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions),
+                              new VertexAttributeObject(NORMAL_ATTRIBUTE_INDEX, 3, GL_FLOAT, normals)),
+            indicesCount = positions.limit / 3,
+            primitiveType = GL_TRIANGLES)
+    }
+    
 	def bufferedBox(width: Float, height: Float, depth: Float, l: Int, m: Int, n: Int, normals: Boolean): BufferedGeometry = {
 		val b = new BoxBuilder(width, height, depth, l, m, n)
         val positions = b.createPositions
