@@ -253,6 +253,16 @@ class SimpleGeometryVBO(val renderable: Renderable) extends Geometry {
 
 class BufferedGeometry(val attributes: List[VertexAttributeObject], val indicesCount: Int, val primitiveType: Int) extends Geometry {
 
+    def positions = attributes.find { attribute => attribute.attributeIndex == POSITION_ATTRIBUTE_INDEX } match {
+        case Some(attribute) => attribute.buffer
+        case None => error("No positions defined for this geometry.")
+    }
+    
+    def normals = attributes.find { attribute => attribute.attributeIndex == NORMAL_ATTRIBUTE_INDEX } match {
+        case Some(attribute) => attribute.buffer
+        case None => error("No normals defined for this geometry.")
+    }
+
     def render(context: Context) {
     	attributes.foreach { attribute =>
             attribute.prepare(context)

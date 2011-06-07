@@ -85,6 +85,15 @@ class SphereBuilder(n: Int, r: Float) {
 		}
 		Buffers.newDirectFloatBuffer(ab.toArray)
 	}
+
+	def createNormals2 = {
+		val ab = new ArrayBuffer[Float]
+		val vbuf = createPositions
+		for (i <- 0 until vbuf.limit / 3) {
+			val n = new Normal3D(vbuf.get, vbuf.get, vbuf.get)
+			ab ++= normalize(n).xyz
+		}
+		Buffers.newDirectFloatBuffer(ab.toArray)
+	}
     
 }
-

@@ -32,9 +32,12 @@ object Example03 {
 class Example03 extends WorldBuilder {
 
     val mycone = cone(20, 10, 4.0f, 6.0f, normals = true)
-    val mysphere = sphere(20, 4.0f, normals = true)
+    val mysphere1 = bufferedSphereWithNormals(20, 4.0f)
+    val mysphere2 = bufferedSphereWithNormals(15, 5.0f)
     val myellipsoid = ellipsoid(20, 20, 6.0f, 6.0f, 2.0f, normals = true)
     val mytorus = torus(30, 5.0f, 1.5f, normals = true)
+    
+    val mylighter = new BlinnPhongShader
 
     val nPressed = (context: Context) => context.pressedKeys.contains(KeyEvent.VK_N)
 
@@ -48,8 +51,9 @@ class Example03 extends WorldBuilder {
             group {
                 color(JColor.cyan)
                 translation(-6.0f, 0.0f, 1.0f)
-                attach(mysphere)
-                conditional(nPressed) { attach(normals(mysphere)) }
+                useProgram(mylighter)
+                attach(mysphere1)
+                conditional(nPressed) { attach(normals(mysphere1)) }
             }
             group {
                 color(JColor.red)
@@ -82,9 +86,9 @@ class Example03 extends WorldBuilder {
                     polygonMode(GL_FRONT_AND_BACK, GL_LINE)
                     translation(-10.0f, 0.0f, 30.0f)
                     rotation(0.0f, -1.0f, -0.5f, 1.0f, angleHook)
-                    material(GL_FRONT_AND_BACK, GL_AMBIENT, JColor.yellow)
-                    material(GL_FRONT_AND_BACK, GL_DIFFUSE, JColor.yellow)
-                    attach(sphere(15, 5.0f, normals = true))
+                    color(JColor.yellow)
+                    useProgram(mylighter)
+                    attach(mysphere2)
                 }
                 group {
                     polygonMode(GL_FRONT_AND_BACK, GL_LINE)
@@ -97,9 +101,9 @@ class Example03 extends WorldBuilder {
             }
             group {
                 translation(10.0f, 0.0f, 30.0f)
-                material(GL_FRONT, GL_AMBIENT, JColor.orange)
-                material(GL_FRONT, GL_DIFFUSE, JColor.orange)
-                attach(sphere(30, 5.0f, normals = true))
+                color(JColor.orange)
+                useProgram(mylighter)
+                attach(mysphere2)
             }
             group {
                 translation(0.0f, 10.0f, 30.0f)
@@ -126,11 +130,8 @@ class Example03 extends WorldBuilder {
             group {
                 color(JColor.gray)
                 polygonMode(GL_FRONT_AND_BACK, GL_LINE)
-                box(40.0f, 40.0f, 40.0f, 40, 40, 40, normals = false)
-            }
-            group {
-                pointSize(10)
-                point(new Vertice3D(0.0f, 0.0f, 0.0f), JColor.white)
+                useProgram(ShaderFactory.default)
+                attach(bufferedBox(40.0f, 40.0f, 40.0f, 40, 40, 40, normals = false))
             }
         }
 

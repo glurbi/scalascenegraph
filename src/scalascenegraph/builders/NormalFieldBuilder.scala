@@ -27,7 +27,10 @@ class NormalFieldBuilder(geometry: Geometry) {
 	}
 
 	private def createNormalLines(g: Geometry, ab: ArrayBuffer[Float]) {
-		if (g.isInstanceOf[SimpleGeometry[_,_]]) {
+        if (g.isInstanceOf[BufferedGeometry]) {
+            val bg = g.asInstanceOf[BufferedGeometry]
+			createNormalLinesFromBufferedGeometry(bg, ab)
+        } else if (g.isInstanceOf[SimpleGeometry[_,_]]) {
 			val sg = g.asInstanceOf[SimpleGeometry[FloatBuffer, FloatBuffer]]
 			createNormalLinesFromSimpleGeometry(sg, ab)
 		} else if (geometry.isInstanceOf[CompositeGeometry]) {
@@ -43,6 +46,19 @@ class NormalFieldBuilder(geometry: Geometry) {
 	private def createNormalLinesFromSimpleGeometry(sg: SimpleGeometry[FloatBuffer, FloatBuffer], ab: ArrayBuffer[Float]) {
 		val vbuf = sg.vertices.buffer
 		val nbuf = sg.normals.floatBuffer
+		for (i <- 0 until vbuf.limit / 3) {
+			val v = new Vertice3D(vbuf.get, vbuf.get, vbuf.get)
+			val n = new Normal3D(nbuf.get, nbuf.get, nbuf.get)
+			ab ++= v.xyz
+			ab ++= new Vertice3D(v.x + n.x, v.y + n.y, v.z + n.z).xyz
+		}
+		vbuf.rewind
+		nbuf.rewind
+	}
+
+	private def createNormalLinesFromBufferedGeometry(bg: BufferedGeometry, ab: ArrayBuffer[Float]) {
+		val vbuf = bg.positions.asInstanceOf[FloatBuffer]
+		val nbuf = bg.normals.asInstanceOf[FloatBuffer]
 		for (i <- 0 until vbuf.limit / 3) {
 			val v = new Vertice3D(vbuf.get, vbuf.get, vbuf.get)
 			val n = new Normal3D(nbuf.get, nbuf.get, nbuf.get)
