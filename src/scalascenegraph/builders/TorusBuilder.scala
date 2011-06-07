@@ -87,4 +87,20 @@ class TorusBuilder(n: Int, R: Float, r: Float) {
         Buffers.newDirectFloatBuffer(ab.toArray)
 	}
 
+	def createNormals2 = {
+		val ab = new ArrayBuffer[Float]
+		for (uStep <- 0 to n) {
+			for (vStep <- 0 to n) {
+				ab ++= torusNormal(uStep, vStep).xyz
+				ab ++= torusNormal(uStep+1, vStep).xyz
+				ab ++= torusNormal(uStep+1, vStep+1).xyz
+                
+				ab ++= torusNormal(uStep, vStep).xyz
+				ab ++= torusNormal(uStep+1, vStep+1).xyz
+				ab ++= torusNormal(uStep, vStep+1).xyz
+			}
+		}
+		Buffers.newDirectFloatBuffer(ab.toArray)
+	}
+	
 }

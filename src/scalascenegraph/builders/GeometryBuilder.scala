@@ -392,6 +392,17 @@ trait GeometryBuilder extends GraphBuilder with StateBuilder {
             primitiveType = GL_TRIANGLES)
 	}
 
+	def bufferedTorusWithNormals(n: Int, R: Float, r: Float): BufferedGeometry = {
+		val b = new TorusBuilder(n, R, r)
+        val positions = b.createPositions
+        val normals = b.createNormals2
+        new BufferedGeometry(
+            attributes = List(new VertexAttributeObject(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, positions),
+                              new VertexAttributeObject(NORMAL_ATTRIBUTE_INDEX, 3, GL_FLOAT, normals)),
+            indicesCount = positions.limit / 3,
+            primitiveType = GL_TRIANGLES)
+	}
+    
     def bufferedEllipsoid(n: Int, m: Int, a: Float, b: Float, c: Float): BufferedGeometry = {
         val builder = new EllipsoidBuilder(n, m, a, b, c)
         val positions = builder.createPositions
